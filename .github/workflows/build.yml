@@ -1,0 +1,70 @@
+﻿name: Build and Notify
+
+# Build authority only: build the site image, push it to Amazon ECR Public,
+# then notify infra-repo via repository_dispatch. No deployment happens here.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Configure these as GitHub repository variables (Settings > Variables):
+#   SERVICE_NAME  e.g. buyraq
+#   DOMAIN        e.g. buyraq.com
+env:
+  SERVICE_NAME: ${{ vars.SERVICE_NAME }}
+  DOMAIN: ${{ vars.DOMAIN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR Public
+        run: |
+          aws ecr-public get-login-password --region us-east-1 \
+            | docker login --username AWS --password-stdin public.ecr.aws
+
+      - name: Build and push image
+        env:
+          ALIAS: ${{ secrets.ECR_PUBLIC_ALIAS }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          IMAGE="public.ecr.aws/${ALIAS}/${SERVICE_NAME}"
+          docker build -t "${IMAGE}:${SHA}" -t "${IMAGE}:latest" .
+          docker push "${IMAGE}:${SHA}"
+          docker push "${IMAGE}:latest"
+
+      - name: Notify infra-repo (repository_dispatch)
+        env:
+          TOKEN: ${{ secrets.INFRA_REPO_DISPATCH_TOKEN }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          curl -sSf -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            "https://api.github.com/repos/devdjangoreact/infra/dispatches" \
+            -d "$(cat <<JSON
+          {
+            "event_type": "deploy",
+            "client_payload": {
+              "service_name": "${SERVICE_NAME}",
+              "image_tag": "${SHA}",
+              "domain": "${DOMAIN}"
+            }
+          }
+          JSON
+          )"
