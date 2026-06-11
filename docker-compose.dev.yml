@@ -1,0 +1,21 @@
+# Local development stack for the Arbitrator Streamlit app.
+# Usage:
+#   docker compose -f docker-compose.dev.yml up --build
+#   open http://localhost:8501
+#
+# Source is bind-mounted, so code changes reload without a rebuild.
+
+services:
+  arbitrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./src:/app/src
+      - ./main.py:/app/main.py
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped

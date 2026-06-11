@@ -1,0 +1,7 @@
+{
+  "$schema": "https://cursor.sh/schemas/environment.json",
+  "snapshot": "POPULATED_FROM_SETTINGS",
+  "install": ".venv/bin/poetry install",
+  "start": ".venv/bin/streamlit run main.py --server.headless=true --server.port=8501",
+  "terminals": []
+}

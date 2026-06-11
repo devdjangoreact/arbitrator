@@ -1,0 +1,25 @@
+---
+description: Always use Spec Kit for project work and keep changes aligned with Spec Kit artifacts
+alwaysApply: true
+---
+
+# Always Use Spec Kit
+
+All project work must go through the Spec Kit workflow. Do not implement,
+refactor, or change project behavior without a corresponding Spec Kit artifact.
+
+## Rules
+
+1. Before writing or changing code, ensure the work is described in the Spec Kit
+   artifacts for the active feature: `spec.md`, `plan.md`, and `tasks.md`.
+2. Follow the Spec Kit flow in order: `speckit-specify` -> `speckit-plan` ->
+   `speckit-tasks` -> `speckit-implement`. Use `speckit-clarify` when the spec is
+   underspecified and `speckit-analyze` to check consistency.
+3. Keep code consistent with the spec. If the implementation must deviate, update
+   the relevant Spec Kit artifact first, then implement.
+4. Each task must map to a task in `tasks.md`. If a needed task is missing, add it
+   via `speckit-tasks` before implementing.
+5. For project-specific work, run Spec Kit commands inside that project's
+   submodule (`sites/<project>`), per the submodule rules.
+6. After completing a Spec Kit command, keep artifacts and code in sync and commit
+   per the Spec Kit git conventions.

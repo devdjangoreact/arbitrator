@@ -1,0 +1,16 @@
+---
+alwaysApply: true
+---
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan:
+specs/001-arbitrator-streamlit-migration/plan.md
+<!-- SPECKIT END -->
+
+## Development Environment
+
+Local development is done on Windows (PowerShell shell). Use Windows-compatible
+shell commands and paths for local tasks. Note that deployment targets Linux
+(Ubuntu on AWS EC2 via the infra-repo), so the application and Docker images
+must run on Linux.

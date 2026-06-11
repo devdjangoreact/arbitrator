@@ -1,0 +1,29 @@
+# Personal overrides — never commit
+*.local.*
+.cursor/settings.local.json
+AGENTS.local.md
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Cursor caches
+.cursor/cache/
+.cursor/logs/
+
+# Python / Poetry
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+
+# OS / editor
+.DS_Store
+Thumbs.db

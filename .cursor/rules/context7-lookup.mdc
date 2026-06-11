@@ -1,0 +1,38 @@
+---
+description: When the agent needs documentation, API reference, or usage examples for any third-party library and does not already have reliable information, query the Context7 MCP server instead of guessing.
+alwaysApply: true
+---
+
+# Context7 lookup rule
+
+## Trigger
+
+Apply this rule **before** writing, reviewing, or explaining code that uses any third-party library
+(pydantic, ccxt, fastapi, sqlalchemy, requests, etc.), **whenever** any of the following is true:
+
+- You are uncertain about the library's current API surface.
+- You cannot recall the exact function/class signature, parameter names, or return types.
+- The library version in `pyproject.toml` is newer than your training data.
+- The user explicitly asks for "the latest" docs, behavior, or examples.
+
+## Action
+
+1. **Do not guess.** Do not invent signatures or behavior.
+2. Call the Context7 MCP server:
+   - First: `resolve-library-id` with the library name to get a Context7-compatible ID.
+   - Then: `get-library-docs` with that ID, focused on the specific topic (e.g. `topic: "BaseModel validators"` for pydantic).
+3. Use the returned documentation as the source of truth for the answer.
+4. Cite the library name and the relevant section in your reply so the user can verify.
+
+## When NOT to use Context7
+
+- For standard library / stdlib modules (those are stable and well-known).
+- For project-internal code (use `Grep` / `Read` instead).
+- When the user is asking a conceptual question that does not depend on a specific library version.
+
+## Fallback chain
+
+1. Already have confident, up-to-date knowledge → answer directly.
+2. Uncertain or version-sensitive → **Context7 MCP** (this rule).
+3. Context7 has no entry for the library → use `WebSearch` / `WebFetch` on the official docs URL.
+4. Still nothing → tell the user you could not find authoritative information; do not fabricate.

@@ -1,0 +1,21 @@
+﻿# Files Cursor must skip when building context
+node_modules/
+dist/
+build/
+.next/
+coverage/
+*.log
+
+# Secrets
+.env
+.env.*
+
+# Large binaries
+*.zip
+*.tar.gz
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.pdf
