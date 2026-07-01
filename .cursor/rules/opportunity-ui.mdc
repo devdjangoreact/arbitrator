@@ -1,0 +1,23 @@
+---
+description: Opportunity screen layout — partials under static/partials/opportunity/
+globs: src/arbitrator/presentation/**/*
+alwaysApply: false
+---
+
+# Opportunity UI
+
+Reference: `maket/index.html`. Implemented via partials + WS snapshot/delta.
+
+## Layout (current maket)
+
+1. **Topbar** — symbol/exchange `<select>` + **Запуск** + S/L badges (`opportunity/topbar.html`).
+2. **Left column** — exchange cards, strategy table, params, focused orders.
+3. **Right column** — chart (`#liveChart`) + 4 order books.
+
+Partials: `static/partials/opportunity/*.html`. Data: `/ws/opportunity?symbol=&short=&long=` (symbol in query — not path; `%2F` in path is rejected by uvicorn).
+
+## Forbidden
+
+- Hardcoded prices/rows in HTML partials.
+- Streamlit widgets.
+- Accumulate/close buttons inside book columns.

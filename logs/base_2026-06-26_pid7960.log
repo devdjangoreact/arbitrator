@@ -1,0 +1,32 @@
+2026-06-26 07:47:41 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:59780 - "WebSocket /_stcore/stream" [accepted]
+2026-06-26 07:47:41 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-26 07:47:45 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:45 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:45 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:45 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:45 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 07:47:45 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 07:47:47 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:47:47 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:47:50 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:50 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:47:56 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:56 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:47:57 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:57 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:47:58 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:58 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:47:58 | INFO     | [arbitrator.presentation.sidebar.opportunity.opportunity_view:_render_entry_controls:434] - Opportunity manual open | symbol=0G/USDT:USDT short=mexc long=gate
+2026-06-26 07:47:58 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:47:58 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:47:58 | INFO     | [arbitrator.presentation.sidebar.opportunity.opportunity_view:_ensure_worker:130] - Opportunity stream worker started | symbol=0G/USDT:USDT short=mexc long=gate
+2026-06-26 07:47:59 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 07:47:59 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 07:48:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 07:48:06 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:225] - Streaming order book | exchange=mexc symbol=0G/USDT:USDT limit=20
+2026-06-26 07:48:06 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:201] - Streaming tickers | exchange=mexc symbols=1 mode=bulk chunks=1
+2026-06-26 07:48:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:965] - Bulk stream chunks | exchange=mexc chunks=1 chunk_size=50
+2026-06-26 07:48:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 07:48:14 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:225] - Streaming order book | exchange=gate symbol=0G/USDT:USDT limit=20
+2026-06-26 07:48:14 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:201] - Streaming tickers | exchange=gate symbols=1 mode=bulk chunks=1
+2026-06-26 07:48:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:965] - Bulk stream chunks | exchange=gate chunks=1 chunk_size=50

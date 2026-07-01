@@ -1,0 +1,433 @@
+2026-07-01 04:27:08 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
+2026-07-01 04:27:08 | INFO     | [arbitrator.presentation.fastapi_app:create:103] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
+2026-07-01 04:27:08 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [20236]
+2026-07-01 04:27:08 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-07-01 04:27:08 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:81] - screener worker started | mode=live
+2026-07-01 04:27:08 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:110] - funding worker started | mode=live
+2026-07-01 04:27:08 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:114] - account worker started | mode=live
+2026-07-01 04:27:08 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=live
+2026-07-01 04:27:08 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-07-01 04:27:08 | INFO     | [arbitrator.application.account_stream_worker:_async_main:124] - Account stream spawned | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-07-01 04:27:08 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1213 after_min_exchanges=669 after_exclusions=668
+2026-07-01 04:27:08 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:164] - Volume discovery started | symbols=668 threshold_usdt=50000.0 timeout_s=30.0
+2026-07-01 04:27:08 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:61] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 545, 'bitget': 573, 'gate': 636, 'bingx': 466}
+2026-07-01 04:27:08 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=mexc symbols=545
+2026-07-01 04:27:08 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:52249 - "WebSocket /ws/screener" [accepted]
+2026-07-01 04:27:08 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:35] - ws connected | endpoint=/ws/screener
+2026-07-01 04:27:08 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:08 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:27:09 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:52260 - "WebSocket /ws/orders" [accepted]
+2026-07-01 04:27:09 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 04:27:09 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:27:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=mexc
+2026-07-01 04:27:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=mexc
+2026-07-01 04:27:09 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bitget symbols=573
+2026-07-01 04:27:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bitget
+2026-07-01 04:27:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bitget
+2026-07-01 04:27:09 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=gate symbols=636
+2026-07-01 04:27:10 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:10 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:52265 - "WebSocket /ws/settings" [accepted]
+2026-07-01 04:27:10 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 04:27:10 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:27:10 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=gate
+2026-07-01 04:27:10 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=gate
+2026-07-01 04:27:10 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bingx symbols=466
+2026-07-01 04:27:10 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bingx
+2026-07-01 04:27:10 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bingx
+2026-07-01 04:27:11 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:12 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:13 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:14 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:15 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:16 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:17 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:18 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:19 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:20 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:22 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:22 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=bitget count=1928
+2026-07-01 04:27:22 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:603] - Position stream started | exchange=bitget mode=ws
+2026-07-01 04:27:22 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:635] - Balance stream started | exchange=bitget mode=ws
+2026-07-01 04:27:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=bitget count=1928
+2026-07-01 04:27:23 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:209] - Streaming tickers | exchange=bitget symbols=573 mode=bulk chunks=12
+2026-07-01 04:27:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1181] - Bulk stream chunks | exchange=bitget chunks=12 chunk_size=50
+2026-07-01 04:27:23 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=bingx count=3032
+2026-07-01 04:27:23 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:209] - Streaming tickers | exchange=bingx symbols=466 mode=fanout chunks=-
+2026-07-01 04:27:24 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:25 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=mexc count=3151
+2026-07-01 04:27:25 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:603] - Position stream started | exchange=mexc mode=rest_poll
+2026-07-01 04:27:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=bingx count=3032
+2026-07-01 04:27:25 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:603] - Position stream started | exchange=bingx mode=ws
+2026-07-01 04:27:25 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:635] - Balance stream started | exchange=mexc mode=ws
+2026-07-01 04:27:25 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:635] - Balance stream started | exchange=bingx mode=ws
+2026-07-01 04:27:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=mexc count=3151
+2026-07-01 04:27:25 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:209] - Streaming tickers | exchange=mexc symbols=545 mode=bulk chunks=11
+2026-07-01 04:27:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1181] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-07-01 04:27:26 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:27:27 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=150 symbols=150
+2026-07-01 04:27:28 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=150
+2026-07-01 04:27:29 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=160 symbols=301
+2026-07-01 04:27:30 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=15 symbols=302
+2026-07-01 04:27:31 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=162 symbols=452
+2026-07-01 04:27:32 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=23 symbols=455
+2026-07-01 04:27:33 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=29 symbols=460
+2026-07-01 04:27:35 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=130 symbols=551
+2026-07-01 04:27:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=gate count=6253
+2026-07-01 04:27:35 | INFO     | [arbitrator.exchanges.gate:watch_open_positions:71] - Position stream started | exchange=gate mode=rest_poll
+2026-07-01 04:27:35 | INFO     | [arbitrator.exchanges.gate:watch_usdt_balance:91] - Balance stream started | exchange=gate mode=rest_poll
+2026-07-01 04:27:36 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=28 symbols=555
+2026-07-01 04:27:37 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=129 symbols=561
+2026-07-01 04:27:38 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=42 symbols=562
+2026-07-01 04:27:39 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:191] - Volume discovery timed out | eligible=563 pending=105
+2026-07-01 04:27:39 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:27:39 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=11 symbols=563
+2026-07-01 04:27:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=mexc
+2026-07-01 04:27:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=mexc
+2026-07-01 04:27:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=bitget
+2026-07-01 04:27:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=bitget
+2026-07-01 04:27:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=gate
+2026-07-01 04:27:40 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1351] - load_markets failed | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000021496A01950>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000021496A01950>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 19904)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000021496A01950>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000002148BD4CB80>
+    └ <Thread(screener-stream:0, started daemon 19904)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000002148BD4C860>
+    └ <Thread(screener-stream:0, started daemon 19904)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 19904)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 19904)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 19904)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000021495410040>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x0000021496860DD0>
+    │       └ <function run at 0x000002148E5FACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x00000214969A4A40>
+           │      └ <function Runner.run at 0x000002148E5FB100>
+           └ <asyncio.runners.Runner object at 0x00000214969EBB10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\app...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000002148E5F8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x00000214969EBB10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000002148E691B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000002148E5FA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000002148E566340>
+    └ <Handle Task.task_wakeup(<Task finishe...ertionError()>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...ertionError()>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...ertionError()>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...ertionError()>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\gate.py", line 46, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.gate()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x00000214953DAA20>
+          └ <arbitrator.exchanges.gate.Gate object at 0x0000021496A14F10>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x000002149305AE80>
+          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 324, in load_markets_helper
+    markets = await self.fetch_markets(params)
+                    │    │             └ {}
+                    │    └ <function gate.fetch_markets at 0x0000021494634A40>
+                    └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1343, in fetch_markets
+    results = await asyncio.gather(*rawPromises)
+                    │       │       └ [<coroutine object gate.fetch_spot_markets at 0x000002149B78B7A0>, <coroutine object gate.fetch_swap_markets at 0x00000214969...
+                    │       └ <function gather at 0x000002148E5B39C0>
+                    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1667, in fetch_option_markets
+    response = await self.publicOptionsGetContracts(query)
+                     │    │                         └ {'underlying': 'CL_USDT'}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x0000021491D17600>
+                     └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 1}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {'underlying': 'CL_USDT'}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['public', 'options']
+                 │    │      └ 'contracts'
+                 │    └ <function Exchange.fetch2 at 0x000002149317AF20>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               │                  └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    └ <function Exchange.fetch at 0x000002149305ACA0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 241, in fetch
+    async with session_method(yarl.URL(url, encoded=True),
+               │              │    │   └ 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT'
+               │              │    └ <class 'yarl.URL'>
+               │              └ <module 'yarl' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\yarl\\__init__.py'>
+               └ <bound method ClientSession.get of <aiohttp.client.ClientSession object at 0x0000021496A8DE50>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x00000214AAFA1CF0>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x00000214AAFA1CF0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 788, in _request
+    resp = await handler(req)
+                 │       └ <aiohttp.client_reqrep.ClientRequest object at 0x000002149A344090>
+                 └ <function ClientSession._request.<locals>._connect_and_send_request at 0x000002149AD68360>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 740, in _connect_and_send_request
+    assert self._connector is not None
+           │    └ None
+           └ <aiohttp.client.ClientSession object at 0x0000021496A8DE50>
+
+AssertionError: assert self._connector is not None
+2026-07-01 04:27:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=gate
+2026-07-01 04:27:40 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=bingx
+2026-07-01 04:27:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=bingx
+2026-07-01 04:27:41 | INFO     | [arbitrator.application.screener_stream_worker:_async_main:137] - Volume gate applied | threshold_usdt=50000.0 eligible=563 rejected=0
+2026-07-01 04:27:41 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:61] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 545, 'bitget': 471, 'gate': 533, 'bingx': 452}
+2026-07-01 04:27:41 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=mexc symbols=545
+2026-07-01 04:27:41 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=mexc
+2026-07-01 04:27:41 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bitget symbols=471
+2026-07-01 04:27:41 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bitget
+2026-07-01 04:27:41 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=gate symbols=533
+2026-07-01 04:27:41 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:42 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=gate
+2026-07-01 04:27:42 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bingx symbols=452
+2026-07-01 04:27:42 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bingx
+2026-07-01 04:27:42 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:43 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:44 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:46 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=bitget count=1928
+2026-07-01 04:27:46 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:209] - Streaming tickers | exchange=bitget symbols=471 mode=bulk chunks=10
+2026-07-01 04:27:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1181] - Bulk stream chunks | exchange=bitget chunks=10 chunk_size=50
+2026-07-01 04:27:47 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:48 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:49 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:50 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=563
+2026-07-01 04:27:51 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=bingx count=3032
+2026-07-01 04:27:51 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:209] - Streaming tickers | exchange=bingx symbols=452 mode=fanout chunks=-
+2026-07-01 04:27:51 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=1
+2026-07-01 04:27:52 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=mexc count=3151
+2026-07-01 04:27:52 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:209] - Streaming tickers | exchange=mexc symbols=545 mode=bulk chunks=11
+2026-07-01 04:27:52 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1181] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-07-01 04:27:52 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=1 symbols=2
+2026-07-01 04:27:53 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=12 symbols=16
+2026-07-01 04:27:54 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=9 symbols=28
+2026-07-01 04:27:55 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=139 symbols=178
+2026-07-01 04:27:56 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=140 symbols=330
+2026-07-01 04:27:57 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=183 symbols=481
+2026-07-01 04:27:58 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=43 symbols=484
+2026-07-01 04:28:00 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=27 symbols=487
+2026-07-01 04:28:01 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=144 symbols=556
+2026-07-01 04:28:02 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=gate count=6253
+2026-07-01 04:28:02 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:209] - Streaming tickers | exchange=gate symbols=533 mode=bulk chunks=11
+2026-07-01 04:28:02 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1181] - Bulk stream chunks | exchange=gate chunks=11 chunk_size=50
+2026-07-01 04:28:02 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=3 symbols=557
+2026-07-01 04:28:03 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=125 symbols=557
+2026-07-01 04:28:04 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=46 symbols=557
+2026-07-01 04:28:05 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=147 symbols=557
+2026-07-01 04:28:06 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=80 symbols=558
+2026-07-01 04:28:07 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=57 symbols=558
+2026-07-01 04:28:09 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=167 symbols=560
+2026-07-01 04:28:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=mexc
+2026-07-01 04:28:10 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=59 symbols=560
+2026-07-01 04:28:11 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=150 symbols=560
+2026-07-01 04:28:12 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=560
+2026-07-01 04:28:14 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=43 symbols=560
+2026-07-01 04:28:15 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=175 symbols=560
+2026-07-01 04:28:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=mexc count=3151
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=1000CAT/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=AAOI/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=ADBE/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=ARC/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=BMNR/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=CIEN/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=CSCO/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=GS/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=HPE/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=KWEB/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=NBIS/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=RDW/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=SPCX/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=TER/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=TSM/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=TWLO/USDT:USDT
+2026-07-01 04:28:15 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=USAR/USDT:USDT
+2026-07-01 04:28:16 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bitget
+2026-07-01 04:28:16 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=9 symbols=560
+2026-07-01 04:28:17 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=199 symbols=560
+2026-07-01 04:28:18 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=30 symbols=560
+2026-07-01 04:28:19 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=196 symbols=560
+2026-07-01 04:28:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1353] - Markets loaded | exchange=bitget count=1928
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=1000000BABYDOGE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=AGT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=AIA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=AIGENSYN/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=AIOT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=AKE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=ALPINE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=AMP/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=APEX/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=ASTEROID/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=AVAAI/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=B3/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=BEAMX/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=BEL/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=BLEND/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=BLUAI/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=BMT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=BROCCOLIF3B/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=BTR/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=BULLA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=CHEEMS/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=CLO/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=COLLECT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=CORE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=CTC/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=DUSK/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=EDEN/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=EDU/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=FHE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=FLOW/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=FLR/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=GAIB/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=GUA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=HANA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=HEI/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=HEMI/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=HIGH/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=HMSTR/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=HNT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=JELLYJELLY/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=KOMA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=LIGHT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=LONGXIA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=LRC/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=MAVIA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=MEZO/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=MITO/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=MNT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=MONAD/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=NES/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=NOM/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=OFC/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=OKB/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=ON/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=OPENLEDGER/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=PHAROS/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=PLAY/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=PORTAL/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=PROMPT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=PTB/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=PUFFER/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=PUMPBTC/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=RIF/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=RLC/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=RLS/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=RON/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=SAGA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=SATS/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=SCR/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=SNT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=SOLV/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=ST/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=STAR/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=SWARMS/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=TA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=TAKE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=TRUTH/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=TURTLE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=TWT/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=ULTIMA/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=UP/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=VELO/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=VIC/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=VINE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=WAVES/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=WOTAMALAILE/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=XCN/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=XDC/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=XNY/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=YFI/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=ZBCN/USDT:USDT
+2026-07-01 04:28:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=bitget symbol=ZEREBRO/USDT:USDT
+2026-07-01 04:28:21 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=1 symbols=560
+2026-07-01 04:28:21 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=gate
+2026-07-01 04:28:22 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=146 symbols=560
+2026-07-01 04:28:23 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=68 symbols=560
+2026-07-01 04:28:24 | INFO     | [uvicorn.server:_serve:98] - [uvicorn.error] Shutting down
+2026-07-01 04:28:24 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=155 symbols=560
+2026-07-01 04:28:24 | INFO     | [asyncio.tasks:wait_for:452] - [uvicorn.error] Waiting for background tasks to complete. (CTRL+C to force quit)
+2026-07-01 04:28:24 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:28:25 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:34] - ws disconnected | endpoint=/ws/orders
+2026-07-01 04:28:25 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:28:25 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:33] - ws disconnected | endpoint=/ws/settings
+2026-07-01 04:28:25 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:28:25 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:43] - ws disconnected | endpoint=/ws/screener
+2026-07-01 04:28:25 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Waiting for application shutdown.
+2026-07-01 04:28:25 | INFO     | [arbitrator.application.app_runtime:stop:55] - screener worker stopped
+2026-07-01 04:28:25 | INFO     | [arbitrator.application.app_runtime:stop:58] - account worker stopped
+2026-07-01 04:28:25 | INFO     | [arbitrator.application.app_runtime:stop:61] - funding worker stopped
+2026-07-01 04:28:25 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped
+2026-07-01 04:28:25 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Application shutdown complete.
+2026-07-01 04:28:25 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Finished server process [20236]
+2026-07-01 04:28:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=mexc
+2026-07-01 04:28:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=mexc
+2026-07-01 04:28:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=bitget

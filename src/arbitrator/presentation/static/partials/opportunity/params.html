@@ -1,0 +1,56 @@
+              <div class="opp-params-block">
+              <h2>Параметри</h2>
+              <div class="opp-params-line">
+                <div class="field field-inline field-full">
+                  <label>Стратегія</label>
+                  <select id="opp-param-strategy"></select>
+                </div>
+              </div>
+              <div class="opp-params-line">
+                <div class="field field-inline">
+                  <label>Набрано обʼєм</label>
+                  <input type="text" id="opp-param-accumulated" value="" readonly>
+                </div>
+                <div class="field field-inline">
+                  <label>Обʼєм до добору</label>
+                  <input type="text" id="opp-param-target" value="">
+                </div>
+              </div>
+              <div class="opp-params-line">
+                <div class="field field-inline">
+                  <label>Спред відкриття, %</label>
+                  <input type="text" id="opp-param-open-spread" value="">
+                </div>
+                <div class="field field-inline">
+                  <label>Спред закриття, %</label>
+                  <input type="text" id="opp-param-close-spread" value="">
+                </div>
+              </div>
+
+              <div class="partial-row">
+                <div class="partial-col">
+                  <div class="field-row">
+                    <div class="field"><input type="text" id="opp-accumulate-usdt" value=""></div>
+                    <div class="field"><input type="text" id="opp-accumulate-pct" value=""></div>
+                  </div>
+                  <div class="pct-row" id="opp-accumulate-pct-chips"></div>
+                  <button class="btn btn-primary" id="opp-btn-accumulate" type="button" style="width:100%;">Добрати</button>
+                </div>
+                <div class="partial-col">
+                  <div class="field-row">
+                    <div class="field"><input type="text" id="opp-close-usdt" value=""></div>
+                    <div class="field"><input type="text" id="opp-close-pct" value=""></div>
+                  </div>
+                  <div class="pct-row" id="opp-close-pct-chips"></div>
+                  <button class="btn" id="opp-btn-close-partial" type="button" style="width:100%;">Закрити</button>
+                </div>
+              </div>
+
+              <div class="params-actions">
+                <button class="btn btn-danger" id="opp-btn-close-all" type="button">Закрити всі позиції</button>
+                <div class="checks">
+                  <label><input type="checkbox" id="opp-auto-accumulate">Авто добір</label>
+                  <label><input type="checkbox" id="opp-auto-close">Авто скидання</label>
+                </div>
+              </div>
+              </div>

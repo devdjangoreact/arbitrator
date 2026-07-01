@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": "pwsh -File .cursor/hooks/post-tool-use.ps1"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "pwsh -File .cursor/hooks/before-submit.ps1"
+      }
+    ],
+    "beforeShellExecution": [],
+    "beforeMCPExecution": [],
+    "beforeReadFile": [],
+    "stop": []
+  }
+}

@@ -1,0 +1,146 @@
+---
+description: Python project architecture. OOP, SOLID, Clean Architecture. All code is class-based.
+globs:
+  - "**/*.py"
+alwaysApply: true
+---
+
+# Architecture rules
+
+This is a **Python 3.11+** project. All code MUST follow the rules below.
+
+## 1. OOP — everything is a class
+
+- The unit of code is the **class**. No free-floating functions except thin
+  entry-point scripts (e.g. `main.py`).
+- **One class per file.** Filename matches the class in `snake_case`
+  (e.g. `class Binance` lives in `binance.py`, `class CcxtBase` in
+  `ccxt_base.py`, `class Factory` in `factory.py`).
+- Prefer **composition** over inheritance.
+- Data containers: `pydantic.BaseModel` (with `model_config = ConfigDict(frozen=True)`)
+  or `@dataclass(frozen=True, slots=True)`.
+- Methods that don't use `self` must be `@staticmethod` or `@classmethod`.
+
+## 2. SOLID
+
+- **S — Single Responsibility**: one class, one reason to change.
+- **O — Open/Closed**: extend via new subclasses or strategy classes, do not
+  edit existing classes to add new behavior.
+- **L — Liskov**: subclasses are drop-in replacements for their base.
+- **I — Interface Segregation**: many small abstractions, never one fat one.
+- **D — Dependency Inversion**: high-level code depends on **abstractions**
+  (`abc.ABC` or `typing.Protocol`), not on concrete classes. Inject every
+  collaborator through the constructor (`__init__`).
+
+## 3. Clean Architecture layers
+
+```
+presentation/  →  application/  →  domain/  ←  exchanges/
+                                          ←  config/   (Settings, logger, JSON repos)
+```
+
+Inner layers **never** import outer layers. The dependency arrows go inward.
+
+| Layer            | Contains                                              | May NOT import           |
+| ---------------- | ----------------------------------------------------- | ------------------------ |
+| `domain/`        | Entities, value objects, exceptions, abstractions     | anything outer           |
+| `application/`   | Use cases, services orchestrating the domain          | exchanges, presentation  |
+| `exchanges/`     | ccxt.pro adapters, exchange Factory                   | presentation             |
+| `config/`        | `Settings`, project `logger`, JSON repositories       | presentation, exchanges, application |
+| `data/`          | Mutable JSON data files (no Python)                   | —                        |
+| `presentation/`  | FastAPI app (static UI, WebSocket endpoints only — no `/api/*` for browser) | (top layer)          |
+
+`exchanges/` and `config/` are the **outer adapters**. They implement
+interfaces declared in `domain/`. `presentation/` and `application/`
+know **only** about `domain/` types and abstractions.
+
+Wiring of concrete implementations happens in `main.py` (composition root).
+
+## 4. Typing
+
+- `mypy --strict` must pass.
+- **Never use `typing.Any`.** Use `object` + `isinstance`, generics, or
+  proper unions. Even temporary `Any` is forbidden.
+- Put `from __future__ import annotations` at the top of every module.
+- Public methods MUST have complete type hints on parameters and return.
+- Pydantic models are the source of truth for runtime types.
+
+## 5. Async
+
+- I/O-bound work uses `asyncio`.
+- Exchange data uses **`ccxt.pro`** `watch_*` WebSocket methods, NOT REST
+  `fetch_*` polling. Private account data (open positions, USDT balance) streams
+  via `watch_open_positions` / `watch_usdt_balance` in `AccountStreamWorker`; REST
+  poll is used only when an exchange lacks the matching `watch*` capability
+  (e.g. MEXC positions).
+- Bulk `watch_tickers` subscriptions are chunked via
+  `Settings.watch_tickers_chunk_size` (default 50) to stay within exchange
+  WebSocket limits. At most `Settings.watch_tickers_max_concurrent_chunks`
+  (default 3) chunk watchers run at once. Markets are loaded once under a
+  lock before streaming (`_ensure_markets_loaded`). Transient disconnects retry
+  after `Settings.ws_reconnect_delay_seconds`. REST calls use
+  `Settings.ccxt_request_timeout_ms`.
+- Always close async resources in `finally` or via `async with`.
+- Async generators are the preferred shape for live data streams.
+- The **browser UI** uses **WebSocket only** for data and commands (`presentation/ws/`).
+  Static files via `GET /` + `StaticFiles`. Exchange **REST** (`fetch_*`, orders, leverage)
+  runs inside `application/` / `exchanges/` when a `watch_*` stream is unavailable — see
+  `.cursor/rules/exchange-data.mdc`. Never exposed as HTTP API to the frontend.
+  Run the app with **uvicorn** (not Streamlit).
+
+## 6. Configuration — single source of truth
+
+- **All runtime parameters live in `src/arbitrator/config/settings.py`**, in a
+  single `Settings` class inheriting from `pydantic_settings.BaseSettings`.
+- `Settings` is **frozen** (`model_config = SettingsConfigDict(frozen=True, ...)`).
+- Values are read from a project-root `.env` file (committed `.env.example` shows
+  defaults; `.env` itself is gitignored).
+- Filesystem paths to mutable JSON data live as `Path` fields on `Settings`
+  (defaults point under `src/arbitrator/data/`).
+- **No hardcoded magic values** for runtime configuration in domain, application,
+  exchanges, or presentation code. If a value can ever change between
+  environments, it MUST be a field on `Settings`.
+- `Settings` is constructed once in `main.py` and injected into top-level
+  classes via their constructors.
+- Adding a new parameter:
+  1. Add a typed field with a sensible default to `Settings`.
+  2. Add the matching `KEY=value` line to `.env.example`.
+  3. Inject it through the constructor chain. Do not read environment variables
+     anywhere else.
+- Per-exchange API credentials (`BINANCE_API_KEY`, `MEXC_API_SECRET`, `BITGET_API_PASSWORD`, …)
+  are optional `Settings` fields; use `Settings.credentials_for(exchange_id)` — never
+  read credential env vars elsewhere.
+- Arbitrage thresholds (`ARB_OPEN_SPREAD_THRESHOLD_PCT`, `ARB_CLOSE_SPREAD_THRESHOLD_PCT`,
+  `ARB_AUTO_OPEN_ENABLED`, `ARB_AUTO_OPEN_CHECK_SECONDS`, `ARB_AUTO_CLOSE_ENABLED`, `ARB_DEFAULT_NOTIONAL_USDT`, …) live on
+  `Settings`; position markers persist in `Settings.arb_markers_path` (default
+  `src/arbitrator/data/arb_markers.json`).
+- UI data mode (`UI_DATA_MODE`, default `mock_data`), mock tick interval (`MOCK_TICK_SECONDS`),
+  and WS push interval (`SCREENER_WS_PUSH_SECONDS`) live on `Settings`; `main.py` wires
+  `AppRuntime` — stream workers start only when `ui_data_mode=live`, otherwise
+  `presentation/mock/MockDataProvider` serves WebSocket snapshots from
+  `src/arbitrator/data/mock_data.json`.
+
+## 7. Markets — USDT-margined perpetual futures ONLY
+
+This project trades and monitors **only USDT-margined perpetual futures**:
+
+- Symbols use the ccxt unified format `BASE/USDT:USDT`
+  (e.g. `BTC/USDT:USDT`, `ETH/USDT:USDT`).
+- Every exchange adapter MUST configure ccxt with
+  `options.defaultType = "swap"` (read from `Settings.default_type`).
+- Do not load or query spot, coin-M (inverse) futures, or options markets.
+- A new exchange MUST:
+  1. Live in its own file under `exchanges/` and inherit `CcxtBase`
+     (e.g. `class Kucoin` in `kucoin.py`).
+  2. Set `exchange_id` and `display_name` as `ClassVar[str]`.
+  3. Override `_create_client` with the USDT-M swap defaults above.
+  4. Be registered in `Factory._registry` (`exchanges/factory.py`).
+
+## 8. Error handling
+
+- Prefer returning a result/`Optional` over raising for **expected** business
+  outcomes.
+- When you must raise, use a **static** error message and pass dynamic data
+  separately (e.g. via `logging.exception("static", extra={"symbol": s})`).
+- Always log the **full** exception (`logger.exception(...)` or
+  `logger.error(..., exc_info=True)`). Never log only `str(error)`.

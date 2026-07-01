@@ -1,0 +1,483 @@
+{
+  "screener_status": "filtered",
+  "screener_filters": {
+    "min_volume_k_usdt": 0.0,
+    "stream_min_volume_usdt": 50000.0,
+    "min_spread_pct": 0.0
+  },
+  "orders_filter_default": "all",
+  "chart_window_seconds": 120,
+  "chart_max_points": 61,
+  "funding_countdown_sec": 8075,
+  "funding_reset_seconds": 28800,
+  "tick_settings": {
+    "price_delta_min_pct": 0.0005,
+    "price_delta_max_pct": 0.0015,
+    "chart_delta_min_pct": 0.0003,
+    "chart_delta_max_pct": 0.0007,
+    "book_price_tick_ratio": 0.0001
+  },
+  "settings_masked_key": "••••••••••••",
+  "default_opportunity_focus": {
+    "symbol": "DOGE/USDT",
+    "short_exchange_id": "mexc",
+    "long_exchange_id": "bingx"
+  },
+  "screener_rows": [
+    {
+      "asset": "DOGE/USDT",
+      "prices": {
+        "mexc": { "futures": 0.2124, "spot": 0.2118 },
+        "bitget": { "futures": 0.209, "spot": 0.2085 },
+        "gate": { "futures": 0.2105, "spot": 0.21 },
+        "bingx": { "futures": 0.2098, "spot": 0.2092 }
+      },
+      "volume_k_usdt": 908.0,
+      "strategy_profits": {
+        "futures_futures": 18.4,
+        "futures_spot_2ex": 12.1,
+        "futures_spot_1ex": 8.5,
+        "funding_ff": 22.3,
+        "funding_fs": 15.6,
+        "funding_diff_dates": 9.8
+      },
+      "short_exchange_id": "mexc",
+      "long_exchange_id": "bitget"
+    },
+    {
+      "asset": "SOL/USDT",
+      "prices": {
+        "mexc": { "futures": 142.1, "spot": 141.95 },
+        "bitget": { "futures": 141.85, "spot": 141.7 },
+        "gate": { "futures": 142.3, "spot": 142.15 },
+        "bingx": { "futures": 141.95, "spot": 141.8 }
+      },
+      "volume_k_usdt": 1240.0,
+      "strategy_profits": {
+        "futures_futures": 9.2,
+        "futures_spot_2ex": 6.4,
+        "futures_spot_1ex": null,
+        "funding_ff": 11.5,
+        "funding_fs": 7.8,
+        "funding_diff_dates": 3.2
+      },
+      "short_exchange_id": "gate",
+      "long_exchange_id": "bitget"
+    },
+    {
+      "asset": "XRP/USDT",
+      "prices": {
+        "mexc": { "futures": 0.521, "spot": 0.5202 },
+        "bitget": { "futures": 0.5198, "spot": 0.519 },
+        "gate": { "futures": 0.5205, "spot": 0.5198 },
+        "bingx": { "futures": 0.5192, "spot": 0.5185 }
+      },
+      "volume_k_usdt": 2150.0,
+      "strategy_profits": {
+        "futures_futures": 14.8,
+        "futures_spot_2ex": 10.2,
+        "futures_spot_1ex": 6.9,
+        "funding_ff": 18.1,
+        "funding_fs": 12.4,
+        "funding_diff_dates": 5.6
+      },
+      "short_exchange_id": "mexc",
+      "long_exchange_id": "bingx"
+    },
+    {
+      "asset": "ADA/USDT",
+      "prices": {
+        "mexc": { "futures": 0.3842, "spot": 0.3836 },
+        "bitget": { "futures": 0.383, "spot": 0.3824 },
+        "gate": { "futures": 0.3838, "spot": 0.3832 },
+        "bingx": { "futures": 0.3825, "spot": 0.3819 }
+      },
+      "volume_k_usdt": 680.0,
+      "strategy_profits": {
+        "futures_futures": 5.6,
+        "futures_spot_2ex": 3.8,
+        "futures_spot_1ex": 2.4,
+        "funding_ff": 7.2,
+        "funding_fs": 4.9,
+        "funding_diff_dates": 1.8
+      },
+      "short_exchange_id": "mexc",
+      "long_exchange_id": "bingx"
+    },
+    {
+      "asset": "TON/USDT",
+      "prices": {
+        "mexc": { "futures": 5.842, "spot": 5.836 },
+        "bitget": { "futures": 5.831, "spot": 5.825 },
+        "gate": { "futures": 5.838, "spot": 5.832 },
+        "bingx": { "futures": 5.829, "spot": 5.823 }
+      },
+      "volume_k_usdt": 420.0,
+      "strategy_profits": {
+        "futures_futures": 4.2,
+        "futures_spot_2ex": 2.9,
+        "futures_spot_1ex": 1.7,
+        "funding_ff": 5.4,
+        "funding_fs": 3.6,
+        "funding_diff_dates": 0.9
+      },
+      "short_exchange_id": "mexc",
+      "long_exchange_id": "bingx"
+    }
+  ],
+  "settings_exchanges": [
+    { "exchange_id": "mexc", "configured": false, "has_secret": false, "has_password": false },
+    { "exchange_id": "bitget", "configured": false, "has_secret": false, "has_password": true },
+    { "exchange_id": "gate", "configured": false, "has_secret": false, "has_password": false },
+    { "exchange_id": "bingx", "configured": false, "has_secret": false, "has_password": false }
+  ],
+  "opportunity_params": {
+    "active_strategy_id": "futures_futures",
+    "accumulated_volume_usdt": 320.0,
+    "target_volume_usdt": 500.0,
+    "open_spread_threshold_pct": 0.7,
+    "close_spread_threshold_pct": 0.05,
+    "accumulate_volume_usdt": 50.0,
+    "accumulate_volume_pct": 10.0,
+    "close_volume_usdt": 50.0,
+    "close_volume_pct": 10.0,
+    "auto_accumulate_enabled": true,
+    "auto_close_enabled": false,
+    "volume_pct_presets": [10, 25, 50]
+  },
+  "leverage": {
+    "mexc": 10,
+    "bingx": 10,
+    "bitget": 10,
+    "gate": 10
+  },
+  "opportunity_exchange_cards": {
+    "mexc": {
+      "balance_usdt": 842.1,
+      "funding_rate_pct": -0.012,
+      "futures_fee": "0.02 / 0.04%",
+      "spot_fee": "0.10 / 0.10%",
+      "open_orders_count": 1,
+      "closed_orders_count": 2,
+      "min_order_volume_usdt": 5.0,
+      "max_order_volume_usdt": 250000.0,
+      "native_market_ids": {
+        "DOGE": "DOGE_USDT",
+        "SOL": "SOL_USDT",
+        "XRP": "XRP_USDT",
+        "ADA": "ADA_USDT",
+        "TON": "TON_USDT"
+      }
+    },
+    "bingx": {
+      "balance_usdt": 915.6,
+      "funding_rate_pct": 0.008,
+      "futures_fee": "0.02 / 0.05%",
+      "spot_fee": "0.10 / 0.10%",
+      "open_orders_count": 1,
+      "closed_orders_count": 1,
+      "min_order_volume_usdt": 2.0,
+      "max_order_volume_usdt": 500000.0,
+      "native_market_ids": {
+        "DOGE": "DOGE-USDT",
+        "SOL": "SOL-USDT",
+        "XRP": "XRP-USDT",
+        "ADA": "ADA-USDT",
+        "TON": "TON-USDT"
+      }
+    },
+    "bitget": {
+      "balance_usdt": 760.0,
+      "funding_rate_pct": 0.005,
+      "futures_fee": "0.02 / 0.05%",
+      "spot_fee": "0.10 / 0.10%",
+      "open_orders_count": 1,
+      "closed_orders_count": 3,
+      "min_order_volume_usdt": 5.0,
+      "max_order_volume_usdt": 300000.0,
+      "native_market_ids": {
+        "DOGE": "DOGEUSDT",
+        "SOL": "SOLUSDT",
+        "XRP": "XRPUSDT",
+        "ADA": "ADAUSDT",
+        "TON": "TONUSDT"
+      }
+    },
+    "gate": {
+      "balance_usdt": 690.0,
+      "funding_rate_pct": -0.004,
+      "futures_fee": "0.02 / 0.05%",
+      "spot_fee": "0.10 / 0.10%",
+      "open_orders_count": 1,
+      "closed_orders_count": 1,
+      "min_order_volume_usdt": 1.0,
+      "max_order_volume_usdt": 400000.0,
+      "native_market_ids": {
+        "DOGE": "DOGE_USDT",
+        "SOL": "SOL_USDT",
+        "XRP": "XRP_USDT",
+        "ADA": "ADA_USDT",
+        "TON": "TON_USDT"
+      }
+    }
+  },
+  "strategy_rows": [
+    {
+      "strategy_id": "futures_futures",
+      "strategy_label": "Фючерс-фючерс",
+      "spread_pct": 0.83,
+      "prices_label": "0.2124 / 0.2098",
+      "fees_usdt": 0.84,
+      "funding_usdt": -0.12,
+      "gross_profit_usdt": 18.4,
+      "costs_usdt": 2.15,
+      "costs_breakdown": "0.84 + 0.12 + 1.19",
+      "net_profit_usdt": 16.25,
+      "percent_to_deposit": 2.36
+    },
+    {
+      "strategy_id": "futures_spot_2ex",
+      "strategy_label": "Фючерс-спот 2 біржі",
+      "spread_pct": 0.61,
+      "prices_label": "0.2124 / 0.2092",
+      "fees_usdt": 1.12,
+      "funding_usdt": -0.08,
+      "gross_profit_usdt": 12.1,
+      "costs_usdt": 2.48,
+      "costs_breakdown": "1.12 + 0.08 + 1.28",
+      "net_profit_usdt": 9.62,
+      "percent_to_deposit": 1.39
+    },
+    {
+      "strategy_id": "futures_spot_1ex",
+      "strategy_label": "Фючерс-спот 1 біржа",
+      "spread_pct": 0.28,
+      "prices_label": "—",
+      "fees_usdt": 0.0,
+      "funding_usdt": 0.0,
+      "gross_profit_usdt": null,
+      "costs_usdt": 0.0,
+      "costs_breakdown": "—",
+      "net_profit_usdt": null,
+      "percent_to_deposit": null,
+      "unavailable_reason": "no_spot"
+    },
+    {
+      "strategy_id": "funding_ff",
+      "strategy_label": "Фандінг фючерс-фючерс",
+      "spread_pct": 0.83,
+      "prices_label": "0.2124 / 0.2098",
+      "fees_usdt": 0.84,
+      "funding_usdt": 0.24,
+      "gross_profit_usdt": 22.3,
+      "costs_usdt": 1.79,
+      "costs_breakdown": "0.84 + 0.24 + 0.71",
+      "net_profit_usdt": 20.51,
+      "percent_to_deposit": 2.97
+    },
+    {
+      "strategy_id": "funding_fs",
+      "strategy_label": "Фандінг фючерс-спот",
+      "spread_pct": 0.55,
+      "prices_label": "0.2124 / 0.2092",
+      "fees_usdt": 1.12,
+      "funding_usdt": 0.18,
+      "gross_profit_usdt": 15.6,
+      "costs_usdt": 2.02,
+      "costs_breakdown": "1.12 + 0.18 + 0.72",
+      "net_profit_usdt": 13.58,
+      "percent_to_deposit": 1.97
+    },
+    {
+      "strategy_id": "funding_diff_dates",
+      "strategy_label": "Фандінг — різні дати списання",
+      "spread_pct": 0.71,
+      "prices_label": "0.2124 / 0.2098",
+      "fees_usdt": 0.84,
+      "funding_usdt": 0.31,
+      "gross_profit_usdt": 9.8,
+      "costs_usdt": 1.62,
+      "costs_breakdown": "0.84 + 0.31 + 0.47",
+      "net_profit_usdt": 8.18,
+      "percent_to_deposit": 1.19
+    }
+  ],
+  "chart_series": [
+    { "key": "mexcFut", "label": "MEXC(F)", "exchange_id": "mexc", "market_type": "futures", "color": "#c0392b", "dashed": false, "last_price": 0.2124 },
+    { "key": "mexcSpot", "label": "MEXC(S)", "exchange_id": "mexc", "market_type": "spot", "color": "#e67e22", "dashed": true, "last_price": 0.2118 },
+    { "key": "bingxFut", "label": "BingX(F)", "exchange_id": "bingx", "market_type": "futures", "color": "#1d9e75", "dashed": false, "last_price": 0.2098 },
+    { "key": "bingxSpot", "label": "BingX(S)", "exchange_id": "bingx", "market_type": "spot", "color": "#52be80", "dashed": true, "last_price": 0.2092 }
+  ],
+  "books": [
+    {
+      "exchange_id": "mexc",
+      "market_type": "futures",
+      "side_role": "short",
+      "volume_24h_label": "908M USDT",
+      "range_label": "±0.5%",
+      "asks": [
+        { "price": 0.2129, "amount": 1000.0 },
+        { "price": 0.2128, "amount": 1200.0 },
+        { "price": 0.2127, "amount": 1400.0 },
+        { "price": 0.2126, "amount": 1600.0 },
+        { "price": 0.2125, "amount": 1800.0 }
+      ],
+      "bids": [
+        { "price": 0.2123, "amount": 900.0 },
+        { "price": 0.2122, "amount": 1080.0 },
+        { "price": 0.2121, "amount": 1260.0 },
+        { "price": 0.212, "amount": 1440.0 },
+        { "price": 0.2119, "amount": 1620.0 }
+      ]
+    },
+    {
+      "exchange_id": "mexc",
+      "market_type": "spot",
+      "side_role": "short",
+      "volume_24h_label": "908M USDT",
+      "range_label": "±0.5%",
+      "asks": [
+        { "price": 0.2123, "amount": 1000.0 },
+        { "price": 0.2122, "amount": 1200.0 },
+        { "price": 0.2121, "amount": 1400.0 },
+        { "price": 0.212, "amount": 1600.0 },
+        { "price": 0.2119, "amount": 1800.0 }
+      ],
+      "bids": [
+        { "price": 0.2117, "amount": 900.0 },
+        { "price": 0.2116, "amount": 1080.0 },
+        { "price": 0.2115, "amount": 1260.0 },
+        { "price": 0.2114, "amount": 1440.0 },
+        { "price": 0.2113, "amount": 1620.0 }
+      ]
+    },
+    {
+      "exchange_id": "bingx",
+      "market_type": "futures",
+      "side_role": "long",
+      "volume_24h_label": "908M USDT",
+      "range_label": "±0.5%",
+      "asks": [
+        { "price": 0.2103, "amount": 1000.0 },
+        { "price": 0.2102, "amount": 1200.0 },
+        { "price": 0.2101, "amount": 1400.0 },
+        { "price": 0.21, "amount": 1600.0 },
+        { "price": 0.2099, "amount": 1800.0 }
+      ],
+      "bids": [
+        { "price": 0.2097, "amount": 900.0 },
+        { "price": 0.2096, "amount": 1080.0 },
+        { "price": 0.2095, "amount": 1260.0 },
+        { "price": 0.2094, "amount": 1440.0 },
+        { "price": 0.2093, "amount": 1620.0 }
+      ]
+    },
+    {
+      "exchange_id": "bingx",
+      "market_type": "spot",
+      "side_role": "long",
+      "volume_24h_label": "908M USDT",
+      "range_label": "±0.5%",
+      "asks": [
+        { "price": 0.2097, "amount": 1000.0 },
+        { "price": 0.2096, "amount": 1200.0 },
+        { "price": 0.2095, "amount": 1400.0 },
+        { "price": 0.2094, "amount": 1600.0 },
+        { "price": 0.2093, "amount": 1800.0 }
+      ],
+      "bids": [
+        { "price": 0.2091, "amount": 900.0 },
+        { "price": 0.209, "amount": 1080.0 },
+        { "price": 0.2089, "amount": 1260.0 },
+        { "price": 0.2088, "amount": 1440.0 },
+        { "price": 0.2087, "amount": 1620.0 }
+      ]
+    }
+  ],
+  "order_groups": [
+    {
+      "group_id": "og-doge-open",
+      "asset": "DOGE/USDT",
+      "strategy_code": "Ф-Ф",
+      "short_exchange_id": "mexc",
+      "long_exchange_id": "bingx",
+      "opened_at": "26.06 14:02",
+      "closed_at": null,
+      "leverage": 10,
+      "volume_usdt": 320.0,
+      "entry_price": null,
+      "exit_price": null,
+      "fees_usdt": 0.84,
+      "funding_usdt": -0.12,
+      "pnl_usdt": 12.4,
+      "status": "open",
+      "legs": [
+        { "exchange_id": "mexc", "side": "short", "leverage": 10, "volume_usdt": 160.0, "entry_price": 0.2124, "exit_price": null, "fees_usdt": 0.42, "funding_usdt": -0.06, "pnl_usdt": 6.2 },
+        { "exchange_id": "bingx", "side": "long", "leverage": 10, "volume_usdt": 160.0, "entry_price": 0.209, "exit_price": null, "fees_usdt": 0.42, "funding_usdt": -0.06, "pnl_usdt": 6.2 }
+      ]
+    },
+    {
+      "group_id": "og-sol-open",
+      "asset": "SOL/USDT",
+      "strategy_code": "Ф-Ф",
+      "short_exchange_id": "gate",
+      "long_exchange_id": "bitget",
+      "opened_at": "26.06 13:18",
+      "closed_at": null,
+      "leverage": 5,
+      "volume_usdt": 150.0,
+      "entry_price": null,
+      "exit_price": null,
+      "fees_usdt": 1.1,
+      "funding_usdt": 0.0,
+      "pnl_usdt": 4.8,
+      "status": "open",
+      "legs": [
+        { "exchange_id": "gate", "side": "short", "leverage": 5, "volume_usdt": 75.0, "entry_price": 142.3, "exit_price": null, "fees_usdt": 0.55, "funding_usdt": 0.0, "pnl_usdt": 2.4 },
+        { "exchange_id": "bitget", "side": "long", "leverage": 5, "volume_usdt": 75.0, "entry_price": 141.85, "exit_price": null, "fees_usdt": 0.55, "funding_usdt": 0.0, "pnl_usdt": 2.4 }
+      ]
+    },
+    {
+      "group_id": "og-doge-closed",
+      "asset": "DOGE/USDT",
+      "strategy_code": "Ф-Ф",
+      "short_exchange_id": "mexc",
+      "long_exchange_id": "bingx",
+      "opened_at": "26.06 11:58",
+      "closed_at": "26.06 12:20",
+      "leverage": 10,
+      "volume_usdt": 280.0,
+      "entry_price": null,
+      "exit_price": null,
+      "fees_usdt": 0.62,
+      "funding_usdt": -0.08,
+      "pnl_usdt": 15.2,
+      "status": "closed",
+      "legs": [
+        { "exchange_id": "mexc", "side": "short", "leverage": 10, "volume_usdt": 140.0, "entry_price": 0.2078, "exit_price": 0.2091, "fees_usdt": 0.31, "funding_usdt": -0.04, "pnl_usdt": 7.6 },
+        { "exchange_id": "bingx", "side": "long", "leverage": 10, "volume_usdt": 140.0, "entry_price": 0.2078, "exit_price": 0.2091, "fees_usdt": 0.31, "funding_usdt": -0.04, "pnl_usdt": 7.6 }
+      ]
+    },
+    {
+      "group_id": "og-xrp-closed",
+      "asset": "XRP/USDT",
+      "strategy_code": "Ф Ф-С",
+      "short_exchange_id": "bitget",
+      "long_exchange_id": "mexc",
+      "opened_at": "26.06 11:20",
+      "closed_at": "26.06 11:35",
+      "leverage": 8,
+      "volume_usdt": 180.0,
+      "entry_price": null,
+      "exit_price": null,
+      "fees_usdt": 0.4,
+      "funding_usdt": 0.05,
+      "pnl_usdt": -1.1,
+      "status": "closed",
+      "legs": [
+        { "exchange_id": "bitget", "side": "short", "leverage": 8, "volume_usdt": 90.0, "entry_price": 0.521, "exit_price": 0.5198, "fees_usdt": 0.2, "funding_usdt": 0.025, "pnl_usdt": -0.55 },
+        { "exchange_id": "mexc", "side": "long", "leverage": 8, "volume_usdt": 90.0, "entry_price": 0.521, "exit_price": 0.5198, "fees_usdt": 0.2, "funding_usdt": 0.025, "pnl_usdt": -0.55 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+2026-07-01 04:03:14 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
+2026-07-01 04:03:14 | INFO     | [arbitrator.presentation.fastapi_app:create:103] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
+2026-07-01 04:03:14 | INFO     | [uvicorn.main:run:614] - [uvicorn.error] Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-07-01 04:03:14 | INFO     | [uvicorn.supervisors.basereload:run:51] - [uvicorn.error] Started reloader process [19196] using WatchFiles
+2026-07-01 04:03:15 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:03:15 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:17 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:03:19 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:31 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:03:31 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\domain\strategy\strategy_math.py', 'src\arbitrator\domain\strategy\strategies\futures_futures_calculator.py'. Reloading...
+2026-07-01 04:03:35 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 8 changes detected
+2026-07-01 04:03:35 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\domain\strategy\strategies\funding_ff_calculator.py', 'src\arbitrator\domain\strategy\strategies\futures_spot_2ex_calculator.py', 'src\arbitrator\domain\strategy\strategies\funding_fs_calculator.py', 'src\arbitrator\domain\strategy\strategies\funding_diff_dates_calculator.py', 'src\arbitrator\domain\strategy\strategy_math.py', 'src\arbitrator\domain\strategy\strategies\futures_spot_1ex_calculator.py'. Reloading...
+2026-07-01 04:03:36 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:37 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:03:37 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:38 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:39 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:39 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:03:40 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 30 changes detected
+2026-07-01 04:03:40 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:41 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:03:41 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'tests\strategy\test_calculators_numeric.py'. Reloading...
+2026-07-01 04:03:42 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:43 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:03:44 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:44 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:46 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:03:47 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:48 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 8 changes detected
+2026-07-01 04:03:49 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:03:49 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:03:50 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:03:50 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:04:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 33 changes detected
+2026-07-01 04:04:01 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:04:01 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 62 changes detected
+2026-07-01 04:04:09 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:04:09 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\ws\opportunity_ws_handler.py'. Reloading...
+2026-07-01 04:04:12 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:04:12 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\ws\opportunity_ws_handler.py'. Reloading...
+2026-07-01 04:04:14 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:04:14 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:04:16 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:04:16 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:04:17 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:04:18 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-07-01 04:04:18 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:04:50 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:05:16 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 33 changes detected
+2026-07-01 04:05:17 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 42 changes detected
+2026-07-01 04:05:18 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:05:18 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:05:19 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:05:20 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:05:20 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:05:20 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:06:56 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-07-01 04:09:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:09:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:12:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:12:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:13:19 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:13:19 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\ws\orders_ws_handler.py', 'src\arbitrator\presentation\ws\settings_ws_handler.py'. Reloading...
+2026-07-01 04:13:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:13:25 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:13:25 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:13:26 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:13:26 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\ws\orders_ws_handler.py'. Reloading...
+2026-07-01 04:13:30 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 12 changes detected
+2026-07-01 04:13:31 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:13:31 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:13:33 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:13:35 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:13:35 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:13:38 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:13:38 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\ws\settings_ws_handler.py'. Reloading...
+2026-07-01 04:13:58 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 70 changes detected
+2026-07-01 04:13:59 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:13:59 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:14:01 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:14:03 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-07-01 04:14:03 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:14:05 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:14:05 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\ws\settings_ws_handler.py'. Reloading...
+2026-07-01 04:14:26 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 69 changes detected
+2026-07-01 04:14:27 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:14:27 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:14:29 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:14:31 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-07-01 04:14:31 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected

@@ -1,0 +1,62 @@
+2026-07-01 05:35:47 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
+2026-07-01 05:35:48 | INFO     | [arbitrator.presentation.fastapi_app:create:103] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
+2026-07-01 05:35:48 | INFO     | [uvicorn.main:run:614] - [uvicorn.error] Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-07-01 05:35:48 | INFO     | [uvicorn.supervisors.basereload:run:51] - [uvicorn.error] Started reloader process [16356] using WatchFiles
+2026-07-01 05:35:49 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:35:49 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:35:51 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 05:35:53 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:36:25 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:36:44 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:36:44 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\domain\strategy\execution_outcome.py'. Reloading...
+2026-07-01 05:36:48 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:36:49 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:36:50 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:36:51 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 05:36:53 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:36:56 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:36:56 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\domain\strategy\futures_execution_gateway.py'. Reloading...
+2026-07-01 05:37:23 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:37:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:37:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:37:28 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:37:52 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-07-01 05:38:01 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:38:09 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:38:09 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\application\hedged_execution_service.py'. Reloading...
+2026-07-01 05:38:13 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:38:14 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:38:15 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:38:17 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 05:38:18 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:38:52 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:39:17 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:39:17 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'tests\strategy\test_hedged_execution.py'. Reloading...
+2026-07-01 05:39:22 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:39:23 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:39:23 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:39:25 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 05:39:27 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:39:41 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 18 changes detected
+2026-07-01 05:39:41 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 05:39:58 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:40:03 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 33 changes detected
+2026-07-01 05:40:04 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 40 changes detected
+2026-07-01 05:40:04 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 9 changes detected
+2026-07-01 05:40:14 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:40:14 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\application\hedged_execution_service.py'. Reloading...
+2026-07-01 05:40:18 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:40:19 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:40:19 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:40:21 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 05:40:23 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:40:56 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-07-01 05:40:56 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:40:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-07-01 05:40:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 8 changes detected
+2026-07-01 05:40:58 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 05:40:58 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:40:59 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:41:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:41:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 05:41:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected

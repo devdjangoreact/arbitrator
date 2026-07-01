@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arbitrator</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+<div class="app">
+  <div class="sidebar">
+    <p class="brand">Arbitrator</p>
+    <div class="nav-item active" data-page="screener"><span class="dot"></span>Screener</div>
+    <div class="nav-item" data-page="opportunity"><span class="dot"></span>Opportunity</div>
+    <div class="nav-item" data-page="orders"><span class="dot"></span>Orders · <span id="nav-orders-count">—</span></div>
+    <div class="nav-item" data-page="settings"><span class="dot"></span>Settings</div>
+  </div>
+  <div class="main">
+    <div class="page active" id="page-screener">
+      <div class="topbar">
+        <div class="topbar-left"><h1>Screener</h1></div>
+      </div>
+
+      <div class="screener-params">
+        <div class="field">
+          <label>Min 24h volume (K USDT) <span class="q">?</span></label>
+          <input type="text" id="filter-min-volume" value="">
+        </div>
+        <div class="field">
+          <label>Stream min 24h volume (USDT) <span class="q">?</span></label>
+          <input type="text" id="filter-stream-min-volume" value="">
+        </div>
+        <div class="field">
+          <label>Min spread %</label>
+          <input type="text" id="filter-min-spread" value="">
+        </div>
+        <button class="btn btn-primary" id="screener-filter" type="button">Filter</button>
+        <button class="btn" id="screener-reconnect" type="button">Reconnect</button>
+      </div>
+
+      <p class="stream-note" id="screener-stream-note">—</p>
+
+      <div class="table-scroll">
+        <div class="data-loading" id="screener-loading" hidden>
+          <div class="data-loading-inner">
+            <span class="data-loading-spinner" aria-hidden="true"></span>
+            <span class="data-loading-label">Завантаження даних…</span>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr><th rowspan="2">Asset</th><th colspan="2">MEXC</th><th colspan="2">Bitget</th><th colspan="2">Gate</th><th colspan="2">BingX</th><th rowspan="2">Max</th><th rowspan="2">Min</th><th rowspan="2">Spread %</th><th rowspan="2">Δ</th><th rowspan="2">Vol K USDT</th>
+              <th rowspan="2" title="Фючерс-фючерс">Ф-Ф</th><th rowspan="2" title="Фючерс-спот 2 біржі">Ф-С 2б</th><th rowspan="2" title="Фючерс-спот 1 біржа">Ф-С 1б</th><th rowspan="2" title="Фандінг фючерс-фючерс">Ф Ф-Ф</th><th rowspan="2" title="Фандінг фючерс-спот">Ф Ф-С</th><th rowspan="2" title="Фандінг різні дати">Ф різн.</th><th rowspan="2"></th></tr>
+            <tr><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th></tr>
+          </thead>
+          <tbody id="screener-tbody"><tr class="empty-row"><td colspan="21">—</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="page" id="page-opportunity">
+      <div class="topbar">
+        <div class="topbar-left">
+          <h1>Opportunity</h1>
+          <select id="opp-symbol-select" class="opp-focus-select" title="Символ"></select>
+          <select id="opp-short-select" class="opp-focus-select" title="Short біржа"></select>
+          <select id="opp-long-select" class="opp-focus-select" title="Long біржа"></select>
+          <button id="opp-launch-btn" class="btn btn-primary" type="button">Запуск</button>
+          <span id="opp-status" class="muted"></span>
+          <span class="badge short" id="opp-badge-short">—</span>
+          <span class="badge long" id="opp-badge-long">—</span>
+        </div>
+      </div>
+
+      <div class="opp-body">
+        <div class="data-loading" id="opportunity-loading" hidden>
+          <div class="data-loading-inner">
+            <span class="data-loading-spinner" aria-hidden="true"></span>
+            <span class="data-loading-label">Завантаження даних…</span>
+          </div>
+        </div>
+        <div class="opp-grid">
+          <div class="opp-col">
+            <div class="card opp-left-card">
+              <div class="opp-left-top">
+              <div class="ex-info-row" id="ex-info-row"></div>
+
+              <div class="strategy-calc-row strategy-calc-in-card">
+                <h2>Розрахунок по стратегіях</h2>
+                <div class="strategy-table-wrap">
+                  <table class="strategy-table">
+                    <thead>
+                      <tr>
+                        <th>Стратегія</th><th>Спред</th><th>Ціни</th><th>Комісії</th><th>Фандінг</th><th>Обʼєм</th><th>Плече</th><th>Заробіток</th><th>Витрати</th><th>Чистий прибуток</th><th>% до депозиту</th>
+                      </tr>
+                    </thead>
+                    <tbody id="strategy-tbody"><tr class="empty-row"><td colspan="11">—</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+
+              </div>
+              <div class="opp-params-block">
+              <h2>Параметри</h2>
+              <div class="opp-params-line">
+                <div class="field field-inline field-full">
+                  <label>Стратегія</label>
+                  <select id="opp-param-strategy"></select>
+                </div>
+              </div>
+              <div class="opp-params-line">
+                <div class="field field-inline">
+                  <label>Набрано обʼєм</label>
+                  <input type="text" id="opp-param-accumulated" value="" readonly>
+                </div>
+                <div class="field field-inline">
+                  <label>Обʼєм до добору</label>
+                  <input type="text" id="opp-param-target" value="">
+                </div>
+              </div>
+              <div class="opp-params-line">
+                <div class="field field-inline">
+                  <label>Спред відкриття, %</label>
+                  <input type="text" id="opp-param-open-spread" value="">
+                </div>
+                <div class="field field-inline">
+                  <label>Спред закриття, %</label>
+                  <input type="text" id="opp-param-close-spread" value="">
+                </div>
+              </div>
+
+              <div class="partial-row">
+                <div class="partial-col">
+                  <div class="field-row">
+                    <div class="field"><input type="text" id="opp-accumulate-usdt" value=""></div>
+                    <div class="field"><input type="text" id="opp-accumulate-pct" value=""></div>
+                  </div>
+                  <div class="pct-row" id="opp-accumulate-pct-chips"></div>
+                  <button class="btn btn-primary" id="opp-btn-accumulate" type="button" style="width:100%;">Добрати</button>
+                </div>
+                <div class="partial-col">
+                  <div class="field-row">
+                    <div class="field"><input type="text" id="opp-close-usdt" value=""></div>
+                    <div class="field"><input type="text" id="opp-close-pct" value=""></div>
+                  </div>
+                  <div class="pct-row" id="opp-close-pct-chips"></div>
+                  <button class="btn" id="opp-btn-close-partial" type="button" style="width:100%;">Закрити</button>
+                </div>
+              </div>
+
+              <div class="params-actions">
+                <button class="btn btn-danger" id="opp-btn-close-all" type="button">Закрити всі позиції</button>
+                <div class="checks">
+                  <label><input type="checkbox" id="opp-auto-accumulate">Авто добір</label>
+                  <label><input type="checkbox" id="opp-auto-close">Авто скидання</label>
+                </div>
+              </div>
+              </div>
+
+              <div class="opp-orders-block">
+                <div class="opp-orders-head">
+                  <h2>Ордери <span id="opp-orders-title">—</span></h2>
+                  <div class="filter-chips" id="opp-orders-filters">
+                    <div class="chip active" data-opp-filter="open">Відкриті</div>
+                    <div class="chip" data-opp-filter="closed">Закриті</div>
+                  </div>
+                </div>
+                <div class="opp-orders-scroll" id="opp-orders-panel">
+                  <div class="ord-grid ord-head">
+                    <div></div><div>Asset</div><div>Стратегія</div><div>Біржі</div><div>Відкрито</div><div>Закрито</div><div>Плече</div>
+                    <div>Обʼєм</div><div>Вхід</div><div>Вихід</div><div>Комісія</div><div>Фандінг</div><div>PnL</div><div>Статус</div>
+                  </div>
+                  <div id="opp-orders-list"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="opp-col opp-right-col">
+            <div class="chart-row card">
+              <div class="chart-legend" id="chart-legend"></div>
+              <canvas id="liveChart"></canvas>
+            </div>
+
+            <div class="ob-books" id="ob-books-root"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page" id="page-orders">
+      <div class="topbar">
+        <div class="topbar-left"><h1>Orders <span class="muted orders-open-label">· <span id="orders-open-label">—</span> відкритих арбітражі</span></h1></div>
+        <div class="topbar-right">
+          <span class="status" id="orders-summary"><span class="dot"></span>—</span>
+          <span class="kebab">⋮</span>
+        </div>
+      </div>
+
+      <div class="orders-filter-bar">
+        <div class="filter-chips" id="orders-filters">
+          <div class="chip active" data-filter="all">Усі</div>
+          <div class="chip" data-filter="open">Відкриті</div>
+          <div class="chip" data-filter="closed">Закриті</div>
+        </div>
+      </div>
+
+      <div class="table-scroll orders-table-scroll">
+        <div class="ord-grid ord-head">
+          <div></div><div>Asset</div><div>Стратегія</div><div>Біржі</div><div>Відкрито</div><div>Закрито</div><div>Плече</div>
+          <div>Обʼєм</div><div>Вхід</div><div>Вихід</div><div>Комісія</div><div>Фандінг</div><div>PnL</div><div>Статус</div><div></div>
+        </div>
+        <div id="orders-list"></div>
+      </div>
+    </div>
+    <div class="page" id="page-settings">
+      <div class="topbar">
+        <div class="topbar-left"><h1>Settings</h1></div>
+        <div class="topbar-right"><span class="kebab">⋮</span></div>
+      </div>
+      <div class="card settings-card">
+        <h2>Біржі</h2>
+        <p class="stream-note faint" id="settings-note"></p>
+        <div id="settings-exchanges"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/core/app_state.js"></script>
+<script src="/static/js/core/ws_client.js"></script>
+<script src="/static/js/core/dom.js"></script>
+<script src="/static/js/core/loading_overlay.js"></script>
+<script src="/static/js/core/delta_router.js"></script>
+<script src="/static/js/render/format.js"></script>
+<script src="/static/js/render/order_groups.js"></script>
+<script src="/static/js/render/order_book.js"></script>
+<script src="/static/js/render/opportunity_chart.js"></script>
+<script src="/static/js/render/screener.js"></script>
+<script src="/static/js/render/opportunity.js"></script>
+<script src="/static/js/render/orders.js"></script>
+<script src="/static/js/render/settings.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

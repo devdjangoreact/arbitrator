@@ -1,0 +1,741 @@
+2026-07-01 02:52:22 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
+2026-07-01 02:52:22 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
+2026-07-01 02:52:22 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [14168]
+2026-07-01 02:52:22 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-07-01 02:52:22 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:81] - screener worker started | mode=live
+2026-07-01 02:52:22 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:110] - funding worker started | mode=live
+2026-07-01 02:52:22 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:114] - account worker started | mode=live
+2026-07-01 02:52:22 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=live
+2026-07-01 02:52:22 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-07-01 02:52:22 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1213 after_min_exchanges=669 after_exclusions=668
+2026-07-01 02:52:22 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:164] - Volume discovery started | symbols=668 threshold_usdt=50000.0 timeout_s=30.0
+2026-07-01 02:52:22 | INFO     | [arbitrator.application.account_stream_worker:_async_main:124] - Account stream spawned | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-07-01 02:52:22 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:61] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 545, 'bitget': 573, 'gate': 636, 'bingx': 466}
+2026-07-01 02:52:22 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=mexc symbols=545
+2026-07-01 02:52:22 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61907 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:22 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:22 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:22 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:22 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61931 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:22 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:22 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:22 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:22 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61932 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:22 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:22 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:22 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:22 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61933 - "WebSocket /ws/screener" [accepted]
+2026-07-01 02:52:22 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:35] - ws connected | endpoint=/ws/screener
+2026-07-01 02:52:22 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:22 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:22 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=mexc
+2026-07-01 02:52:22 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=mexc
+2026-07-01 02:52:22 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bitget symbols=573
+2026-07-01 02:52:23 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=bitget
+2026-07-01 02:52:23 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=bitget
+2026-07-01 02:52:23 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=gate symbols=636
+2026-07-01 02:52:23 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:24 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=gate
+2026-07-01 02:52:23 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=gate
+2026-07-01 02:52:24 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bingx symbols=466
+2026-07-01 02:52:24 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=bingx
+2026-07-01 02:52:24 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=bingx
+2026-07-01 02:52:24 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61936 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:24 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:24 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:24 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:24 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:24 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61937 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:24 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:24 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:24 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:24 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61938 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:24 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:24 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:24 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:25 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:26 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:26 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61948 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:26 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:26 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:26 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:26 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61949 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:26 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:26 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:26 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:26 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61950 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:26 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:26 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:26 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:27 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:28 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:29 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:30 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61956 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:30 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:30 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:30 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:31 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61957 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:31 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:31 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:31 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:31 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61959 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:31 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:31 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:31 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:32 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:32 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:33 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:34 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61969 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:34 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:34 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:34 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:34 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61971 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:34 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:34 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:34 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:34 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:34 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61974 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:34 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:34 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:34 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:35 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=bitget count=1928
+2026-07-01 02:52:36 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:602] - Position stream started | exchange=bitget mode=ws
+2026-07-01 02:52:36 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:634] - Balance stream started | exchange=bitget mode=ws
+2026-07-01 02:52:36 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:36 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61993 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:37 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:37 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=bingx count=3032
+2026-07-01 02:52:37 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:37 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:602] - Position stream started | exchange=bingx mode=ws
+2026-07-01 02:52:37 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:634] - Balance stream started | exchange=bingx mode=ws
+2026-07-01 02:52:37 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:37 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61994 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:37 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:37 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:37 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:37 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=mexc count=3151
+2026-07-01 02:52:38 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:602] - Position stream started | exchange=mexc mode=rest_poll
+2026-07-01 02:52:38 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:634] - Balance stream started | exchange=mexc mode=ws
+2026-07-01 02:52:38 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61995 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:38 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:38 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:38 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:38 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:38 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=bitget count=1928
+2026-07-01 02:52:38 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=bitget symbols=573 mode=bulk chunks=12
+2026-07-01 02:52:38 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1171] - Bulk stream chunks | exchange=bitget chunks=12 chunk_size=50
+2026-07-01 02:52:38 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=mexc count=3151
+2026-07-01 02:52:39 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=mexc symbols=545 mode=bulk chunks=11
+2026-07-01 02:52:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1171] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-07-01 02:52:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=bingx count=3032
+2026-07-01 02:52:39 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=bingx symbols=466 mode=fanout chunks=-
+2026-07-01 02:52:39 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:40 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62010 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:40 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:40 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:40 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:40 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62017 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:40 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:40 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:40 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:40 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62018 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:40 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:40 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:40 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:41 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:42 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=0
+2026-07-01 02:52:42 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62022 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:42 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:42 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:42 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:43 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=150 symbols=150
+2026-07-01 02:52:43 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62023 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:43 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:43 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:43 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:43 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62024 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:43 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:43 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:44 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:44 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=315 symbols=452
+2026-07-01 02:52:45 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=13 symbols=453
+2026-07-01 02:52:45 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62025 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:45 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:45 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:45 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:46 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=14 symbols=456
+2026-07-01 02:52:46 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62026 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:46 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:46 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:46 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:47 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62027 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:47 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:47 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:47 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:47 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=139 symbols=551
+2026-07-01 02:52:48 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=26 symbols=551
+2026-07-01 02:52:49 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62028 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:49 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:49 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:49 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=gate count=6253
+2026-07-01 02:52:49 | INFO     | [arbitrator.exchanges.gate:watch_open_positions:71] - Position stream started | exchange=gate mode=rest_poll
+2026-07-01 02:52:49 | INFO     | [arbitrator.exchanges.gate:watch_usdt_balance:91] - Balance stream started | exchange=gate mode=rest_poll
+2026-07-01 02:52:49 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62029 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:49 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:49 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:49 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:49 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:49 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62030 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:49 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:49 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:49 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:49 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=14 symbols=551
+2026-07-01 02:52:50 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=134 symbols=553
+2026-07-01 02:52:51 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62033 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:51 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:51 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:51 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:51 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62034 - "WebSocket /ws/opportunity?symbol=ANTHROPIC%2FUSDT&short=bitget&long=mexc" [accepted]
+2026-07-01 02:52:51 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=ANTHROPIC/USDT short=bitget long=mexc
+2026-07-01 02:52:51 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:51 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:51 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62035 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:51 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:51 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:52 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=139 symbols=555
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62037 - "GET / HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:52 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62037 - "GET /static/css/app.css HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62038 - "GET /static/js/core/app_state.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62040 - "GET /static/js/core/dom.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62042 - "GET /static/js/render/format.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62041 - "GET /static/js/core/delta_router.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62039 - "GET /static/js/core/ws_client.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62038 - "GET /static/js/render/order_groups.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62037 - "GET /static/js/render/order_book.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62041 - "GET /static/js/render/opportunity_chart.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62040 - "GET /static/js/render/screener.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62042 - "GET /static/js/render/opportunity.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62039 - "GET /static/js/render/orders.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62037 - "GET /static/js/render/settings.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62038 - "GET /static/js/app.js HTTP/1.1" 200
+2026-07-01 02:52:52 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:191] - Volume discovery timed out | eligible=554 pending=114
+2026-07-01 02:52:52 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62044 - "WebSocket /ws/screener" [accepted]
+2026-07-01 02:52:52 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:35] - ws connected | endpoint=/ws/screener
+2026-07-01 02:52:52 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=17 symbols=555
+2026-07-01 02:52:52 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:52 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:62038 - "GET /favicon.ico HTTP/1.1" 404
+2026-07-01 02:52:52 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62045 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:52 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:52 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:52 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:52 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62046 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:52 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:52 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:52 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:52 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1196] - watch_tickers transient, retrying | exchange=mexc chunk=10 err=NetworkError delay_s=5.0
+2026-07-01 02:52:52 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1196] - watch_tickers transient, retrying | exchange=mexc chunk=0 err=NetworkError delay_s=5.0
+2026-07-01 02:52:52 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1196] - watch_tickers transient, retrying | exchange=mexc chunk=1 err=NetworkError delay_s=5.0
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:52:53 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:43] - ws disconnected | endpoint=/ws/screener
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1196] - watch_tickers transient, retrying | exchange=mexc chunk=2 err=NetworkError delay_s=5.0
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1196] - watch_tickers transient, retrying | exchange=mexc chunk=3 err=NetworkError delay_s=5.0
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1196] - watch_tickers transient, retrying | exchange=mexc chunk=4 err=NetworkError delay_s=5.0
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1196] - watch_tickers transient, retrying | exchange=mexc chunk=5 err=NetworkError delay_s=5.0
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1196] - watch_tickers transient, retrying | exchange=mexc chunk=6 err=NetworkError delay_s=5.0
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1158] - Exchange closed | exchange=mexc
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1158] - Exchange closed | exchange=mexc
+2026-07-01 02:52:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1158] - Exchange closed | exchange=bitget
+2026-07-01 02:52:53 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1338] - load_markets failed | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001DD182CAED0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001DD182CAED0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 15784)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001DD182CAED0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001DD0D6CCB80>
+    └ <Thread(screener-stream:0, started daemon 15784)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001DD0D6CC860>
+    └ <Thread(screener-stream:0, started daemon 15784)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 15784)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 15784)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 15784)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000001DD16CF3F60>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000001DD182CAC10>
+    │       └ <function run at 0x000001DD0FF0ACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000001DD18288680>
+           │      └ <function Runner.run at 0x000001DD0FF0B100>
+           └ <asyncio.runners.Runner object at 0x000001DD16727190>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\app...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001DD0FF08B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001DD16727190>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001DD0FFA1B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001DD0FF0A8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001DD0FE76340>
+    └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\gate.py", line 46, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.gate()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x000001DD16CDA980>
+          └ <arbitrator.exchanges.gate.Gate object at 0x000001DD182C9F50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1335, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x000001DD1495AE80>
+          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 324, in load_markets_helper
+    markets = await self.fetch_markets(params)
+                    │    │             └ {}
+                    │    └ <function gate.fetch_markets at 0x000001DD15F34A40>
+                    └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1343, in fetch_markets
+    results = await asyncio.gather(*rawPromises)
+                    │       │       └ [<coroutine object gate.fetch_spot_markets at 0x000001DD17BFD070>, <coroutine object gate.fetch_swap_markets at 0x000001DD183...
+                    │       └ <function gather at 0x000001DD0FEC39C0>
+                    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1667, in fetch_option_markets
+    response = await self.publicOptionsGetContracts(query)
+                     │    │                         └ {'underlying': 'CL_USDT'}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x000001DD13603600>
+                     └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 1}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {'underlying': 'CL_USDT'}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['public', 'options']
+                 │    │      └ 'contracts'
+                 │    └ <function Exchange.fetch2 at 0x000001DD14A72F20>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               │                  └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    └ <function Exchange.fetch at 0x000001DD1495ACA0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 234, in fetch
+    session_method = getattr(final_session, method.lower())
+                             │              │      └ <method 'lower' of 'str' objects>
+                             │              └ 'GET'
+                             └ None
+
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-07-01 02:52:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1158] - Exchange closed | exchange=bitget
+2026-07-01 02:52:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1158] - Exchange closed | exchange=gate
+2026-07-01 02:52:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1158] - Exchange closed | exchange=gate
+2026-07-01 02:52:54 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:52:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1158] - Exchange closed | exchange=bingx
+2026-07-01 02:52:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1158] - Exchange closed | exchange=bingx
+2026-07-01 02:52:54 | INFO     | [arbitrator.application.screener_stream_worker:_async_main:137] - Volume gate applied | threshold_usdt=50000.0 eligible=554 rejected=0
+2026-07-01 02:52:54 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:61] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 545, 'bitget': 462, 'gate': 523, 'bingx': 453}
+2026-07-01 02:52:54 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=mexc symbols=545
+2026-07-01 02:52:54 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62047 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:54 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:54 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:54 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:54 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62048 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:54 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:54 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:54 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:55 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=mexc
+2026-07-01 02:52:55 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bitget symbols=462
+2026-07-01 02:52:55 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=bitget
+2026-07-01 02:52:55 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=gate symbols=523
+2026-07-01 02:52:55 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:52:55 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=gate
+2026-07-01 02:52:55 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bingx symbols=453
+2026-07-01 02:52:56 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=bingx
+2026-07-01 02:52:56 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:52:56 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62050 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:56 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:56 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:56 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:56 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62051 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:56 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:56 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:56 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:57 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:52:58 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:52:58 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62056 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:52:58 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:52:58 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:58 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:52:58 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62057 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:52:58 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:52:58 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:52:58 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:00 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:53:01 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62061 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:01 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:01 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:01 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:53:02 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62062 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:02 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:02 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:02 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:02 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:02 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:53:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=bitget count=1928
+2026-07-01 02:53:03 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=bitget symbols=462 mode=bulk chunks=10
+2026-07-01 02:53:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1171] - Bulk stream chunks | exchange=bitget chunks=10 chunk_size=50
+2026-07-01 02:53:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=bingx count=3032
+2026-07-01 02:53:03 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=bingx symbols=453 mode=fanout chunks=-
+2026-07-01 02:53:03 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:53:03 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62069 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:03 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:03 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:03 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:04 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62072 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:04 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:04 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:04 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=mexc count=3151
+2026-07-01 02:53:04 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=mexc symbols=545 mode=bulk chunks=11
+2026-07-01 02:53:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1171] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-07-01 02:53:05 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=555
+2026-07-01 02:53:06 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=1
+2026-07-01 02:53:06 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62081 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:06 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:06 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:06 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:06 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62082 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:06 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:06 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:06 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:07 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=107 symbols=151
+2026-07-01 02:53:08 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62083 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:08 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:08 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:08 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:08 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=118 symbols=302
+2026-07-01 02:53:08 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62084 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:08 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:08 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:08 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:09 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=32 symbols=314
+2026-07-01 02:53:10 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62085 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:10 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:10 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:10 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:10 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=122 symbols=463
+2026-07-01 02:53:10 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62086 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:10 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:10 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:10 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:11 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=68 symbols=479
+2026-07-01 02:53:12 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62088 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:12 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:12 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:12 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:12 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=114 symbols=551
+2026-07-01 02:53:12 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62089 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:12 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:12 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:13 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:13 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=551
+2026-07-01 02:53:13 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=gate count=6253
+2026-07-01 02:53:13 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=gate symbols=523 mode=bulk chunks=11
+2026-07-01 02:53:13 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1171] - Bulk stream chunks | exchange=gate chunks=11 chunk_size=50
+2026-07-01 02:53:14 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62090 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:14 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:14 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:14 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:14 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=29 symbols=551
+2026-07-01 02:53:15 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62092 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:15 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:15 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:15 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:15 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=125 symbols=551
+2026-07-01 02:53:16 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62093 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:16 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:16 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:16 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:16 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=44 symbols=551
+2026-07-01 02:53:17 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62094 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:17 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:17 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:17 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:18 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=142 symbols=551
+2026-07-01 02:53:18 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62095 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:18 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:18 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:18 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:19 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=71 symbols=551
+2026-07-01 02:53:19 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62096 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:19 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:19 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:19 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:20 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=183 symbols=553
+2026-07-01 02:53:20 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62097 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:20 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:20 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:20 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:21 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=57 symbols=553
+2026-07-01 02:53:21 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62098 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:21 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:21 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:21 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:22 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=42 symbols=553
+2026-07-01 02:53:22 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62099 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:22 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:22 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:22 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:22 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=mexc
+2026-07-01 02:53:23 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62100 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:23 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:23 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:23 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:23 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=160 symbols=553
+2026-07-01 02:53:24 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=73 symbols=553
+2026-07-01 02:53:24 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62102 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:24 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:24 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:24 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:25 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62103 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:25 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:25 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=149 symbols=553
+2026-07-01 02:53:25 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:26 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:26 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=0 symbols=553
+2026-07-01 02:53:26 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62104 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:26 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:26 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:26 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:28 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=188 symbols=553
+2026-07-01 02:53:28 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62106 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:28 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:28 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:28 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:29 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62107 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:29 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:29 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=67 symbols=553
+2026-07-01 02:53:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=mexc count=3151
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=1000CAT/USDT:USDT
+2026-07-01 02:53:29 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=AMD/USDT:USDT
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=ARC/USDT:USDT
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=BE/USDT:USDT
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=COST/USDT:USDT
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=DELL/USDT:USDT
+2026-07-01 02:53:29 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=HYUNDAI/USDT:USDT
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=ROK/USDT:USDT
+2026-07-01 02:53:29 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=mexc symbol=UNITAS/USDT:USDT
+2026-07-01 02:53:30 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62108 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:30 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:30 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:30 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:30 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=bitget
+2026-07-01 02:53:30 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=41 symbols=553
+2026-07-01 02:53:32 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=186 symbols=553
+2026-07-01 02:53:32 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62110 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:32 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:32 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:32 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62111 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:32 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:32 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:32 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:32 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:33 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=74 symbols=553
+2026-07-01 02:53:34 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1340] - Markets loaded | exchange=bitget count=1928
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=1000000BABYDOGE/USDT:USDT
+2026-07-01 02:53:34 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=144 symbols=553
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=AGT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=AIA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=AIGENSYN/USDT:USDT
+2026-07-01 02:53:34 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62118 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=AIOT/USDT:USDT
+2026-07-01 02:53:34 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=AKE/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=ALPINE/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=AMP/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=APEX/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=ASTEROID/USDT:USDT
+2026-07-01 02:53:34 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=AVAAI/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=B3/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=BEAMX/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=BEL/USDT:USDT
+2026-07-01 02:53:34 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=BLEND/USDT:USDT
+2026-07-01 02:53:34 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62119 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:34 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=BLUAI/USDT:USDT
+2026-07-01 02:53:34 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=BMT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=BROCCOLIF3B/USDT:USDT
+2026-07-01 02:53:34 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=BTR/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=BULLA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=CHEEMS/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=CLO/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=COLLECT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=CORE/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=CTC/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=DUSK/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=EDEN/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=EDU/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=FHE/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=FLOW/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=FLR/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=GAIB/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=GUA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=HANA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=HEI/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=HEMI/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=HIGH/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=HMSTR/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=HNT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=JELLYJELLY/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=KOMA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=LIGHT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=LONGXIA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=LRC/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=MAVIA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=MEZO/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=MITO/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=MNT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=MONAD/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=NES/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=NOM/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=OFC/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=OKB/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=ON/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=OPENLEDGER/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=PHAROS/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=PLAY/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=PORTAL/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=PROMPT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=PTB/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=PUFFER/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=PUMPBTC/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=RIF/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=RLC/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=RLS/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=RON/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=SAGA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=SATS/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=SCR/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=SNT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=SOLV/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=ST/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=STAR/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=SWARMS/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=TA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=TAKE/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=TRUTH/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=TURTLE/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=TWT/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=ULTIMA/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=UP/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=VELO/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=VIC/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=VINE/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=WAVES/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=WOTAMALAILE/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=XCN/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=XDC/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=XNY/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=YFI/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=ZBCN/USDT:USDT
+2026-07-01 02:53:34 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1004] - market symbol not found for fees | exchange=bitget symbol=ZEREBRO/USDT:USDT
+2026-07-01 02:53:35 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1323] - Exchange client opened | exchange=gate
+2026-07-01 02:53:35 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=80 symbols=553
+2026-07-01 02:53:36 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=174 symbols=553
+2026-07-01 02:53:36 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62124 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:36 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:36 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:36 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:36 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62125 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:36 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:36 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:36 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:37 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=82 symbols=553
+2026-07-01 02:53:38 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=109 symbols=553
+2026-07-01 02:53:39 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62127 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:39 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:39 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:39 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:39 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62131 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:39 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:39 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:39 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=73 symbols=553
+2026-07-01 02:53:40 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:41 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=171 symbols=553
+2026-07-01 02:53:41 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62136 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:41 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:41 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:41 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:42 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62137 - "WebSocket /ws/settings" [accepted]
+2026-07-01 02:53:42 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 02:53:42 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:42 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=80 symbols=553
+2026-07-01 02:53:42 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:43 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=84 symbols=553
+2026-07-01 02:53:43 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:62138 - "WebSocket /ws/orders" [accepted]
+2026-07-01 02:53:43 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 02:53:43 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 02:53:43 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:44 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 02:53:44 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=161 symbols=553
+2026-07-01 02:53:44 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:43] - ws disconnected | endpoint=/ws/screener

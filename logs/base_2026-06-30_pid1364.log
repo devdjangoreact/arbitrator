@@ -1,0 +1,3 @@
+2026-06-30 05:29:45 | INFO     | [main:<module>:11] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-30 05:29:46 | INFO     | [arbitrator.presentation.fastapi_app:create:35] - static files mounted | dir=C:\shere-folder\arbitrator\src\arbitrator\presentation\static
+2026-06-30 05:29:46 | INFO     | [arbitrator.presentation.fastapi_app:create:37] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000

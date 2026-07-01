@@ -1,0 +1,241 @@
+2026-06-30 17:00:37 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 17:00:37 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 17:00:37 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [2736]
+2026-06-30 17:00:37 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-06-30 17:00:37 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
+2026-06-30 17:00:37 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
+2026-06-30 17:00:37 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-06-30 17:00:37 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51462 - "WebSocket /ws/screener" [accepted]
+2026-06-30 17:00:37 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:33] - ws connected | endpoint=/ws/screener
+2026-06-30 17:00:37 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 17:00:37 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51580 - "WebSocket /ws/opportunity?symbol=DOGE%2FUSDT&short=mexc&long=bingx" [accepted]
+2026-06-30 17:00:37 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=DOGE/USDT short=mexc long=bingx
+2026-06-30 17:00:37 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 17:00:37 | ERROR    | [arbitrator.presentation.ws.opportunity_ws_handler:handle:44] - ws error | endpoint=/ws/opportunity symbol=DOGE/USDT
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 552
+               │     └ 3
+               └ <function _main at 0x000001D19B82E2A0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 552
+           │    └ <function BaseProcess._bootstrap at 0x000001D19B81CB80>
+           └ <SpawnProcess name='SpawnProcess-18' parent=4636 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x000001D19B81C0E0>
+    └ <SpawnProcess name='SpawnProcess-18' parent=4636 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x000001D19B879250>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-18' parent=4636 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-18' parent=4636 started>
+    │    └ <function subprocess_started at 0x000001D19C3B19E0>
+    └ <SpawnProcess name='SpawnProcess-18' parent=4636 started>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket fd=948, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x000001D19C5B1390>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x000001D19C3B0360>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x000001D19B879250>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x000001D19C5B1390>
+           │           │    │             └ [<socket.socket fd=948, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+           │           │    └ <function Server.serve at 0x000001D19C3B0A40>
+           │           └ <uvicorn.server.Server object at 0x000001D19C5B1390>
+           └ <function asyncio_run at 0x000001D19C36C040>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x000001D19C4FB3D0>
+           │      └ <function Runner.run at 0x000001D19B98B100>
+           └ <asyncio.runners.Runner object at 0x000001D19C5C78D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001D19B988B80>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001D19C5C78D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x000001D19B988AE0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001D19B98A8E0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001D19B8F6340>
+    └ <Handle Task.task_wakeup(<Task cancell...andler.py:80>>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task cancell...andler.py:80>>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task cancell...andler.py:80>>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task cancell...andler.py:80>>)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+                   │    │   │    │      │    │             │    └ <function WebSocketProtocol.asgi_send at 0x000001D19C77F380>
+                   │    │   │    │      │    │             └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001D1A3D066D0>
+                   │    │   │    │      │    └ <function WebSocketProtocol.asgi_receive at 0x000001D19C77F420>
+                   │    │   │    │      └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001D1A3D066D0>
+                   │    │   │    └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                   │    │   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001D1A3D066D0>
+                   │    └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x000001D1A3B36C90>
+                   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001D1A3D066D0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                 │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                 │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                 │    └ <fastapi.applications.FastAPI object at 0x000001D1A21E8310>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x000001D1A3B36C90>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                           │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                           └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x000001D19CC12C90>
+          └ <fastapi.applications.FastAPI object at 0x000001D1A21E8310>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x000001D1A3CCAAD0>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x000001D19CC12C90>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │                            │    │    │     │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │    │     └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    │    └ <starlette.websockets.WebSocket object at 0x000001D1A3CEBE50>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001D1A3CCA790>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x000001D1A3CCAAD0>
+          └ <function wrap_app_handling_exceptions at 0x000001D1A3A693A0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001D1A3CD8E00>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001D1A3CCA790>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001D1A3CD8E00>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <fastapi.routing.APIRouter object at 0x000001D1A3B74550>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001D1A3CCA790>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001D1A3CD8E00>
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x000001D1A3B74550>>
+          └ <fastapi.routing.APIRouter object at 0x000001D1A3B74550>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 2543, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001D1A3CD8E00>
+          │     │      │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │     │      └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │     └ <function WebSocketRoute.handle at 0x000001D1A3A6AF20>
+          └ APIWebSocketRoute(path='/ws/opportunity', name='opportunity_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001D1A3CD8E00>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <function websocket_session.<locals>.app at 0x000001D1A3CA34C0>
+          └ APIWebSocketRoute(path='/ws/opportunity', name='opportunity_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 176, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001D1A3CD8E00>
+          │                            │    │        │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │        └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    └ <starlette.websockets.WebSocket object at 0x000001D1A3D0D510>
+          │                            └ <function websocket_session.<locals>.app.<locals>.app at 0x000001D1A3CD8EA0>
+          └ <function wrap_app_handling_exceptions at 0x000001D1A3A693A0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001D1A3CD8FE0>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <function websocket_session.<locals>.app.<locals>.app at 0x000001D1A3CD8EA0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 173, in app
+    await func(session)
+          │    └ <starlette.websockets.WebSocket object at 0x000001D1A3D0D510>
+          └ <function get_websocket_app.<locals>.app at 0x000001D1A3CA3560>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 780, in app
+    await dependant.call(**solved_result.values)
+          │         │      │             └ {'symbol': 'DOGE/USDT', 'short': 'mexc', 'long': 'bingx', 'websocket': <starlette.websockets.WebSocket object at 0x000001D1A3...
+          │         │      └ SolvedDependency(values={'symbol': 'DOGE/USDT', 'short': 'mexc', 'long': 'bingx', 'websocket': <starlette.websockets.WebSocke...
+          │         └ <function FastApiApp.create.<locals>.opportunity_ws at 0x000001D1A3CA31A0>
+          └ Dependant(path_params=[], query_params=[ModelField(field_info=Query(), name='symbol', mode='validation', config=None), ModelF...
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\fastapi_app.py", line 92, in opportunity_ws
+    await opportunity_handler.handle(websocket, symbol, short, long)
+          │                   │      │          │       │      └ 'bingx'
+          │                   │      │          │       └ 'mexc'
+          │                   │      │          └ 'DOGE/USDT'
+          │                   │      └ <starlette.websockets.WebSocket object at 0x000001D1A3D0D510>
+          │                   └ <function OpportunityWsHandler.handle at 0x000001D1A3AE7EC0>
+          └ <arbitrator.presentation.ws.opportunity_ws_handler.OpportunityWsHandler object at 0x000001D1A3CBE510>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\opportunity_ws_handler.py", line 34, in handle
+    await self._mock_loop(websocket, symbol, short_ex, long_ex, push_interval)
+          │    │          │          │       │         │        └ 1.0
+          │    │          │          │       │         └ 'bingx'
+          │    │          │          │       └ 'mexc'
+          │    │          │          └ 'DOGE/USDT'
+          │    │          └ <starlette.websockets.WebSocket object at 0x000001D1A3D0D510>
+          │    └ <function OpportunityWsHandler._mock_loop at 0x000001D1A3B18220>
+          └ <arbitrator.presentation.ws.opportunity_ws_handler.OpportunityWsHandler object at 0x000001D1A3CBE510>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\opportunity_ws_handler.py", line 73, in _mock_loop
+    provider.opportunity_snapshot(symbol, short_ex, long_ex),
+    │        │                    │       │         └ 'bingx'
+    │        │                    │       └ 'mexc'
+    │        │                    └ 'DOGE/USDT'
+    │        └ <function MockDataProvider.opportunity_snapshot at 0x000001D1A277A700>
+    └ <arbitrator.presentation.mock.mock_data_provider.MockDataProvider object at 0x000001D19FF33D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\mock\mock_data_provider.py", line 499, in opportunity_snapshot
+    self._exchange_card(short_ex, "short", symbol, short_seed),
+    │                   │                  │       └ {'balance_usdt': 842.1, 'funding_rate_pct': -0.012, 'futures_fee': '0.02 / 0.04%', 'spot_fee': '0.10 / 0.10%', 'open_orders_c...
+    │                   │                  └ 'DOGE/USDT'
+    │                   └ 'mexc'
+    └ <arbitrator.presentation.mock.mock_data_provider.MockDataProvider object at 0x000001D19FF33D50>
+
+AttributeError: 'MockDataProvider' object has no attribute '_exchange_card'
+2026-06-30 17:00:38 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51581 - "WebSocket /ws/settings" [accepted]
+2026-06-30 17:00:38 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-06-30 17:00:38 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 17:00:38 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 17:00:38 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51582 - "WebSocket /ws/orders" [accepted]
+2026-06-30 17:00:38 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-06-30 17:00:38 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 17:00:38 | INFO     | [uvicorn.server:_serve:98] - [uvicorn.error] Shutting down
+2026-06-30 17:00:38 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 17:00:38 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 17:00:38 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 17:00:39 | INFO     | [asyncio.tasks:wait_for:452] - [uvicorn.error] Waiting for background tasks to complete. (CTRL+C to force quit)
+2026-06-30 17:00:39 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:37] - ws disconnected | endpoint=/ws/settings
+2026-06-30 17:00:39 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:38] - ws disconnected | endpoint=/ws/orders
+2026-06-30 17:00:39 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:41] - ws disconnected | endpoint=/ws/screener
+2026-06-30 17:00:39 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Waiting for application shutdown.
+2026-06-30 17:00:39 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped
+2026-06-30 17:00:39 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Application shutdown complete.
+2026-06-30 17:00:39 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Finished server process [2736]

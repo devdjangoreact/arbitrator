@@ -1,0 +1,10 @@
+2026-06-30 08:47:24 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 08:47:24 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 08:47:24 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
+2026-06-30 08:47:24 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
+2026-06-30 08:47:29 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:33] - ws connected | endpoint=/ws/screener
+2026-06-30 08:47:30 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:41] - ws disconnected | endpoint=/ws/screener
+2026-06-30 08:48:11 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=DOGE-USDT short=mexc long=bingx
+2026-06-30 08:48:11 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=BTCUSDT short=mexc long=bingx
+2026-06-30 08:48:12 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:42] - ws disconnected | endpoint=/ws/opportunity symbol=DOGE-USDT
+2026-06-30 08:48:12 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:42] - ws disconnected | endpoint=/ws/opportunity symbol=BTCUSDT

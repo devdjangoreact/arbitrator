@@ -1,0 +1,1333 @@
+2026-06-25 04:31:29 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:61015 - "WebSocket /_stcore/stream" [accepted]
+2026-06-25 04:31:29 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-25 04:31:30 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-25 04:31:30 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-25 04:31:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:31:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:31:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:31:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:31:33 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:31:33 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:31:35 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:31:35 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:31:35 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:render:74] - Screener reconnect requested from UI
+2026-06-25 04:31:35 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:31:35 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:31:36 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:_ensure_worker:223] - Screener background worker started | nonce=1 stream_volume_usdt=50000.0
+2026-06-25 04:31:36 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1395 after_min_exchanges=728 after_exclusions=727
+2026-06-25 04:31:36 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:165] - Volume discovery started | symbols=727 threshold_usdt=50000.0 timeout_s=30.0
+2026-06-25 04:31:36 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 582, 'bitget': 596, 'gate': 661, 'bingx': 473}
+2026-06-25 04:31:36 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=582
+2026-06-25 04:31:36 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=mexc
+2026-06-25 04:31:36 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=596
+2026-06-25 04:31:36 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bitget
+2026-06-25 04:31:36 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=661
+2026-06-25 04:31:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=gate
+2026-06-25 04:31:37 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=473
+2026-06-25 04:31:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bingx
+2026-06-25 04:31:43 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bitget count=1913
+2026-06-25 04:31:43 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=596 mode=bulk chunks=12
+2026-06-25 04:31:43 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=bitget chunks=12 chunk_size=50
+2026-06-25 04:31:43 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bingx count=3026
+2026-06-25 04:31:43 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=473 mode=fanout chunks=-
+2026-06-25 04:32:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=gate count=5987
+2026-06-25 04:32:04 | DEBUG    | [arbitrator.exchanges.gate:watch_tickers:52] - watch_tickers skipped non-tradable contracts | exchange=gate skipped=5
+2026-06-25 04:32:04 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=gate symbols=656 mode=bulk chunks=14
+2026-06-25 04:32:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=gate chunks=14 chunk_size=50
+2026-06-25 04:32:05 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:32:05 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:32:06 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:32:06 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:32:06 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:192] - Volume discovery timed out | eligible=221 pending=506
+2026-06-25 04:32:06 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=mexc
+2026-06-25 04:32:06 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bingx
+2026-06-25 04:32:06 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bitget
+2026-06-25 04:32:06 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=gate
+2026-06-25 04:32:07 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=mexc
+2026-06-25 04:32:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bitget
+2026-06-25 04:32:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=gate
+2026-06-25 04:32:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bingx
+2026-06-25 04:32:09 | INFO     | [arbitrator.application.screener_stream_worker:_async_main:139] - Volume gate applied | threshold_usdt=50000.0 eligible=221 rejected=0
+2026-06-25 04:32:09 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 188, 'bitget': 207, 'gate': 197, 'bingx': 177}
+2026-06-25 04:32:09 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=188
+2026-06-25 04:32:10 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=mexc
+2026-06-25 04:32:10 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=207
+2026-06-25 04:32:10 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bitget
+2026-06-25 04:32:10 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=197
+2026-06-25 04:32:11 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=gate
+2026-06-25 04:32:11 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=177
+2026-06-25 04:32:11 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bingx
+2026-06-25 04:32:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bitget count=1913
+2026-06-25 04:32:15 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=207 mode=bulk chunks=5
+2026-06-25 04:32:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=bitget chunks=5 chunk_size=50
+2026-06-25 04:32:17 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bingx count=3026
+2026-06-25 04:32:17 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=177 mode=fanout chunks=-
+2026-06-25 04:32:27 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=gate count=5987
+2026-06-25 04:32:27 | DEBUG    | [arbitrator.exchanges.gate:watch_tickers:52] - watch_tickers skipped non-tradable contracts | exchange=gate skipped=1
+2026-06-25 04:32:27 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=gate symbols=196 mode=bulk chunks=4
+2026-06-25 04:32:27 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=gate chunks=4 chunk_size=50
+2026-06-25 04:32:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=mexc count=3238
+2026-06-25 04:32:55 | DEBUG    | [arbitrator.exchanges.mexc:watch_tickers:52] - watch_tickers skipped non-api contracts | exchange=mexc skipped=4
+2026-06-25 04:32:55 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=mexc symbols=184 mode=bulk chunks=4
+2026-06-25 04:32:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=mexc chunks=4 chunk_size=50
+2026-06-25 04:32:56 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61091 - "GET / HTTP/1.1" 304
+2026-06-25 04:32:57 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61091 - "GET /_stcore/health HTTP/1.1" 200
+2026-06-25 04:32:57 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61092 - "GET /_stcore/host-config HTTP/1.1" 200
+2026-06-25 04:32:57 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:61095 - "WebSocket /_stcore/stream" [accepted]
+2026-06-25 04:32:57 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-25 04:32:58 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:32:58 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61104 - "GET /static/css/DataFrame.DUkanX9_.css HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61105 - "GET /static/js/Button.hZAV5uJM.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61106 - "GET /static/js/iconPosition.CAyE8Pjc.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61107 - "GET /static/js/DataFrame.vZHa9Vfe.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61108 - "GET /static/js/DataFrame.B82b-MoD.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61109 - "GET /static/js/withFullScreenWrapper.Ddw274PI.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61104 - "GET /static/js/pandasStylerUtils.C9v_N371.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61106 - "GET /static/js/_baseIndexOf.DmzSbCrC.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61105 - "GET /static/js/moment.CXYnKcIr.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61107 - "GET /static/js/numbro.BIyn79TP.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61109 - "GET /static/js/createDownloadLinkElement.CYbmhmT2.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61106 - "GET /static/js/formatMoment.XDSMSnYc.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61105 - "GET /static/js/formatNumber.Bw8N23iB.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61107 - "GET /static/js/reactJsonViewCompat.D5MCl5lB.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61108 - "GET /static/js/resolveDefaultExport.pjYjtS1Z.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61109 - "GET /static/js/toConsumableArray.D1B4X9Vw.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61106 - "GET /static/js/FileDownload.esm.DtTwk9jA.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61105 - "GET /static/js/click-outside-container.1ZmrafUO.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61107 - "GET /static/js/dist.7iFLgslc.js HTTP/1.1" 200
+2026-06-25 04:33:05 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61109 - "GET /static/js/dist.B1bOMQPF.js HTTP/1.1" 200
+2026-06-25 04:33:06 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61108 - "GET /static/js/checkbox.D-sGpr_4.js HTTP/1.1" 200
+2026-06-25 04:33:06 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61105 - "GET /static/js/_arrayIncludesWith.C7He3_lH.js HTTP/1.1" 200
+2026-06-25 04:33:17 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:33:18 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:33:18 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:render:74] - Screener reconnect requested from UI
+2026-06-25 04:33:18 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:33:18 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:33:18 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:_ensure_worker:223] - Screener background worker started | nonce=1 stream_volume_usdt=50000.0
+2026-06-25 04:33:19 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1395 after_min_exchanges=728 after_exclusions=727
+2026-06-25 04:33:19 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:165] - Volume discovery started | symbols=727 threshold_usdt=50000.0 timeout_s=30.0
+2026-06-25 04:33:19 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 582, 'bitget': 596, 'gate': 661, 'bingx': 473}
+2026-06-25 04:33:19 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=582
+2026-06-25 04:33:19 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=mexc
+2026-06-25 04:33:19 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=596
+2026-06-25 04:33:19 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61115 - "GET /static/js/Selectbox.IrFeiYNi.js HTTP/1.1" 200
+2026-06-25 04:33:20 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bitget
+2026-06-25 04:33:20 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=661
+2026-06-25 04:33:20 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=gate
+2026-06-25 04:33:20 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=473
+2026-06-25 04:33:21 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bingx
+2026-06-25 04:33:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bitget count=1913
+2026-06-25 04:33:39 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=596 mode=bulk chunks=12
+2026-06-25 04:33:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=bitget chunks=12 chunk_size=50
+2026-06-25 04:33:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bingx count=3026
+2026-06-25 04:33:40 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=473 mode=fanout chunks=-
+2026-06-25 04:33:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=mexc count=3238
+2026-06-25 04:33:41 | DEBUG    | [arbitrator.exchanges.mexc:watch_tickers:52] - watch_tickers skipped non-api contracts | exchange=mexc skipped=32
+2026-06-25 04:33:41 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=mexc symbols=550 mode=bulk chunks=11
+2026-06-25 04:33:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-06-25 04:33:50 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:192] - Volume discovery timed out | eligible=151 pending=576
+2026-06-25 04:33:53 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=gate
+2026-06-25 04:33:53 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=mexc
+2026-06-25 04:33:53 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bitget
+2026-06-25 04:33:53 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bingx
+2026-06-25 04:34:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=mexc
+2026-06-25 04:34:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bitget
+2026-06-25 04:34:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=gate
+2026-06-25 04:34:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bingx
+2026-06-25 04:34:10 | INFO     | [arbitrator.application.screener_stream_worker:_async_main:139] - Volume gate applied | threshold_usdt=50000.0 eligible=151 rejected=0
+2026-06-25 04:34:10 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 150, 'bitget': 124, 'gate': 141, 'bingx': 123}
+2026-06-25 04:34:10 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=150
+2026-06-25 04:34:11 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=mexc
+2026-06-25 04:34:11 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=124
+2026-06-25 04:34:11 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bitget
+2026-06-25 04:34:11 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=141
+2026-06-25 04:34:12 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=gate
+2026-06-25 04:34:12 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=123
+2026-06-25 04:34:12 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bingx
+2026-06-25 04:34:18 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=mexc chunk=3 symbols=34
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['RE/USDT:USDT', 'RECALL/USDT:USDT', 'RESOLV/USDT:USDT', 'RIVER/USDT:USDT', 'SAND/USDT:USDT', 'SEI/USDT:USDT', 'SIGN/USDT:USD...
+                    │      └ <function mexc.watch_tickers at 0x00000173DE3F6A20>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x00000173DB1407C0>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:34:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=mexc chunk=3 delay_s=5.0
+2026-06-25 04:34:20 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=mexc chunk=0 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['0G/USDT:USDT', '1000000BABYDOGE/USDT:USDT', '1000000MOG/USDT:USDT', '1000BONK/USDT:USDT', '1INCH/USDT:USDT', '2Z/USDT:USDT'...
+                    │      └ <function mexc.watch_tickers at 0x00000173DE3F6A20>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x00000173DB1407C0>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:34:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=mexc chunk=0 delay_s=5.0
+2026-06-25 04:34:20 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=mexc chunk=1 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['AT/USDT:USDT', 'ATH/USDT:USDT', 'ATOM/USDT:USDT', 'AUCTION/USDT:USDT', 'AVA/USDT:USDT', 'AVAAI/USDT:USDT', 'AVAX/USDT:USDT'...
+                    │      └ <function mexc.watch_tickers at 0x00000173DE3F6A20>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x00000173DB1407C0>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:34:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=mexc chunk=1 delay_s=5.0
+2026-06-25 04:34:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bitget count=1913
+2026-06-25 04:34:26 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=124 mode=bulk chunks=3
+2026-06-25 04:34:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=bitget chunks=3 chunk_size=50
+2026-06-25 04:34:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bingx count=3026
+2026-06-25 04:34:28 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=123 mode=fanout chunks=-
+2026-06-25 04:34:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=mexc count=3238
+2026-06-25 04:34:29 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=mexc symbols=150 mode=bulk chunks=3
+2026-06-25 04:34:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=mexc chunks=3 chunk_size=50
+2026-06-25 04:34:38 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:34:38 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:34:40 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:34:40 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:34:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=gate count=5987
+2026-06-25 04:34:45 | DEBUG    | [arbitrator.exchanges.gate:watch_tickers:52] - watch_tickers skipped non-tradable contracts | exchange=gate skipped=2
+2026-06-25 04:34:45 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=gate symbols=139 mode=bulk chunks=3
+2026-06-25 04:34:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=gate chunks=3 chunk_size=50
+2026-06-25 04:35:08 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:35:08 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:35:10 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:35:10 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:35:11 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61194 - "GET /static/media/SourceCodeVF-Upright.ttf.BjWn63N-.woff2 HTTP/1.1" 200
+2026-06-25 04:35:20 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:35:20 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:35:21 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:35:21 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:35:51 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:35:51 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Open orders
+2026-06-25 04:35:54 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bingx
+2026-06-25 04:35:54 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bitget
+2026-06-25 04:35:54 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=mexc
+2026-06-25 04:35:54 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=gate
+2026-06-25 04:35:55 | INFO     | [arbitrator.application.screener_stream_worker:_stream_loop:215] - Closing screener watcher
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:57 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=RequestTimeout('Connection timeout')>
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:59 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=bitget chunk=1 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['AUCTION/USDT:USDT', 'AVA/USDT:USDT', 'AVAX/USDT:USDT', 'AVNT/USDT:USDT', 'AWE/USDT:USDT', 'AXL/USDT:USDT', 'AXS/USDT:USDT',...
+                    │      └ <function bitget.watch_tickers at 0x00000173DE1FB4C0>
+                    └ ccxt.async_support.bitget()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 205, in watch_tickers
+    tickers = await self.watch_public_multiple(uta, messageHashes, topics, params)
+                    │    │                     │    │              │       └ {}
+                    │    │                     │    │              └ [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'AUCTIONUSDT'}, {'instType': 'USDT-FUTURES', 'channel': 'ticker'...
+                    │    │                     │    └ ['ticker:AUCTION/USDT:USDT', 'ticker:AVA/USDT:USDT', 'ticker:AVAX/USDT:USDT', 'ticker:AVNT/USDT:USDT', 'ticker:AWE/USDT:USDT'...
+                    │    │                     └ False
+                    │    └ <function bitget.watch_public_multiple at 0x00000173DE210B80>
+                    └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2324, in watch_public_multiple
+    return await self.watch_multiple(url, messageHashes, message, messageHashes)
+                 │    │              │    │              │        └ ['ticker:AUCTION/USDT:USDT', 'ticker:AVA/USDT:USDT', 'ticker:AVAX/USDT:USDT', 'ticker:AVNT/USDT:USDT', 'ticker:AWE/USDT:USDT'...
+                 │    │              │    │              └ {'op': 'subscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'AUCTIONUSDT'}, {'instType': 'USDT-F...
+                 │    │              │    └ ['ticker:AUCTION/USDT:USDT', 'ticker:AVA/USDT:USDT', 'ticker:AVAX/USDT:USDT', 'ticker:AVNT/USDT:USDT', 'ticker:AWE/USDT:USDT'...
+                 │    │              └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                 └ ccxt.async_support.bitget()
+
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=bitget chunk=1 delay_s=5.0
+2026-06-25 04:35:59 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=bitget chunk=4 symbols=7
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['XPT/USDT:USDT', 'XVS/USDT:USDT', 'YGG/USDT:USDT', 'ZAMA/USDT:USDT', 'ZEN/USDT:USDT', 'ZKP/USDT:USDT', 'ZRO/USDT:USDT']
+                    │      └ <function bitget.watch_tickers at 0x00000173DE1FB4C0>
+                    └ ccxt.async_support.bitget()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 205, in watch_tickers
+    tickers = await self.watch_public_multiple(uta, messageHashes, topics, params)
+                    │    │                     │    │              │       └ {}
+                    │    │                     │    │              └ [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'XPTUSDT'}, {'instType': 'USDT-FUTURES', 'channel': 'ticker', 'i...
+                    │    │                     │    └ ['ticker:XPT/USDT:USDT', 'ticker:XVS/USDT:USDT', 'ticker:YGG/USDT:USDT', 'ticker:ZAMA/USDT:USDT', 'ticker:ZEN/USDT:USDT', 'ti...
+                    │    │                     └ False
+                    │    └ <function bitget.watch_public_multiple at 0x00000173DE210B80>
+                    └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2324, in watch_public_multiple
+    return await self.watch_multiple(url, messageHashes, message, messageHashes)
+                 │    │              │    │              │        └ ['ticker:XPT/USDT:USDT', 'ticker:XVS/USDT:USDT', 'ticker:YGG/USDT:USDT', 'ticker:ZAMA/USDT:USDT', 'ticker:ZEN/USDT:USDT', 'ti...
+                 │    │              │    │              └ {'op': 'subscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'XPTUSDT'}, {'instType': 'USDT-FUTUR...
+                 │    │              │    └ ['ticker:XPT/USDT:USDT', 'ticker:XVS/USDT:USDT', 'ticker:YGG/USDT:USDT', 'ticker:ZAMA/USDT:USDT', 'ticker:ZEN/USDT:USDT', 'ti...
+                 │    │              └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                 └ ccxt.async_support.bitget()
+
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=bitget chunk=4 delay_s=5.0
+2026-06-25 04:35:59 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=bitget chunk=3 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...ion timeout')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['NOKSTOCK/USDT:USDT', 'NVDA/USDT:USDT', 'O/USDT:USDT', 'ONDO/USDT:USDT', 'ONG/USDT:USDT', 'OPEN/USDT:USDT', 'ORCL/USDT:USDT'...
+                    │      └ <function bitget.watch_tickers at 0x00000173DE1FB4C0>
+                    └ ccxt.async_support.bitget()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 205, in watch_tickers
+    tickers = await self.watch_public_multiple(uta, messageHashes, topics, params)
+                    │    │                     │    │              │       └ {}
+                    │    │                     │    │              └ [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'NOKSTOCKUSDT'}, {'instType': 'USDT-FUTURES', 'channel': 'ticker...
+                    │    │                     │    └ ['ticker:NOKSTOCK/USDT:USDT', 'ticker:NVDA/USDT:USDT', 'ticker:O/USDT:USDT', 'ticker:ONDO/USDT:USDT', 'ticker:ONG/USDT:USDT',...
+                    │    │                     └ False
+                    │    └ <function bitget.watch_public_multiple at 0x00000173DE210B80>
+                    └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2324, in watch_public_multiple
+    return await self.watch_multiple(url, messageHashes, message, messageHashes)
+                 │    │              │    │              │        └ ['ticker:NOKSTOCK/USDT:USDT', 'ticker:NVDA/USDT:USDT', 'ticker:O/USDT:USDT', 'ticker:ONDO/USDT:USDT', 'ticker:ONG/USDT:USDT',...
+                 │    │              │    │              └ {'op': 'subscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'NOKSTOCKUSDT'}, {'instType': 'USDT-...
+                 │    │              │    └ ['ticker:NOKSTOCK/USDT:USDT', 'ticker:NVDA/USDT:USDT', 'ticker:O/USDT:USDT', 'ticker:ONDO/USDT:USDT', 'ticker:ONG/USDT:USDT',...
+                 │    │              └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                 └ ccxt.async_support.bitget()
+
+ccxt.base.errors.RequestTimeout: Connection timeout
+2026-06-25 04:35:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=bitget chunk=3 delay_s=5.0
+2026-06-25 04:35:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=mexc
+2026-06-25 04:36:02 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61195 - "GET / HTTP/1.1" 304
+2026-06-25 04:36:02 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61195 - "GET /_stcore/health HTTP/1.1" 200
+2026-06-25 04:36:02 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-25 04:36:02 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:61219 - "GET /_stcore/host-config HTTP/1.1" 200
+2026-06-25 04:36:03 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:61222 - "WebSocket /_stcore/stream" [accepted]
+2026-06-25 04:36:03 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-25 04:36:03 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:36:03 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:36:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bitget
+2026-06-25 04:36:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=gate
+2026-06-25 04:36:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bingx
+2026-06-25 04:36:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=mexc
+2026-06-25 04:36:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bitget
+2026-06-25 04:36:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=gate
+2026-06-25 04:36:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bingx
+2026-06-25 04:36:06 | INFO     | [arbitrator.application.screener_stream_worker:_thread_main:90] - Screener background stream stopped | nonce=1
+2026-06-25 04:37:14 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=mexc chunk=1 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['AT/USDT:USDT', 'ATH/USDT:USDT', 'ATOM/USDT:USDT', 'AUCTION/USDT:USDT', 'AVA/USDT:USDT', 'AVAAI/USDT:USDT', 'AVAX/USDT:USDT'...
+                    │      └ <function mexc.watch_tickers at 0x00000173DE3F6A20>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x00000173DB1407C0>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 04:37:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=mexc chunk=1 delay_s=5.0
+2026-06-25 04:37:14 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=mexc chunk=2 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['COTI/USDT:USDT', 'COW/USDT:USDT', 'CTR/USDT:USDT', 'CVX/USDT:USDT', 'CYBER/USDT:USDT', 'DEEP/USDT:USDT', 'EDGE/USDT:USDT', ...
+                    │      └ <function mexc.watch_tickers at 0x00000173DE3F6A20>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x00000173DB1407C0>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 04:37:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=mexc chunk=2 delay_s=5.0
+2026-06-25 04:37:15 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=mexc chunk=3 symbols=34
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 9040)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000017386F18BD0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000173D22D1300>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000173D22D0FE0>
+    └ <Thread(screener-stream:1, started daemon 9040)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 9040)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 9040)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000017386F782C0>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x00000173871699D0>
+    │       └ <function run at 0x00000173D55B3E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000017386F17C40>
+           │      └ <function Runner.run at 0x00000173D55E0680>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-83' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\ap...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x00000173D55DE0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001738716B6D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x00000173D565C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x00000173D55DFE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x00000173D5443880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['RE/USDT:USDT', 'RECALL/USDT:USDT', 'RESOLV/USDT:USDT', 'RIVER/USDT:USDT', 'SAND/USDT:USDT', 'SEI/USDT:USDT', 'SIGN/USDT:USD...
+                    │      └ <function mexc.watch_tickers at 0x00000173DE3F6A20>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x00000173DB1407C0>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x00000173DC89F600>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 04:37:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:844] - Retrying chunk after delay | exchange=mexc chunk=3 delay_s=5.0

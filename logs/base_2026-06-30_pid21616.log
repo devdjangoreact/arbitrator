@@ -1,0 +1,4 @@
+2026-06-30 06:26:40 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 06:26:40 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 06:26:41 | INFO     | [httpx._client:_send_handling_redirects:979] - [httpx] HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-06-30 06:26:41 | INFO     | [httpx._client:_send_handling_redirects:979] - [httpx] HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"

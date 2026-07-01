@@ -1,0 +1,87 @@
+2026-06-30 17:04:54 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 17:04:54 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 17:04:54 | INFO     | [uvicorn.main:run:614] - [uvicorn.error] Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-06-30 17:04:54 | INFO     | [uvicorn.supervisors.basereload:run:51] - [uvicorn.error] Started reloader process [25928] using WatchFiles
+2026-06-30 17:04:55 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 17:04:56 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:04:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:04:59 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:06:31 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:06:32 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:07:23 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:07:25 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:07:27 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:07:30 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:07:38 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:07:41 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:09:32 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 17:12:32 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:12:40 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:12:46 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:12:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:13:09 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 17:13:36 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:13:42 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:13:51 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:14:23 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:14:37 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:14:42 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:16:09 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:16:10 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:19:10 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 17:19:43 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 17:19:43 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\dto\screener_dto.py', 'src\arbitrator\presentation\dto\opportunity_dto.py'. Reloading...
+2026-06-30 17:19:45 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:19:47 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 17:19:47 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:19:49 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 17:19:49 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_data_provider.py'. Reloading...
+2026-06-30 17:19:52 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 15 changes detected
+2026-06-30 17:19:53 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:19:55 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:19:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:19:58 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:08 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:09 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:10 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:11 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:14 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 17:20:14 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_strategy_calculator.py'. Reloading...
+2026-06-30 17:20:15 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:16 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 17:20:16 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:17 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:18 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:20:20 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:21 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:21 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_data_provider.py'. Reloading...
+2026-06-30 17:20:23 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:24 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_data_provider.py'. Reloading...
+2026-06-30 17:20:29 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 16 changes detected
+2026-06-30 17:20:29 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_data_provider.py'. Reloading...
+2026-06-30 17:20:31 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:31 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:20:32 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:32 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_data_provider.py'. Reloading...
+2026-06-30 17:20:36 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 10 changes detected
+2026-06-30 17:20:36 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_data_provider.py'. Reloading...
+2026-06-30 17:20:38 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 17:20:39 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:39 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:40 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:20:40 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-06-30 17:20:41 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:42 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:42 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:42 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_data_provider.py'. Reloading...
+2026-06-30 17:20:43 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 17:20:44 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:46 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 17:20:46 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-06-30 17:20:47 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:47 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:47 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:48 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:50 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 17:20:55 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected

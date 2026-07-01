@@ -1,0 +1,14 @@
+2026-06-30 16:03:53 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 16:03:53 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 16:03:53 | INFO     | [uvicorn.main:run:614] - [uvicorn.error] Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-06-30 16:03:53 | INFO     | [uvicorn.supervisors.basereload:run:51] - [uvicorn.error] Started reloader process [25624] using WatchFiles
+2026-06-30 16:03:55 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 16:03:55 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:03:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 16:03:58 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:06:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 16:06:53 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:09:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 16:12:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 16:12:25 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:12:28 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected

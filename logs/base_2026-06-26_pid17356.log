@@ -1,0 +1,905 @@
+2026-06-26 07:28:25 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:58973 - "WebSocket /_stcore/stream" [accepted]
+2026-06-26 07:28:25 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-26 07:28:26 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-26 07:28:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:28:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:28:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:28:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:28:32 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=base/theme.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 12708)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=, context_info=timezone: "Europe/K...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498213D10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'base/theme.css'
+             │    │    └ 'base/theme.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\theme.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\theme.css'
+2026-06-26 07:28:32 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=base/theme.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 12708)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=, context_info=timezone: "Europe/K...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498213D10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'base/theme.css'
+             │    │    └ 'base/theme.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\theme.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\theme.css'
+2026-06-26 07:28:32 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=base/app_shell.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 12708)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=, context_info=timezone: "Europe/K...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498213D10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'base/app_shell.css'
+             │    │    └ 'base/app_shell.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\app_shell.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\app_shell.css'
+2026-06-26 07:28:32 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=base/app_shell.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 12708)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=, context_info=timezone: "Europe/K...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498213D10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'base/app_shell.css'
+             │    │    └ 'base/app_shell.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\app_shell.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\app_shell.css'
+2026-06-26 07:28:32 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=opportunity/page.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 12708)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=, context_info=timezone: "Europe/K...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498213D10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'opportunity/page.css'
+             │    │    └ 'opportunity/page.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\opportunity\\page.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\opportunity\\page.css'
+2026-06-26 07:28:32 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=opportunity/page.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 12708)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000194E97D3110>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 12708)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 12708)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=, context_info=timezone: "Europe/K...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E97B5440>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498213D10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'opportunity/page.css'
+             │    │    └ 'opportunity/page.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498213D50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\opportunity\\page.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\opportunity\\page.css'
+2026-06-26 07:28:33 | INFO     | [arbitrator.presentation.streamlit_app:run:114] - UI run | section=Screener
+2026-06-26 07:28:33 | INFO     | [arbitrator.presentation.streamlit_app:run:114] - UI run | section=Screener
+2026-06-26 07:28:55 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:28:55 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=base/theme.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 8372)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 8372)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 8372)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=widgets {
+    │    │               id: "$$ID-0819b01c0915...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E9F4D120>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E9F4D120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498201DD0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'base/theme.css'
+             │    │    └ 'base/theme.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\theme.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/theme.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\theme.css'
+2026-06-26 07:28:55 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=base/app_shell.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 8372)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 8372)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 8372)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=widgets {
+    │    │               id: "$$ID-0819b01c0915...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E9F4D120>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E9F4D120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498201DD0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'base/app_shell.css'
+             │    │    └ 'base/app_shell.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\app_shell.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/base/app_shell.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\base\\app_shell.css'
+2026-06-26 07:28:55 | ERROR    | [arbitrator.presentation.template_renderer:read:24] - template read failed | path=opportunity/page.css
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+          │    └ <bound method Thread._bootstrap of <Thread(ScriptRunner.scriptThread, started 8372)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000019498805710>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000194E27A1300>
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000194E27A0FE0>
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(ScriptRunner.scriptThread, started 8372)>
+    │    │        │    └ ()
+    │    │        └ <Thread(ScriptRunner.scriptThread, started 8372)>
+    │    └ <bound method ScriptRunner._run_script_thread of ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_scrip...
+    └ <Thread(ScriptRunner.scriptThread, started 8372)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+    │    │           │       └ <property object at 0x00000194E5C14EA0>
+    │    │           └ ScriptRequest(type=<ScriptRequestType.RERUN: 'RERUN'>, _rerun_data=RerunData(widget_states=widgets {
+    │    │               id: "$$ID-0819b01c0915...
+    │    └ <function ScriptRunner._run_script at 0x00000194E6006E80>
+    └ ScriptRunner(_session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _main_script_path='C:\\shere-folder\\arbitrator\\main.py', _...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+        │                             │             └ ScriptRunContext(session_id='3155161f-af7b-440f-a6b9-66ffc969e9a7', _enqueue=<bound method ScriptRunner._enqueue_forward_msg ...
+        │                             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E9F4D120>
+        └ <function exec_func_with_error_handling at 0x00000194E5F80AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             └ <function ScriptRunner._run_script.<locals>.code_to_exec at 0x00000194E9F4D120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+         │     │      └ <member '__dict__' of 'module' objects>
+         │     └ <module '__main__' from 'C:\\shere-folder\\arbitrator\\main.py'>
+         └ <code object <module> at 0x00000194E6C5D1F0, file "C:\shere-folder\arbitrator\main.py", line 1>
+
+  File "C:\shere-folder\arbitrator\main.py", line 27, in <module>
+    ).run()
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\streamlit_app.py", line 104, in run
+    self._templates.inject_css(
+    │    │          └ <function TemplateRenderer.inject_css at 0x00000194EEAB82C0>
+    │    └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+    └ <arbitrator.presentation.streamlit_app.StreamlitApp object at 0x0000019498201DD0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in inject_css
+    parts = [self.read(path) for path in relative_paths]
+             │    │                      └ ('base/theme.css', 'base/app_shell.css', 'opportunity/page.css')
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 40, in <listcomp>
+    parts = [self.read(path) for path in relative_paths]
+             │    │    │         └ 'opportunity/page.css'
+             │    │    └ 'opportunity/page.css'
+             │    └ <function TemplateRenderer.read at 0x00000194EEAB8180>
+             └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 22, in read
+    return self._read_cached(str(path))
+           │    │                └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+           │    └ <staticmethod(<functools._lru_cache_wrapper object at 0x00000194EEA26820>)>
+           └ <arbitrator.presentation.template_renderer.TemplateRenderer object at 0x0000019498201ED0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\template_renderer.py", line 69, in _read_cached
+    return Path(absolute_path).read_text(encoding="utf-8")
+           │    └ 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\opportunity\\page.css'
+           └ <class 'pathlib.Path'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         │    │                       │                └ None
+         │    │                       └ 'utf-8'
+         │    └ <function Path.open at 0x00000194E49280E0>
+         └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           │  │    │     │     │          │         │       └ None
+           │  │    │     │     │          │         └ None
+           │  │    │     │     │          └ 'utf-8'
+           │  │    │     │     └ -1
+           │  │    │     └ 'r'
+           │  │    └ WindowsPath('C:/shere-folder/arbitrator/src/arbitrator/presentation/templates/opportunity/page.css')
+           │  └ <built-in function open>
+           └ <module 'io' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\io.py'>
+
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\shere-folder\\arbitrator\\src\\arbitrator\\presentation\\templates\\opportunity\\page.css'
+2026-06-26 07:28:55 | INFO     | [arbitrator.presentation.streamlit_app:run:114] - UI run | section=Opportunity

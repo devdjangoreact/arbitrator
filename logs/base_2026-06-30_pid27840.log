@@ -1,0 +1,16 @@
+2026-06-30 07:38:16 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 07:38:16 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 07:38:16 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [27840]
+2026-06-30 07:38:16 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-06-30 07:38:16 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
+2026-06-30 07:38:16 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
+2026-06-30 07:38:16 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-06-30 07:38:16 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51515 - "WebSocket /ws/settings" [accepted]
+2026-06-30 07:38:16 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-06-30 07:38:16 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 07:38:16 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51542 - "WebSocket /ws/screener" [accepted]
+2026-06-30 07:38:16 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:32] - ws connected | endpoint=/ws/screener
+2026-06-30 07:38:16 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 07:38:16 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51543 - "WebSocket /ws/orders" [accepted]
+2026-06-30 07:38:16 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-06-30 07:38:16 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open

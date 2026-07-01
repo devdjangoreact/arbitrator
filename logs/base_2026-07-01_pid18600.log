@@ -1,0 +1,1608 @@
+2026-07-01 04:14:03 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
+2026-07-01 04:14:03 | INFO     | [arbitrator.presentation.fastapi_app:create:103] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
+2026-07-01 04:14:03 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [18600]
+2026-07-01 04:14:03 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-07-01 04:14:03 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:81] - screener worker started | mode=live
+2026-07-01 04:14:03 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:110] - funding worker started | mode=live
+2026-07-01 04:14:03 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:114] - account worker started | mode=live
+2026-07-01 04:14:03 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=live
+2026-07-01 04:14:03 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1213 after_min_exchanges=669 after_exclusions=668
+2026-07-01 04:14:03 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:164] - Volume discovery started | symbols=668 threshold_usdt=50000.0 timeout_s=30.0
+2026-07-01 04:14:03 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-07-01 04:14:03 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:61] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 545, 'bitget': 573, 'gate': 636, 'bingx': 466}
+2026-07-01 04:14:03 | INFO     | [arbitrator.application.account_stream_worker:_async_main:124] - Account stream spawned | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-07-01 04:14:03 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=mexc symbols=545
+2026-07-01 04:14:03 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51221 - "WebSocket /ws/settings" [accepted]
+2026-07-01 04:14:03 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 04:14:03 | ERROR    | [arbitrator.presentation.ws.settings_ws_handler:handle:35] - ws error | endpoint=/ws/settings
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 716
+               │     └ 3
+               └ <function _main at 0x000001E0A9FEE2A0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 716
+           │    └ <function BaseProcess._bootstrap at 0x000001E0A9FDCB80>
+           └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x000001E0A9FDC0E0>
+    └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x000001E0A9FF8CD0>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+    │    └ <function subprocess_started at 0x000001E0AAB019E0>
+    └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket fd=924, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x000001E0AAD00F90>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x000001E0AAB00360>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x000001E0A9FF8CD0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x000001E0AAD00F90>
+           │           │    │             └ [<socket.socket fd=924, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+           │           │    └ <function Server.serve at 0x000001E0AAB00A40>
+           │           └ <uvicorn.server.Server object at 0x000001E0AAD00F90>
+           └ <function asyncio_run at 0x000001E0AAAC8040>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x000001E0AAC4B3D0>
+           │      └ <function Runner.run at 0x000001E0AA0FB100>
+           └ <asyncio.runners.Runner object at 0x000001E0AAD17610>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001E0AA0F8B80>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001E0AAD17610>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x000001E0AA0F8AE0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001E0AA0FA8E0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001E0AA076340>
+    └ <Handle <TaskStepMethWrapper object at 0x000001E0B2508C40>()>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle <TaskStepMethWrapper object at 0x000001E0B2508C40>()>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle <TaskStepMethWrapper object at 0x000001E0B2508C40>()>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle <TaskStepMethWrapper object at 0x000001E0B2508C40>()>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+                   │    │   │    │      │    │             │    └ <function WebSocketProtocol.asgi_send at 0x000001E0AAECF380>
+                   │    │   │    │      │    │             └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B250D150>
+                   │    │   │    │      │    └ <function WebSocketProtocol.asgi_receive at 0x000001E0AAECF420>
+                   │    │   │    │      └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B250D150>
+                   │    │   │    └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                   │    │   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B250D150>
+                   │    └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x000001E0AAD27410>
+                   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B250D150>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                 │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                 │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                 │    └ <fastapi.applications.FastAPI object at 0x000001E0B093A310>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x000001E0AAD27410>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                           │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                           └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x000001E0B2331950>
+          └ <fastapi.applications.FastAPI object at 0x000001E0B093A310>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x000001E0B2330D50>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x000001E0B2331950>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │                            │    │    │     │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │    │     └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    │    └ <starlette.websockets.WebSocket object at 0x000001E0B251C110>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x000001E0B2330D50>
+          └ <function wrap_app_handling_exceptions at 0x000001E0B2235120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5760>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5760>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <fastapi.routing.APIRouter object at 0x000001E0B235F390>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5760>
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x000001E0B235F390>>
+          └ <fastapi.routing.APIRouter object at 0x000001E0B235F390>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 2543, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5760>
+          │     │      │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │     │      └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │     └ <function WebSocketRoute.handle at 0x000001E0B2236CA0>
+          └ APIWebSocketRoute(path='/ws/settings', name='settings_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5760>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <function websocket_session.<locals>.app at 0x000001E0B249B420>
+          └ APIWebSocketRoute(path='/ws/settings', name='settings_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 176, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5760>
+          │                            │    │        │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │        └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    └ <starlette.websockets.WebSocket object at 0x000001E0B251C590>
+          │                            └ <function websocket_session.<locals>.app.<locals>.app at 0x000001E0B24E5620>
+          └ <function wrap_app_handling_exceptions at 0x000001E0B2235120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E58A0>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <function websocket_session.<locals>.app.<locals>.app at 0x000001E0B24E5620>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 173, in app
+    await func(session)
+          │    └ <starlette.websockets.WebSocket object at 0x000001E0B251C590>
+          └ <function get_websocket_app.<locals>.app at 0x000001E0B249B380>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 780, in app
+    await dependant.call(**solved_result.values)
+          │         │      │             └ {'websocket': <starlette.websockets.WebSocket object at 0x000001E0B251C590>}
+          │         │      └ SolvedDependency(values={'websocket': <starlette.websockets.WebSocket object at 0x000001E0B251C590>}, errors=[], background_t...
+          │         └ <function FastApiApp.create.<locals>.settings_ws at 0x000001E0B249AD40>
+          └ Dependant(path_params=[], query_params=[], header_params=[], cookie_params=[], body_params=[], dependencies=[], name=None, ca...
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\fastapi_app.py", line 101, in settings_ws
+    await settings_handler.handle(websocket)
+          │                │      └ <starlette.websockets.WebSocket object at 0x000001E0B251C590>
+          │                └ <function SettingsWsHandler.handle at 0x000001E0B2305A80>
+          └ <arbitrator.presentation.ws.settings_ws_handler.SettingsWsHandler object at 0x000001E0B24B8C10>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\settings_ws_handler.py", line 31, in handle
+    await self._live_loop(websocket, push_interval)
+          │    │          │          └ 1.0
+          │    │          └ <starlette.websockets.WebSocket object at 0x000001E0B251C590>
+          │    └ <function SettingsWsHandler._live_loop at 0x000001E0B2305B20>
+          └ <arbitrator.presentation.ws.settings_ws_handler.SettingsWsHandler object at 0x000001E0B24B8C10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\settings_ws_handler.py", line 50, in _live_loop
+    "has_password": configured and bool(creds.api_password),
+                    │                   └ ExchangeCredentials(api_key='mx0vgl15jbU8pGFD42', api_secret='150d4bd6032c4551a40defc3b670f8a9', password='')
+                    └ True
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pydantic\main.py", line 1042, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+
+AttributeError: 'ExchangeCredentials' object has no attribute 'api_password'
+2026-07-01 04:14:03 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:14:03 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:14:03 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51277 - "WebSocket /ws/screener" [accepted]
+2026-07-01 04:14:03 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:35] - ws connected | endpoint=/ws/screener
+2026-07-01 04:14:03 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:14:03 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:14:03 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51278 - "WebSocket /ws/orders" [accepted]
+2026-07-01 04:14:03 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 04:14:03 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:14:03 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51279 - "WebSocket /ws/opportunity?symbol=BTW%2FUSDT&short=bitget&long=bingx" [accepted]
+2026-07-01 04:14:03 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:42] - ws connected | endpoint=/ws/opportunity symbol=BTW/USDT short=bitget long=bingx
+2026-07-01 04:14:03 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=mexc
+2026-07-01 04:14:03 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bitget symbols=573
+2026-07-01 04:14:03 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=mexc
+2026-07-01 04:14:04 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=bitget
+2026-07-01 04:14:04 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=bitget
+2026-07-01 04:14:04 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:14:04 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=bitget
+2026-07-01 04:14:04 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=bitget
+2026-07-01 04:14:04 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=gate symbols=636
+2026-07-01 04:14:04 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=bingx
+2026-07-01 04:14:04 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:14:05 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=gate
+2026-07-01 04:14:05 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=gate
+2026-07-01 04:14:05 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bingx symbols=466
+2026-07-01 04:14:05 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=bingx
+2026-07-01 04:14:05 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=bingx
+2026-07-01 04:14:05 | INFO     | [uvicorn.server:_serve:98] - [uvicorn.error] Shutting down
+2026-07-01 04:14:05 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:14:05 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:14:05 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:14:05 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:34] - ws disconnected | endpoint=/ws/orders
+2026-07-01 04:14:05 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:14:05 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:43] - ws disconnected | endpoint=/ws/screener
+2026-07-01 04:14:05 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51284 - "WebSocket /ws/settings" [accepted]
+2026-07-01 04:14:05 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 04:14:05 | ERROR    | [arbitrator.presentation.ws.settings_ws_handler:handle:35] - ws error | endpoint=/ws/settings
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 716
+               │     └ 3
+               └ <function _main at 0x000001E0A9FEE2A0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 716
+           │    └ <function BaseProcess._bootstrap at 0x000001E0A9FDCB80>
+           └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x000001E0A9FDC0E0>
+    └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x000001E0A9FF8CD0>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+    │    └ <function subprocess_started at 0x000001E0AAB019E0>
+    └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket [closed] fd=-1, family=2, type=1, proto=6>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x000001E0AAD00F90>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x000001E0AAB00360>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x000001E0A9FF8CD0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x000001E0AAD00F90>
+           │           │    │             └ [<socket.socket [closed] fd=-1, family=2, type=1, proto=6>]
+           │           │    └ <function Server.serve at 0x000001E0AAB00A40>
+           │           └ <uvicorn.server.Server object at 0x000001E0AAD00F90>
+           └ <function asyncio_run at 0x000001E0AAAC8040>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x000001E0AAC4B3D0>
+           │      └ <function Runner.run at 0x000001E0AA0FB100>
+           └ <asyncio.runners.Runner object at 0x000001E0AAD17610>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001E0AA0F8B80>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001E0AAD17610>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x000001E0AA0F8AE0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001E0AA0FA8E0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001E0AA076340>
+    └ <Handle <TaskStepMethWrapper object at 0x000001E0B250A5C0>()>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle <TaskStepMethWrapper object at 0x000001E0B250A5C0>()>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle <TaskStepMethWrapper object at 0x000001E0B250A5C0>()>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle <TaskStepMethWrapper object at 0x000001E0B250A5C0>()>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+                   │    │   │    │      │    │             │    └ <function WebSocketProtocol.asgi_send at 0x000001E0AAECF380>
+                   │    │   │    │      │    │             └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B3807310>
+                   │    │   │    │      │    └ <function WebSocketProtocol.asgi_receive at 0x000001E0AAECF420>
+                   │    │   │    │      └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B3807310>
+                   │    │   │    └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                   │    │   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B3807310>
+                   │    └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x000001E0AAD27410>
+                   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B3807310>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                 │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                 │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                 │    └ <fastapi.applications.FastAPI object at 0x000001E0B093A310>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x000001E0AAD27410>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                           │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                           └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x000001E0B2331950>
+          └ <fastapi.applications.FastAPI object at 0x000001E0B093A310>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x000001E0B2330D50>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x000001E0B2331950>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │                            │    │    │     │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │    │     └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    │    └ <starlette.websockets.WebSocket object at 0x000001E0B24D5650>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x000001E0B2330D50>
+          └ <function wrap_app_handling_exceptions at 0x000001E0B2235120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5620>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5620>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <fastapi.routing.APIRouter object at 0x000001E0B235F390>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5620>
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x000001E0B235F390>>
+          └ <fastapi.routing.APIRouter object at 0x000001E0B235F390>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 2543, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5620>
+          │     │      │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │     │      └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │     └ <function WebSocketRoute.handle at 0x000001E0B2236CA0>
+          └ APIWebSocketRoute(path='/ws/settings', name='settings_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5620>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <function websocket_session.<locals>.app at 0x000001E0B249B420>
+          └ APIWebSocketRoute(path='/ws/settings', name='settings_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 176, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B24E5620>
+          │                            │    │        │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │        └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    └ <starlette.websockets.WebSocket object at 0x000001E0B26EB5D0>
+          │                            └ <function websocket_session.<locals>.app.<locals>.app at 0x000001E0B24E58A0>
+          └ <function wrap_app_handling_exceptions at 0x000001E0B2235120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B26E39C0>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <function websocket_session.<locals>.app.<locals>.app at 0x000001E0B24E58A0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 173, in app
+    await func(session)
+          │    └ <starlette.websockets.WebSocket object at 0x000001E0B26EB5D0>
+          └ <function get_websocket_app.<locals>.app at 0x000001E0B249B380>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 780, in app
+    await dependant.call(**solved_result.values)
+          │         │      │             └ {'websocket': <starlette.websockets.WebSocket object at 0x000001E0B26EB5D0>}
+          │         │      └ SolvedDependency(values={'websocket': <starlette.websockets.WebSocket object at 0x000001E0B26EB5D0>}, errors=[], background_t...
+          │         └ <function FastApiApp.create.<locals>.settings_ws at 0x000001E0B249AD40>
+          └ Dependant(path_params=[], query_params=[], header_params=[], cookie_params=[], body_params=[], dependencies=[], name=None, ca...
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\fastapi_app.py", line 101, in settings_ws
+    await settings_handler.handle(websocket)
+          │                │      └ <starlette.websockets.WebSocket object at 0x000001E0B26EB5D0>
+          │                └ <function SettingsWsHandler.handle at 0x000001E0B2305A80>
+          └ <arbitrator.presentation.ws.settings_ws_handler.SettingsWsHandler object at 0x000001E0B24B8C10>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\settings_ws_handler.py", line 31, in handle
+    await self._live_loop(websocket, push_interval)
+          │    │          │          └ 1.0
+          │    │          └ <starlette.websockets.WebSocket object at 0x000001E0B26EB5D0>
+          │    └ <function SettingsWsHandler._live_loop at 0x000001E0B2305B20>
+          └ <arbitrator.presentation.ws.settings_ws_handler.SettingsWsHandler object at 0x000001E0B24B8C10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\settings_ws_handler.py", line 50, in _live_loop
+    "has_password": configured and bool(creds.api_password),
+                    │                   └ ExchangeCredentials(api_key='mx0vgl15jbU8pGFD42', api_secret='150d4bd6032c4551a40defc3b670f8a9', password='')
+                    └ True
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pydantic\main.py", line 1042, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+
+AttributeError: 'ExchangeCredentials' object has no attribute 'api_password'
+2026-07-01 04:14:05 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:14:05 | INFO     | [asyncio.tasks:wait_for:452] - [uvicorn.error] Waiting for connections to close. (CTRL+C to force quit)
+2026-07-01 04:14:05 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:14:06 | INFO     | [asyncio.tasks:wait_for:452] - [uvicorn.error] Waiting for background tasks to complete. (CTRL+C to force quit)
+2026-07-01 04:14:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=bitget count=1928
+2026-07-01 04:14:08 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1332] - Exchange client opened | exchange=bingx
+2026-07-01 04:14:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=bitget count=1928
+2026-07-01 04:14:09 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:232] - Streaming order book | exchange=bitget symbol=BTW/USDT:USDT limit=20
+2026-07-01 04:14:09 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:232] - Streaming order book | exchange=bitget symbol=BTW/USDT limit=20
+2026-07-01 04:14:09 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=bitget symbols=1 mode=bulk chunks=1
+2026-07-01 04:14:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1180] - Bulk stream chunks | exchange=bitget chunks=1 chunk_size=50
+2026-07-01 04:14:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=bingx count=3032
+2026-07-01 04:14:11 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:232] - Streaming order book | exchange=bingx symbol=BTW/USDT:USDT limit=20
+2026-07-01 04:14:11 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:232] - Streaming order book | exchange=bingx symbol=BTW/USDT limit=20
+2026-07-01 04:14:11 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=bingx symbols=1 mode=fanout chunks=-
+2026-07-01 04:14:12 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book unsubscribed, resubscribing | exchange=bitget symbol=BTW/USDT:USDT
+2026-07-01 04:14:12 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:251] - watch_order_book transient, retrying | exchange=bitget symbol=BTW/USDT:USDT err=ChecksumError
+2026-07-01 04:14:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=bingx count=3032
+2026-07-01 04:14:14 | INFO     | [arbitrator.application.fee_snapshot_service:snapshot:41] - fee snapshot complete | exchanges=2 symbols=1 loaded=2
+2026-07-01 04:14:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book unsubscribed, resubscribing | exchange=bitget symbol=BTW/USDT
+2026-07-01 04:14:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:251] - watch_order_book transient, retrying | exchange=bitget symbol=BTW/USDT err=ChecksumError
+2026-07-01 04:14:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book unsubscribed, resubscribing | exchange=bitget symbol=BTW/USDT:USDT
+2026-07-01 04:14:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:251] - watch_order_book transient, retrying | exchange=bitget symbol=BTW/USDT:USDT err=ChecksumError
+2026-07-01 04:14:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=bingx count=3032
+2026-07-01 04:14:19 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:602] - Position stream started | exchange=bingx mode=ws
+2026-07-01 04:14:19 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:634] - Balance stream started | exchange=bingx mode=ws
+2026-07-01 04:14:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:251] - watch_order_book transient, retrying | exchange=bitget symbol=BTW/USDT err=ChecksumError
+2026-07-01 04:14:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=bitget count=1928
+2026-07-01 04:14:20 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:602] - Position stream started | exchange=bitget mode=ws
+2026-07-01 04:14:20 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:634] - Balance stream started | exchange=bitget mode=ws
+2026-07-01 04:14:21 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=bitget count=1928
+2026-07-01 04:14:21 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=bitget symbols=573 mode=bulk chunks=12
+2026-07-01 04:14:21 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1180] - Bulk stream chunks | exchange=bitget chunks=12 chunk_size=50
+2026-07-01 04:14:20 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_ticker_once:506] - fetch_ticker_once failed | exchange=bingx symbol=BTW/USDT
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 716
+               │     └ 3
+               └ <function _main at 0x000001E0A9FEE2A0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 716
+           │    └ <function BaseProcess._bootstrap at 0x000001E0A9FDCB80>
+           └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x000001E0A9FDC0E0>
+    └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x000001E0A9FF8CD0>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+    │    └ <function subprocess_started at 0x000001E0AAB019E0>
+    └ <SpawnProcess name='SpawnProcess-9' parent=19196 started>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket [closed] fd=-1, family=2, type=1, proto=6>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x000001E0AAD00F90>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x000001E0AAB00360>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x000001E0A9FF8CD0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x000001E0AAD00F90>
+           │           │    │             └ [<socket.socket [closed] fd=-1, family=2, type=1, proto=6>]
+           │           │    └ <function Server.serve at 0x000001E0AAB00A40>
+           │           └ <uvicorn.server.Server object at 0x000001E0AAD00F90>
+           └ <function asyncio_run at 0x000001E0AAAC8040>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x000001E0AAC4B3D0>
+           │      └ <function Runner.run at 0x000001E0AA0FB100>
+           └ <asyncio.runners.Runner object at 0x000001E0AAD17610>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001E0AA0F8B80>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001E0AAD17610>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x000001E0AA0F8AE0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001E0AA0FA8E0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001E0AA076340>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+                   │    │   │    │      │    │             │    └ <function WebSocketProtocol.asgi_send at 0x000001E0AAECF380>
+                   │    │   │    │      │    │             └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B27295D0>
+                   │    │   │    │      │    └ <function WebSocketProtocol.asgi_receive at 0x000001E0AAECF420>
+                   │    │   │    │      └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B27295D0>
+                   │    │   │    └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                   │    │   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B27295D0>
+                   │    └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x000001E0AAD27410>
+                   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x000001E0B27295D0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                 │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                 │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                 │    └ <fastapi.applications.FastAPI object at 0x000001E0B093A310>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x000001E0AAD27410>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                           │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                           └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x000001E0B2331950>
+          └ <fastapi.applications.FastAPI object at 0x000001E0B093A310>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x000001E0B2330D50>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x000001E0B2331950>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │                            │    │    │     │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │    │     └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    │    └ <starlette.websockets.WebSocket object at 0x000001E0B2725B90>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x000001E0B2330D50>
+          └ <function wrap_app_handling_exceptions at 0x000001E0B2235120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B2714860>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B2714860>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <fastapi.routing.APIRouter object at 0x000001E0B235F390>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x000001E0B24D4CD0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B2714860>
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x000001E0B235F390>>
+          └ <fastapi.routing.APIRouter object at 0x000001E0B235F390>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 2543, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B2714860>
+          │     │      │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │     │      └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │     └ <function WebSocketRoute.handle at 0x000001E0B2236CA0>
+          └ APIWebSocketRoute(path='/ws/opportunity', name='opportunity_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B2714860>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <function websocket_session.<locals>.app at 0x000001E0B249AFC0>
+          └ APIWebSocketRoute(path='/ws/opportunity', name='opportunity_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 176, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B2714860>
+          │                            │    │        │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │        └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    └ <starlette.websockets.WebSocket object at 0x000001E0B2725BD0>
+          │                            └ <function websocket_session.<locals>.app.<locals>.app at 0x000001E0B2714AE0>
+          └ <function wrap_app_handling_exceptions at 0x000001E0B2235120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x000001E0B2714C20>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <function websocket_session.<locals>.app.<locals>.app at 0x000001E0B2714AE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 173, in app
+    await func(session)
+          │    └ <starlette.websockets.WebSocket object at 0x000001E0B2725BD0>
+          └ <function get_websocket_app.<locals>.app at 0x000001E0B249B060>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 780, in app
+    await dependant.call(**solved_result.values)
+          │         │      │             └ {'symbol': 'BTW/USDT', 'short': 'bitget', 'long': 'bingx', 'websocket': <starlette.websockets.WebSocket object at 0x000001E0B...
+          │         │      └ SolvedDependency(values={'symbol': 'BTW/USDT', 'short': 'bitget', 'long': 'bingx', 'websocket': <starlette.websockets.WebSock...
+          │         └ <function FastApiApp.create.<locals>.opportunity_ws at 0x000001E0B249ACA0>
+          └ Dependant(path_params=[], query_params=[ModelField(field_info=Query(), name='symbol', mode='validation', config=None), ModelF...
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\fastapi_app.py", line 93, in opportunity_ws
+    await opportunity_handler.handle(websocket, symbol, short, long)
+          │                   │      │          │       │      └ 'bingx'
+          │                   │      │          │       └ 'bitget'
+          │                   │      │          └ 'BTW/USDT'
+          │                   │      └ <starlette.websockets.WebSocket object at 0x000001E0B2725BD0>
+          │                   └ <function OpportunityWsHandler.handle at 0x000001E0B22BAFC0>
+          └ <arbitrator.presentation.ws.opportunity_ws_handler.OpportunityWsHandler object at 0x000001E0B24B8ED0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\opportunity_ws_handler.py", line 60, in handle
+    await self._live_loop(
+          │    └ <function OpportunityWsHandler._live_loop at 0x000001E0B22BB380>
+          └ <arbitrator.presentation.ws.opportunity_ws_handler.OpportunityWsHandler object at 0x000001E0B24B8ED0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\opportunity_ws_handler.py", line 156, in _live_loop
+    await bootstrap.bootstrap(
+          │         └ <function OpportunityBootstrapService.bootstrap at 0x000001E0B22B8180>
+          └ <arbitrator.application.opportunity_bootstrap_service.OpportunityBootstrapService object at 0x000001E0B26EBFD0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_bootstrap_service.py", line 39, in bootstrap
+    spot_info = await self._fetch_market_info(exchange, display_symbol)
+                      │    │                  │         └ 'BTW/USDT'
+                      │    │                  └ NamedExchange(exchange_id='bingx', display_name='BingX', gateway=<arbitrator.exchanges.bingx.Bingx object at 0x000001E0B2718C...
+                      │    └ <function OpportunityBootstrapService._fetch_market_info at 0x000001E0B22B8680>
+                      └ <arbitrator.application.opportunity_bootstrap_service.OpportunityBootstrapService object at 0x000001E0B26EBFD0>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_bootstrap_service.py", line 72, in _fetch_market_info
+    return await exchange.gateway.fetch_symbol_market_info(symbol)
+                 │        │                                └ 'BTW/USDT'
+                 │        └ <member 'gateway' of 'NamedExchange' objects>
+                 └ NamedExchange(exchange_id='bingx', display_name='BingX', gateway=<arbitrator.exchanges.bingx.Bingx object at 0x000001E0B2718C...
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 421, in fetch_symbol_market_info
+    ticker = await self.fetch_ticker_once(resolved)
+                   │    │                 └ 'BTW/USDT'
+                   │    └ <function CcxtBase.fetch_ticker_once at 0x000001E0B0EA9940>
+                   └ <arbitrator.exchanges.bingx.Bingx object at 0x000001E0B2718C10>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 504, in fetch_ticker_once
+    payload = await client.fetch_ticker(symbol)
+                    │      │            └ 'BTW/USDT'
+                    │      └ <function bingx.fetch_ticker at 0x000001E0AFD42520>
+                    └ ccxt.async_support.bingx()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\bingx.py", line 1973, in fetch_ticker
+    response = await self.spotV1PublicGetTicker24hr(self.extend(request, params))
+                     │    │                         │    │      │        └ {}
+                     │    │                         │    │      └ {'symbol': 'BTW-USDT'}
+                     │    │                         │    └ <staticmethod(<function Exchange.extend at 0x000001E0AC8EA5C0>)>
+                     │    │                         └ ccxt.async_support.bingx()
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x000001E0ACD9D440>
+                     └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 1}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {'symbol': 'BTW-USDT'}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['spot', 'v1', 'public']
+                 │    │      └ 'ticker/24hr'
+                 │    └ <function Exchange.fetch2 at 0x000001E0AEC4AF20>
+                 └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://open-api.bingx.com/openApi/spot/v1/ticker/24hr?symbol=BTW-USDT&timestamp=1782868460502', 'method': 'GET', 'b...
+                 │    │     │               │                  └ {'url': 'https://open-api.bingx.com/openApi/spot/v1/ticker/24hr?symbol=BTW-USDT&timestamp=1782868460502', 'method': 'GET', 'b...
+                 │    │     │               └ {'url': 'https://open-api.bingx.com/openApi/spot/v1/ticker/24hr?symbol=BTW-USDT&timestamp=1782868460502', 'method': 'GET', 'b...
+                 │    │     └ {'url': 'https://open-api.bingx.com/openApi/spot/v1/ticker/24hr?symbol=BTW-USDT&timestamp=1782868460502', 'method': 'GET', 'b...
+                 │    └ <function Exchange.fetch at 0x000001E0AEB2ACA0>
+                 └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 287, in fetch
+    self.handle_errors(http_status_code, http_status_text, url, method, headers, http_response, json_response, request_headers, request_body)
+    │    │             │                 │                 │    │       │        │              │              │                └ None
+    │    │             │                 │                 │    │       │        │              │              └ {'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate'}
+    │    │             │                 │                 │    │       │        │              └ {'code': '100204', 'msg': 'symbol is not found.', 'timestamp': '1782868460594'}
+    │    │             │                 │                 │    │       │        └ '{"code":100204,"msg":"symbol is not found.","timestamp":1782868460594}'
+    │    │             │                 │                 │    │       └ {'Content-Type': 'application/json', 'Content-Length': '70', 'Connection': 'keep-alive', 'Date': 'Wed, 01 Jul 2026 01:14:20 G...
+    │    │             │                 │                 │    └ 'GET'
+    │    │             │                 │                 └ 'https://open-api.bingx.com/openApi/spot/v1/ticker/24hr?symbol=BTW-USDT&timestamp=1782868460502'
+    │    │             │                 └ 'OK'
+    │    │             └ 200
+    │    └ <function bingx.handle_errors at 0x000001E0AFD5D300>
+    └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\bingx.py", line 6596, in handle_errors
+    self.throw_exactly_matched_exception(self.exceptions['exact'], code, feedback)
+    │    │                               │    │                    │     └ 'bingx {"code":100204,"msg":"symbol is not found.","timestamp":1782868460594}'
+    │    │                               │    │                    └ '100204'
+    │    │                               │    └ {'exact': {'400': <class 'ccxt.base.errors.BadRequest'>, '401': <class 'ccxt.base.errors.AuthenticationError'>, '403': <class...
+    │    │                               └ ccxt.async_support.bingx()
+    │    └ <function Exchange.throw_exactly_matched_exception at 0x000001E0AC906340>
+    └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\base\exchange.py", line 5890, in throw_exactly_matched_exception
+    raise exact[string](message)
+          │     │       └ 'bingx {"code":100204,"msg":"symbol is not found.","timestamp":1782868460594}'
+          │     └ '100204'
+          └ {'400': <class 'ccxt.base.errors.BadRequest'>, '401': <class 'ccxt.base.errors.AuthenticationError'>, '403': <class 'ccxt.bas...
+
+ccxt.base.errors.BadRequest: bingx {"code":100204,"msg":"symbol is not found.","timestamp":1782868460594}
+2026-07-01 04:14:22 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=bingx count=3032
+2026-07-01 04:14:22 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=bingx symbols=466 mode=fanout chunks=-
+2026-07-01 04:14:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=bitget
+2026-07-01 04:14:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:251] - watch_order_book transient, retrying | exchange=bitget symbol=BTW/USDT:USDT err=ChecksumError
+2026-07-01 04:14:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=mexc count=3151
+2026-07-01 04:14:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=bingx
+2026-07-01 04:14:23 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:208] - Streaming tickers | exchange=mexc symbols=545 mode=bulk chunks=11
+2026-07-01 04:14:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1349] - Markets loaded | exchange=mexc count=3151
+2026-07-01 04:14:23 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:14:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:1180] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-07-01 04:14:23 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:602] - Position stream started | exchange=mexc mode=rest_poll
+2026-07-01 04:14:23 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:69] - ws disconnected | endpoint=/ws/opportunity symbol=BTW/USDT
+2026-07-01 04:14:23 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:634] - Balance stream started | exchange=mexc mode=ws
+2026-07-01 04:14:23 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Waiting for application shutdown.
+2026-07-01 04:14:24 | INFO     | [arbitrator.application.app_runtime:stop:55] - screener worker stopped
+2026-07-01 04:14:24 | INFO     | [arbitrator.application.app_runtime:stop:58] - account worker stopped
+2026-07-01 04:14:24 | INFO     | [arbitrator.application.app_runtime:stop:61] - funding worker stopped
+2026-07-01 04:14:24 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped
+2026-07-01 04:14:24 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Application shutdown complete.
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=mexc
+2026-07-01 04:14:24 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Finished server process [18600]
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=bitget
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=gate
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=bingx
+2026-07-01 04:14:24 | INFO     | [arbitrator.application.funding_rate_worker:_thread_main:65] - funding worker stopped
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=mexc chunk=3 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=mexc chunk=4 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=mexc chunk=5 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=mexc chunk=6 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=mexc chunk=7 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=mexc chunk=8 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=mexc chunk=9 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=mexc chunk=10 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=mexc
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=mexc
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=bitget
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=bitget chunk=3 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=bitget chunk=4 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:_watch_chunk:1205] - watch_tickers transient, retrying | exchange=bitget chunk=5 err=NetworkError delay_s=5.0
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1167] - Exchange closed | exchange=bitget
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'
+2026-07-01 04:14:24 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(AttributeError("'NoneType' object has no attribute 'ws_connect'"))>
+ccxt.base.errors.NetworkError: 'NoneType' object has no attribute 'ws_connect'

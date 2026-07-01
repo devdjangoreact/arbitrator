@@ -1,0 +1,67 @@
+2026-07-01 04:29:28 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
+2026-07-01 04:29:28 | INFO     | [arbitrator.presentation.fastapi_app:create:103] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
+2026-07-01 04:29:28 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [14652]
+2026-07-01 04:29:28 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-07-01 04:29:28 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:81] - screener worker started | mode=live
+2026-07-01 04:29:28 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:110] - funding worker started | mode=live
+2026-07-01 04:29:28 | INFO     | [arbitrator.application.app_runtime:_start_live_workers:114] - account worker started | mode=live
+2026-07-01 04:29:28 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=live
+2026-07-01 04:29:28 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1213 after_min_exchanges=669 after_exclusions=668
+2026-07-01 04:29:28 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-07-01 04:29:28 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:164] - Volume discovery started | symbols=668 threshold_usdt=50000.0 timeout_s=30.0
+2026-07-01 04:29:28 | INFO     | [arbitrator.application.account_stream_worker:_async_main:124] - Account stream spawned | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-07-01 04:29:28 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:61] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 545, 'bitget': 573, 'gate': 636, 'bingx': 466}
+2026-07-01 04:29:28 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=mexc symbols=545
+2026-07-01 04:29:28 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:52551 - "WebSocket /ws/settings" [accepted]
+2026-07-01 04:29:28 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-07-01 04:29:28 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:29:28 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:52571 - "WebSocket /ws/orders" [accepted]
+2026-07-01 04:29:28 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-07-01 04:29:28 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:29:28 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:52572 - "WebSocket /ws/screener" [accepted]
+2026-07-01 04:29:28 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:35] - ws connected | endpoint=/ws/screener
+2026-07-01 04:29:28 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:28 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-07-01 04:29:29 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=mexc
+2026-07-01 04:29:29 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=mexc
+2026-07-01 04:29:29 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bitget symbols=573
+2026-07-01 04:29:29 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bitget
+2026-07-01 04:29:29 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=gate symbols=636
+2026-07-01 04:29:29 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bitget
+2026-07-01 04:29:29 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:30 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=gate
+2026-07-01 04:29:30 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=gate
+2026-07-01 04:29:30 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:81] - Watcher start | exchange=bingx symbols=466
+2026-07-01 04:29:31 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:31 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bingx
+2026-07-01 04:29:31 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1336] - Exchange client opened | exchange=bingx
+2026-07-01 04:29:32 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:33 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:34 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:35 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:36 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:37 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:38 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:39 | INFO     | [uvicorn.server:_serve:98] - [uvicorn.error] Shutting down
+2026-07-01 04:29:39 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=0 symbols=0
+2026-07-01 04:29:39 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:29:39 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:33] - ws disconnected | endpoint=/ws/settings
+2026-07-01 04:29:40 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:29:40 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:34] - ws disconnected | endpoint=/ws/orders
+2026-07-01 04:29:40 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-07-01 04:29:40 | INFO     | [asyncio.tasks:wait_for:452] - [uvicorn.error] Waiting for background tasks to complete. (CTRL+C to force quit)
+2026-07-01 04:29:40 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:43] - ws disconnected | endpoint=/ws/screener
+2026-07-01 04:29:40 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Waiting for application shutdown.
+2026-07-01 04:29:40 | INFO     | [arbitrator.application.app_runtime:stop:55] - screener worker stopped
+2026-07-01 04:29:40 | INFO     | [arbitrator.application.app_runtime:stop:58] - account worker stopped
+2026-07-01 04:29:40 | INFO     | [arbitrator.application.app_runtime:stop:61] - funding worker stopped
+2026-07-01 04:29:40 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped
+2026-07-01 04:29:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=mexc
+2026-07-01 04:29:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=bitget
+2026-07-01 04:29:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=gate
+2026-07-01 04:29:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=bingx
+2026-07-01 04:29:40 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Application shutdown complete.
+2026-07-01 04:29:40 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Finished server process [14652]
+2026-07-01 04:29:40 | INFO     | [arbitrator.application.funding_rate_worker:_thread_main:65] - funding worker stopped
+2026-07-01 04:29:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=mexc
+2026-07-01 04:29:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:1168] - Exchange closed | exchange=bitget

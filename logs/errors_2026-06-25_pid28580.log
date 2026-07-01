@@ -1,0 +1,267 @@
+2026-06-25 23:08:51 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:846] - watch_tickers error | exchange=mexc chunk=0 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 11640)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001B35C801300>
+    └ <Thread(screener-stream:1, started daemon 11640)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001B35C800FE0>
+    └ <Thread(screener-stream:1, started daemon 11640)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 11640)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 11640)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 11640)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000001B3122D6A20>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000001B311F25410>
+    │       └ <function run at 0x000001B35FA43E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000001B3632E60C0>
+           │      └ <function Runner.run at 0x000001B35FA70680>
+           └ <asyncio.runners.Runner object at 0x000001B3129109D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-97' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001B35FA6E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001B3129109D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001B35FAEC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001B35FA6FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001B35F8D3880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 842, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['0G/USDT:USDT', '1000000BABYDOGE/USDT:USDT', '1000000MOG/USDT:USDT', '1000BONK/USDT:USDT', '1000RATS/USDT:USDT', '1INCH/USDT...
+                    │      └ <function mexc.watch_tickers at 0x000001B368869580>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x000001B365599D00>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x000001B366D05440>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 23:08:51 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:846] - watch_tickers error | exchange=mexc chunk=1 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 11640)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001B35C801300>
+    └ <Thread(screener-stream:1, started daemon 11640)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001B35C800FE0>
+    └ <Thread(screener-stream:1, started daemon 11640)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 11640)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 11640)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 11640)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000001B3122D6A20>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000001B311F25410>
+    │       └ <function run at 0x000001B35FA43E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000001B3632E60C0>
+           │      └ <function Runner.run at 0x000001B35FA70680>
+           └ <asyncio.runners.Runner object at 0x000001B3129109D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-97' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001B35FA6E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001B3129109D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001B35FAEC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001B35FA6FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001B35F8D3880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 842, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['ASR/USDT:USDT', 'ASTER/USDT:USDT', 'ASTEROID/USDT:USDT', 'ASTR/USDT:USDT', 'AT/USDT:USDT', 'ATH/USDT:USDT', 'ATOM/USDT:USDT...
+                    │      └ <function mexc.watch_tickers at 0x000001B368869580>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x000001B365599D00>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x000001B366D05440>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 23:08:51 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:846] - watch_tickers error | exchange=mexc chunk=2 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 11640)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001B312910D50>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001B35C801300>
+    └ <Thread(screener-stream:1, started daemon 11640)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001B35C800FE0>
+    └ <Thread(screener-stream:1, started daemon 11640)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 11640)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 11640)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 11640)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000001B3122D6A20>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000001B311F25410>
+    │       └ <function run at 0x000001B35FA43E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000001B3632E60C0>
+           │      └ <function Runner.run at 0x000001B35FA70680>
+           └ <asyncio.runners.Runner object at 0x000001B3129109D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-97' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001B35FA6E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001B3129109D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001B35FAEC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001B35FA6FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001B35F8D3880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 842, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['BREV/USDT:USDT', 'BROCCOLI/USDT:USDT', 'BROCCOLIF3B/USDT:USDT', 'BSB/USDT:USDT', 'BSV/USDT:USDT', 'BTC/USDT:USDT', 'BTR/USD...
+                    │      └ <function mexc.watch_tickers at 0x000001B368869580>
+                    └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\mexc.py", line 257, in watch_tickers
+    ticker = await self.watch_multiple(url, messageHashes, self.extend(request, params), messageHashes)
+                   │    │              │    │              │    │      │        │        └ ['ticker']
+                   │    │              │    │              │    │      │        └ {}
+                   │    │              │    │              │    │      └ {'method': 'sub.tickers', 'params': {}}
+                   │    │              │    │              │    └ <staticmethod(<function Exchange.extend at 0x000001B365599D00>)>
+                   │    │              │    │              └ ccxt.async_support.mexc()
+                   │    │              │    └ ['ticker']
+                   │    │              └ 'wss://contract.mexc.com/edge'
+                   │    └ <function Exchange.watch_multiple at 0x000001B366D05440>
+                   └ ccxt.async_support.mexc()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006

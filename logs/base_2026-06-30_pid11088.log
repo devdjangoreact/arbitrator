@@ -1,0 +1,12 @@
+2026-06-30 07:37:19 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 07:37:19 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 07:37:19 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [11088]
+2026-06-30 07:37:19 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-06-30 07:37:19 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
+2026-06-30 07:37:19 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
+2026-06-30 07:37:19 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-06-30 07:37:19 | INFO     | [uvicorn.server:_serve:98] - [uvicorn.error] Shutting down
+2026-06-30 07:37:19 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Waiting for application shutdown.
+2026-06-30 07:37:19 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped
+2026-06-30 07:37:19 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Application shutdown complete.
+2026-06-30 07:37:19 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Finished server process [11088]

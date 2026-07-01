@@ -1,0 +1,42 @@
+---
+description: Always update Cursor docs and rules at the end of every change. Keep .cursor/rules/*.mdc consistent with the codebase.
+alwaysApply: true
+---
+
+# Documentation sync rule
+
+Whenever you finish a code change, **before reporting to the user**, audit and
+update the project's Cursor documentation so it stays in sync with the code.
+
+## Trigger
+
+Run this audit at the very end of any task that:
+
+- Adds, removes, renames, or moves files or folders.
+- Changes class or module names that appear in docs.
+- Changes import paths, public APIs, or layer boundaries.
+- Adds, renames, or removes a `Settings` field, exchange adapter, or repository.
+- Changes lint/format/test/run commands.
+
+## Files to keep in sync
+
+1. `.cursor/rules/architecture.mdc` — layer diagram, allowed/forbidden imports,
+   `Settings` rule, exchange-adapter checklist.
+2. `.cursor/rules/logging.mdc` — logger import path and patterns.
+3. `.cursor/rules/context7-lookup.mdc` — external library guidance.
+4. Any other `.cursor/rules/*.mdc` whose scope overlaps the change.
+5. `README.md` if user-facing instructions changed.
+
+## How to update
+
+- Search for stale paths/class names with `Grep` on `arbitrator\.` and on the
+  old names. Fix every hit (including code blocks inside `.mdc` files).
+- Mirror the new directory tree in the diagram and the path table.
+- Replace renamed identifiers in inline examples (e.g. `from arbitrator.X`).
+- Keep each rule under ~150 lines and focused on a single concern.
+
+## Forbidden
+
+- Leaving `.cursor/rules/*.mdc` or examples referring to deleted
+  paths, classes, or import lines.
+- Reporting "done" while `Grep` still finds the old names in any doc.

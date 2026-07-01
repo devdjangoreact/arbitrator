@@ -1,0 +1,28 @@
+2026-06-30 08:00:38 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 08:00:38 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 08:00:38 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [28224]
+2026-06-30 08:00:38 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-06-30 08:00:38 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
+2026-06-30 08:00:38 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
+2026-06-30 08:00:38 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-06-30 08:00:38 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61304 - "WebSocket /ws/screener" [accepted]
+2026-06-30 08:00:38 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:32] - ws connected | endpoint=/ws/screener
+2026-06-30 08:00:38 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 08:00:38 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61455 - "WebSocket /ws/orders" [accepted]
+2026-06-30 08:00:38 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-06-30 08:00:38 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 08:00:38 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:61456 - "WebSocket /ws/settings" [accepted]
+2026-06-30 08:00:38 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-06-30 08:00:38 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 08:00:43 | INFO     | [uvicorn.server:_serve:98] - [uvicorn.error] Shutting down
+2026-06-30 08:00:43 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 08:00:43 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 08:00:43 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 08:00:43 | INFO     | [asyncio.tasks:wait_for:452] - [uvicorn.error] Waiting for background tasks to complete. (CTRL+C to force quit)
+2026-06-30 08:00:43 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:40] - ws disconnected | endpoint=/ws/screener
+2026-06-30 08:00:43 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:38] - ws disconnected | endpoint=/ws/orders
+2026-06-30 08:00:43 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:37] - ws disconnected | endpoint=/ws/settings
+2026-06-30 08:00:43 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Waiting for application shutdown.
+2026-06-30 08:00:43 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped
+2026-06-30 08:00:43 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Application shutdown complete.
+2026-06-30 08:00:43 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Finished server process [28224]

@@ -1,0 +1,38 @@
+---
+description: UI templates — HTML partials under presentation/static/partials/
+globs: src/arbitrator/presentation/**/*
+alwaysApply: false
+---
+
+# UI templates
+
+HTML source lives in **partials**, assembled into `static/index.html`:
+
+```bash
+python scripts/build_ui.py
+```
+
+## Layout
+
+```
+presentation/static/
+  partials/
+    layout/head.html, scripts.html
+    sidebar.html
+    pages/screener.html, opportunity.html, orders.html, settings.html
+    opportunity/topbar.html, ex-info-row.html, strategy-table.html,
+                params.html, orders-panel.html, chart.html, order-books.html
+  css/app.css          # visual match to maket/index.html
+  js/core/             # ws_client, dom, delta_router
+  js/render/           # per-screen render + delta handlers
+  index.html           # build output — do not edit by hand
+```
+
+## Rules
+
+1. **No hardcoded market data** in partials — placeholders `—` until WS snapshot.
+2. No inline `style="..."` except dynamic values in JS (or layout classes in CSS).
+3. Visual reference: `maket/index.html` (design mockup only).
+4. Data channel: WebSocket snapshot + delta — `specs/001-mockup-ui/contracts/ws-ui-protocol.md`.
+
+Forbidden: editing `index.html` directly; `import streamlit`; regex port from maket.

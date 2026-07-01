@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+---
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+at specs/002-strategy-engine/plan.md (strategy engine: 6-strategy calc,
+signals, real hedged execution, in-process cache) and its data catalog
+specs/002-strategy-engine/contracts/strategy-data-catalog.md.
+Prior feature (UI): specs/001-mockup-ui/spec.md and specs/001-mockup-ui/plan.md.
+<!-- SPECKIT END -->

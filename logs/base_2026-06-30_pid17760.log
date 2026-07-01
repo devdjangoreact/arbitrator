@@ -1,0 +1,36 @@
+2026-06-30 07:49:14 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 07:49:14 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 07:49:14 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [17760]
+2026-06-30 07:49:14 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-06-30 07:49:14 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
+2026-06-30 07:49:14 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
+2026-06-30 07:49:14 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55594 - "GET / HTTP/1.1" 200
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55594 - "GET /static/css/app.css HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55599 - "GET /static/js/screener.js HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55596 - "GET /static/js/ws_client.js HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55598 - "GET /static/js/opportunity_chart.js HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55597 - "GET /static/js/orders_shared.js HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55595 - "GET /static/js/app_state.js HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55599 - "GET /static/js/orders.js HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55598 - "GET /static/js/app.js HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55596 - "GET /static/js/settings.js HTTP/1.1" 304
+2026-06-30 07:49:14 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:55594 - "GET /static/js/opportunity.js HTTP/1.1" 200
+2026-06-30 07:49:14 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:55601 - "WebSocket /ws/screener" [accepted]
+2026-06-30 07:49:14 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:32] - ws connected | endpoint=/ws/screener
+2026-06-30 07:49:14 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 07:49:14 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:55602 - "WebSocket /ws/orders" [accepted]
+2026-06-30 07:49:14 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-06-30 07:49:14 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 07:49:14 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:55603 - "WebSocket /ws/settings" [accepted]
+2026-06-30 07:49:14 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-06-30 07:49:14 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 07:49:17 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:55620 - "WebSocket /ws/opportunity/DOGE/USDT?short=mexc&long=bingx" 403
+2026-06-30 07:49:18 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection rejected (403 Forbidden)
+2026-06-30 07:49:18 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 07:49:20 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:55625 - "WebSocket /ws/opportunity/DOGE/USDT?short=mexc&long=bingx" 403
+2026-06-30 07:49:20 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection rejected (403 Forbidden)
+2026-06-30 07:49:20 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 07:49:22 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:55629 - "WebSocket /ws/opportunity/DOGE/USDT?short=mexc&long=bingx" 403
+2026-06-30 07:49:22 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection rejected (403 Forbidden)
+2026-06-30 07:49:22 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed

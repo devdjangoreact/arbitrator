@@ -1,0 +1,977 @@
+2026-07-01 04:24:30 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1351] - load_markets failed | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 20324)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x0000020C092CCB80>
+    └ <Thread(screener-stream:0, started daemon 20324)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x0000020C092CC860>
+    └ <Thread(screener-stream:0, started daemon 20324)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 20324)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 20324)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 20324)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000020C1290C040>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x0000020C13F02690>
+    │       └ <function run at 0x0000020C0BB0ACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000020C13EA4900>
+           │      └ <function Runner.run at 0x0000020C0BB0B100>
+           └ <asyncio.runners.Runner object at 0x0000020C13D8E310>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\app...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000020C0BB08B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000020C13D8E310>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x0000020C0BBA1B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000020C0BB0A8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000020C0BA76340>
+    └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\gate.py", line 46, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.gate()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x0000020C128DAA20>
+          └ <arbitrator.exchanges.gate.Gate object at 0x0000020C13F10C90>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x0000020C1055AE80>
+          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 324, in load_markets_helper
+    markets = await self.fetch_markets(params)
+                    │    │             └ {}
+                    │    └ <function gate.fetch_markets at 0x0000020C11B34A40>
+                    └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1343, in fetch_markets
+    results = await asyncio.gather(*rawPromises)
+                    │       │       └ [<coroutine object gate.fetch_spot_markets at 0x0000020C138157B0>, <coroutine object gate.fetch_swap_markets at 0x0000020C140...
+                    │       └ <function gather at 0x0000020C0BAC39C0>
+                    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1667, in fetch_option_markets
+    response = await self.publicOptionsGetContracts(query)
+                     │    │                         └ {'underlying': 'CL_USDT'}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x0000020C0F203600>
+                     └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 1}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {'underlying': 'CL_USDT'}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['public', 'options']
+                 │    │      └ 'contracts'
+                 │    └ <function Exchange.fetch2 at 0x0000020C1067AF20>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               │                  └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=CL_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    └ <function Exchange.fetch at 0x0000020C1055ACA0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 234, in fetch
+    session_method = getattr(final_session, method.lower())
+                             │              │      └ <method 'lower' of 'str' objects>
+                             │              └ 'GET'
+                             └ None
+
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-07-01 04:24:35 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1351] - load_markets failed | exchange=bingx
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 20324)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x0000020C092CCB80>
+    └ <Thread(screener-stream:0, started daemon 20324)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x0000020C092CC860>
+    └ <Thread(screener-stream:0, started daemon 20324)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 20324)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 20324)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 20324)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000020C1290C040>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x0000020C13F02690>
+    │       └ <function run at 0x0000020C0BB0ACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000020C13EA4900>
+           │      └ <function Runner.run at 0x0000020C0BB0B100>
+           └ <asyncio.runners.Runner object at 0x0000020C13D8E310>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\app...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000020C0BB08B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000020C13D8E310>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x0000020C0BBA1B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000020C0BB0A8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000020C0BA76340>
+    └ <Handle Task.task_wakeup(<Task finishe...n is closed')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...n is closed')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...n is closed')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...n is closed')>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 196, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.bingx()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x0000020C128DAA20>
+          └ <arbitrator.exchanges.bingx.Bingx object at 0x0000020C13F10D90>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x0000020C1055AE80>
+          └ ccxt.async_support.bingx()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 322, in load_markets_helper
+    currencies = await self.fetch_currencies()
+                       │    └ <function bingx.fetch_currencies at 0x0000020C11771800>
+                       └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\bingx.py", line 835, in fetch_currencies
+    response = await self.walletsV1PrivateGetCapitalConfigGetall(params)
+                     │    │                                      └ {}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x0000020C0E7FE160>
+                     └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 5}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['wallets', 'v1', 'private']
+                 │    │      └ 'capital/config/getall'
+                 │    └ <function Exchange.fetch2 at 0x0000020C1067AF20>
+                 └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e1...
+                 │    │     │               │                  └ {'url': 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e1...
+                 │    │     │               └ {'url': 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e1...
+                 │    │     └ {'url': 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e1...
+                 │    └ <function Exchange.fetch at 0x0000020C1055ACA0>
+                 └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 241, in fetch
+    async with session_method(yarl.URL(url, encoded=True),
+               │              │    │   └ 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e15f62c9e8...
+               │              │    └ <class 'yarl.URL'>
+               │              └ <module 'yarl' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\yarl\\__init__.py'>
+               └ <bound method ClientSession.get of <aiohttp.client.ClientSession object at 0x0000020C1FCCEA10>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x0000020C23BF6CE0>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x0000020C23BF6CE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 534, in _request
+    raise RuntimeError("Session is closed")
+
+RuntimeError: Session is closed
+2026-07-01 04:24:37 | ERROR    | [arbitrator.application.multi_exchange_watcher:_watch:102] - Watcher failed, reconnecting | exchange=bingx
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 20324)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000020C13F029D0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x0000020C092CCB80>
+    └ <Thread(screener-stream:0, started daemon 20324)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x0000020C092CC860>
+    └ <Thread(screener-stream:0, started daemon 20324)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 20324)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 20324)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 20324)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x0000020C1290C040>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x0000020C13F02690>
+    │       └ <function run at 0x0000020C0BB0ACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x0000020C13EA4900>
+           │      └ <function Runner.run at 0x0000020C0BB0B100>
+           └ <asyncio.runners.Runner object at 0x0000020C13D8E310>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\app...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000020C0BB08B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000020C13D8E310>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x0000020C0BBA1B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000020C0BB0A8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000020C0BA76340>
+    └ <Handle Task.task_wakeup(<Task finishe...n is closed')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...n is closed')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...n is closed')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...n is closed')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\application\multi_exchange_watcher.py", line 88, in _watch
+    async for tickers in exch.gateway.watch_tickers(symbols):
+                         │    │                     └ ['0G/USDT:USDT', '1000000BABYDOGE/USDT:USDT', '1000000MOG/USDT:USDT', '1000BONK/USDT:USDT', '1000CAT/USDT:USDT', '1INCH/USDT:...
+                         │    └ <member 'gateway' of 'NamedExchange' objects>
+                         └ NamedExchange(exchange_id='bingx', display_name='BingX', gateway=<arbitrator.exchanges.bingx.Bingx object at 0x0000020C13F10D...
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 196, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.bingx()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x0000020C128DAA20>
+          └ <arbitrator.exchanges.bingx.Bingx object at 0x0000020C13F10D90>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x0000020C1055AE80>
+          └ ccxt.async_support.bingx()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 322, in load_markets_helper
+    currencies = await self.fetch_currencies()
+                       │    └ <function bingx.fetch_currencies at 0x0000020C11771800>
+                       └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\bingx.py", line 835, in fetch_currencies
+    response = await self.walletsV1PrivateGetCapitalConfigGetall(params)
+                     │    │                                      └ {}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x0000020C0E7FE160>
+                     └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 5}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['wallets', 'v1', 'private']
+                 │    │      └ 'capital/config/getall'
+                 │    └ <function Exchange.fetch2 at 0x0000020C1067AF20>
+                 └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e1...
+                 │    │     │               │                  └ {'url': 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e1...
+                 │    │     │               └ {'url': 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e1...
+                 │    │     └ {'url': 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e1...
+                 │    └ <function Exchange.fetch at 0x0000020C1055ACA0>
+                 └ ccxt.async_support.bingx()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 241, in fetch
+    async with session_method(yarl.URL(url, encoded=True),
+               │              │    │   └ 'https://open-api.bingx.com/openApi/wallets/v1/capital/config/getall?timestamp=1782869074423&signature=884224a27fa5e15f62c9e8...
+               │              │    └ <class 'yarl.URL'>
+               │              └ <module 'yarl' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\yarl\\__init__.py'>
+               └ <bound method ClientSession.get of <aiohttp.client.ClientSession object at 0x0000020C1FCCEA10>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x0000020C23BF6CE0>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x0000020C23BF6CE0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 534, in _request
+    raise RuntimeError("Session is closed")
+
+RuntimeError: Session is closed
+2026-07-01 04:24:39 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1351] - load_markets failed | exchange=mexc
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 652
+               │     └ 3
+               └ <function _main at 0x0000020C0B9AE2A0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 652
+           │    └ <function BaseProcess._bootstrap at 0x0000020C0B99CB80>
+           └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x0000020C0B99C0E0>
+    └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x0000020C0B9F8CD0>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+    │    └ <function subprocess_started at 0x0000020C0C5319E0>
+    └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket fd=928, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x0000020C0C730F50>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x0000020C0C530360>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x0000020C0B9F8CD0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x0000020C0C730F50>
+           │           │    │             └ [<socket.socket fd=928, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+           │           │    └ <function Server.serve at 0x0000020C0C530A40>
+           │           └ <uvicorn.server.Server object at 0x0000020C0C730F50>
+           └ <function asyncio_run at 0x0000020C0C4E8040>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x0000020C0C67B3D0>
+           │      └ <function Runner.run at 0x0000020C0BB0B100>
+           └ <asyncio.runners.Runner object at 0x0000020C0956C950>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000020C0BB08B80>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000020C0956C950>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x0000020C0BB08AE0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000020C0BB0A8E0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000020C0BA76340>
+    └ <Handle Task.task_wakeup(<Task finishe...cvWindow."}')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...cvWindow."}')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...cvWindow."}')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...cvWindow."}')>)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+                   │    │   │    │      │    │             │    └ <function WebSocketProtocol.asgi_send at 0x0000020C0C8FF380>
+                   │    │   │    │      │    │             └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000020C2E7389D0>
+                   │    │   │    │      │    └ <function WebSocketProtocol.asgi_receive at 0x0000020C0C8FF420>
+                   │    │   │    │      └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000020C2E7389D0>
+                   │    │   │    └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                   │    │   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000020C2E7389D0>
+                   │    └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000020C0C757490>
+                   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000020C2E7389D0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                 │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                 │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                 │    └ <fastapi.applications.FastAPI object at 0x0000020C13D8EC10>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000020C0C757490>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                           │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                           └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000020C13D5A150>
+          └ <fastapi.applications.FastAPI object at 0x0000020C13D8EC10>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000020C13F01DD0>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000020C13D5A150>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │                            │    │    │     │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │    │     └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    │    └ <starlette.websockets.WebSocket object at 0x0000020C2E2DA910>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000020C13F01D50>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000020C13F01DD0>
+          └ <function wrap_app_handling_exceptions at 0x0000020C13C61120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000020C13F01D50>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <fastapi.routing.APIRouter object at 0x0000020C13D8EDD0>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000020C13F01D50>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x0000020C13D8EDD0>>
+          └ <fastapi.routing.APIRouter object at 0x0000020C13D8EDD0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 2543, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │     │      │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │     │      └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │     └ <function WebSocketRoute.handle at 0x0000020C13C62CA0>
+          └ APIWebSocketRoute(path='/ws/opportunity', name='opportunity_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <function websocket_session.<locals>.app at 0x0000020C13ECEFC0>
+          └ APIWebSocketRoute(path='/ws/opportunity', name='opportunity_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 176, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │                            │    │        │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │        └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    └ <starlette.websockets.WebSocket object at 0x0000020C2E739910>
+          │                            └ <function websocket_session.<locals>.app.<locals>.app at 0x0000020C23D38EA0>
+          └ <function wrap_app_handling_exceptions at 0x0000020C13C61120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38040>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <function websocket_session.<locals>.app.<locals>.app at 0x0000020C23D38EA0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 173, in app
+    await func(session)
+          │    └ <starlette.websockets.WebSocket object at 0x0000020C2E739910>
+          └ <function get_websocket_app.<locals>.app at 0x0000020C13ECF060>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 780, in app
+    await dependant.call(**solved_result.values)
+          │         │      │             └ {'symbol': 'AMP/USDT', 'short': 'bingx', 'long': 'mexc', 'websocket': <starlette.websockets.WebSocket object at 0x0000020C2E7...
+          │         │      └ SolvedDependency(values={'symbol': 'AMP/USDT', 'short': 'bingx', 'long': 'mexc', 'websocket': <starlette.websockets.WebSocket...
+          │         └ <function FastApiApp.create.<locals>.opportunity_ws at 0x0000020C13ECECA0>
+          └ Dependant(path_params=[], query_params=[ModelField(field_info=Query(), name='symbol', mode='validation', config=None), ModelF...
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\fastapi_app.py", line 93, in opportunity_ws
+    await opportunity_handler.handle(websocket, symbol, short, long)
+          │                   │      │          │       │      └ 'mexc'
+          │                   │      │          │       └ 'bingx'
+          │                   │      │          └ 'AMP/USDT'
+          │                   │      └ <starlette.websockets.WebSocket object at 0x0000020C2E739910>
+          │                   └ <function OpportunityWsHandler.handle at 0x0000020C13CF2FC0>
+          └ <arbitrator.presentation.ws.opportunity_ws_handler.OpportunityWsHandler object at 0x0000020C13EE8F90>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\opportunity_ws_handler.py", line 60, in handle
+    await self._live_loop(
+          │    └ <function OpportunityWsHandler._live_loop at 0x0000020C13CF3380>
+          └ <arbitrator.presentation.ws.opportunity_ws_handler.OpportunityWsHandler object at 0x0000020C13EE8F90>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\opportunity_ws_handler.py", line 156, in _live_loop
+    await bootstrap.bootstrap(
+          │         └ <function OpportunityBootstrapService.bootstrap at 0x0000020C13CF0180>
+          └ <arbitrator.application.opportunity_bootstrap_service.OpportunityBootstrapService object at 0x0000020C2E72BD10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_bootstrap_service.py", line 35, in bootstrap
+    await fee_service.snapshot(named_exchanges, [swap_symbol])
+          │           │        │                 └ 'AMP/USDT:USDT'
+          │           │        └ [NamedExchange(exchange_id='bingx', display_name='BingX', gateway=<arbitrator.exchanges.bingx.Bingx object at 0x0000020C2E738...
+          │           └ <function FeeSnapshotService.snapshot at 0x0000020C128F0EA0>
+          └ <arbitrator.application.fee_snapshot_service.FeeSnapshotService object at 0x0000020C2E72BF50>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\fee_snapshot_service.py", line 30, in snapshot
+    fees = await exchange.gateway.fetch_fee_schedule(symbol)
+                 │        │                          └ 'AMP/USDT:USDT'
+                 │        └ <member 'gateway' of 'NamedExchange' objects>
+                 └ NamedExchange(exchange_id='mexc', display_name='MEXC', gateway=<arbitrator.exchanges.mexc.Mexc object at 0x0000020C2E73B190>)
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1002, in fetch_fee_schedule
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.mexc()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x0000020C128DAA20>
+          └ <arbitrator.exchanges.mexc.Mexc object at 0x0000020C2E73B190>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x0000020C1055AE80>
+          └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 322, in load_markets_helper
+    currencies = await self.fetch_currencies()
+                       │    └ <function mexc.fetch_currencies at 0x0000020C11CD7CE0>
+                       └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\mexc.py", line 1123, in fetch_currencies
+    response = await self.spotPrivateGetCapitalConfigGetall(params)
+                     │    │                                 └ {}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x0000020C0F6B3BA0>
+                     └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 10}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['spot', 'private']
+                 │    │      └ 'capital/config/getall'
+                 │    └ <function Exchange.fetch2 at 0x0000020C1067AF20>
+                 └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1027, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e...
+                 │    │     │               │                  └ {'url': 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e...
+                 │    │     │               └ {'url': 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e...
+                 │    │     └ {'url': 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e...
+                 │    └ <function Exchange.fetch at 0x0000020C1055ACA0>
+                 └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 287, in fetch
+    self.handle_errors(http_status_code, http_status_text, url, method, headers, http_response, json_response, request_headers, request_body)
+    │    │             │                 │                 │    │       │        │              │              │                └ None
+    │    │             │                 │                 │    │       │        │              │              └ {'X-MEXC-APIKEY': 'mx0vgl15jbU8pGFD42', 'source': 'CCXT', 'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, d...
+    │    │             │                 │                 │    │       │        │              └ {'code': '700003', 'msg': 'Timestamp for this request is outside of the recvWindow.'}
+    │    │             │                 │                 │    │       │        └ '{"code":700003,"msg":"Timestamp for this request is outside of the recvWindow."}'
+    │    │             │                 │                 │    │       └ {'Content-Type': 'application/json', 'Content-Length': '80', 'Strict-Transport-Security': 'max-age=63072000; includeSubdomain...
+    │    │             │                 │                 │    └ 'GET'
+    │    │             │                 │                 └ 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e0fe670fa...
+    │    │             │                 └ 'Bad Request'
+    │    │             └ 400
+    │    └ <function mexc.handle_errors at 0x0000020C11D17420>
+    └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\mexc.py", line 5945, in handle_errors
+    self.throw_exactly_matched_exception(self.exceptions['exact'], responseCode, feedback)
+    │    │                               │    │                    │             └ 'mexc {"code":700003,"msg":"Timestamp for this request is outside of the recvWindow."}'
+    │    │                               │    │                    └ '700003'
+    │    │                               │    └ {'exact': {'-1128': <class 'ccxt.base.errors.BadRequest'>, '-2011': <class 'ccxt.base.errors.BadRequest'>, '-1121': <class 'c...
+    │    │                               └ ccxt.async_support.mexc()
+    │    └ <function Exchange.throw_exactly_matched_exception at 0x0000020C0E336340>
+    └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\base\exchange.py", line 5890, in throw_exactly_matched_exception
+    raise exact[string](message)
+          │     │       └ 'mexc {"code":700003,"msg":"Timestamp for this request is outside of the recvWindow."}'
+          │     └ '700003'
+          └ {'-1128': <class 'ccxt.base.errors.BadRequest'>, '-2011': <class 'ccxt.base.errors.BadRequest'>, '-1121': <class 'ccxt.base.e...
+
+ccxt.base.errors.InvalidNonce: mexc {"code":700003,"msg":"Timestamp for this request is outside of the recvWindow."}
+2026-07-01 04:24:41 | ERROR    | [arbitrator.application.fee_snapshot_service:snapshot:32] - fetch_fee_schedule failed | exchange=mexc symbol=AMP/USDT:USDT
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 652
+               │     └ 3
+               └ <function _main at 0x0000020C0B9AE2A0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 652
+           │    └ <function BaseProcess._bootstrap at 0x0000020C0B99CB80>
+           └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x0000020C0B99C0E0>
+    └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x0000020C0B9F8CD0>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+    │    └ <function subprocess_started at 0x0000020C0C5319E0>
+    └ <SpawnProcess name='SpawnProcess-1' parent=16096 started>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket fd=928, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x0000020C0C730F50>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x0000020C0C530360>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x0000020C0B9F8CD0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x0000020C0C730F50>
+           │           │    │             └ [<socket.socket fd=928, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+           │           │    └ <function Server.serve at 0x0000020C0C530A40>
+           │           └ <uvicorn.server.Server object at 0x0000020C0C730F50>
+           └ <function asyncio_run at 0x0000020C0C4E8040>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x0000020C0C67B3D0>
+           │      └ <function Runner.run at 0x0000020C0BB0B100>
+           └ <asyncio.runners.Runner object at 0x0000020C0956C950>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\server...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000020C0BB08B80>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000020C0956C950>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x0000020C0BB08AE0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000020C0BB0A8E0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000020C0BA76340>
+    └ <Handle Task.task_wakeup(<Task finishe...cvWindow."}')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...cvWindow."}')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...cvWindow."}')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...cvWindow."}')>)>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+                   │    │   │    │      │    │             │    └ <function WebSocketProtocol.asgi_send at 0x0000020C0C8FF380>
+                   │    │   │    │      │    │             └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000020C2E7389D0>
+                   │    │   │    │      │    └ <function WebSocketProtocol.asgi_receive at 0x0000020C0C8FF420>
+                   │    │   │    │      └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000020C2E7389D0>
+                   │    │   │    └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                   │    │   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000020C2E7389D0>
+                   │    └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000020C0C757490>
+                   └ <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000020C2E7389D0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                 │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                 │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+                 │    └ <fastapi.applications.FastAPI object at 0x0000020C13D8EC10>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000020C0C757490>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+                           │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+                           └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000020C13D5A150>
+          └ <fastapi.applications.FastAPI object at 0x0000020C13D8EC10>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000020C13F01DD0>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000020C13D5A150>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ <bound method WebSocketProtocol.asgi_send of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0000...
+          │                            │    │    │     │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │    │     └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    │    └ <starlette.websockets.WebSocket object at 0x0000020C2E2DA910>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000020C13F01D50>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000020C13F01DD0>
+          └ <function wrap_app_handling_exceptions at 0x0000020C13C61120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000020C13F01D50>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <fastapi.routing.APIRouter object at 0x0000020C13D8EDD0>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000020C13F01D50>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │    │                │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │                └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x0000020C13D8EDD0>>
+          └ <fastapi.routing.APIRouter object at 0x0000020C13D8EDD0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 2543, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │     │      │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │     │      └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │     └ <function WebSocketRoute.handle at 0x0000020C13C62CA0>
+          └ APIWebSocketRoute(path='/ws/opportunity', name='opportunity_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │    │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │    │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │    └ <function websocket_session.<locals>.app at 0x0000020C13ECEFC0>
+          └ APIWebSocketRoute(path='/ws/opportunity', name='opportunity_ws')
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 176, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38F40>
+          │                            │    │        │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │                            │    │        └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          │                            │    └ <starlette.websockets.WebSocket object at 0x0000020C2E739910>
+          │                            └ <function websocket_session.<locals>.app.<locals>.app at 0x0000020C23D38EA0>
+          └ <function wrap_app_handling_exceptions at 0x0000020C13C61120>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000020C23D38040>
+          │   │      └ <bound method WebSocketProtocol.asgi_receive of <uvicorn.protocols.websockets.websockets_impl.WebSocketProtocol object at 0x0...
+          │   └ {'type': 'websocket', 'asgi': {'version': '3.0', 'spec_version': '2.4'}, 'http_version': '1.1', 'scheme': 'ws', 'server': ('1...
+          └ <function websocket_session.<locals>.app.<locals>.app at 0x0000020C23D38EA0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 173, in app
+    await func(session)
+          │    └ <starlette.websockets.WebSocket object at 0x0000020C2E739910>
+          └ <function get_websocket_app.<locals>.app at 0x0000020C13ECF060>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\fastapi\routing.py", line 780, in app
+    await dependant.call(**solved_result.values)
+          │         │      │             └ {'symbol': 'AMP/USDT', 'short': 'bingx', 'long': 'mexc', 'websocket': <starlette.websockets.WebSocket object at 0x0000020C2E7...
+          │         │      └ SolvedDependency(values={'symbol': 'AMP/USDT', 'short': 'bingx', 'long': 'mexc', 'websocket': <starlette.websockets.WebSocket...
+          │         └ <function FastApiApp.create.<locals>.opportunity_ws at 0x0000020C13ECECA0>
+          └ Dependant(path_params=[], query_params=[ModelField(field_info=Query(), name='symbol', mode='validation', config=None), ModelF...
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\fastapi_app.py", line 93, in opportunity_ws
+    await opportunity_handler.handle(websocket, symbol, short, long)
+          │                   │      │          │       │      └ 'mexc'
+          │                   │      │          │       └ 'bingx'
+          │                   │      │          └ 'AMP/USDT'
+          │                   │      └ <starlette.websockets.WebSocket object at 0x0000020C2E739910>
+          │                   └ <function OpportunityWsHandler.handle at 0x0000020C13CF2FC0>
+          └ <arbitrator.presentation.ws.opportunity_ws_handler.OpportunityWsHandler object at 0x0000020C13EE8F90>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\opportunity_ws_handler.py", line 60, in handle
+    await self._live_loop(
+          │    └ <function OpportunityWsHandler._live_loop at 0x0000020C13CF3380>
+          └ <arbitrator.presentation.ws.opportunity_ws_handler.OpportunityWsHandler object at 0x0000020C13EE8F90>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\presentation\ws\opportunity_ws_handler.py", line 156, in _live_loop
+    await bootstrap.bootstrap(
+          │         └ <function OpportunityBootstrapService.bootstrap at 0x0000020C13CF0180>
+          └ <arbitrator.application.opportunity_bootstrap_service.OpportunityBootstrapService object at 0x0000020C2E72BD10>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_bootstrap_service.py", line 35, in bootstrap
+    await fee_service.snapshot(named_exchanges, [swap_symbol])
+          │           │        │                 └ 'AMP/USDT:USDT'
+          │           │        └ [NamedExchange(exchange_id='bingx', display_name='BingX', gateway=<arbitrator.exchanges.bingx.Bingx object at 0x0000020C2E738...
+          │           └ <function FeeSnapshotService.snapshot at 0x0000020C128F0EA0>
+          └ <arbitrator.application.fee_snapshot_service.FeeSnapshotService object at 0x0000020C2E72BF50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\application\fee_snapshot_service.py", line 30, in snapshot
+    fees = await exchange.gateway.fetch_fee_schedule(symbol)
+                 │        │                          └ 'AMP/USDT:USDT'
+                 │        └ <member 'gateway' of 'NamedExchange' objects>
+                 └ NamedExchange(exchange_id='mexc', display_name='MEXC', gateway=<arbitrator.exchanges.mexc.Mexc object at 0x0000020C2E73B190>)
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1002, in fetch_fee_schedule
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.mexc()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x0000020C128DAA20>
+          └ <arbitrator.exchanges.mexc.Mexc object at 0x0000020C2E73B190>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x0000020C1055AE80>
+          └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 322, in load_markets_helper
+    currencies = await self.fetch_currencies()
+                       │    └ <function mexc.fetch_currencies at 0x0000020C11CD7CE0>
+                       └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\mexc.py", line 1123, in fetch_currencies
+    response = await self.spotPrivateGetCapitalConfigGetall(params)
+                     │    │                                 └ {}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x0000020C0F6B3BA0>
+                     └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 10}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['spot', 'private']
+                 │    │      └ 'capital/config/getall'
+                 │    └ <function Exchange.fetch2 at 0x0000020C1067AF20>
+                 └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1027, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e...
+                 │    │     │               │                  └ {'url': 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e...
+                 │    │     │               └ {'url': 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e...
+                 │    │     └ {'url': 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e...
+                 │    └ <function Exchange.fetch at 0x0000020C1055ACA0>
+                 └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 287, in fetch
+    self.handle_errors(http_status_code, http_status_text, url, method, headers, http_response, json_response, request_headers, request_body)
+    │    │             │                 │                 │    │       │        │              │              │                └ None
+    │    │             │                 │                 │    │       │        │              │              └ {'X-MEXC-APIKEY': 'mx0vgl15jbU8pGFD42', 'source': 'CCXT', 'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, d...
+    │    │             │                 │                 │    │       │        │              └ {'code': '700003', 'msg': 'Timestamp for this request is outside of the recvWindow.'}
+    │    │             │                 │                 │    │       │        └ '{"code":700003,"msg":"Timestamp for this request is outside of the recvWindow."}'
+    │    │             │                 │                 │    │       └ {'Content-Type': 'application/json', 'Content-Length': '80', 'Strict-Transport-Security': 'max-age=63072000; includeSubdomain...
+    │    │             │                 │                 │    └ 'GET'
+    │    │             │                 │                 └ 'https://api.mexc.com/api/v3/capital/config/getall?timestamp=1782869071168&recvWindow=5000&signature=b25cbd509a6b737e0fe670fa...
+    │    │             │                 └ 'Bad Request'
+    │    │             └ 400
+    │    └ <function mexc.handle_errors at 0x0000020C11D17420>
+    └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\mexc.py", line 5945, in handle_errors
+    self.throw_exactly_matched_exception(self.exceptions['exact'], responseCode, feedback)
+    │    │                               │    │                    │             └ 'mexc {"code":700003,"msg":"Timestamp for this request is outside of the recvWindow."}'
+    │    │                               │    │                    └ '700003'
+    │    │                               │    └ {'exact': {'-1128': <class 'ccxt.base.errors.BadRequest'>, '-2011': <class 'ccxt.base.errors.BadRequest'>, '-1121': <class 'c...
+    │    │                               └ ccxt.async_support.mexc()
+    │    └ <function Exchange.throw_exactly_matched_exception at 0x0000020C0E336340>
+    └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\base\exchange.py", line 5890, in throw_exactly_matched_exception
+    raise exact[string](message)
+          │     │       └ 'mexc {"code":700003,"msg":"Timestamp for this request is outside of the recvWindow."}'
+          │     └ '700003'
+          └ {'-1128': <class 'ccxt.base.errors.BadRequest'>, '-2011': <class 'ccxt.base.errors.BadRequest'>, '-1121': <class 'ccxt.base.e...
+
+ccxt.base.errors.InvalidNonce: mexc {"code":700003,"msg":"Timestamp for this request is outside of the recvWindow."}
+2026-07-01 04:24:44 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=1000CAT/USDT:USDT
+2026-07-01 04:24:44 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=ARC/USDT:USDT
+2026-07-01 04:24:44 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=CGNX/USDT:USDT
+2026-07-01 04:24:44 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=FIL/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=IREN/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=KWEB/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=MDB/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=NBIS/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=PUMP/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=SMCI/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=SPCX/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=UNH/USDT:USDT
+2026-07-01 04:24:45 | ERROR    | [arbitrator.exchanges.ccxt_base:fetch_fee_schedule:1005] - market symbol not found for fees | exchange=mexc symbol=ZHIPU/USDT:USDT

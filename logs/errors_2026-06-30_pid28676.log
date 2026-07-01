@@ -1,0 +1,1 @@
+2026-06-30 06:28:26 | ERROR    | [uvicorn.main:run:614] - [uvicorn.error] [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions

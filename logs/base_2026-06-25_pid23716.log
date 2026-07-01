@@ -1,0 +1,230 @@
+2026-06-25 02:06:27 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:56292 - "WebSocket /_stcore/stream" [accepted]
+2026-06-25 02:06:27 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-25 02:06:29 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-25 02:06:31 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:06:31 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:06:31 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:06:31 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:06:32 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 02:06:32 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 02:06:34 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:06:34 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Closed orders
+2026-06-25 02:06:36 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:06:36 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Closed orders
+2026-06-25 02:06:36 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:06:36 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Closed orders
+2026-06-25 02:06:36 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:06:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:06:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:06:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:06:42 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:06:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:06:45 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:449] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-25 02:06:45 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=bitget count=0
+2026-06-25 02:06:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:06:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:06:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:06:53 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=mexc count=1
+2026-06-25 02:06:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:06:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:06:53 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=gate count=0
+2026-06-25 02:06:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:06:54 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:06:55 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:06:55 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:06:55 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:07:02 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:07:02 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:449] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-25 02:07:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:07:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:07:03 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=bitget count=0
+2026-06-25 02:07:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:07:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:07:09 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=mexc count=1
+2026-06-25 02:07:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:07:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:07:11 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=gate count=0
+2026-06-25 02:07:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:07:12 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:07:12 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:07:13 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:07:13 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:07:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:07:20 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:449] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-25 02:07:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:07:21 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:07:21 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=bitget count=0
+2026-06-25 02:07:22 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:07:22 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:07:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:07:28 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=mexc count=1
+2026-06-25 02:07:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:07:28 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=gate count=0
+2026-06-25 02:07:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:07:29 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:07:29 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:07:30 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:07:30 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:07:37 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:07:37 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=bitget count=0
+2026-06-25 02:07:38 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:07:38 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:449] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-25 02:07:38 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:07:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:07:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:07:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:07:45 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=mexc count=1
+2026-06-25 02:07:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:07:46 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=gate count=0
+2026-06-25 02:07:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:07:47 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:07:47 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:07:47 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:07:48 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:07:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:07:54 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:449] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-25 02:07:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:07:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:07:55 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=bitget count=0
+2026-06-25 02:07:56 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:07:56 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:07:58 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:07:58 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Open orders
+2026-06-25 02:08:00 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:08:00 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Open orders
+2026-06-25 02:08:00 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:08:00 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Open orders
+2026-06-25 02:08:00 | INFO     | [arbitrator.presentation.sidebar.open_orders.open_orders_view:_render_poll_fragment:71] - Open orders manual refresh
+2026-06-25 02:08:00 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:08:01 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:08:01 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:08:01 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:08:02 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=mexc count=1
+2026-06-25 02:08:02 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:08:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:08:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:08:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:08:10 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:489] - Closed positions fetched | exchange=gate count=0
+2026-06-25 02:08:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:08:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:08:11 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=bitget count=0
+2026-06-25 02:08:11 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=bingx count=0
+2026-06-25 02:08:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:08:12 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:08:16 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=mexc count=0
+2026-06-25 02:08:17 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:08:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:08:18 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=gate count=0
+2026-06-25 02:08:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:08:19 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:08:19 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:08:20 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:08:20 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:08:21 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:08:21 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Opportunity
+2026-06-25 02:08:22 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:08:22 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:08:22 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:08:23 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:08:26 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:08:26 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Opportunity
+2026-06-25 02:08:27 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:08:27 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:08:28 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:08:28 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:08:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:08:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:08:29 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=bingx count=0
+2026-06-25 02:08:29 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=bitget count=0
+2026-06-25 02:08:32 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:08:32 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:08:32 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:08:34 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:08:37 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=bitget count=0
+2026-06-25 02:08:37 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:08:37 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 02:08:38 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=mexc count=0
+2026-06-25 02:08:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:08:39 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=bingx count=0
+2026-06-25 02:08:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:08:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:08:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:08:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:08:43 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:08:43 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 02:08:43 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:render:71] - Screener reconnect requested from UI
+2026-06-25 02:08:44 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 02:08:44 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 02:08:44 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:08:44 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:_ensure_worker:134] - Screener background worker started | nonce=1 stream_volume_usdt=50000.0
+2026-06-25 02:08:45 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=mexc count=0
+2026-06-25 02:08:45 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1395 after_min_exchanges=728 after_exclusions=727
+2026-06-25 02:08:45 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:150] - Volume discovery started | symbols=727 threshold_usdt=50000.0 timeout_s=30.0
+2026-06-25 02:08:45 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 582, 'bitget': 596, 'gate': 661, 'bingx': 473}
+2026-06-25 02:08:45 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=582
+2026-06-25 02:08:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:08:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:08:46 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:08:46 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=596
+2026-06-25 02:08:46 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=bingx count=0
+2026-06-25 02:08:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:08:46 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=gate count=0
+2026-06-25 02:08:46 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:08:46 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=661
+2026-06-25 02:08:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:08:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:08:47 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:08:47 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=473
+2026-06-25 02:08:47 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:08:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:08:51 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=mexc count=0
+2026-06-25 02:08:51 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=gate count=0
+2026-06-25 02:08:51 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:08:51 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:08:56 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:08:56 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_open_positions:429] - Open positions fetched | exchange=gate count=0
+2026-06-25 02:08:57 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:08:57 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:08:57 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=596 mode=bulk chunks=12
+2026-06-25 02:08:57 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:826] - Bulk stream chunks | exchange=bitget chunks=12 chunk_size=50
+2026-06-25 02:08:58 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:08:58 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=473 mode=fanout chunks=-
+2026-06-25 02:08:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:08:59 | DEBUG    | [arbitrator.exchanges.mexc:watch_tickers:52] - watch_tickers skipped non-api contracts | exchange=mexc skipped=32
+2026-06-25 02:08:59 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=mexc symbols=550 mode=bulk chunks=11
+2026-06-25 02:08:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:826] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-06-25 02:09:15 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:177] - Volume discovery timed out | eligible=571 pending=156
+2026-06-25 02:09:16 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=mexc
+2026-06-25 02:09:16 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bitget
+2026-06-25 02:09:16 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=gate
+2026-06-25 02:09:16 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bingx
+2026-06-25 02:09:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=mexc
+2026-06-25 02:09:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bitget
+2026-06-25 02:09:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=gate
+2026-06-25 02:09:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:813] - Exchange closed | exchange=bingx
+2026-06-25 02:09:19 | INFO     | [arbitrator.application.screener_stream_worker:_async_main:124] - Volume gate applied | threshold_usdt=50000.0 eligible=571 rejected=0
+2026-06-25 02:09:19 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 553, 'bitget': 469, 'gate': 534, 'bingx': 459}
+2026-06-25 02:09:19 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=553
+2026-06-25 02:09:19 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=mexc
+2026-06-25 02:09:19 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=469
+2026-06-25 02:09:20 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bitget
+2026-06-25 02:09:20 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=534
+2026-06-25 02:09:20 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=gate
+2026-06-25 02:09:20 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=459
+2026-06-25 02:09:21 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:938] - Exchange client opened | exchange=bingx
+2026-06-25 02:09:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bitget count=1913
+2026-06-25 02:09:28 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=469 mode=bulk chunks=10
+2026-06-25 02:09:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:826] - Bulk stream chunks | exchange=bitget chunks=10 chunk_size=50
+2026-06-25 02:09:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=bingx count=3026
+2026-06-25 02:09:29 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=459 mode=fanout chunks=-
+2026-06-25 02:09:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=mexc count=3238
+2026-06-25 02:09:30 | DEBUG    | [arbitrator.exchanges.mexc:watch_tickers:52] - watch_tickers skipped non-api contracts | exchange=mexc skipped=3
+2026-06-25 02:09:30 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=mexc symbols=550 mode=bulk chunks=11
+2026-06-25 02:09:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:826] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-06-25 02:09:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:955] - Markets loaded | exchange=gate count=5987
+2026-06-25 02:09:46 | DEBUG    | [arbitrator.exchanges.gate:watch_tickers:52] - watch_tickers skipped non-tradable contracts | exchange=gate skipped=3
+2026-06-25 02:09:46 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=gate symbols=531 mode=bulk chunks=11
+2026-06-25 02:09:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:826] - Bulk stream chunks | exchange=gate chunks=11 chunk_size=50
+2026-06-25 02:10:03 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:56559 - "GET /static/js/number-overlay-editor.LD4DdyBe.js HTTP/1.1" 200
+2026-06-25 02:11:31 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:56610 - "WebSocket /_stcore/stream" [accepted]
+2026-06-25 02:11:31 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open

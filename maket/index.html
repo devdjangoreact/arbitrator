@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Arbitrator — Mockup</title>
+<style>
+  :root{
+    --scale:1.3;
+    --bg:#f7f7f5; --panel:#ffffff; --border:#e2e0db; --border-strong:#cfccc4;
+    --text:#1c1c1a; --muted:#6b6a64; --faint:#9c9a92;
+    --red:#c0392b; --red-bg:#fbe9e7; --green:#1d9e75; --green-bg:#e1f5ee;
+    --accent:#185fa5; --accent-bg:#e6f1fb;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:calc(13px * var(--scale));}
+  .app{display:flex;height:100vh;overflow:hidden;}
+
+  .sidebar{width:200px;background:#f1f0ec;border-right:1px solid var(--border);padding:18px 12px;flex-shrink:0;}
+  .brand{font-size:calc(15px * var(--scale));font-weight:700;margin:0 0 16px 4px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;cursor:pointer;color:var(--muted);font-size:calc(13px * var(--scale));margin-bottom:2px;}
+  .nav-item .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--faint);flex-shrink:0;}
+  .nav-item.active{color:var(--text);font-weight:600;}
+  .nav-item.active .dot{border-color:var(--text);background:var(--text);}
+  .nav-item:hover{background:#e8e7e2;}
+
+  .main{flex:1;min-width:0;padding:0 20px;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);flex-shrink:0;}
+  .topbar h1{font-size:calc(14px * var(--scale));font-weight:600;margin:0;}
+  .topbar-left{display:flex;align-items:center;gap:10px;}
+  .topbar-right{display:flex;align-items:center;gap:10px;}
+  .status{font-size:calc(11px * var(--scale));color:var(--muted);}
+  .status .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--faint);margin-right:5px;}
+  .btn{border:1px solid var(--border-strong);background:#fff;border-radius:6px;padding:6px 12px;font-size:calc(12px * var(--scale));cursor:pointer;color:var(--text);}
+  .btn:hover{background:#f2f1ee;}
+  .btn-primary{background:var(--text);color:#fff;border-color:var(--text);}
+  .btn-connect{background:var(--green);color:#fff;border-color:var(--green);}
+  .btn-danger{background:var(--red);color:#fff;border-color:var(--red);}
+  .kebab{color:var(--muted);font-size:calc(18px * var(--scale));cursor:pointer;padding:0 4px;}
+  .badge{font-size:calc(10px * var(--scale));padding:2px 8px;border-radius:20px;font-weight:600;}
+  .badge.short{background:var(--red-bg);color:var(--red);}
+  .badge.long{background:var(--green-bg);color:var(--green);}
+
+  .page{display:none;flex:1;min-height:0;flex-direction:column;overflow:hidden;}
+  .page.active{display:flex;}
+
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:11px 13px;}
+  h2{font-size:calc(11px * var(--scale));font-weight:600;margin:0 0 8px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;}
+  .field{margin-bottom:8px;}
+  .field label{display:flex;align-items:center;gap:5px;font-size:calc(11px * var(--scale));color:var(--muted);margin-bottom:3px;}
+  .field label .q{width:12px;height:12px;border-radius:50%;border:1px solid var(--faint);font-size:calc(8px * var(--scale));display:inline-flex;align-items:center;justify-content:center;color:var(--faint);}
+  .field input, .field select{width:100%;border:1px solid var(--border-strong);border-radius:6px;padding:6px 8px;font-size:calc(12px * var(--scale));background:#fff;color:var(--text);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .faint{color:var(--faint);font-size:calc(11px * var(--scale));}
+  .muted{color:var(--muted);}
+  .sub{font-size:calc(11px * var(--scale));font-weight:600;color:var(--text);margin:10px 0 6px;}
+  .sub:first-child{margin-top:0;}
+  hr.sep{border:none;border-top:1px solid var(--border);margin:10px 0;}
+
+  /* ===== SCREENER ===== */
+  #page-screener{gap:12px;padding-top:12px;}
+  .screener-params{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;flex-shrink:0;}
+  .screener-params .field{margin-bottom:0;min-width:160px;}
+  .btn-row-action{font-size:calc(11px * var(--scale));padding:4px 10px;white-space:nowrap;}
+  .stream-note{font-size:calc(12px * var(--scale));color:var(--muted);flex-shrink:0;}
+  .table-scroll{flex:1;min-height:0;overflow:auto;border:1px solid var(--border);border-radius:10px;background:var(--panel);}
+  .table-scroll table{width:100%;border-collapse:collapse;font-size:calc(12px * var(--scale));}
+  .table-scroll thead th{position:sticky;top:0;background:var(--panel);z-index:1;}
+  th{text-align:left;color:var(--muted);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--border);font-size:calc(11px * var(--scale));white-space:nowrap;}
+  td{padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  .empty-row td{text-align:center;color:var(--faint);padding:40px 0;}
+
+  .pos{color:var(--green);} .neg{color:var(--red);}
+  .status-badge{font-size:calc(10px * var(--scale));padding:2px 8px;border-radius:20px;font-weight:600;}
+  .status-badge.open{background:var(--accent-bg);color:var(--accent);}
+  .status-badge.closed{background:#eee;color:var(--muted);}
+
+  .filter-chips{display:flex;gap:6px;flex-shrink:0;}
+  .chip{font-size:calc(12px * var(--scale));padding:5px 12px;border-radius:20px;border:1px solid var(--border-strong);background:#fff;cursor:pointer;color:var(--muted);}
+  .chip.active{background:var(--text);color:#fff;border-color:var(--text);}
+
+  /* ===== ORDERS GROUP TABLE (shared component, used on Orders page AND Opportunity page) ===== */
+  .ord-grid{
+    display:grid;
+    align-items:center;
+    grid-template-columns:
+      calc(18px * var(--scale))
+      calc(85px * var(--scale))
+      calc(110px * var(--scale))
+      calc(165px * var(--scale))
+      calc(95px * var(--scale))
+      calc(95px * var(--scale))
+      calc(55px * var(--scale))
+      calc(65px * var(--scale))
+      calc(85px * var(--scale))
+      calc(85px * var(--scale))
+      calc(60px * var(--scale))
+      calc(60px * var(--scale))
+      calc(70px * var(--scale))
+      calc(75px * var(--scale));
+  }
+  .ord-grid > div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ord-grid .badge{white-space:nowrap;}
+  .ord-head{padding:7px 8px;border-bottom:1px solid var(--border);font-size:calc(9.5px * var(--scale));color:var(--muted);text-transform:uppercase;letter-spacing:.02em;}
+  .ord-group{border-bottom:1px solid var(--border);}
+  .ord-parent{padding:7px 8px;cursor:pointer;font-size:calc(11.5px * var(--scale));}
+  .ord-parent:hover{background:#faf9f7;}
+  .caret{color:var(--faint);font-size:calc(10px * var(--scale));transition:transform .15s;}
+  .ord-group.expanded .caret{transform:rotate(90deg);}
+  .ord-children{display:none;background:#fafaf8;}
+  .ord-group.expanded .ord-children{display:block;}
+  .ord-child{padding:5px 8px;font-size:calc(10.5px * var(--scale));color:var(--muted);border-top:1px dashed var(--border);}
+  .ord-child .num{color:var(--text);}
+
+  /* ===== OPPORTUNITY ===== */
+  #page-opportunity{padding:6px 0 12px;overflow:hidden;}
+  #page-opportunity .topbar{padding:8px 0;}
+  .opp-body{flex:1;min-height:0;min-width:0;display:flex;flex-direction:column;gap:6px;overflow:hidden;}
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex-shrink:0;}
+  .metric .sub-val{font-size:calc(11px * var(--scale));color:var(--muted);margin-top:2px;}
+  .metric{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:7px 10px;}
+  .metric .label{font-size:calc(10px * var(--scale));color:var(--muted);margin-bottom:2px;}
+  .metric .value{font-size:calc(15px * var(--scale));font-weight:600;}
+  .metric .value.red{color:var(--red);} .metric .value.green{color:var(--green);}
+
+  .ex-info-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px;flex-shrink:0;}
+  .ex-info-card{border:1px solid var(--border);border-radius:6px;padding:4px 6px;background:#fafaf8;}
+  .ex-info-title{font-size:calc(10px * var(--scale));font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:4px;}
+  .ex-info-line{display:flex;justify-content:space-between;gap:6px;font-size:calc(9px * var(--scale));padding:1px 0;border-bottom:1px solid var(--border);}
+  .ex-info-line:last-child{border-bottom:none;}
+  .ex-info-line span:first-child{color:var(--muted);}
+  .ex-info-line span:last-child{font-weight:600;font-variant-numeric:tabular-nums;text-align:right;}
+  .ex-info-line .fund-red{color:var(--red);}
+  .ex-info-line .fund-green{color:var(--green);}
+  .ex-info-line select{width:auto;min-width:56px;padding:1px 4px;font-size:calc(9px * var(--scale));border:1px solid var(--border-strong);border-radius:4px;background:#fff;color:var(--text);}
+  .ex-info-line.ex-lev{align-items:center;}
+  .ex-info-line.ex-lev span:last-child{font-weight:400;}
+
+  /* chart on top of order books */
+  .chart-row{flex-shrink:0;min-width:0;padding:5px 8px;}
+  .chart-wrap{position:relative;width:100%;}
+  canvas{width:100%;height:calc(160px * var(--scale));display:block;}
+  .chart-legend{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:calc(9px * var(--scale));color:var(--muted);margin-bottom:3px;align-items:center;}
+  .chart-legend span{display:inline-flex;align-items:center;gap:4px;}
+  .chart-legend .price{font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;}
+  .swatch{width:14px;height:2px;display:inline-block;flex-shrink:0;}
+  .swatch.dash{background:repeating-linear-gradient(90deg,currentColor 0 4px,transparent 4px 7px);height:2px;}
+
+  /* params + orderbooks: 50/50 row */
+  .opp-grid{flex:1;min-height:0;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;}
+  .opp-col{display:flex;flex-direction:column;gap:8px;min-height:0;min-width:0;}
+  .opp-col .card:not(.opp-left-card){overflow:hidden;}
+  .ob-books{display:flex;flex-direction:column;gap:4px;flex:1;min-height:0;min-width:0;}
+  .ob-market-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px;flex:1;min-height:0;min-width:0;}
+  .ob-market-col{display:flex;flex-direction:column;gap:4px;min-height:0;min-width:0;}
+  .ob-market-col .card{display:flex;flex-direction:column;min-height:0;overflow:hidden;flex:1;padding:5px 6px 10px;}
+  .ob-body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding-bottom:6px;}
+  .ob-side{flex:1;min-height:0;display:flex;flex-direction:column;}
+  .ob-row{position:relative;flex:1;min-height:calc(10px * var(--scale));display:flex;align-items:center;font-size:calc(8.5px * var(--scale));}
+  .ob-text{position:relative;width:100%;display:grid;grid-template-columns:1fr 1fr;padding:0 5px;gap:4px;}
+  .ob-text .ob-col-price{text-align:left;}
+  .ob-text .ob-col-total{text-align:right;color:var(--muted);font-size:calc(8.5px * var(--scale));}
+  .ob-text.ask{color:var(--red);}
+  .ob-text.bid{color:var(--green);}
+  .ob-text-head{display:grid;grid-template-columns:1fr 1fr;padding:0 5px 2px;font-size:calc(8px * var(--scale));color:var(--faint);text-transform:uppercase;letter-spacing:.03em;flex-shrink:0;}
+  .ob-text-head span:first-child{text-align:left;}
+  .ob-text-head span:last-child{text-align:right;}
+  .ob-top{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-shrink:0;min-width:0;}
+  .ob-top-meta{flex:1;min-width:0;font-size:calc(10px * var(--scale));color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25;font-weight:400;}
+  .ob-top-meta .ob-tag-long{color:var(--green);font-weight:600;}
+  .ob-top-meta .ob-tag-short{color:var(--red);font-weight:600;}
+  .ob-top-meta .ob-tag-fut{color:var(--accent);font-weight:600;}
+  .ob-top-meta .ob-tag-spot{color:var(--green);font-weight:600;}
+  .ob-squeeze{display:flex;gap:2px;align-items:center;flex-shrink:0;}
+  .btn-squeeze{font-size:calc(7.5px * var(--scale));padding:2px 5px;border-radius:4px;line-height:1.2;min-width:22px;}
+  .btn-squeeze.active{background:var(--text);color:#fff;border-color:var(--text);}
+  .ob-squeeze-val{width:36px;font-size:calc(8.5px * var(--scale));padding:2px 4px;border:1px solid var(--border-strong);border-radius:4px;text-align:center;font-variant-numeric:tabular-nums;background:#fff;color:var(--text);}
+  .ob-mid-bar{flex-shrink:0;text-align:center;line-height:1;padding:3px 0;}
+  .ob-mid-bar .ob-mid-price{font-size:calc(11.5px * var(--scale));font-weight:700;font-variant-numeric:tabular-nums;}
+  .ob-mid-bar .ob-mid-price.short{color:var(--red);}
+  .ob-mid-bar .ob-mid-price.long{color:var(--green);}
+  .opp-right-col{display:flex;flex-direction:column;min-height:0;min-width:0;gap:8px;}
+  .opp-right-col .chart-row{flex-shrink:0;}
+  .opp-right-col .ob-books{flex:1;min-height:0;}
+  .partial-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+  .partial-col{border:1px solid var(--border);border-radius:8px;padding:6px 8px;}
+  .partial-col .sub{margin-top:0;}
+  .ex-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .params-actions{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-direction:row;align-items:center;gap:12px;}
+  .params-actions .btn{flex:1;width:auto;min-width:0;}
+  .params-actions .checks{flex-direction:row;margin:0;gap:14px;flex-shrink:0;white-space:nowrap;}
+
+  .opp-left-card{flex:1;min-height:0;min-width:0;display:flex;flex-direction:column;overflow:hidden;padding:8px 10px;}
+  .opp-left-top{flex-shrink:0;min-width:0;overflow:hidden;}
+  .opp-params-block{flex-shrink:0;padding-top:6px;border-top:1px solid var(--border);margin-top:6px;}
+  .opp-params-block h2{font-size:calc(9px * var(--scale));margin-bottom:4px;}
+  .opp-params-block .field{margin-bottom:3px;}
+  .opp-params-block .field label{font-size:calc(8.5px * var(--scale));margin-bottom:1px;}
+  .opp-params-block .field input,
+  .opp-params-block .field select{font-size:calc(9.5px * var(--scale));padding:3px 6px;}
+  .opp-params-block .field-row{gap:4px;}
+  .opp-params-line{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;margin-bottom:4px;}
+  .opp-params-block .field-inline{display:flex;align-items:center;gap:4px;margin-bottom:0;min-width:0;flex:1 1 0;}
+  .opp-params-block .field-inline.field-full{flex:1 1 100%;}
+  .opp-params-block .field-inline label{margin-bottom:0;white-space:nowrap;flex-shrink:0;}
+  .opp-params-block .field-inline input,
+  .opp-params-block .field-inline select{flex:1;min-width:0;width:auto;}
+  .opp-params-block .sub{font-size:calc(8.5px * var(--scale));margin:3px 0 2px;}
+  .opp-params-block .partial-row{margin-top:4px;gap:4px;}
+  .opp-params-block .partial-col{padding:4px 6px;}
+  .opp-params-block .pct-row{margin:3px 0;gap:3px;}
+  .opp-params-block .pct-row button{font-size:calc(8.5px * var(--scale));padding:2px 0;}
+  .opp-params-block .btn{font-size:calc(9px * var(--scale));padding:3px 8px;}
+  .opp-params-block .params-actions{margin-top:5px;padding-top:5px;gap:8px;}
+  .opp-params-block .checks{font-size:calc(8.5px * var(--scale));gap:8px;}
+  .opp-orders-block{flex:1;min-height:0;display:flex;flex-direction:column;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);overflow:hidden;}
+  .opp-orders-head{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:4px;flex-shrink:0;}
+  .opp-orders-head h2{margin:0;font-size:calc(9px * var(--scale));}
+  .opp-orders-head .chip{font-size:calc(9px * var(--scale));padding:3px 8px;}
+  .opp-orders-scroll{flex:1;min-height:0;min-width:0;overflow:auto;border:1px solid var(--border);border-radius:8px;}
+  .opp-orders-scroll .ord-grid{
+    width:100%;
+    min-width:0;
+    grid-template-columns:
+      calc(14px * var(--scale))
+      minmax(0,1.1fr)
+      minmax(0,0.75fr)
+      minmax(0,1.55fr)
+      minmax(0,1fr)
+      minmax(0,1fr)
+      minmax(0,0.65fr)
+      minmax(0,0.85fr)
+      minmax(0,1fr)
+      minmax(0,1fr)
+      minmax(0,0.85fr)
+      minmax(0,0.85fr)
+      minmax(0,0.9fr)
+      minmax(0,1fr);
+  }
+  .opp-orders-scroll .ord-head{position:sticky;top:0;background:var(--panel);z-index:1;padding:4px 6px;font-size:calc(8px * var(--scale));}
+  .opp-orders-scroll .ord-parent{padding:4px 6px;font-size:calc(9px * var(--scale));}
+  .opp-orders-scroll .ord-child{padding:3px 6px;font-size:calc(8.5px * var(--scale));}
+  .screener-price{font-size:calc(10.5px * var(--scale));line-height:1.35;}
+  .screener-price .fut{color:var(--accent);}
+  .screener-price .spot{color:var(--green);}
+  th.fut-col{color:var(--accent);}
+  th.spot-col{color:var(--green);}
+  td.fut-col{color:var(--accent);}
+  td.spot-col{color:var(--green);}
+
+  .ob-fill{position:absolute;top:0;height:100%;}
+  .ob-fill.ask{right:0;background:var(--red-bg);}
+  .ob-fill.bid{left:0;background:var(--green-bg);}
+
+  .pct-row{display:flex;gap:5px;margin:5px 0;}
+  .pct-row button{flex:1;font-size:calc(10px * var(--scale));padding:4px 0;}
+  .checks{display:flex;flex-direction:column;gap:4px;font-size:calc(11px * var(--scale));color:var(--text);margin-top:4px;}
+  .checks label{display:flex;align-items:center;gap:5px;}
+
+  /* orders on global Orders page */
+  .orders-row{flex-shrink:0;max-height:150px;display:flex;flex-direction:column;}
+  .orders-row .card{padding:8px 0;display:flex;flex-direction:column;min-height:0;}
+  .orders-row h2{padding:0 12px;margin-bottom:6px;}
+  .orders-row .table-scroll{border:none;border-radius:0;flex:1;}
+
+  #page-orders .ord-grid{
+    grid-template-columns:
+      calc(18px * var(--scale))
+      calc(85px * var(--scale))
+      calc(110px * var(--scale))
+      calc(165px * var(--scale))
+      calc(95px * var(--scale))
+      calc(95px * var(--scale))
+      calc(55px * var(--scale))
+      calc(65px * var(--scale))
+      calc(85px * var(--scale))
+      calc(85px * var(--scale))
+      calc(60px * var(--scale))
+      calc(60px * var(--scale))
+      calc(70px * var(--scale))
+      calc(75px * var(--scale))
+      calc(72px * var(--scale));
+  }
+  .btn-opp{font-size:calc(9px * var(--scale));padding:3px 7px;white-space:nowrap;}
+  .strategy-calc-in-card{margin-bottom:4px;flex-shrink:0;}
+  .strategy-table-wrap{overflow-x:auto;min-width:0;border:1px solid var(--border);border-radius:6px;}
+  .strategy-calc-row{flex-shrink:0;display:flex;flex-direction:column;gap:2px;min-width:0;}
+  .strategy-calc-row h2{margin:0;font-size:calc(10px * var(--scale));}
+  .strategy-table{font-size:calc(9.5px * var(--scale));width:100%;border-collapse:collapse;}
+  .strategy-table th{font-size:calc(9px * var(--scale));padding:3px 4px;white-space:nowrap;font-weight:500;color:var(--muted);}
+  .strategy-table td{padding:3px 4px;vertical-align:middle;border-bottom:1px solid var(--border);}
+  .strategy-table td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  .strategy-table td:nth-child(9){white-space:nowrap;}
+  .strategy-table .sub-cost{display:inline;font-size:calc(8px * var(--scale));color:var(--faint);margin-left:2px;}
+  .strategy-table tr:last-child td{border-bottom:none;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="sidebar">
+    <p class="brand">Arbitrator</p>
+    <div class="nav-item active" data-page="screener" onclick="showPage('screener',this)"><span class="dot"></span>Screener</div>
+    <div class="nav-item" data-page="opportunity" onclick="showPage('opportunity',this)"><span class="dot"></span>Opportunity</div>
+    <div class="nav-item" data-page="orders" onclick="showPage('orders',this)"><span class="dot"></span>Orders · 2</div>
+    <div class="nav-item" data-page="settings" onclick="showPage('settings',this)"><span class="dot"></span>Settings</div>
+  </div>
+
+  <div class="main">
+
+    <!-- ============ SCREENER ============ -->
+    <div class="page active" id="page-screener">
+      <div class="topbar">
+        <div class="topbar-left"><h1>Screener</h1></div>
+      </div>
+
+      <div class="screener-params">
+        <div class="field">
+          <label>Min 24h volume (K USDT) <span class="q">?</span></label>
+          <input type="text" value="0.00">
+        </div>
+        <div class="field">
+          <label>Stream min 24h volume (USDT) <span class="q">?</span></label>
+          <input type="text" value="50000.00">
+        </div>
+        <div class="field">
+          <label>Min spread %</label>
+          <input type="text" value="0.00">
+        </div>
+        <button class="btn">Reconnect</button>
+      </div>
+
+      <p class="stream-note">Streaming: 5 symbols · Exchanges: mexc, bitget, gate, bingx · Stream min volume: 50,000 USDT</p>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th rowspan="2">Asset</th><th colspan="2">MEXC</th><th colspan="2">Bitget</th><th colspan="2">Gate</th><th colspan="2">BingX</th><th rowspan="2">Max</th><th rowspan="2">Min</th><th rowspan="2">Spread %</th><th rowspan="2">Δ</th><th rowspan="2">Vol K USDT</th>
+              <th rowspan="2" title="Фючерс-фючерс">Ф-Ф</th><th rowspan="2" title="Фючерс-спот 2 біржі">Ф-С 2б</th><th rowspan="2" title="Фючерс-спот 1 біржа">Ф-С 1б</th><th rowspan="2" title="Фандінг фючерс-фючерс">Ф Ф-Ф</th><th rowspan="2" title="Фандінг фючерс-спот">Ф Ф-С</th><th rowspan="2" title="Фандінг різні дати">Ф різн.</th><th rowspan="2"></th></tr>
+            <tr><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>DOGE/USDT</td>
+              <td class="num fut-col">0.2124</td><td class="num spot-col">0.2118</td>
+              <td class="num fut-col">0.2090</td><td class="num spot-col">0.2085</td>
+              <td class="num fut-col">0.2105</td><td class="num spot-col">0.2100</td>
+              <td class="num fut-col">0.2098</td><td class="num spot-col">0.2092</td>
+              <td class="num">0.2124</td><td class="num">0.2090</td><td class="num pos">0.83</td><td class="num pos">+0.12</td><td class="num">908</td>
+              <td class="num pos">+18.40</td><td class="num pos">+12.10</td><td class="num pos">+8.50</td><td class="num pos">+22.30</td><td class="num pos">+15.60</td><td class="num pos">+9.80</td>
+              <td><button class="btn btn-primary btn-row-action">Open Opportunity</button></td>
+            </tr>
+            <tr>
+              <td>SOL/USDT</td>
+              <td class="num fut-col">142.10</td><td class="num spot-col">141.95</td>
+              <td class="num fut-col">141.85</td><td class="num spot-col">141.70</td>
+              <td class="num fut-col">142.30</td><td class="num spot-col">142.15</td>
+              <td class="num fut-col">141.95</td><td class="num spot-col">141.80</td>
+              <td class="num">142.30</td><td class="num">141.85</td><td class="num pos">0.41</td><td class="num">0.00</td><td class="num">1240</td>
+              <td class="num pos">+9.20</td><td class="num pos">+6.40</td><td class="num pos">+4.10</td><td class="num pos">+11.50</td><td class="num pos">+7.80</td><td class="num pos">+3.20</td>
+              <td><button class="btn btn-primary btn-row-action">Open Opportunity</button></td>
+            </tr>
+            <tr>
+              <td>XRP/USDT</td>
+              <td class="num fut-col">0.5210</td><td class="num spot-col">0.5202</td>
+              <td class="num fut-col">0.5198</td><td class="num spot-col">0.5190</td>
+              <td class="num fut-col">0.5205</td><td class="num spot-col">0.5198</td>
+              <td class="num fut-col">0.5192</td><td class="num spot-col">0.5185</td>
+              <td class="num">0.5210</td><td class="num">0.5192</td><td class="num pos">0.58</td><td class="num neg">−0.03</td><td class="num">2150</td>
+              <td class="num pos">+14.80</td><td class="num pos">+10.20</td><td class="num pos">+6.90</td><td class="num pos">+18.10</td><td class="num pos">+12.40</td><td class="num pos">+5.60</td>
+              <td><button class="btn btn-primary btn-row-action">Open Opportunity</button></td>
+            </tr>
+            <tr>
+              <td>ADA/USDT</td>
+              <td class="num fut-col">0.3842</td><td class="num spot-col">0.3836</td>
+              <td class="num fut-col">0.3830</td><td class="num spot-col">0.3824</td>
+              <td class="num fut-col">0.3838</td><td class="num spot-col">0.3832</td>
+              <td class="num fut-col">0.3825</td><td class="num spot-col">0.3819</td>
+              <td class="num">0.3842</td><td class="num">0.3825</td><td class="num pos">0.37</td><td class="num">0.00</td><td class="num">680</td>
+              <td class="num pos">+5.60</td><td class="num pos">+3.80</td><td class="num pos">+2.40</td><td class="num pos">+7.20</td><td class="num pos">+4.90</td><td class="num pos">+1.80</td>
+              <td><button class="btn btn-primary btn-row-action">Open Opportunity</button></td>
+            </tr>
+            <tr>
+              <td>TON/USDT</td>
+              <td class="num fut-col">5.842</td><td class="num spot-col">5.836</td>
+              <td class="num fut-col">5.831</td><td class="num spot-col">5.825</td>
+              <td class="num fut-col">5.838</td><td class="num spot-col">5.832</td>
+              <td class="num fut-col">5.829</td><td class="num spot-col">5.823</td>
+              <td class="num">5.842</td><td class="num">5.829</td><td class="num pos">0.29</td><td class="num">0.00</td><td class="num">420</td>
+              <td class="num pos">+4.20</td><td class="num pos">+2.90</td><td class="num pos">+1.70</td><td class="num pos">+5.40</td><td class="num pos">+3.60</td><td class="num pos">+0.90</td>
+              <td><button class="btn btn-primary btn-row-action">Open Opportunity</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============ OPPORTUNITY ============ -->
+    <div class="page" id="page-opportunity">
+      <div class="topbar">
+        <div class="topbar-left">
+          <h1>Opportunity</h1>
+          <span style="font-weight:600;font-size:calc(13px * var(--scale));">DOGE/USDT</span>
+          <span class="badge short">S · MEXC</span>
+          <span class="badge long">L · BingX</span>
+        </div>
+      </div>
+
+      <div class="opp-body">
+
+        <!-- params 50% + orderbooks 50% -->
+        <div class="opp-grid">
+
+          <div class="opp-col">
+            <div class="card opp-left-card">
+              <div class="opp-left-top">
+              <div class="ex-info-row">
+                <div class="ex-info-card">
+                  <div class="ex-info-title">MEXC <span class="badge short">short</span></div>
+                  <div class="ex-info-line"><span>Баланс</span><span>842.10 USDT</span></div>
+                  <div class="ex-info-line"><span>Фандінг</span><span><span class="fund-red" id="m-fund-mexc">−0.012%</span> · <span id="m-cd-mexc">02:14:35</span></span></div>
+                  <div class="ex-info-line ex-lev"><span>Плече</span>
+                    <select id="lev-mexc">
+                      <option>1x</option><option>2x</option><option>3x</option><option>5x</option><option selected>10x</option><option>20x</option><option>50x</option><option>100x</option>
+                    </select>
+                  </div>
+                  <div class="ex-info-line"><span>Комісія ф'ючерс</span><span>0.02 / 0.04%</span></div>
+                  <div class="ex-info-line"><span>Комісія спот</span><span>0.10 / 0.10%</span></div>
+                  <div class="ex-info-line"><span>Ордери</span><span>1 відкр. / 2 закр.</span></div>
+                </div>
+                <div class="ex-info-card">
+                  <div class="ex-info-title">BingX <span class="badge long">long</span></div>
+                  <div class="ex-info-line"><span>Баланс</span><span>915.60 USDT</span></div>
+                  <div class="ex-info-line"><span>Фандінг</span><span><span class="fund-green" id="m-fund-bingx">+0.008%</span> · <span id="m-cd-bingx">02:14:35</span></span></div>
+                  <div class="ex-info-line ex-lev"><span>Плече</span>
+                    <select id="lev-bingx">
+                      <option>1x</option><option>2x</option><option>3x</option><option>5x</option><option selected>10x</option><option>20x</option><option>50x</option><option>100x</option>
+                    </select>
+                  </div>
+                  <div class="ex-info-line"><span>Комісія ф'ючерс</span><span>0.02 / 0.04%</span></div>
+                  <div class="ex-info-line"><span>Комісія спот</span><span>0.10 / 0.10%</span></div>
+                  <div class="ex-info-line"><span>Ордери</span><span>1 відкр. / 2 закр.</span></div>
+                </div>
+              </div>
+              <div class="strategy-calc-row strategy-calc-in-card">
+                <h2>Розрахунок по стратегіях</h2>
+                <div class="strategy-table-wrap">
+                  <table class="strategy-table">
+                    <thead>
+                      <tr>
+                        <th>Стратегія</th><th>Спред</th><th>Ціни</th><th>Комісії</th><th>Фандінг</th><th>Обʼєм</th><th>Плече</th><th>Заробіток</th><th>Витрати</th><th>Чистий прибуток</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Фючерс-фючерс</td><td class="num">0.83%</td><td class="num">0.2124 / 0.2098</td><td class="num">0.84</td><td class="num neg">−0.12</td><td class="num">320.00</td><td class="num">10x</td><td class="num pos">+18.40</td><td class="num">2.15<span class="sub-cost">(0.84 + 0.12 + 1.19)</span></td><td class="num pos">+16.25</td>
+                      </tr>
+                      <tr>
+                        <td>Фючерс-спот 2 біржі</td><td class="num">0.61%</td><td class="num">0.2124 / 0.2092</td><td class="num">1.12</td><td class="num neg">−0.08</td><td class="num">320.00</td><td class="num">10x</td><td class="num pos">+12.10</td><td class="num">2.48<span class="sub-cost">(1.12 + 0.08 + 1.28)</span></td><td class="num pos">+9.62</td>
+                      </tr>
+                      <tr>
+                        <td>Фючерс-спот 1 біржа</td><td class="num">0.28%</td><td class="num">0.2124 / 0.2118</td><td class="num">0.96</td><td class="num">0.00</td><td class="num">320.00</td><td class="num">10x</td><td class="num pos">+8.50</td><td class="num">1.55<span class="sub-cost">(0.96 + 0.00 + 0.59)</span></td><td class="num pos">+6.95</td>
+                      </tr>
+                      <tr>
+                        <td>Фандінг фючерс-фючерс</td><td class="num">0.83%</td><td class="num">0.2124 / 0.2098</td><td class="num">0.84</td><td class="num pos">+0.24</td><td class="num">320.00</td><td class="num">10x</td><td class="num pos">+22.30</td><td class="num">1.79<span class="sub-cost">(0.84 + 0.24 + 0.71)</span></td><td class="num pos">+20.51</td>
+                      </tr>
+                      <tr>
+                        <td>Фандінг фючерс-спот</td><td class="num">0.55%</td><td class="num">0.2124 / 0.2092</td><td class="num">1.12</td><td class="num pos">+0.18</td><td class="num">320.00</td><td class="num">10x</td><td class="num pos">+15.60</td><td class="num">2.02<span class="sub-cost">(1.12 + 0.18 + 0.72)</span></td><td class="num pos">+13.58</td>
+                      </tr>
+                      <tr>
+                        <td>Фандінг — різні дати</td><td class="num">0.71%</td><td class="num">0.2124 / 0.2098</td><td class="num">0.84</td><td class="num pos">+0.31</td><td class="num">320.00</td><td class="num">10x</td><td class="num pos">+9.80</td><td class="num">1.62<span class="sub-cost">(0.84 + 0.31 + 0.47)</span></td><td class="num pos">+8.18</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              </div>
+              <div class="opp-params-block">
+              <h2>Параметри</h2>
+              <div class="opp-params-line">
+                <div class="field field-inline field-full">
+                  <label>Стратегія</label>
+                  <select>
+                    <option selected>Фючерс-фючерс</option>
+                    <option>Фючерс-спот 2 біржі</option>
+                    <option>Фючерс-спот 1 біржа</option>
+                    <option>Фандінг фючерс-фючерс</option>
+                    <option>Фандінг фючерс-спот</option>
+                    <option>Фандінг — різні дати списання</option>
+                  </select>
+                </div>
+              </div>
+              <div class="opp-params-line">
+                <div class="field field-inline">
+                  <label>Набрано обʼєм</label>
+                  <input type="text" value="320.00" readonly>
+                </div>
+                <div class="field field-inline">
+                  <label>Обʼєм до добору</label>
+                  <input type="text" value="500.00">
+                </div>
+              </div>
+              <div class="opp-params-line">
+                <div class="field field-inline">
+                  <label>Спред відкриття, %</label>
+                  <input type="text" value="0.70">
+                </div>
+                <div class="field field-inline">
+                  <label>Спред закриття, %</label>
+                  <input type="text" value="0.05">
+                </div>
+              </div>
+
+              <div class="partial-row">
+                <div class="partial-col">
+                  <div class="field-row">
+                    <div class="field"><input type="text" value="50.00"></div>
+                    <div class="field"><input type="text" value="10%"></div>
+                  </div>
+                  <div class="pct-row"><button class="btn">10%</button><button class="btn">25%</button><button class="btn">50%</button></div>
+                  <button class="btn btn-primary" style="width:100%;">Добрати</button>
+                </div>
+                <div class="partial-col">
+                  <div class="field-row">
+                    <div class="field"><input type="text" value="50.00"></div>
+                    <div class="field"><input type="text" value="10%"></div>
+                  </div>
+                  <div class="pct-row"><button class="btn">10%</button><button class="btn">25%</button><button class="btn">50%</button></div>
+                  <button class="btn" style="width:100%;">Закрити</button>
+                </div>
+              </div>
+
+              <div class="params-actions">
+                <button class="btn btn-danger">Закрити всі позиції</button>
+                <div class="checks">
+                  <label><input type="checkbox" checked>Авто добір</label>
+                  <label><input type="checkbox">Авто скидання</label>
+                </div>
+              </div>
+              </div>
+
+              <div class="opp-orders-block">
+                <div class="opp-orders-head">
+                  <h2>Ордери DOGE/USDT</h2>
+                  <div class="filter-chips">
+                    <div class="chip active" onclick="filterOppOrders('open',this)">Відкриті</div>
+                    <div class="chip" onclick="filterOppOrders('closed',this)">Закриті</div>
+                  </div>
+                </div>
+                <div class="opp-orders-scroll" id="opp-orders-panel">
+                  <div class="ord-grid ord-head">
+                    <div></div><div>Asset</div><div>Стратегія</div><div>Біржі</div><div>Відкрито</div><div>Закрито</div><div>Плече</div>
+                    <div>Обʼєм</div><div>Вхід</div><div>Вихід</div><div>Комісія</div><div>Фандінг</div><div>PnL</div><div>Статус</div>
+                  </div>
+
+                  <div class="ord-group" data-status="open">
+                    <div class="ord-grid ord-parent" onclick="toggleGroup(this.parentElement)">
+                      <div class="caret">▸</div><div>DOGE/USDT</div>
+                      <div>Ф-Ф</div>
+                      <div><span class="badge short">S·MEXC</span> <span class="badge long">L·BingX</span></div>
+                      <div>26.06 14:02</div><div>—</div><div class="num">10x</div>
+                      <div class="num">320.00</div><div class="num">—</div><div class="num">—</div>
+                      <div class="num">0.84</div><div class="num">−0.12</div>
+                      <div class="num pos">+12.40</div><div><span class="status-badge open">Open</span></div>
+                    </div>
+                    <div class="ord-children">
+                      <div class="ord-grid ord-child">
+                        <div></div><div></div><div></div><div><span class="badge short">MEXC short</span></div><div></div><div></div>
+                        <div class="num">10x</div><div class="num">160.00</div><div class="num">0.21240</div><div class="num">—</div>
+                        <div class="num">0.42</div><div class="num">−0.06</div><div class="num pos">+7.20</div><div></div>
+                      </div>
+                      <div class="ord-grid ord-child">
+                        <div></div><div></div><div></div><div><span class="badge long">BingX long</span></div><div></div><div></div>
+                        <div class="num">10x</div><div class="num">160.00</div><div class="num">0.20900</div><div class="num">—</div>
+                        <div class="num">0.42</div><div class="num">−0.06</div><div class="num pos">+5.20</div><div></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ord-group" data-status="closed">
+                    <div class="ord-grid ord-parent" onclick="toggleGroup(this.parentElement)">
+                      <div class="caret">▸</div><div>DOGE/USDT</div>
+                      <div>Ф-Ф</div>
+                      <div><span class="badge short">S·MEXC</span> <span class="badge long">L·BingX</span></div>
+                      <div>26.06 11:58</div><div>26.06 12:20</div><div class="num">10x</div>
+                      <div class="num">280.00</div><div class="num">—</div><div class="num">—</div>
+                      <div class="num">0.62</div><div class="num">−0.08</div>
+                      <div class="num pos">+15.20</div><div><span class="status-badge closed">Closed</span></div>
+                    </div>
+                    <div class="ord-children">
+                      <div class="ord-grid ord-child">
+                        <div></div><div></div><div></div><div><span class="badge short">MEXC short</span></div><div></div><div></div>
+                        <div class="num">10x</div><div class="num">140.00</div><div class="num">0.20780</div><div class="num">0.20910</div>
+                        <div class="num">0.31</div><div class="num">−0.04</div><div class="num pos">+8.00</div><div></div>
+                      </div>
+                      <div class="ord-grid ord-child">
+                        <div></div><div></div><div></div><div><span class="badge long">BingX long</span></div><div></div><div></div>
+                        <div class="num">10x</div><div class="num">140.00</div><div class="num">0.20780</div><div class="num">0.20910</div>
+                        <div class="num">0.31</div><div class="num">−0.04</div><div class="num pos">+7.20</div><div></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ord-group" data-status="closed">
+                    <div class="ord-grid ord-parent" onclick="toggleGroup(this.parentElement)">
+                      <div class="caret">▸</div><div>DOGE/USDT</div>
+                      <div>Ф-С 2б</div>
+                      <div><span class="badge short">S·MEXC</span> <span class="badge long">L·BingX</span></div>
+                      <div>26.06 09:12</div><div>26.06 09:40</div><div class="num">10x</div>
+                      <div class="num">200.00</div><div class="num">—</div><div class="num">—</div>
+                      <div class="num">0.40</div><div class="num">0.05</div>
+                      <div class="num neg">−1.10</div><div><span class="status-badge closed">Closed</span></div>
+                    </div>
+                    <div class="ord-children">
+                      <div class="ord-grid ord-child">
+                        <div></div><div></div><div></div><div><span class="badge short">MEXC short</span></div><div></div><div></div>
+                        <div class="num">10x</div><div class="num">100.00</div><div class="num">0.20990</div><div class="num">0.20880</div>
+                        <div class="num">0.20</div><div class="num">0.025</div><div class="num neg">−0.55</div><div></div>
+                      </div>
+                      <div class="ord-grid ord-child">
+                        <div></div><div></div><div></div><div><span class="badge long">BingX long</span></div><div></div><div></div>
+                        <div class="num">10x</div><div class="num">100.00</div><div class="num">0.20990</div><div class="num">0.20880</div>
+                        <div class="num">0.20</div><div class="num">0.025</div><div class="num neg">−0.55</div><div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="opp-col opp-right-col">
+            <div class="chart-row card">
+              <div class="chart-legend">
+                <span><i class="swatch" style="background:#c0392b"></i>MEXC ф'юч <span class="price" id="ch-mexc-fut">0.21240</span></span>
+                <span><i class="swatch dash" style="color:#e67e22"></i>MEXC спот <span class="price" id="ch-mexc-spot">0.21180</span></span>
+                <span><i class="swatch" style="background:#1d9e75"></i>BingX ф'юч <span class="price" id="ch-bingx-fut">0.20980</span></span>
+                <span><i class="swatch dash" style="color:#52be80"></i>BingX спот <span class="price" id="ch-bingx-spot">0.20920</span></span>
+                <span class="faint" style="margin-left:auto;">реальний час</span>
+              </div>
+              <canvas id="liveChart"></canvas>
+            </div>
+            <div class="ob-books">
+              <div class="ob-market-row">
+                <div class="ob-market-col">
+                  <div class="card">
+                    <div class="ob-top">
+                      <span class="ob-top-meta">MEXC <span class="ob-tag-short">S</span> · <span class="ob-tag-fut">F</span> · 908K · 0.2088–0.2506</span>
+                      <div class="ob-squeeze">
+                        <button class="btn btn-squeeze active">1</button>
+                        <button class="btn btn-squeeze">2</button>
+                        <button class="btn btn-squeeze">5</button>
+                        <button class="btn btn-squeeze">10</button>
+                        <input class="ob-squeeze-val" type="text" value="1" title="Зжимання">
+                      </div>
+                    </div>
+                    <div class="ob-text-head"><span>Ціна</span><span>Сума</span></div>
+                    <div class="ob-body">
+                      <div class="ob-side">
+                        <div class="ob-row"><div class="ob-fill ask" style="width:18%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21260</span><span class="ob-col-total">23K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:16%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21250</span><span class="ob-col-total">49K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:12%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21240</span><span class="ob-col-total">49K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:8%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21220</span><span class="ob-col-total">11K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:5%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21210</span><span class="ob-col-total">8K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:4%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21200</span><span class="ob-col-total">6K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:3%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21190</span><span class="ob-col-total">5K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:2%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21180</span><span class="ob-col-total">4K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:2%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21170</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:1%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21160</span><span class="ob-col-total">2K</span></div></div>
+                      </div>
+                      <div class="ob-mid-bar"><span class="ob-mid-price short">0.21240</span></div>
+                      <div class="ob-side">
+                        <div class="ob-row"><div class="ob-fill bid" style="width:32%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20800</span><span class="ob-col-total">62K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:24%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20780</span><span class="ob-col-total">39K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:18%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20730</span><span class="ob-col-total">10K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:12%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20710</span><span class="ob-col-total">9K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:8%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20690</span><span class="ob-col-total">7K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:5%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20650</span><span class="ob-col-total">5K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:4%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20630</span><span class="ob-col-total">4K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:3%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20610</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:2%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20590</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:1%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20570</span><span class="ob-col-total">2K</span></div></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="ob-top">
+                      <span class="ob-top-meta">MEXC <span class="ob-tag-short">S</span> · <span class="ob-tag-spot">S</span> · 412K · 0.2080–0.2130</span>
+                      <div class="ob-squeeze">
+                        <button class="btn btn-squeeze active">1</button>
+                        <button class="btn btn-squeeze">2</button>
+                        <button class="btn btn-squeeze">5</button>
+                        <button class="btn btn-squeeze">10</button>
+                        <input class="ob-squeeze-val" type="text" value="1" title="Зжимання">
+                      </div>
+                    </div>
+                    <div class="ob-text-head"><span>Ціна</span><span>Сума</span></div>
+                    <div class="ob-body">
+                      <div class="ob-side">
+                        <div class="ob-row"><div class="ob-fill ask" style="width:14%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21200</span><span class="ob-col-total">13K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:12%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21190</span><span class="ob-col-total">18K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:8%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21180</span><span class="ob-col-total">5K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:6%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21170</span><span class="ob-col-total">4K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:4%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21160</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:3%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21150</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:3%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21140</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:2%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21130</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:2%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21120</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:1%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21110</span><span class="ob-col-total">1K</span></div></div>
+                      </div>
+                      <div class="ob-mid-bar"><span class="ob-mid-price short">0.21180</span></div>
+                      <div class="ob-side">
+                        <div class="ob-row"><div class="ob-fill bid" style="width:28%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21120</span><span class="ob-col-total">25K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:20%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21110</span><span class="ob-col-total">16K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:15%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21100</span><span class="ob-col-total">8K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:10%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21090</span><span class="ob-col-total">6K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:7%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21080</span><span class="ob-col-total">4K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:5%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21070</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:4%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21060</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:3%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21050</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:2%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21040</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:1%;"></div><div class="ob-text bid"><span class="ob-col-price">0.21030</span><span class="ob-col-total">1K</span></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ob-market-col">
+                  <div class="card">
+                    <div class="ob-top">
+                      <span class="ob-top-meta">BingX <span class="ob-tag-long">L</span> · <span class="ob-tag-fut">F</span> · 6.59M · 0.2098–0.2507</span>
+                      <div class="ob-squeeze">
+                        <button class="btn btn-squeeze active">1</button>
+                        <button class="btn btn-squeeze">2</button>
+                        <button class="btn btn-squeeze">5</button>
+                        <button class="btn btn-squeeze">10</button>
+                        <input class="ob-squeeze-val" type="text" value="1" title="Зжимання">
+                      </div>
+                    </div>
+                    <div class="ob-text-head"><span>Ціна</span><span>Сума</span></div>
+                    <div class="ob-body">
+                      <div class="ob-side">
+                        <div class="ob-row"><div class="ob-fill ask" style="width:16%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21280</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:14%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21260</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:10%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21250</span><span class="ob-col-total">4K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:7%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21240</span><span class="ob-col-total">4K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:5%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21230</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:3%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21220</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:3%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21210</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:2%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21200</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:2%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21190</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:1%;"></div><div class="ob-text ask"><span class="ob-col-price">0.21180</span><span class="ob-col-total">1K</span></div></div>
+                      </div>
+                      <div class="ob-mid-bar"><span class="ob-mid-price long">0.21250</span></div>
+                      <div class="ob-side">
+                        <div class="ob-row"><div class="ob-fill bid" style="width:38%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20900</span><span class="ob-col-total">29K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:65%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20780</span><span class="ob-col-total">111K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:42%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20760</span><span class="ob-col-total">51K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:28%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20740</span><span class="ob-col-total">26K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:18%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20720</span><span class="ob-col-total">18K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:10%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20700</span><span class="ob-col-total">11K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:8%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20680</span><span class="ob-col-total">8K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:5%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20660</span><span class="ob-col-total">5K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:3%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20640</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:2%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20620</span><span class="ob-col-total">2K</span></div></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="ob-top">
+                      <span class="ob-top-meta">BingX <span class="ob-tag-long">L</span> · <span class="ob-tag-spot">S</span> · 1.24M · 0.2085–0.2135</span>
+                      <div class="ob-squeeze">
+                        <button class="btn btn-squeeze active">1</button>
+                        <button class="btn btn-squeeze">2</button>
+                        <button class="btn btn-squeeze">5</button>
+                        <button class="btn btn-squeeze">10</button>
+                        <input class="ob-squeeze-val" type="text" value="1" title="Зжимання">
+                      </div>
+                    </div>
+                    <div class="ob-text-head"><span>Ціна</span><span>Сума</span></div>
+                    <div class="ob-body">
+                      <div class="ob-side">
+                        <div class="ob-row"><div class="ob-fill ask" style="width:12%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20960</span><span class="ob-col-total">6K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:10%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20950</span><span class="ob-col-total">10K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:7%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20940</span><span class="ob-col-total">4K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:5%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20930</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:4%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20920</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:3%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20910</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:3%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20900</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:2%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20890</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:2%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20880</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill ask" style="width:1%;"></div><div class="ob-text ask"><span class="ob-col-price">0.20870</span><span class="ob-col-total">1K</span></div></div>
+                      </div>
+                      <div class="ob-mid-bar"><span class="ob-mid-price long">0.20940</span></div>
+                      <div class="ob-side">
+                        <div class="ob-row"><div class="ob-fill bid" style="width:35%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20910</span><span class="ob-col-total">19K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:28%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20900</span><span class="ob-col-total">14K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:22%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20890</span><span class="ob-col-total">7K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:16%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20880</span><span class="ob-col-total">5K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:10%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20870</span><span class="ob-col-total">4K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:6%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20860</span><span class="ob-col-total">3K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:5%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20850</span><span class="ob-col-total">2K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:3%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20840</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:2%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20830</span><span class="ob-col-total">1K</span></div></div>
+                        <div class="ob-row"><div class="ob-fill bid" style="width:1%;"></div><div class="ob-text bid"><span class="ob-col-price">0.20820</span><span class="ob-col-total">1K</span></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============ ORDERS (global, grouped) ============ -->
+    <div class="page" id="page-orders">
+      <div class="topbar">
+        <div class="topbar-left"><h1>Orders <span class="muted" style="font-weight:500;font-size:calc(12px * var(--scale));">· 2 відкритих арбітражі</span></h1></div>
+        <div class="topbar-right">
+          <span class="status"><span class="dot"></span>2 open · 14 closed</span>
+          <span class="kebab">⋮</span>
+        </div>
+      </div>
+
+      <div style="padding:12px 0;flex-shrink:0;">
+        <div class="filter-chips">
+          <div class="chip active" onclick="filterOrders('all',this)">Усі</div>
+          <div class="chip" onclick="filterOrders('open',this)">Відкриті</div>
+          <div class="chip" onclick="filterOrders('closed',this)">Закриті</div>
+        </div>
+      </div>
+
+      <div class="table-scroll" style="flex:1;">
+        <div class="ord-grid ord-head">
+          <div></div><div>Asset</div><div>Стратегія</div><div>Біржі</div><div>Відкрито</div><div>Закрито</div><div>Плече</div>
+          <div>Обʼєм</div><div>Вхід</div><div>Вихід</div><div>Комісія</div><div>Фандінг</div><div>PnL</div><div>Статус</div><div></div>
+        </div>
+
+        <div class="ord-group expanded" data-status="open">
+          <div class="ord-grid ord-parent" onclick="toggleGroup(this.parentElement)">
+            <div class="caret">▸</div><div>DOGE/USDT</div>
+            <div>Ф-Ф</div>
+            <div><span class="badge short">S·MEXC</span> <span class="badge long">L·BingX</span></div>
+            <div>26.06 14:02</div><div>—</div><div class="num">10x</div>
+            <div class="num">320.00</div><div class="num">—</div><div class="num">—</div>
+            <div class="num">0.84</div><div class="num">−0.12</div>
+            <div class="num pos">+12.40</div><div><span class="status-badge open">Open</span></div>
+            <div><button class="btn btn-primary btn-opp" onclick="event.stopPropagation();openOpportunityPage()">Opportunity</button></div>
+          </div>
+          <div class="ord-children">
+            <div class="ord-grid ord-child">
+              <div></div><div></div><div></div><div><span class="badge short">MEXC short</span></div><div></div><div></div>
+              <div class="num">10x</div><div class="num">160.00</div><div class="num">0.21240</div><div class="num">—</div>
+              <div class="num">0.42</div><div class="num">−0.06</div><div class="num pos">+7.20</div><div></div><div></div>
+            </div>
+            <div class="ord-grid ord-child">
+              <div></div><div></div><div></div><div><span class="badge long">BingX long</span></div><div></div><div></div>
+              <div class="num">10x</div><div class="num">160.00</div><div class="num">0.20900</div><div class="num">—</div>
+              <div class="num">0.42</div><div class="num">−0.06</div><div class="num pos">+5.20</div><div></div><div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ord-group" data-status="open">
+          <div class="ord-grid ord-parent" onclick="toggleGroup(this.parentElement)">
+            <div class="caret">▸</div><div>SOL/USDT</div>
+            <div>Ф-Ф</div>
+            <div><span class="badge short">S·Gate</span> <span class="badge long">L·Bitget</span></div>
+            <div>26.06 13:18</div><div>—</div><div class="num">5x</div>
+            <div class="num">150.00</div><div class="num">—</div><div class="num">—</div>
+            <div class="num">1.10</div><div class="num">0.00</div>
+            <div class="num pos">+4.80</div><div><span class="status-badge open">Open</span></div>
+            <div><button class="btn btn-primary btn-opp" onclick="event.stopPropagation();openOpportunityPage()">Opportunity</button></div>
+          </div>
+          <div class="ord-children">
+            <div class="ord-grid ord-child">
+              <div></div><div></div><div></div><div><span class="badge short">Gate short</span></div><div></div><div></div>
+              <div class="num">5x</div><div class="num">75.00</div><div class="num">142.30</div><div class="num">—</div>
+              <div class="num">0.55</div><div class="num">0.00</div><div class="num pos">+2.50</div><div></div><div></div>
+            </div>
+            <div class="ord-grid ord-child">
+              <div></div><div></div><div></div><div><span class="badge long">Bitget long</span></div><div></div><div></div>
+              <div class="num">5x</div><div class="num">75.00</div><div class="num">141.85</div><div class="num">—</div>
+              <div class="num">0.55</div><div class="num">0.00</div><div class="num pos">+2.30</div><div></div><div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ord-group" data-status="closed">
+          <div class="ord-grid ord-parent" onclick="toggleGroup(this.parentElement)">
+            <div class="caret">▸</div><div>DOGE/USDT</div>
+            <div>Ф-Ф</div>
+            <div><span class="badge short">S·MEXC</span> <span class="badge long">L·BingX</span></div>
+            <div>26.06 11:58</div><div>26.06 12:20</div><div class="num">10x</div>
+            <div class="num">280.00</div><div class="num">—</div><div class="num">—</div>
+            <div class="num">0.62</div><div class="num">−0.08</div>
+            <div class="num pos">+15.20</div><div><span class="status-badge closed">Closed</span></div><div></div>
+          </div>
+          <div class="ord-children">
+            <div class="ord-grid ord-child">
+              <div></div><div></div><div></div><div><span class="badge short">MEXC short</span></div><div></div><div></div>
+              <div class="num">10x</div><div class="num">140.00</div><div class="num">0.20780</div><div class="num">0.20910</div>
+              <div class="num">0.31</div><div class="num">−0.04</div><div class="num pos">+8.00</div><div></div><div></div>
+            </div>
+            <div class="ord-grid ord-child">
+              <div></div><div></div><div></div><div><span class="badge long">BingX long</span></div><div></div><div></div>
+              <div class="num">10x</div><div class="num">140.00</div><div class="num">0.20780</div><div class="num">0.20910</div>
+              <div class="num">0.31</div><div class="num">−0.04</div><div class="num pos">+7.20</div><div></div><div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ord-group" data-status="closed">
+          <div class="ord-grid ord-parent" onclick="toggleGroup(this.parentElement)">
+            <div class="caret">▸</div><div>XRP/USDT</div>
+            <div>Ф Ф-С</div>
+            <div><span class="badge short">S·Bitget</span> <span class="badge long">L·MEXC</span></div>
+            <div>26.06 11:20</div><div>26.06 11:35</div><div class="num">8x</div>
+            <div class="num">180.00</div><div class="num">—</div><div class="num">—</div>
+            <div class="num">0.40</div><div class="num">0.05</div>
+            <div class="num neg">−1.10</div><div><span class="status-badge closed">Closed</span></div><div></div>
+          </div>
+          <div class="ord-children">
+            <div class="ord-grid ord-child">
+              <div></div><div></div><div></div><div><span class="badge short">Bitget short</span></div><div></div><div></div>
+              <div class="num">8x</div><div class="num">90.00</div><div class="num">0.5210</div><div class="num">0.5198</div>
+              <div class="num">0.20</div><div class="num">0.025</div><div class="num neg">−0.60</div><div></div><div></div>
+            </div>
+            <div class="ord-grid ord-child">
+              <div></div><div></div><div></div><div><span class="badge long">MEXC long</span></div><div></div><div></div>
+              <div class="num">8x</div><div class="num">90.00</div><div class="num">0.5210</div><div class="num">0.5198</div>
+              <div class="num">0.20</div><div class="num">0.025</div><div class="num neg">−0.50</div><div></div><div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============ SETTINGS ============ -->
+    <div class="page" id="page-settings">
+      <div class="topbar">
+        <div class="topbar-left"><h1>Settings</h1></div>
+        <div class="topbar-right"><span class="kebab">⋮</span></div>
+      </div>
+      <div class="card" style="max-width:480px;margin-top:14px;">
+        <h2>Біржі</h2>
+        <div class="field"><label>MEXC API key</label><input type="text" value="••••••••••••"></div>
+        <div class="field"><label>BingX API key</label><input type="text" value="••••••••••••"></div>
+        <div class="field"><label>Bitget API key</label><input type="text" value="••••••••••••"></div>
+        <div class="field"><label>Gate API key</label><input type="text" value="••••••••••••"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function openOpportunityPage(){
+  const nav = document.querySelector('.nav-item[data-page="opportunity"]');
+  if(nav) showPage('opportunity', nav);
+}
+function showPage(name, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  if(name === 'opportunity' && typeof chartResize === 'function'){
+    requestAnimationFrame(()=>{ chartResize(); chartDraw(); });
+  }
+}
+function toggleGroup(group){
+  group.classList.toggle('expanded');
+}
+function filterOrders(status, el){
+  const page = document.getElementById('page-orders');
+  page.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  page.querySelectorAll('.ord-group').forEach(g=>{
+    g.style.display = (status==='all' || g.dataset.status===status) ? '' : 'none';
+  });
+}
+function filterOppOrders(status, el){
+  const panel = document.getElementById('opp-orders-panel');
+  panel.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  panel.querySelectorAll('.ord-group').forEach(g=>{
+    g.style.display = g.dataset.status === status ? '' : 'none';
+  });
+}
+
+const canvas = document.getElementById('liveChart');
+const ctx = canvas.getContext('2d');
+const chartPad = { top: 10, right: 14, bottom: 24, left: 58 };
+const gridColor = '#e8e6e1';
+const axisColor = '#9c9a92';
+
+function chartResize(){
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return;
+  canvas.width = w * devicePixelRatio;
+  canvas.height = h * devicePixelRatio;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+}
+chartResize();
+
+const maxPoints = 61;
+const tickIntervalSec = 1;
+const chartWindowSec = 60;
+const gridStepSec = 5;
+const gridRows = 12;
+const chartSeries = [
+  { key: 'mexcFut', tag: 'MEXC(F)', base: 0.2124, data: [], color: '#c0392b', dash: false, el: 'ch-mexc-fut' },
+  { key: 'mexcSpot', tag: 'MEXC(S)', base: 0.2118, data: [], color: '#e67e22', dash: true, el: 'ch-mexc-spot' },
+  { key: 'bingxFut', tag: 'BingX(F)', base: 0.2098, data: [], color: '#1d9e75', dash: false, el: 'ch-bingx-fut' },
+  { key: 'bingxSpot', tag: 'BingX(S)', base: 0.2092, data: [], color: '#52be80', dash: true, el: 'ch-bingx-spot' },
+];
+for (const s of chartSeries) {
+  let v = s.base;
+  for (let i = 0; i < maxPoints; i++) {
+    v += (Math.random() - 0.5) * 0.00006;
+    s.data.push(v);
+  }
+  s.base = v;
+}
+for (const s of chartSeries) {
+  const el = document.getElementById(s.el);
+  if (el) el.textContent = fmtPrice(s.base);
+}
+
+function fmtPrice(v){
+  return v >= 10 ? v.toFixed(2) : v.toFixed(5);
+}
+
+function chartBounds(){
+  const all = chartSeries.flatMap(s => s.data);
+  const min = Math.min(...all), max = Math.max(...all);
+  const range = max - min || 0.0001;
+  const pad = Math.max(range * 0.15, 0.00008);
+  return { lo: min - pad, hi: max + pad };
+}
+
+function drawGrid(lo, hi, plot){
+  const { x, y, w, h } = plot;
+  ctx.strokeStyle = gridColor;
+  ctx.lineWidth = 1;
+  ctx.fillStyle = axisColor;
+  ctx.font = '10px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+
+  for (let i = 0; i < gridRows; i++) {
+    const t = i / (gridRows - 1);
+    const py = y + h - t * h;
+    const price = lo + t * (hi - lo);
+    ctx.beginPath();
+    ctx.moveTo(x, py);
+    ctx.lineTo(x + w, py);
+    ctx.stroke();
+    ctx.fillText(fmtPrice(price), x - 6, py);
+  }
+
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  for (let sec = 0; sec <= chartWindowSec; sec += gridStepSec) {
+    const px = x + (1 - sec / chartWindowSec) * w;
+    ctx.beginPath();
+    ctx.moveTo(px, y);
+    ctx.lineTo(px, y + h);
+    ctx.stroke();
+    const label = sec === 0 ? 'зараз' : `−${sec}с`;
+    ctx.fillText(label, px, y + h + 5);
+  }
+
+  ctx.strokeStyle = '#cfccc4';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x, y, w, h);
+}
+
+function layoutLineLabels(plot, lo, hi){
+  const minGap = 13;
+  const labels = chartSeries.map(s => {
+    const last = s.data[s.data.length - 1];
+    const lx = plot.x + plot.w;
+    const ly = plot.y + plot.h - ((last - lo) / (hi - lo)) * plot.h;
+    return { s, last, lx, ly };
+  });
+  labels.sort((a, b) => a.ly - b.ly);
+  for (let i = 1; i < labels.length; i++) {
+    if (labels[i].ly - labels[i - 1].ly < minGap) {
+      labels[i].ly = labels[i - 1].ly + minGap;
+    }
+  }
+  for (let i = labels.length - 2; i >= 0; i--) {
+    if (labels[i].ly > labels[i + 1].ly - minGap) {
+      labels[i].ly = labels[i + 1].ly - minGap;
+    }
+  }
+  const top = plot.y + 6;
+  const bottom = plot.y + plot.h - 6;
+  for (const item of labels) {
+    if (item.ly < top) item.ly = top;
+    if (item.ly > bottom) item.ly = bottom;
+  }
+  return labels;
+}
+
+function drawLineLabels(labels){
+  const font = '9px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif';
+  ctx.font = font;
+  for (const { s, last, lx, ly } of labels) {
+    const text = `${s.tag} ${fmtPrice(last)}`;
+    const padX = 4;
+    const padY = 2;
+    const tw = ctx.measureText(text).width;
+    const th = 11;
+    const boxW = tw + padX * 2;
+    const boxH = th + padY * 2;
+    let bx = lx - boxW - 8;
+    let by = ly - boxH / 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.94)';
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(bx, by, boxW, boxH, 3);
+    } else {
+      ctx.rect(bx, by, boxW, boxH);
+    }
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = s.color;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, bx + padX, ly);
+    ctx.beginPath();
+    ctx.arc(lx, ly, 3, 0, Math.PI * 2);
+    ctx.fillStyle = s.color;
+    ctx.fill();
+  }
+}
+
+function chartDraw(){
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return;
+  ctx.clearRect(0, 0, w, h);
+  const plot = {
+    x: chartPad.left,
+    y: chartPad.top,
+    w: w - chartPad.left - chartPad.right,
+    h: h - chartPad.top - chartPad.bottom,
+  };
+  if (plot.w <= 0 || plot.h <= 0) return;
+
+  const { lo, hi } = chartBounds();
+  drawGrid(lo, hi, plot);
+
+  for (const s of chartSeries) {
+    ctx.beginPath();
+    ctx.setLineDash(s.dash ? [5, 4] : []);
+    s.data.forEach((v, i) => {
+      const px = plot.x + (i / (maxPoints - 1)) * plot.w;
+      const py = plot.y + plot.h - ((v - lo) / (hi - lo)) * plot.h;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    });
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = s.dash ? 1.4 : 2;
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  const labels = layoutLineLabels(plot, lo, hi);
+  drawLineLabels(labels);
+}
+
+function chartTick(){
+  for (const s of chartSeries) {
+    s.base += (Math.random() - 0.5) * 0.00007;
+    s.data.push(s.base);
+    s.data.shift();
+    const el = document.getElementById(s.el);
+    if (el) el.textContent = fmtPrice(s.base);
+  }
+  chartDraw();
+}
+chartTick();
+setInterval(chartTick, tickIntervalSec * 1000);
+window.addEventListener('resize', () => { chartResize(); chartDraw(); });
+
+let fundSecs = 2*3600 + 14*60 + 35;
+function fmtCountdown(s){
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+function tickFunding(){
+  fundSecs = fundSecs > 0 ? fundSecs - 1 : 8*3600;
+  const cd = fmtCountdown(fundSecs);
+  const elM = document.getElementById('m-cd-mexc');
+  const elB = document.getElementById('m-cd-bingx');
+  if(elM) elM.textContent = cd;
+  if(elB) elB.textContent = cd;
+}
+setInterval(tickFunding, 1000);
+tickFunding();
+
+const oppPanel = document.getElementById('opp-orders-panel');
+if(oppPanel){
+  oppPanel.querySelectorAll('.ord-group').forEach(g=>{
+    g.style.display = g.dataset.status === 'open' ? '' : 'none';
+  });
+}
+
+document.querySelectorAll('.ob-squeeze').forEach(group=>{
+  const inp = group.querySelector('.ob-squeeze-val');
+  group.querySelectorAll('.btn-squeeze').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      group.querySelectorAll('.btn-squeeze').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      if(inp) inp.value = btn.textContent.trim();
+    });
+  });
+  if(inp){
+    inp.addEventListener('input', ()=>{
+      group.querySelectorAll('.btn-squeeze').forEach(b=>b.classList.remove('active'));
+    });
+  }
+});
+</script>
+</body>
+</html>

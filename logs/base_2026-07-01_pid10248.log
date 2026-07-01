@@ -1,0 +1,521 @@
+2026-07-01 05:40:59 | INFO     | [arbitrator.application.hedged_execution_service:_enter:146] - hedge open | symbol=DOGE/USDT:USDT filled_short=100.0 filled_long=100.0 imbalance_pct=0 status=success
+2026-07-01 05:40:59 | INFO     | [arbitrator.application.hedged_execution_service:_enter:146] - hedge open | symbol=DOGE/USDT:USDT filled_short=90.0 filled_long=100.0 imbalance_pct=10.0 status=partial
+2026-07-01 05:40:59 | INFO     | [arbitrator.application.hedged_execution_service:_enter:146] - hedge open | symbol=DOGE/USDT:USDT filled_short=100.0 filled_long=100.0 imbalance_pct=0 status=success
+2026-07-01 05:40:59 | INFO     | [arbitrator.application.hedged_execution_service:_exit:238] - hedge close_partial | symbol=DOGE/USDT:USDT rem_short=75.0 rem_long=75.0 imbalance_pct=0 status=success
+2026-07-01 05:40:59 | ERROR    | [arbitrator.application.hedged_execution_service:_enter:129] - hedge open long failed | symbol=DOGE/USDT:USDT ex=b
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pytest\__main__.py", line 9, in <module>
+    raise SystemExit(pytest.console_main())
+                     │      └ <function console_main at 0x0000023C32EF4540>
+                     └ <module 'pytest' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\pytest\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\config\__init__.py", line 223, in console_main
+    code = main()
+           └ <function main at 0x0000023C32EF44A0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\config\__init__.py", line 199, in main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+         │                │      │    │                          └ <_pytest.config.Config object at 0x0000023C331E6050>
+         │                │      │    └ <HookCaller 'pytest_cmdline_main'>
+         │                │      └ <_pytest.config.compat.PathAwareHookProxy object at 0x0000023C32DBA490>
+         │                └ <_pytest.config.Config object at 0x0000023C331E6050>
+         └ <enum 'ExitCode'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'config': <_pytest.config.Config object at 0x0000023C331E6050>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_cmdline_main'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_cmdline_main'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_cmdline_main'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'config': <_pytest.config.Config object at 0x0000023C331E6050>}
+           │    │               │          └ [<HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\_...
+           │    │               └ 'pytest_cmdline_main'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<_pytest.config.Config object at 0x0000023C331E6050>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\_p...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\main.py", line 365, in pytest_cmdline_main
+    return wrap_session(config, _main)
+           │            │       └ <function _main at 0x0000023C32FB2E80>
+           │            └ <_pytest.config.Config object at 0x0000023C331E6050>
+           └ <function wrap_session at 0x0000023C32FB2D40>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\main.py", line 318, in wrap_session
+    session.exitstatus = doit(config, session) or 0
+    │       │            │    │       └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>
+    │       │            │    └ <_pytest.config.Config object at 0x0000023C331E6050>
+    │       │            └ <function _main at 0x0000023C32FB2E80>
+    │       └ <ExitCode.OK: 0>
+    └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\main.py", line 372, in _main
+    config.hook.pytest_runtestloop(session=session)
+    │      │    │                          └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>
+    │      │    └ <HookCaller 'pytest_runtestloop'>
+    │      └ <_pytest.config.compat.PathAwareHookProxy object at 0x0000023C32DBA490>
+    └ <_pytest.config.Config object at 0x0000023C331E6050>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'session': <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtestloop'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtestloop'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtestloop'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'session': <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>}
+           │    │               │          └ [<HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\_...
+           │    │               └ 'pytest_runtestloop'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\_p...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\main.py", line 396, in pytest_runtestloop
+    item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)
+    │    │                                        │              └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+    │    │                                        └ <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>
+    │    └ <member 'config' of 'Node' objects>
+    └ <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'item': <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>, 'nextitem': <Function test_rollback_disabled...
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtest_protocol'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtest_protocol'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtest_protocol'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'item': <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>, 'nextitem': <Function test_rollback_disabled...
+           │    │               │          └ [<HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-package...
+           │    │               └ 'pytest_runtest_protocol'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>, <Function test_rollback_disabled_reports_failed_and_...
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 118, in pytest_runtest_protocol
+    runtestprotocol(item, nextitem=nextitem)
+    │               │              └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+    │               └ <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>
+    └ <function runtestprotocol at 0x0000023C32FB1F80>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 137, in runtestprotocol
+    reports.append(call_and_report(item, "call", log))
+    │       │      │               │             └ True
+    │       │      │               └ <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>
+    │       │      └ <function call_and_report at 0x0000023C32FB23E0>
+    │       └ <method 'append' of 'list' objects>
+    └ [<TestReport 'tests/strategy/test_hedged_execution.py::test_one_leg_failure_triggers_rollback_no_unhedged_exposure' when='set...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 244, in call_and_report
+    call = CallInfo.from_call(
+           │        └ <classmethod(<function CallInfo.from_call at 0x0000023C32FB27A0>)>
+           └ <class '_pytest.runner.CallInfo'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 353, in from_call
+    result: TResult | None = func()
+            │                └ <function call_and_report.<locals>.<lambda> at 0x0000023C3B3ABBA0>
+            └ +TResult
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 245, in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            │                 │       └ {}
+            │                 └ <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>
+            └ <HookCaller 'pytest_runtest_call'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ False
+           │    │         │    │     │    │                  └ {'item': <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtest_call'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtest_call'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtest_call'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ False
+           │    │               │          │        └ {'item': <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>}
+           │    │               │          └ [<HookImpl plugin_name='threadexception', plugin=<module '_pytest.threadexception' from 'C:\\shere-folder\\arbitrator\\.venv\...
+           │    │               └ 'pytest_runtest_call'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 179, in pytest_runtest_call
+    item.runtest()
+    │    └ <function Function.runtest at 0x0000023C330CBCE0>
+    └ <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\python.py", line 1720, in runtest
+    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+    │    │                                   └ <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>
+    │    └ <property object at 0x0000023C32F16840>
+    └ <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'pyfuncitem': <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_pyfunc_call'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_pyfunc_call'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_pyfunc_call'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'pyfuncitem': <Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>}
+           │    │               │          └ [<HookImpl plugin_name='python', plugin=<module '_pytest.python' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-package...
+           │    │               └ 'pytest_pyfunc_call'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Function test_one_leg_failure_triggers_rollback_no_unhedged_exposure>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='python', plugin=<module '_pytest.python' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\python.py", line 166, in pytest_pyfunc_call
+    result = testfunction(**testargs)
+             │              └ {}
+             └ <function test_one_leg_failure_triggers_rollback_no_unhedged_exposure at 0x0000023C35B56840>
+
+  File "C:\shere-folder\arbitrator\tests\strategy\test_hedged_execution.py", line 151, in test_one_leg_failure_triggers_rollback_no_unhedged_exposure
+    outcome = asyncio.run(
+              │       └ <function run at 0x0000023C3344D760>
+              └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object HedgedExecutionService.open at 0x0000023C3B3369E0>
+           │      └ <function Runner.run at 0x0000023C34C82660>
+           └ <asyncio.runners.Runner object at 0x0000023C379316D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-13' coro=<HedgedExecutionService.open() running at C:\shere-folder\arbitrator\src\arbitrator\applica...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000023C34C80220>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000023C379316D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x0000023C34CF98A0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000023C34C81F80>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000023C3344E020>
+    └ <Handle <TaskStepMethWrapper object at 0x0000023C3B39BD90>()>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle <TaskStepMethWrapper object at 0x0000023C3B39BD90>()>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle <TaskStepMethWrapper object at 0x0000023C3B39BD90>()>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle <TaskStepMethWrapper object at 0x0000023C3B39BD90>()>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\hedged_execution_service.py", line 52, in open
+    return await self._enter(
+                 │    └ <function HedgedExecutionService._enter at 0x0000023C35B55C60>
+                 └ <arbitrator.application.hedged_execution_service.HedgedExecutionService object at 0x0000023C377EC890>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\application\hedged_execution_service.py", line 125, in _enter
+    long_oid = await long_gw.open_market_position(
+                     │       └ <function FakeGateway.open_market_position at 0x0000023C35A47060>
+                     └ <strategy.test_hedged_execution.FakeGateway object at 0x0000023C37922950>
+
+  File "C:\shere-folder\arbitrator\tests\strategy\test_hedged_execution.py", line 45, in open_market_position
+    raise RuntimeError("open rejected")
+
+RuntimeError: open rejected
+2026-07-01 05:40:59 | WARNING  | [arbitrator.application.hedged_execution_service:_rollback_open:181] - hedge open rollback | symbol=DOGE/USDT:USDT rolled_back=True short_ex=a
+2026-07-01 05:40:59 | ERROR    | [arbitrator.application.hedged_execution_service:_enter:129] - hedge open long failed | symbol=DOGE/USDT:USDT ex=b
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pytest\__main__.py", line 9, in <module>
+    raise SystemExit(pytest.console_main())
+                     │      └ <function console_main at 0x0000023C32EF4540>
+                     └ <module 'pytest' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\pytest\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\config\__init__.py", line 223, in console_main
+    code = main()
+           └ <function main at 0x0000023C32EF44A0>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\config\__init__.py", line 199, in main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+         │                │      │    │                          └ <_pytest.config.Config object at 0x0000023C331E6050>
+         │                │      │    └ <HookCaller 'pytest_cmdline_main'>
+         │                │      └ <_pytest.config.compat.PathAwareHookProxy object at 0x0000023C32DBA490>
+         │                └ <_pytest.config.Config object at 0x0000023C331E6050>
+         └ <enum 'ExitCode'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'config': <_pytest.config.Config object at 0x0000023C331E6050>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_cmdline_main'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_cmdline_main'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_cmdline_main'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'config': <_pytest.config.Config object at 0x0000023C331E6050>}
+           │    │               │          └ [<HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\_...
+           │    │               └ 'pytest_cmdline_main'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<_pytest.config.Config object at 0x0000023C331E6050>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\_p...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\main.py", line 365, in pytest_cmdline_main
+    return wrap_session(config, _main)
+           │            │       └ <function _main at 0x0000023C32FB2E80>
+           │            └ <_pytest.config.Config object at 0x0000023C331E6050>
+           └ <function wrap_session at 0x0000023C32FB2D40>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\main.py", line 318, in wrap_session
+    session.exitstatus = doit(config, session) or 0
+    │       │            │    │       └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>
+    │       │            │    └ <_pytest.config.Config object at 0x0000023C331E6050>
+    │       │            └ <function _main at 0x0000023C32FB2E80>
+    │       └ <ExitCode.OK: 0>
+    └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\main.py", line 372, in _main
+    config.hook.pytest_runtestloop(session=session)
+    │      │    │                          └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>
+    │      │    └ <HookCaller 'pytest_runtestloop'>
+    │      └ <_pytest.config.compat.PathAwareHookProxy object at 0x0000023C32DBA490>
+    └ <_pytest.config.Config object at 0x0000023C331E6050>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'session': <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtestloop'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtestloop'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtestloop'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'session': <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>}
+           │    │               │          └ [<HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\_...
+           │    │               └ 'pytest_runtestloop'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=68>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\_p...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\main.py", line 396, in pytest_runtestloop
+    item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)
+    │    │                                        │              └ <Function test_dry_run_places_no_orders>
+    │    │                                        └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+    │    └ <member 'config' of 'Node' objects>
+    └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'item': <Function test_rollback_disabled_reports_failed_and_leaves_leg>, 'nextitem': <Function test_dry_run_places_no_orders>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtest_protocol'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtest_protocol'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtest_protocol'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'item': <Function test_rollback_disabled_reports_failed_and_leaves_leg>, 'nextitem': <Function test_dry_run_places_no_orders>}
+           │    │               │          └ [<HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-package...
+           │    │               └ 'pytest_runtest_protocol'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Function test_rollback_disabled_reports_failed_and_leaves_leg>, <Function test_dry_run_places_no_orders>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 118, in pytest_runtest_protocol
+    runtestprotocol(item, nextitem=nextitem)
+    │               │              └ <Function test_dry_run_places_no_orders>
+    │               └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+    └ <function runtestprotocol at 0x0000023C32FB1F80>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 137, in runtestprotocol
+    reports.append(call_and_report(item, "call", log))
+    │       │      │               │             └ True
+    │       │      │               └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+    │       │      └ <function call_and_report at 0x0000023C32FB23E0>
+    │       └ <method 'append' of 'list' objects>
+    └ [<TestReport 'tests/strategy/test_hedged_execution.py::test_rollback_disabled_reports_failed_and_leaves_leg' when='setup' out...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 244, in call_and_report
+    call = CallInfo.from_call(
+           │        └ <classmethod(<function CallInfo.from_call at 0x0000023C32FB27A0>)>
+           └ <class '_pytest.runner.CallInfo'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 353, in from_call
+    result: TResult | None = func()
+            │                └ <function call_and_report.<locals>.<lambda> at 0x0000023C35A46A20>
+            └ +TResult
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 245, in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            │                 │       └ {}
+            │                 └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+            └ <HookCaller 'pytest_runtest_call'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ False
+           │    │         │    │     │    │                  └ {'item': <Function test_rollback_disabled_reports_failed_and_leaves_leg>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtest_call'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtest_call'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtest_call'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ False
+           │    │               │          │        └ {'item': <Function test_rollback_disabled_reports_failed_and_leaves_leg>}
+           │    │               │          └ [<HookImpl plugin_name='threadexception', plugin=<module '_pytest.threadexception' from 'C:\\shere-folder\\arbitrator\\.venv\...
+           │    │               └ 'pytest_runtest_call'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Function test_rollback_disabled_reports_failed_and_leaves_leg>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\runner.py", line 179, in pytest_runtest_call
+    item.runtest()
+    │    └ <function Function.runtest at 0x0000023C330CBCE0>
+    └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\python.py", line 1720, in runtest
+    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+    │    │                                   └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+    │    └ <property object at 0x0000023C32F16840>
+    └ <Function test_rollback_disabled_reports_failed_and_leaves_leg>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'pyfuncitem': <Function test_rollback_disabled_reports_failed_and_leaves_leg>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_pyfunc_call'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_pyfunc_call'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_pyfunc_call'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'pyfuncitem': <Function test_rollback_disabled_reports_failed_and_leaves_leg>}
+           │    │               │          └ [<HookImpl plugin_name='python', plugin=<module '_pytest.python' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-package...
+           │    │               └ 'pytest_pyfunc_call'
+           │    └ <function _multicall at 0x0000023C326D8040>
+           └ <_pytest.config.PytestPluginManager object at 0x0000023C31FEC810>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Function test_rollback_disabled_reports_failed_and_leaves_leg>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='python', plugin=<module '_pytest.python' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\_pytest\python.py", line 166, in pytest_pyfunc_call
+    result = testfunction(**testargs)
+             │              └ {}
+             └ <function test_rollback_disabled_reports_failed_and_leaves_leg at 0x0000023C35B568E0>
+
+  File "C:\shere-folder\arbitrator\tests\strategy\test_hedged_execution.py", line 167, in test_rollback_disabled_reports_failed_and_leaves_leg
+    outcome = asyncio.run(
+              │       └ <function run at 0x0000023C3344D760>
+              └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object HedgedExecutionService.open at 0x0000023C3B336B00>
+           │      └ <function Runner.run at 0x0000023C34C82660>
+           └ <asyncio.runners.Runner object at 0x0000023C3B3BBE10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-16' coro=<HedgedExecutionService.open() running at C:\shere-folder\arbitrator\src\arbitrator\applica...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000023C34C80220>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000023C3B3BBE10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x0000023C34CF98A0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000023C34C81F80>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000023C3344E020>
+    └ <Handle <TaskStepMethWrapper object at 0x0000023C3B39BA90>()>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle <TaskStepMethWrapper object at 0x0000023C3B39BA90>()>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle <TaskStepMethWrapper object at 0x0000023C3B39BA90>()>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle <TaskStepMethWrapper object at 0x0000023C3B39BA90>()>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\hedged_execution_service.py", line 52, in open
+    return await self._enter(
+                 │    └ <function HedgedExecutionService._enter at 0x0000023C35B55C60>
+                 └ <arbitrator.application.hedged_execution_service.HedgedExecutionService object at 0x0000023C35A11B50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\application\hedged_execution_service.py", line 125, in _enter
+    long_oid = await long_gw.open_market_position(
+                     │       └ <function FakeGateway.open_market_position at 0x0000023C35A47060>
+                     └ <strategy.test_hedged_execution.FakeGateway object at 0x0000023C3B3BBC90>
+
+  File "C:\shere-folder\arbitrator\tests\strategy\test_hedged_execution.py", line 45, in open_market_position
+    raise RuntimeError("open rejected")
+
+RuntimeError: open rejected
+2026-07-01 05:40:59 | WARNING  | [arbitrator.application.hedged_execution_service:_rollback_open:181] - hedge open rollback | symbol=DOGE/USDT:USDT rolled_back=False short_ex=a
+2026-07-01 05:40:59 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=1 symbols=1
+2026-07-01 05:40:59 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=1 symbols=1
+2026-07-01 05:40:59 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=2 symbols=2
+2026-07-01 05:40:59 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=1 symbols=2
+2026-07-01 05:40:59 | INFO     | [arbitrator.application.signal_service:_open_decision:99] - signal | action=open symbol=DOGE/USDT:USDT strategy=futures_futures spread=10.0 open_thr=4.0 pct_to_deposit=49.0000
+2026-07-01 05:40:59 | INFO     | [arbitrator.application.signal_service:evaluate:55] - signal | action=close symbol=DOGE/USDT:USDT strategy=futures_futures spread=0.0500 close_thr=0.1
+2026-07-01 05:40:59 | WARNING  | [arbitrator.application.signal_service:_open_decision:81] - signal blocked | reason=anomalous_spread symbol=DOGE/USDT:USDT strategy=futures_futures spread=30.0
+2026-07-01 05:40:59 | WARNING  | [arbitrator.application.signal_service:_open_decision:91] - signal blocked | reason=checklist:same_asset symbol=DOGE/USDT:USDT strategy=futures_futures spread=10.0
+2026-07-01 05:41:00 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=be6f6ffab048 symbol=BTC/USDT:USDT
+2026-07-01 05:41:00 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=be6f6ffab048 symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
+2026-07-01 05:41:00 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=abc123 symbol=BTC/USDT:USDT
+2026-07-01 05:41:00 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=3b205c7fba90 symbol=BTC/USDT:USDT
+2026-07-01 05:41:00 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=3b205c7fba90 symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
+2026-07-01 05:41:00 | INFO     | [arbitrator.application.screener_auto_open_service:run_pass:51] - Auto-open executed | symbol=BTC/USDT:USDT pair_id=pair-1
+2026-07-01 05:41:00 | WARNING  | [arbitrator.application.screener_auto_open_service:run_pass:57] - Auto-open skipped | symbol=BTC/USDT:USDT message=rejected

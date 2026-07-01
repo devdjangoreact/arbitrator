@@ -1,0 +1,92 @@
+---
+description: Exchange data access — ccxt watch_* (priority) vs REST fetch_* (fallback); not a browser API
+globs:
+  - src/arbitrator/application/**/*
+  - src/arbitrator/exchanges/**/*
+  - src/arbitrator/presentation/**/*
+alwaysApply: true
+---
+
+# Exchange data access
+
+Two separate channels — do not confuse them.
+
+| Channel | Who | Protocol | Purpose |
+| ------- | --- | -------- | ------- |
+| **UI ↔ server** | Browser ↔ `presentation/` | WebSocket `/ws/*` + static files | All UI data and commands |
+| **Server ↔ exchange** | `application/` / `exchanges/` | ccxt.pro `watch_*` (priority), ccxt `fetch_*` / orders (fallback) | Market and account I/O |
+
+**Hard rule**: browser **never** calls exchange REST or internal `/api/*`.  
+WS handler receives a command → delegates to `application/*_service` → service uses `watch_*` or `fetch_*` as below.
+
+## Call stack
+
+```text
+Browser  --WebSocket-->  presentation/ws/*_handler
+                              │
+                              ▼
+                       application/*_service
+                              │
+                  ┌───────────┴───────────┐
+                  ▼                       ▼
+           watch_* (StreamWorker)    fetch_* / set_leverage / create_order
+           exchanges/ ccxt.pro       exchanges/ ccxt REST
+```
+
+## When to use exchange REST (`fetch_*`, orders)
+
+Use **`watch_*` first**. REST only when:
+
+- the exchange has no matching `watch*` capability, or
+- the operation is inherently request/response (set leverage, place/close order, one-shot fee lookup).
+
+| Data / action | WebSocket (priority) | REST fallback (ccxt) | Typical consumer |
+| ------------- | -------------------- | -------------------- | ---------------- |
+| Ticker / price | `watch_ticker`, `watch_tickers` | `fetch_ticker` | Screener, Opportunity |
+| Order book | `watch_order_book` | `fetch_order_book` | Opportunity ladders |
+| USDT balance | `watch_balance` | `fetch_balance` | Account / exchange cards |
+| Open positions | `watch_positions` | `fetch_positions` | Orders; e.g. MEXC if no watch |
+| Funding rate | partial in ticker | `fetch_funding_rate` | Exchange cards, strategy calc |
+| Set leverage | — | `set_leverage` | UI cmd → service → REST |
+| Place / close order | — | `create_order`, close | Arb open/close/accumulate |
+| Markets / fees | one-time at load | `load_markets`, `fetch_trading_fee`, `fetch_symbol_market_info` | Fee display, min/max order volume |
+| 24h volume (discovery) | from ticker | `fetch_ticker` quoteVolume | Screener volume filter |
+
+REST timeout: `Settings.ccxt_request_timeout_ms`.  
+Reconnect/backoff for streams: `Settings.ws_reconnect_delay_seconds`.
+
+## Presentation layer (not exchange REST)
+
+| Allowed | Forbidden |
+| ------- | --------- |
+| `GET /`, `StaticFiles` (HTML/CSS/JS) | FastAPI `/api/*` for UI |
+| `GET /health` (ops, optional) | `fetch_*` / ccxt in `presentation/` |
+| `WebSocket /ws/*` | HTTP calls from `static/js/` to exchange or internal API |
+
+## Feature specs
+
+UI element → JSON field mappings live in **feature** contracts (e.g. `specs/001-mockup-ui/contracts/ui-backend-catalog.md`).  
+This file is **project-wide** policy only — not per-feature implementation.
+
+## Strategy term conventions
+
+Use these terms consistently in strategy docs and payloads:
+
+- `spread`: strategy edge in percent (basis / cross-price spread / funding-rate spread).
+- `commission`: total fees for all strategy legs and both sides (open + close), in USDT.
+- `funding`: net funding **cost** in USDT, `max(paid - received, 0)`.
+
+For all two-exchange strategy calculations:
+
+- Legs must be the same asset (`BASE/USDT` pair on both venues).
+- Entry quotes: short leg `bid`, long leg `ask`.
+- Exit quotes: short leg `ask`, long leg `bid`.
+
+## Agent read-only inspection (no trading)
+
+For Cursor agents checking exchange connectivity or account state, use
+`scripts/inspect_exchanges.py` via skill `.cursor/skills/exchange-read-only-inspect/`.
+It delegates to `ReadOnlyExchangeInspector` — **read-only** (`verify`, `account`,
+`ticker`, `orderbook`, `list-symbols`). Agents must **never** call
+`open_market_position`, `close_market_position`, `create_order`, or external
+trading MCP tools without explicit user approval.

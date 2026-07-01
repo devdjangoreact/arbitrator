@@ -1,0 +1,1255 @@
+2026-06-26 06:58:30 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:520] - balance stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 191, in _consume_balance
+    async for balance in gateway.watch_usdt_balance():
+                         │       └ <function CcxtBase.watch_usdt_balance at 0x000001F742E72700>
+                         └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 514, in watch_usdt_balance
+    payload = await client.watch_balance()
+                    │      └ <function gate.watch_balance at 0x000001F742C8E340>
+                    └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1095, in watch_balance
+    return await self.subscribe_private(url, messageHash, None, channel, params, requiresUid)
+                 │    │                 │    │                  │        │       └ True
+                 │    │                 │    │                  │        └ {}
+                 │    │                 │    │                  └ 'futures.balances'
+                 │    │                 │    └ 'swap.balance'
+                 │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                 │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:30 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_open_positions:488] - position stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 166, in _consume_positions
+    async for legs in gateway.watch_open_positions():
+              │       │       └ <function CcxtBase.watch_open_positions at 0x000001F742E72660>
+              │       └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+              └ []
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 482, in watch_open_positions
+    raw_positions = await client.watch_positions()
+                          │      └ <function gate.watch_positions at 0x000001F742C8E480>
+                          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1233, in watch_positions
+    positions = await self.subscribe_private(url, messageHash, payload, channel, query, True)
+                      │    │                 │    │            │        │        └ {}
+                      │    │                 │    │            │        └ 'futures.positions'
+                      │    │                 │    │            └ ['!all']
+                      │    │                 │    └ 'swap:positions'
+                      │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                      │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                      └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:35 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_open_positions:488] - position stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 166, in _consume_positions
+    async for legs in gateway.watch_open_positions():
+              │       │       └ <function CcxtBase.watch_open_positions at 0x000001F742E72660>
+              │       └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+              └ []
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 482, in watch_open_positions
+    raw_positions = await client.watch_positions()
+                          │      └ <function gate.watch_positions at 0x000001F742C8E480>
+                          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1233, in watch_positions
+    positions = await self.subscribe_private(url, messageHash, payload, channel, query, True)
+                      │    │                 │    │            │        │        └ {}
+                      │    │                 │    │            │        └ 'futures.positions'
+                      │    │                 │    │            └ ['!all']
+                      │    │                 │    └ 'swap:positions'
+                      │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                      │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                      └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:40 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:520] - balance stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 191, in _consume_balance
+    async for balance in gateway.watch_usdt_balance():
+                         │       └ <function CcxtBase.watch_usdt_balance at 0x000001F742E72700>
+                         └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 514, in watch_usdt_balance
+    payload = await client.watch_balance()
+                    │      └ <function gate.watch_balance at 0x000001F742C8E340>
+                    └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1095, in watch_balance
+    return await self.subscribe_private(url, messageHash, None, channel, params, requiresUid)
+                 │    │                 │    │                  │        │       └ True
+                 │    │                 │    │                  │        └ {}
+                 │    │                 │    │                  └ 'futures.balances'
+                 │    │                 │    └ 'swap.balance'
+                 │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                 │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:40 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_open_positions:488] - position stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 166, in _consume_positions
+    async for legs in gateway.watch_open_positions():
+              │       │       └ <function CcxtBase.watch_open_positions at 0x000001F742E72660>
+              │       └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+              └ []
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 482, in watch_open_positions
+    raw_positions = await client.watch_positions()
+                          │      └ <function gate.watch_positions at 0x000001F742C8E480>
+                          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1233, in watch_positions
+    positions = await self.subscribe_private(url, messageHash, payload, channel, query, True)
+                      │    │                 │    │            │        │        └ {}
+                      │    │                 │    │            │        └ 'futures.positions'
+                      │    │                 │    │            └ ['!all']
+                      │    │                 │    └ 'swap:positions'
+                      │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                      │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                      └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:45 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:520] - balance stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 191, in _consume_balance
+    async for balance in gateway.watch_usdt_balance():
+                         │       └ <function CcxtBase.watch_usdt_balance at 0x000001F742E72700>
+                         └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 514, in watch_usdt_balance
+    payload = await client.watch_balance()
+                    │      └ <function gate.watch_balance at 0x000001F742C8E340>
+                    └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1095, in watch_balance
+    return await self.subscribe_private(url, messageHash, None, channel, params, requiresUid)
+                 │    │                 │    │                  │        │       └ True
+                 │    │                 │    │                  │        └ {}
+                 │    │                 │    │                  └ 'futures.balances'
+                 │    │                 │    └ 'swap.balance'
+                 │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                 │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:45 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_open_positions:488] - position stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 166, in _consume_positions
+    async for legs in gateway.watch_open_positions():
+              │       │       └ <function CcxtBase.watch_open_positions at 0x000001F742E72660>
+              │       └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+              └ []
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 482, in watch_open_positions
+    raw_positions = await client.watch_positions()
+                          │      └ <function gate.watch_positions at 0x000001F742C8E480>
+                          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1233, in watch_positions
+    positions = await self.subscribe_private(url, messageHash, payload, channel, query, True)
+                      │    │                 │    │            │        │        └ {}
+                      │    │                 │    │            │        └ 'futures.positions'
+                      │    │                 │    │            └ ['!all']
+                      │    │                 │    └ 'swap:positions'
+                      │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                      │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                      └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:50 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:520] - balance stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 191, in _consume_balance
+    async for balance in gateway.watch_usdt_balance():
+                         │       └ <function CcxtBase.watch_usdt_balance at 0x000001F742E72700>
+                         └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 514, in watch_usdt_balance
+    payload = await client.watch_balance()
+                    │      └ <function gate.watch_balance at 0x000001F742C8E340>
+                    └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1095, in watch_balance
+    return await self.subscribe_private(url, messageHash, None, channel, params, requiresUid)
+                 │    │                 │    │                  │        │       └ True
+                 │    │                 │    │                  │        └ {}
+                 │    │                 │    │                  └ 'futures.balances'
+                 │    │                 │    └ 'swap.balance'
+                 │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                 │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:50 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_open_positions:488] - position stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 166, in _consume_positions
+    async for legs in gateway.watch_open_positions():
+              │       │       └ <function CcxtBase.watch_open_positions at 0x000001F742E72660>
+              │       └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+              └ []
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 482, in watch_open_positions
+    raw_positions = await client.watch_positions()
+                          │      └ <function gate.watch_positions at 0x000001F742C8E480>
+                          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1233, in watch_positions
+    positions = await self.subscribe_private(url, messageHash, payload, channel, query, True)
+                      │    │                 │    │            │        │        └ {}
+                      │    │                 │    │            │        └ 'futures.positions'
+                      │    │                 │    │            └ ['!all']
+                      │    │                 │    └ 'swap:positions'
+                      │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                      │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                      └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:55 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:520] - balance stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 191, in _consume_balance
+    async for balance in gateway.watch_usdt_balance():
+                         │       └ <function CcxtBase.watch_usdt_balance at 0x000001F742E72700>
+                         └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 514, in watch_usdt_balance
+    payload = await client.watch_balance()
+                    │      └ <function gate.watch_balance at 0x000001F742C8E340>
+                    └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1095, in watch_balance
+    return await self.subscribe_private(url, messageHash, None, channel, params, requiresUid)
+                 │    │                 │    │                  │        │       └ True
+                 │    │                 │    │                  │        └ {}
+                 │    │                 │    │                  └ 'futures.balances'
+                 │    │                 │    └ 'swap.balance'
+                 │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                 │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:58:56 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_open_positions:488] - position stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 166, in _consume_positions
+    async for legs in gateway.watch_open_positions():
+              │       │       └ <function CcxtBase.watch_open_positions at 0x000001F742E72660>
+              │       └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+              └ []
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 482, in watch_open_positions
+    raw_positions = await client.watch_positions()
+                          │      └ <function gate.watch_positions at 0x000001F742C8E480>
+                          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1233, in watch_positions
+    positions = await self.subscribe_private(url, messageHash, payload, channel, query, True)
+                      │    │                 │    │            │        │        └ {}
+                      │    │                 │    │            │        └ 'futures.positions'
+                      │    │                 │    │            └ ['!all']
+                      │    │                 │    └ 'swap:positions'
+                      │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                      │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                      └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:59:01 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:520] - balance stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 191, in _consume_balance
+    async for balance in gateway.watch_usdt_balance():
+                         │       └ <function CcxtBase.watch_usdt_balance at 0x000001F742E72700>
+                         └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 514, in watch_usdt_balance
+    payload = await client.watch_balance()
+                    │      └ <function gate.watch_balance at 0x000001F742C8E340>
+                    └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1095, in watch_balance
+    return await self.subscribe_private(url, messageHash, None, channel, params, requiresUid)
+                 │    │                 │    │                  │        │       └ True
+                 │    │                 │    │                  │        └ {}
+                 │    │                 │    │                  └ 'futures.balances'
+                 │    │                 │    └ 'swap.balance'
+                 │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                 │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe
+2026-06-26 06:59:02 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_open_positions:488] - position stream error | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+          │    └ <bound method Thread._bootstrap of <Thread(account-stream, started daemon 3540)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F7B6382990>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F736D11300>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F736D10FE0>
+    └ <Thread(account-stream, started daemon 3540)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    │        │    └ ()
+    │    │        └ <Thread(account-stream, started daemon 3540)>
+    │    └ <bound method AccountStreamWorker._thread_main of <arbitrator.application.account_stream_worker.AccountStreamWorker object at...
+    └ <Thread(account-stream, started daemon 3540)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 112, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function AccountStreamWorker._async_main at 0x000001F742E94720>
+    │       │   └ <arbitrator.application.account_stream_worker.AccountStreamWorker object at 0x000001F76BE23F10>
+    │       └ <function run at 0x000001F739F53E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object AccountStreamWorker._async_main at 0x000001F7B62E9300>
+           │      └ <function Runner.run at 0x000001F739F80680>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1074' coro=<AccountStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F739F7E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F7B6382A10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F739FFC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F739F7FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F739DE3880>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\account_stream_worker.py", line 166, in _consume_positions
+    async for legs in gateway.watch_open_positions():
+              │       │       └ <function CcxtBase.watch_open_positions at 0x000001F742E72660>
+              │       └ <arbitrator.exchanges.gate.Gate object at 0x000001F7B464BD50>
+              └ []
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 482, in watch_open_positions
+    raw_positions = await client.watch_positions()
+                          │      └ <function gate.watch_positions at 0x000001F742C8E480>
+                          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 1233, in watch_positions
+    positions = await self.subscribe_private(url, messageHash, payload, channel, query, True)
+                      │    │                 │    │            │        │        └ {}
+                      │    │                 │    │            │        └ 'futures.positions'
+                      │    │                 │    │            └ ['!all']
+                      │    │                 │    └ 'swap:positions'
+                      │    │                 └ 'wss://fx-ws.gateio.ws/v4/ws/usdt'
+                      │    └ <function gate.subscribe_private at 0x000001F742C8F4C0>
+                      └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\gate.py", line 2055, in subscribe_private
+    raise ArgumentsRequired(self.id + ' requires uid to subscribe')
+          │                 │    └ 'gate'
+          │                 └ ccxt.async_support.gate()
+          └ <class 'ccxt.base.errors.ArgumentsRequired'>
+
+ccxt.base.errors.ArgumentsRequired: gate requires uid to subscribe

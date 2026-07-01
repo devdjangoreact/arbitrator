@@ -1,0 +1,268 @@
+2026-06-26 08:08:01 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:60513 - "WebSocket /_stcore/stream" [accepted]
+2026-06-26 08:08:01 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-26 08:08:02 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-26 08:08:04 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:08:04 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:08:04 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:08:04 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:08:05 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 08:08:05 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 08:08:08 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:08:08 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 08:08:12 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:08:12 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 08:08:12 | INFO     | [arbitrator.presentation.sidebar.opportunity.opportunity_view:_render_entry_controls:516] - Opportunity manual open | symbol=0G/USDT:USDT short=mexc long=bitget
+2026-06-26 08:08:12 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:08:12 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 08:08:12 | INFO     | [arbitrator.presentation.sidebar.opportunity.opportunity_view:_ensure_worker:134] - Opportunity stream worker started | symbol=0G/USDT:USDT short=mexc long=bitget
+2026-06-26 08:08:12 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:08:13 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:08:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:08:18 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:225] - Streaming order book | exchange=bitget symbol=0G/USDT:USDT limit=20
+2026-06-26 08:08:18 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:201] - Streaming tickers | exchange=bitget symbols=1 mode=bulk chunks=1
+2026-06-26 08:08:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:965] - Bulk stream chunks | exchange=bitget chunks=1 chunk_size=50
+2026-06-26 08:08:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:08:19 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:225] - Streaming order book | exchange=mexc symbol=0G/USDT:USDT limit=20
+2026-06-26 08:08:19 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:201] - Streaming tickers | exchange=mexc symbols=1 mode=bulk chunks=1
+2026-06-26 08:08:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:965] - Bulk stream chunks | exchange=mexc chunks=1 chunk_size=50
+2026-06-26 08:08:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book unsubscribed, resubscribing | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 08:08:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:08:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:08:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:08:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:08:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:08:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:08:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:08:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:00 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:26 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:09:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:09:29 | INFO     | [arbitrator.exchanges.ccxt_base:open_market_position:848] - Position opened | exchange=bitget symbol=0G/USDT:USDT side=sell order_id=1454268581142441986
+2026-06-26 08:09:30 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:09:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:09:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:42 | INFO     | [arbitrator.exchanges.ccxt_base:open_market_position:848] - Position opened | exchange=mexc symbol=0G/USDT:USDT side=buy order_id=825355903723926144
+2026-06-26 08:09:42 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bitget
+2026-06-26 08:09:42 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=mexc
+2026-06-26 08:09:42 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=457febb70c41 symbol=0G/USDT:USDT
+2026-06-26 08:09:42 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=457febb70c41 symbol=0G/USDT:USDT short_ex=bitget long_ex=mexc
+2026-06-26 08:09:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:09:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:00 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:35 | INFO     | [arbitrator.application.account_stream_worker:_async_main:124] - Account stream spawned | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:10:35 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:10:35 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 08:10:36 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:10:36 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:10:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 08:10:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bingx
+2026-06-26 08:10:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:10:46 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:498] - Position stream started | exchange=bitget mode=ws
+2026-06-26 08:10:46 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:530] - Balance stream started | exchange=bitget mode=ws
+2026-06-26 08:10:49 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:10:49 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 08:10:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:10:57 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 08:10:57 | INFO     | [arbitrator.exchanges.gate:watch_open_positions:71] - Position stream started | exchange=gate mode=rest_poll
+2026-06-26 08:10:57 | INFO     | [arbitrator.exchanges.gate:watch_usdt_balance:91] - Balance stream started | exchange=gate mode=rest_poll
+2026-06-26 08:11:00 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:60606 - "WebSocket /_stcore/stream" [accepted]
+2026-06-26 08:11:00 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-26 08:11:00 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:11:00 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 08:11:00 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:04 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:11:04 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Orders
+2026-06-26 08:11:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:06 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:11:06 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Orders
+2026-06-26 08:11:07 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:11:07 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Orders
+2026-06-26 08:11:07 | INFO     | [arbitrator.application.account_stream_worker:_async_main:124] - Account stream spawned | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:11:08 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:11:08 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:11:08 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:11:08 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:11:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 08:11:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 08:11:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bingx
+2026-06-26 08:11:09 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bingx
+2026-06-26 08:11:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:16 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:21 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bingx count=3032
+2026-06-26 08:11:26 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:498] - Position stream started | exchange=bingx mode=ws
+2026-06-26 08:11:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:11:26 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:498] - Position stream started | exchange=bitget mode=ws
+2026-06-26 08:11:26 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:530] - Balance stream started | exchange=bingx mode=ws
+2026-06-26 08:11:26 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:530] - Balance stream started | exchange=bitget mode=ws
+2026-06-26 08:11:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bingx count=3032
+2026-06-26 08:11:28 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:595] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-26 08:11:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:11:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:11:30 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:498] - Position stream started | exchange=mexc mode=rest_poll
+2026-06-26 08:11:30 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:530] - Balance stream started | exchange=mexc mode=ws
+2026-06-26 08:11:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bingx
+2026-06-26 08:11:31 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:11:31 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:32 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=bitget count=0
+2026-06-26 08:11:32 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bitget
+2026-06-26 08:11:36 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=mexc count=1
+2026-06-26 08:11:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=mexc
+2026-06-26 08:11:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:42 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:44 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 08:11:44 | INFO     | [arbitrator.exchanges.gate:watch_open_positions:71] - Position stream started | exchange=gate mode=rest_poll
+2026-06-26 08:11:44 | INFO     | [arbitrator.exchanges.gate:watch_usdt_balance:91] - Balance stream started | exchange=gate mode=rest_poll
+2026-06-26 08:11:44 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 08:11:45 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=gate count=0
+2026-06-26 08:11:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=gate
+2026-06-26 08:11:47 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:47 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:11:48 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:11:48 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 08:11:49 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bingx
+2026-06-26 08:11:52 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:11:57 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:01 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:12:02 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bingx count=3032
+2026-06-26 08:12:03 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:595] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-26 08:12:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:12:04 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=bitget count=0
+2026-06-26 08:12:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bingx
+2026-06-26 08:12:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bitget
+2026-06-26 08:12:07 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:11 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=mexc count=1
+2026-06-26 08:12:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=mexc
+2026-06-26 08:12:12 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:16 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 08:12:16 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=gate count=0
+2026-06-26 08:12:17 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=gate
+2026-06-26 08:12:17 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:18 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:12:18 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:12:19 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 08:12:19 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bingx
+2026-06-26 08:12:20 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60717 - "GET / HTTP/1.1" 304
+2026-06-26 08:12:20 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-26 08:12:21 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60717 - "GET /_stcore/health HTTP/1.1" 200
+2026-06-26 08:12:21 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60718 - "GET /_stcore/host-config HTTP/1.1" 200
+2026-06-26 08:12:22 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:60728 - "WebSocket /_stcore/stream" [accepted]
+2026-06-26 08:12:22 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-26 08:12:22 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:12:24 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 08:12:27 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:12:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bingx count=3032
+2026-06-26 08:12:29 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:595] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-26 08:12:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bingx
+2026-06-26 08:12:30 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=bitget count=0
+2026-06-26 08:12:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bitget
+2026-06-26 08:12:31 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:12:32 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:34 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60719 - "GET / HTTP/1.1" 304
+2026-06-26 08:12:34 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-26 08:12:35 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60719 - "GET /_stcore/health HTTP/1.1" 200
+2026-06-26 08:12:35 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60758 - "GET /_stcore/host-config HTTP/1.1" 200
+2026-06-26 08:12:36 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:60760 - "WebSocket /_stcore/stream" [accepted]
+2026-06-26 08:12:36 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-26 08:12:36 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:12:36 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 08:12:37 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=mexc count=1
+2026-06-26 08:12:37 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=mexc
+2026-06-26 08:12:37 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 08:12:39 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=gate count=0
+2026-06-26 08:12:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=gate
+2026-06-26 08:12:42 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60765 - "GET / HTTP/1.1" 304
+2026-06-26 08:12:42 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-26 08:12:42 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60765 - "GET /_stcore/health HTTP/1.1" 200
+2026-06-26 08:12:42 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:60766 - "GET /_stcore/host-config HTTP/1.1" 200
+2026-06-26 08:12:42 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:43 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:60769 - "WebSocket /_stcore/stream" [accepted]
+2026-06-26 08:12:43 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-26 08:12:43 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:12:43 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 08:12:47 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:12:47 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Orders
+2026-06-26 08:12:48 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:49 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:12:49 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Orders
+2026-06-26 08:12:49 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:12:49 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Orders
+2026-06-26 08:12:49 | INFO     | [arbitrator.application.account_stream_worker:_async_main:124] - Account stream spawned | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:12:50 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:12:50 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:12:51 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:12:51 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:12:51 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 08:12:51 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 08:12:52 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bingx
+2026-06-26 08:12:52 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bingx
+2026-06-26 08:12:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:12:58 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:13:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:13:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:13:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bingx count=3032
+2026-06-26 08:13:05 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:595] - fetchMyTrades requires symbols | exchange=bingx
+2026-06-26 08:13:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bingx count=3032
+2026-06-26 08:13:05 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:498] - Position stream started | exchange=bingx mode=ws
+2026-06-26 08:13:05 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:530] - Balance stream started | exchange=bingx mode=ws
+2026-06-26 08:13:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=bitget count=1917
+2026-06-26 08:13:05 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:498] - Position stream started | exchange=bitget mode=ws
+2026-06-26 08:13:05 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:530] - Balance stream started | exchange=bitget mode=ws
+2026-06-26 08:13:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:13:06 | INFO     | [arbitrator.exchanges.ccxt_base:watch_open_positions:498] - Position stream started | exchange=mexc mode=rest_poll
+2026-06-26 08:13:06 | INFO     | [arbitrator.exchanges.ccxt_base:watch_usdt_balance:530] - Balance stream started | exchange=mexc mode=ws
+2026-06-26 08:13:06 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=bitget count=0
+2026-06-26 08:13:07 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bingx
+2026-06-26 08:13:07 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:13:07 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bitget
+2026-06-26 08:13:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:13:13 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=mexc count=1
+2026-06-26 08:13:13 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:13:13 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=mexc
+2026-06-26 08:13:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 08:13:14 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=gate count=0
+2026-06-26 08:13:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=gate
+2026-06-26 08:13:16 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=mexc
+2026-06-26 08:13:17 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 08:13:17 | INFO     | [arbitrator.exchanges.gate:watch_open_positions:71] - Position stream started | exchange=gate mode=rest_poll
+2026-06-26 08:13:17 | INFO     | [arbitrator.exchanges.gate:watch_usdt_balance:91] - Balance stream started | exchange=gate mode=rest_poll
+2026-06-26 08:13:17 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bitget
+2026-06-26 08:13:17 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=gate
+2026-06-26 08:13:18 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1117] - Exchange client opened | exchange=bingx
+2026-06-26 08:13:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:13:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:13:25 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 08:13:25 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 08:13:26 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=bitget count=0
+2026-06-26 08:13:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bingx
+2026-06-26 08:13:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=bitget
+2026-06-26 08:13:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=mexc count=3215
+2026-06-26 08:13:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:13:33 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:244] - watch_order_book transient, retrying | exchange=bitget symbol=0G/USDT:USDT err=ChecksumError
+2026-06-26 08:13:33 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=mexc count=1
+2026-06-26 08:13:33 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=mexc
+2026-06-26 08:13:34 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1134] - Markets loaded | exchange=gate count=6759
+2026-06-26 08:13:35 | INFO     | [arbitrator.exchanges.ccxt_base:fetch_closed_positions:635] - Closed positions fetched | exchange=gate count=0
+2026-06-26 08:13:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:952] - Exchange closed | exchange=gate

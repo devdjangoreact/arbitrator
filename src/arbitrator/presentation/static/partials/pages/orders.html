@@ -1,0 +1,25 @@
+    <div class="page" id="page-orders">
+      <div class="topbar">
+        <div class="topbar-left"><h1>Orders <span class="muted orders-open-label">· <span id="orders-open-label">—</span> відкритих арбітражі</span></h1></div>
+        <div class="topbar-right">
+          <span class="status" id="orders-summary"><span class="dot"></span>—</span>
+          <span class="kebab">⋮</span>
+        </div>
+      </div>
+
+      <div class="orders-filter-bar">
+        <div class="filter-chips" id="orders-filters">
+          <div class="chip active" data-filter="all">Усі</div>
+          <div class="chip" data-filter="open">Відкриті</div>
+          <div class="chip" data-filter="closed">Закриті</div>
+        </div>
+      </div>
+
+      <div class="table-scroll orders-table-scroll">
+        <div class="ord-grid ord-head">
+          <div></div><div>Asset</div><div>Стратегія</div><div>Біржі</div><div>Відкрито</div><div>Закрито</div><div>Плече</div>
+          <div>Обʼєм</div><div>Вхід</div><div>Вихід</div><div>Комісія</div><div>Фандінг</div><div>PnL</div><div>Статус</div><div></div>
+        </div>
+        <div id="orders-list"></div>
+      </div>
+    </div>

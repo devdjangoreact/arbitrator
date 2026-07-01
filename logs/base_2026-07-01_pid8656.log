@@ -1,0 +1,4 @@
+2026-07-01 02:29:50 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=1 symbols=1
+2026-07-01 02:29:50 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=1 symbols=1
+2026-07-01 02:29:50 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=2 symbols=2
+2026-07-01 02:29:50 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:73] - strategy recompute | changed=1 symbols=2

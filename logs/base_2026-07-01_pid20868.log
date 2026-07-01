@@ -1,0 +1,11 @@
+2026-07-01 04:26:41 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=1 symbols=1
+2026-07-01 04:26:41 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=1 symbols=1
+2026-07-01 04:26:41 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=2 symbols=2
+2026-07-01 04:26:41 | DEBUG    | [arbitrator.application.strategy_table_service:refresh:75] - strategy recompute | changed=1 symbols=2
+2026-07-01 04:26:41 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=8234d3d8afb4 symbol=BTC/USDT:USDT
+2026-07-01 04:26:41 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=8234d3d8afb4 symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
+2026-07-01 04:26:41 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=abc123 symbol=BTC/USDT:USDT
+2026-07-01 04:26:41 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=6cd2e26d00da symbol=BTC/USDT:USDT
+2026-07-01 04:26:41 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=6cd2e26d00da symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
+2026-07-01 04:26:41 | INFO     | [arbitrator.application.screener_auto_open_service:run_pass:51] - Auto-open executed | symbol=BTC/USDT:USDT pair_id=pair-1
+2026-07-01 04:26:41 | WARNING  | [arbitrator.application.screener_auto_open_service:run_pass:57] - Auto-open skipped | symbol=BTC/USDT:USDT message=rejected

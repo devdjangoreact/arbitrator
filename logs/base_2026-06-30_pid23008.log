@@ -1,0 +1,22 @@
+2026-06-30 16:18:47 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 16:18:47 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 16:18:47 | INFO     | [uvicorn.main:run:614] - [uvicorn.error] Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-06-30 16:18:47 | INFO     | [uvicorn.supervisors.basereload:run:51] - [uvicorn.error] Started reloader process [23008] using WatchFiles
+2026-06-30 16:18:48 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 16:18:49 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:18:50 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 16:18:52 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:21:25 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 16:22:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:22:57 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\presentation\mock\mock_data_provider.py'. Reloading...
+2026-06-30 16:22:59 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:23:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-06-30 16:23:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:23:02 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-06-30 16:23:02 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-06-30 16:23:03 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:23:06 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:23:11 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:23:15 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-06-30 16:24:26 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-06-30 16:27:26 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected

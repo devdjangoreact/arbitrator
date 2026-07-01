@@ -1,0 +1,3 @@
+2026-07-01 04:28:58 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError(RuntimeError('cannot schedule new futures after shutdown'))>
+ccxt.base.errors.NetworkError: cannot schedule new futures after shutdown

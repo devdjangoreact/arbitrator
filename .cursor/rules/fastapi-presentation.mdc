@@ -1,0 +1,74 @@
+---
+description: FastAPI + WebSocket presentation layer — load Context7 docs before editing routes or WS handlers
+globs: src/arbitrator/presentation/**/*
+alwaysApply: false
+---
+
+# FastAPI presentation layer
+
+The UI is a **static web frontend** (HTML/CSS/JS) served by **FastAPI**, with
+**live data over WebSocket**. Do not use Streamlit.
+
+## Stack
+
+| Concern | Technology |
+| ------- | ---------- |
+| HTTP server | FastAPI (`StaticFiles`, optional `GET /health`) |
+| UI channel | WebSocket only (`/ws/*`) — no `/api/*` for browser |
+| Static assets | `presentation/static/` (added when UI is implemented) |
+| Process entry | `uvicorn` in `main.py` |
+
+## When to apply
+
+**Before** creating, editing, or debugging anything under
+`src/arbitrator/presentation/` (routes, WebSocket handlers, static frontend,
+CORS, lifespan):
+
+1. Follow `.cursor/rules/architecture.mdc` — `presentation/` is the top layer.
+2. For FastAPI or WebSocket API details you are unsure about, use **Context7 MCP**
+   (`user-context7`) — see `.cursor/rules/context7-lookup.mdc`. Do not invent
+   decorators, kwargs, or message shapes.
+3. HTML partials in `presentation/static/partials/` — build with `python scripts/build_ui.py`.
+4. WS data: snapshot on connect, then delta ticks — `specs/001-mockup-ui/contracts/ws-ui-protocol.md`.
+5. Match layout to `maket/index.html` and `.cursor/rules/opportunity-ui.mdc`.
+
+## Layer boundaries
+
+- `presentation/` may import `application/`, `domain/`, and `config/` (logger, Settings).
+- `presentation/` must **not** import `exchanges/` directly — use application workers
+  and domain abstractions.
+- One class per file; wiring stays in `main.py` (composition root).
+- WebSocket handlers delegate to existing `*StreamWorker` classes in `application/`;
+  they must not block the event loop on ccxt I/O (workers already run on background threads).
+
+## WebSocket conventions
+
+- Єдиний канал UI ↔ сервер: `/ws/screener`, `/ws/opportunity?symbol=&short=&long=`, `/ws/orders`, `/ws/settings`.
+- Push **JSON** з полем `type`; client commands — той самий формат (див. `specs/001-mockup-ui/contracts/ws-messages.md`).
+- On disconnect — log + cleanup per-connection workers.
+- **`ui_data_mode=mock_data`**: WS handlers use `MockDataProvider` (no workers); see `specs/001-mockup-ui/contracts/mock-data.md`.
+- **`ui_data_mode=live`**: delegate to `*StreamWorker` + serializers.
+
+## Exchange REST (not browser API)
+
+- **Заборонено**: FastAPI `/api/*` для UI; HTTP-виклики з `static/js/`.
+- **Дозволено**: ccxt `fetch_*` / `set_leverage` / orders у `application/` і `exchanges/`, коли біржа не дає дані через `watch_*`.
+- Документ: `.cursor/rules/exchange-data.mdc` (рівень проєкту).
+- WS handler отримує команду → делегує service → service викликає REST до біржі за потреби.
+
+## Static files (not REST API)
+
+- `GET /`, `StaticFiles` — лише доставка HTML/CSS/JS.
+- Опційно `GET /health` для liveness.
+
+## Project constraints (still apply)
+
+- **Logging**: never `print()` — use `arbitrator.config.logger`.
+- **Configuration**: host, port, CORS, static path — fields on `Settings`, not literals.
+- **UI templates**: see `.cursor/rules/ui-templates.mdc`.
+
+## Forbidden
+
+- `import streamlit` or any `st.*` usage in new code.
+- Blocking `time.sleep` or synchronous ccxt calls inside async route/WS handlers.
+- Guessing FastAPI/WebSocket signatures — verify via Context7 first.

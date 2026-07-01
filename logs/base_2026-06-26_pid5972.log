@@ -1,0 +1,314 @@
+2026-06-26 07:31:12 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-26 07:31:15 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:31:16 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Screener
+2026-06-26 07:31:23 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:31:23 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:31:29 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:31:29 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:31:30 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:31:30 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:31:30 | INFO     | [arbitrator.presentation.sidebar.opportunity.opportunity_view:_render_entry_controls:434] - Opportunity manual open | symbol=0G/USDT:USDT short=mexc long=bitget
+2026-06-26 07:31:30 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-26 07:31:30 | INFO     | [arbitrator.presentation.streamlit_app:run:132] - UI run | section=Opportunity
+2026-06-26 07:31:30 | INFO     | [arbitrator.presentation.sidebar.opportunity.opportunity_view:_ensure_worker:130] - Opportunity stream worker started | symbol=0G/USDT:USDT short=mexc long=bitget
+2026-06-26 07:31:30 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1059] - Exchange client opened | exchange=mexc
+2026-06-26 07:31:31 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:1059] - Exchange client opened | exchange=bitget
+2026-06-26 07:31:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1076] - Markets loaded | exchange=bitget count=1917
+2026-06-26 07:31:36 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:225] - Streaming order book | exchange=bitget symbol=0G/USDT:USDT limit=20
+2026-06-26 07:31:36 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:201] - Streaming tickers | exchange=bitget symbols=1 mode=bulk chunks=1
+2026-06-26 07:31:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:941] - Bulk stream chunks | exchange=bitget chunks=1 chunk_size=50
+2026-06-26 07:31:37 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1076] - Markets loaded | exchange=mexc count=3215
+2026-06-26 07:31:37 | INFO     | [arbitrator.exchanges.ccxt_base:watch_order_book:225] - Streaming order book | exchange=mexc symbol=0G/USDT:USDT limit=20
+2026-06-26 07:31:37 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:201] - Streaming tickers | exchange=mexc symbols=1 mode=bulk chunks=1
+2026-06-26 07:31:37 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:941] - Bulk stream chunks | exchange=mexc chunks=1 chunk_size=50
+2026-06-26 07:31:38 | ERROR    | [arbitrator.exchanges.ccxt_base:watch_order_book:245] - watch_order_book error | exchange=bitget symbol=0G/USDT:USDT
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F66E41A110>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F66E41A110>
+          │    └ <bound method Thread._bootstrap of <Thread(opportunity-stream:0G/USDT:USDT, started daemon 23376)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001F66E41A110>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001F639281300>
+    └ <Thread(opportunity-stream:0G/USDT:USDT, started daemon 23376)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001F639280FE0>
+    └ <Thread(opportunity-stream:0G/USDT:USDT, started daemon 23376)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(opportunity-stream:0G/USDT:USDT, started daemon 23376)>
+    │    │        │    └ ()
+    │    │        └ <Thread(opportunity-stream:0G/USDT:USDT, started daemon 23376)>
+    │    └ <bound method OpportunityStreamWorker._thread_main of <arbitrator.application.opportunity_stream_worker.OpportunityStreamWork...
+    └ <Thread(opportunity-stream:0G/USDT:USDT, started daemon 23376)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_stream_worker.py", line 93, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function OpportunityStreamWorker._async_main at 0x000001F645511E40>
+    │       │   └ <arbitrator.application.opportunity_stream_worker.OpportunityStreamWorker object at 0x000001F66DE9EF50>
+    │       └ <function run at 0x000001F63C563E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object OpportunityStreamWorker._async_main at 0x000001F66DEE0CC0>
+           │      └ <function Runner.run at 0x000001F63C590680>
+           └ <asyncio.runners.Runner object at 0x000001F66DE936D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-146' coro=<OpportunityStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrato...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001F63C58E0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001F66DE936D0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001F63C60C040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001F63C58FE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001F63C3F3880>
+    └ <Handle Task.task_wakeup(<Future finis...G/USDT:USDT')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...G/USDT:USDT')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...G/USDT:USDT')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...G/USDT:USDT')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 233, in watch_order_book
+    payload = await client.watch_order_book(symbol, limit)
+                    │      │                │       └ 20
+                    │      │                └ '0G/USDT:USDT'
+                    │      └ <function bitget.watch_order_book at 0x000001F64514D440>
+                    └ ccxt.async_support.bitget()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 703, in watch_order_book
+    return await self.watch_order_book_for_symbols([symbol], limit, params)
+                 │    │                             │        │      └ {}
+                 │    │                             │        └ 20
+                 │    │                             └ '0G/USDT:USDT'
+                 │    └ <function bitget.watch_order_book_for_symbols at 0x000001F64514D620>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 790, in watch_order_book_for_symbols
+    orderbook = await self.watch_public_multiple(uta, messageHashes, topics, params)
+                      │    │                     │    │              │       └ {}
+                      │    │                     │    │              └ [{'instType': 'USDT-FUTURES', 'channel': 'books', 'instId': '0GUSDT'}]
+                      │    │                     │    └ ['orderbook:0G/USDT:USDT']
+                      │    │                     └ False
+                      │    └ <function bitget.watch_public_multiple at 0x000001F64514E480>
+                      └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2324, in watch_public_multiple
+    return await self.watch_multiple(url, messageHashes, message, messageHashes)
+                 │    │              │    │              │        └ ['orderbook:0G/USDT:USDT']
+                 │    │              │    │              └ {'op': 'subscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'books', 'instId': '0GUSDT'}]}
+                 │    │              │    └ ['orderbook:0G/USDT:USDT']
+                 │    │              └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch_multiple at 0x000001F6437DC9A0>
+                 └ ccxt.async_support.bitget()
+
+ccxt.base.errors.UnsubscribeError: bitget orderbook 0G/USDT:USDT
+2026-06-26 07:31:43 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:31:48 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:31:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:31:58 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:13 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:33 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:38 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:43 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:48 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:32:58 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:13 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:33 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:38 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:43 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:48 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:33:58 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:13 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:33 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:38 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:43 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:48 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:34:58 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:13 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:18 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:28 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:33 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:38 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:43 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:48 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:53 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:35:58 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:08 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:34 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:44 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:49 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:36:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:34 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:44 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:49 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:37:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:34 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:44 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:49 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:54 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:38:59 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:14 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:19 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:24 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:29 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:34 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:44 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:39:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:00 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:40:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:00 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:41:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:00 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:42:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:00 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:25 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:30 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:35 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:40 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:50 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:43:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:00 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:05 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:15 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:21 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:31 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:51 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:44:56 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:01 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:16 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:21 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:31 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:51 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:45:56 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:01 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:16 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:21 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:31 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:36 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:41 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:51 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:46:56 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:47:01 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:47:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:47:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:47:16 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:47:21 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT
+2026-06-26 07:47:26 | DEBUG    | [arbitrator.exchanges.ccxt_base:watch_order_book:237] - watch_order_book checksum mismatch, retrying | exchange=bitget symbol=0G/USDT:USDT

@@ -1,0 +1,107 @@
+2026-06-25 04:27:32 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:27:33 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:27:36 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:27:36 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:27:36 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:render:74] - Screener reconnect requested from UI
+2026-06-25 04:27:36 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:27:36 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:27:36 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:_ensure_worker:223] - Screener background worker started | nonce=1 stream_volume_usdt=50000.0
+2026-06-25 04:27:36 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1395 after_min_exchanges=728 after_exclusions=727
+2026-06-25 04:27:36 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:165] - Volume discovery started | symbols=727 threshold_usdt=50000.0 timeout_s=30.0
+2026-06-25 04:27:36 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 582, 'bitget': 596, 'gate': 661, 'bingx': 473}
+2026-06-25 04:27:36 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=582
+2026-06-25 04:27:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=mexc
+2026-06-25 04:27:37 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=596
+2026-06-25 04:27:37 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bitget
+2026-06-25 04:27:37 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=661
+2026-06-25 04:27:38 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=gate
+2026-06-25 04:27:38 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=473
+2026-06-25 04:27:38 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bingx
+2026-06-25 04:27:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bitget count=1913
+2026-06-25 04:27:45 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=596 mode=bulk chunks=12
+2026-06-25 04:27:45 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=bitget chunks=12 chunk_size=50
+2026-06-25 04:27:46 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bingx count=3026
+2026-06-25 04:27:46 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=473 mode=fanout chunks=-
+2026-06-25 04:27:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=mexc count=3238
+2026-06-25 04:27:55 | DEBUG    | [arbitrator.exchanges.mexc:watch_tickers:52] - watch_tickers skipped non-api contracts | exchange=mexc skipped=32
+2026-06-25 04:27:55 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=mexc symbols=550 mode=bulk chunks=11
+2026-06-25 04:27:55 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50
+2026-06-25 04:28:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=gate count=5987
+2026-06-25 04:28:06 | DEBUG    | [arbitrator.exchanges.gate:watch_tickers:52] - watch_tickers skipped non-tradable contracts | exchange=gate skipped=5
+2026-06-25 04:28:06 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=gate symbols=656 mode=bulk chunks=14
+2026-06-25 04:28:06 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=gate chunks=14 chunk_size=50
+2026-06-25 04:28:07 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:192] - Volume discovery timed out | eligible=499 pending=228
+2026-06-25 04:28:07 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=mexc
+2026-06-25 04:28:07 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bitget
+2026-06-25 04:28:07 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=gate
+2026-06-25 04:28:07 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:86] - Watcher cancelled | exchange=bingx
+2026-06-25 04:28:09 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=mexc
+2026-06-25 04:28:10 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bitget
+2026-06-25 04:28:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=gate
+2026-06-25 04:28:11 | DEBUG    | [arbitrator.exchanges.ccxt_base:close:806] - Exchange closed | exchange=bingx
+2026-06-25 04:28:11 | INFO     | [arbitrator.application.screener_stream_worker:_async_main:139] - Volume gate applied | threshold_usdt=50000.0 eligible=499 rejected=0
+2026-06-25 04:28:11 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 465, 'bitget': 417, 'gate': 467, 'bingx': 393}
+2026-06-25 04:28:11 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=465
+2026-06-25 04:28:12 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=mexc
+2026-06-25 04:28:12 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=417
+2026-06-25 04:28:12 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bitget
+2026-06-25 04:28:12 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=467
+2026-06-25 04:28:12 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=gate
+2026-06-25 04:28:12 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=393
+2026-06-25 04:28:13 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bingx
+2026-06-25 04:28:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bitget count=1913
+2026-06-25 04:28:20 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=417 mode=bulk chunks=9
+2026-06-25 04:28:20 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=bitget chunks=9 chunk_size=50
+2026-06-25 04:28:22 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bingx count=3026
+2026-06-25 04:28:22 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=393 mode=fanout chunks=-
+2026-06-25 04:28:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=mexc count=3238
+2026-06-25 04:28:23 | DEBUG    | [arbitrator.exchanges.mexc:watch_tickers:52] - watch_tickers skipped non-api contracts | exchange=mexc skipped=2
+2026-06-25 04:28:23 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=mexc symbols=463 mode=bulk chunks=10
+2026-06-25 04:28:23 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=mexc chunks=10 chunk_size=50
+2026-06-25 04:28:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=gate count=5987
+2026-06-25 04:28:39 | DEBUG    | [arbitrator.exchanges.gate:watch_tickers:52] - watch_tickers skipped non-tradable contracts | exchange=gate skipped=3
+2026-06-25 04:28:39 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=gate symbols=464 mode=bulk chunks=10
+2026-06-25 04:28:39 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=gate chunks=10 chunk_size=50
+2026-06-25 04:28:42 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:28:42 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:28:43 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:28:43 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:28:55 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:28:55 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:28:59 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:28:59 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:29:00 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:29:00 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:30:14 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:30:14 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Opportunity
+2026-06-25 04:30:23 | INFO     | [starlette.middleware.sessions:send_wrapper:86] - [uvicorn.error] 127.0.0.1:60915 - "WebSocket /_stcore/stream" [accepted]
+2026-06-25 04:30:23 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-25 04:30:23 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:30:23 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:30:33 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:30:33 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Opportunity
+2026-06-25 04:30:42 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:30:42 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Opportunity
+2026-06-25 04:30:49 | INFO     | [__main__:<module>:16] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx']
+2026-06-25 04:30:49 | INFO     | [arbitrator.presentation.streamlit_app:run:104] - UI run | section=Screener
+2026-06-25 04:30:49 | INFO     | [arbitrator.presentation.sidebar.screener.screener_view:_ensure_worker:223] - Screener background worker started | nonce=1 stream_volume_usdt=50000.0
+2026-06-25 04:30:49 | INFO     | [arbitrator.application.symbol_universe_service:_filter:111] - Universe filtered | total=1395 after_min_exchanges=728 after_exclusions=727
+2026-06-25 04:30:49 | INFO     | [arbitrator.application.screener_stream_worker:_discovery_phase:165] - Volume discovery started | symbols=727 threshold_usdt=50000.0 timeout_s=30.0
+2026-06-25 04:30:49 | INFO     | [arbitrator.application.multi_exchange_watcher:_spawn_watchers:52] - Spawning watchers | exchanges=['mexc', 'bitget', 'gate', 'bingx'] symbols={'mexc': 582, 'bitget': 596, 'gate': 661, 'bingx': 473}
+2026-06-25 04:30:49 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=mexc symbols=582
+2026-06-25 04:30:49 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=mexc
+2026-06-25 04:30:49 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bitget symbols=596
+2026-06-25 04:30:50 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bitget
+2026-06-25 04:30:50 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=gate symbols=661
+2026-06-25 04:30:50 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=gate
+2026-06-25 04:30:50 | DEBUG    | [arbitrator.application.multi_exchange_watcher:_watch:72] - Watcher start | exchange=bingx symbols=473
+2026-06-25 04:30:51 | INFO     | [arbitrator.exchanges.ccxt_base:_ensure_open:931] - Exchange client opened | exchange=bingx
+2026-06-25 04:31:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bitget count=1913
+2026-06-25 04:31:03 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bitget symbols=596 mode=bulk chunks=12
+2026-06-25 04:31:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=bitget chunks=12 chunk_size=50
+2026-06-25 04:31:03 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=bingx count=3026
+2026-06-25 04:31:03 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=bingx symbols=473 mode=fanout chunks=-
+2026-06-25 04:31:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:948] - Markets loaded | exchange=mexc count=3238
+2026-06-25 04:31:04 | DEBUG    | [arbitrator.exchanges.mexc:watch_tickers:52] - watch_tickers skipped non-api contracts | exchange=mexc skipped=32
+2026-06-25 04:31:04 | INFO     | [arbitrator.exchanges.ccxt_base:watch_tickers:160] - Streaming tickers | exchange=mexc symbols=550 mode=bulk chunks=11
+2026-06-25 04:31:04 | DEBUG    | [arbitrator.exchanges.ccxt_base:_stream_bulk:819] - Bulk stream chunks | exchange=mexc chunks=11 chunk_size=50

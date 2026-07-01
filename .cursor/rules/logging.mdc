@@ -1,0 +1,63 @@
+---
+description: Use the project Loguru-based logger for all diagnostic output. Forbid print() and stdlib logging.getLogger() in application code.
+globs:
+  - "**/*.py"
+alwaysApply: true
+---
+
+# Logging rule
+
+This project ships a single, project-wide logger built on top of Loguru,
+defined in `src/arbitrator/config/logger.py`.
+
+## Hard rules
+
+1. **Never use `print()`** for diagnostics, status, debugging, or errors in
+   application code (`src/`, `main.py`, scripts under the project root).
+   `print()` is allowed only for genuine user-facing CLI output (none today).
+2. **Never use `logging.getLogger(__name__)`** or other stdlib loggers
+   directly. The project intercepts stdlib logs and routes them through
+   Loguru — but new code must import the project logger instead.
+3. **Always import the singleton**:
+
+   ```python
+   from arbitrator.config.logger import logger
+   ```
+
+4. **Initialization happens once** in `main.py` via `init_logger(...)`.
+   Do not call `init_logger` from anywhere else.
+
+## How to log
+
+- `logger.info("message | key={} other={}", value, other)` — use
+  positional `{}` placeholders, never f-strings (Loguru lazy-formats).
+- `logger.exception("static message | symbol={}", symbol)` inside an
+  `except` block. **Always** log the full exception, never just
+  `str(error)` or `error.message`.
+- For per-feature log files, use the bracket form:
+  `logger["ws/binance.log"].info("...")` — files are created under
+  the configured `logs/` directory.
+
+## Where to log
+
+Required logging points:
+
+- Exchange/Gateway lifecycle: open, close, reconnect.
+- Every `except Exception:` block — use `logger.exception(...)`.
+- Configuration errors and unsupported inputs (`logger.error`).
+- Stream startup ("first snapshot", "watcher spawned") and shutdown.
+- Any retry / backoff loop iteration at `debug` level.
+
+## Forbidden patterns
+
+| Bad                                         | Good                                          |
+| ------------------------------------------- | --------------------------------------------- |
+| `print(f"connected to {ex}")`               | `logger.info("connected | ex={}", ex)`        |
+| `logging.getLogger(__name__).info(...)`     | `from ...logger import logger; logger.info`   |
+| `logger.error(str(e))`                      | `logger.exception("static msg | ctx={}", x)`  |
+| `logger.info(f"x={x}")`                     | `logger.info("x={}", x)`                      |
+
+## Mypy / typing
+
+- The exported `logger` satisfies the `ArbitrageLogger` Protocol.
+- Methods accept `*args: object, **kwargs: object` — no `Any`.

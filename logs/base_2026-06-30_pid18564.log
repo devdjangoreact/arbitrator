@@ -1,0 +1,69 @@
+2026-06-30 16:42:11 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 16:42:11 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 16:42:11 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [18564]
+2026-06-30 16:42:11 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-06-30 16:42:11 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
+2026-06-30 16:42:11 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
+2026-06-30 16:42:11 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-06-30 16:42:11 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:50989 - "WebSocket /ws/settings" [accepted]
+2026-06-30 16:42:11 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-06-30 16:42:11 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 16:42:12 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:50998 - "WebSocket /ws/screener" [accepted]
+2026-06-30 16:42:12 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:33] - ws connected | endpoint=/ws/screener
+2026-06-30 16:42:12 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 16:42:12 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:50999 - "WebSocket /ws/opportunity?symbol=DOGE%2FUSDT&short=mexc&long=bingx" [accepted]
+2026-06-30 16:42:12 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=DOGE/USDT short=mexc long=bingx
+2026-06-30 16:42:12 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 16:42:12 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51000 - "WebSocket /ws/orders" [accepted]
+2026-06-30 16:42:12 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-06-30 16:42:12 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51047 - "GET / HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 16:44:44 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 16:44:44 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 16:44:44 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51047 - "GET /static/css/app.css HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51048 - "GET /static/js/core/app_state.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51051 - "GET /static/js/core/dom.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51050 - "GET /static/js/core/ws_client.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51052 - "GET /static/js/core/delta_router.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51053 - "GET /static/js/render/format.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51051 - "GET /static/js/render/order_groups.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51047 - "GET /static/js/render/order_book.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51048 - "GET /static/js/render/opportunity_chart.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51052 - "GET /static/js/render/screener.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51050 - "GET /static/js/render/opportunity.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51053 - "GET /static/js/render/orders.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51051 - "GET /static/js/render/settings.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51048 - "GET /static/js/app.js HTTP/1.1" 200
+2026-06-30 16:44:44 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51054 - "WebSocket /ws/screener" [accepted]
+2026-06-30 16:44:44 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:33] - ws connected | endpoint=/ws/screener
+2026-06-30 16:44:44 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 16:44:44 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51055 - "WebSocket /ws/orders" [accepted]
+2026-06-30 16:44:44 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
+2026-06-30 16:44:44 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 16:44:44 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:42] - ws disconnected | endpoint=/ws/opportunity symbol=DOGE/USDT
+2026-06-30 16:44:44 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51056 - "WebSocket /ws/settings" [accepted]
+2026-06-30 16:44:44 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:25] - ws connected | endpoint=/ws/settings
+2026-06-30 16:44:44 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 16:44:44 | INFO     | [starlette.middleware.errors:_send:161] - [uvicorn.access] 127.0.0.1:51048 - "GET /favicon.ico HTTP/1.1" 404
+2026-06-30 16:44:44 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:38] - ws disconnected | endpoint=/ws/orders
+2026-06-30 16:44:44 | INFO     | [starlette._exception_handler:sender:39] - [uvicorn.error] 127.0.0.1:51057 - "WebSocket /ws/opportunity?symbol=DOGE%2FUSDT&short=mexc&long=bingx" [accepted]
+2026-06-30 16:44:44 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=DOGE/USDT short=mexc long=bingx
+2026-06-30 16:44:44 | INFO     | [websockets.legacy.server:handler:161] - [uvicorn.error] connection open
+2026-06-30 16:44:45 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:37] - ws disconnected | endpoint=/ws/settings
+2026-06-30 16:44:45 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:41] - ws disconnected | endpoint=/ws/screener
+2026-06-30 16:44:46 | INFO     | [uvicorn.server:_serve:98] - [uvicorn.error] Shutting down
+2026-06-30 16:44:46 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 16:44:46 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 16:44:46 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 16:44:46 | INFO     | [asyncio.events:_run:80] - [uvicorn.error] connection closed
+2026-06-30 16:44:46 | INFO     | [asyncio.tasks:wait_for:452] - [uvicorn.error] Waiting for background tasks to complete. (CTRL+C to force quit)
+2026-06-30 16:44:46 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:41] - ws disconnected | endpoint=/ws/screener
+2026-06-30 16:44:46 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:38] - ws disconnected | endpoint=/ws/orders
+2026-06-30 16:44:46 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:42] - ws disconnected | endpoint=/ws/opportunity symbol=DOGE/USDT
+2026-06-30 16:44:46 | INFO     | [arbitrator.presentation.ws.settings_ws_handler:handle:37] - ws disconnected | endpoint=/ws/settings
+2026-06-30 16:44:46 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Waiting for application shutdown.
+2026-06-30 16:44:46 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped
+2026-06-30 16:44:46 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Application shutdown complete.
+2026-06-30 16:44:46 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Finished server process [18564]

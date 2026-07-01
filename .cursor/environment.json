@@ -1,0 +1,7 @@
+{
+  "$schema": "https://cursor.sh/schemas/environment.json",
+  "snapshot": "POPULATED_FROM_SETTINGS",
+  "install": ".venv/bin/poetry install",
+  "start": ".venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000",
+  "terminals": []
+}

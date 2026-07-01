@@ -1,0 +1,1215 @@
+2026-07-01 05:38:01 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=AttributeError("'Client' object has no attribute 'reset'")>
+Traceback (most recent call last):
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bingx.py", line 1346, in pong
+    await client.send('Pong')
+          │      └ <function Client.send at 0x000001A64A2904A0>
+          └ <ccxt.async_support.base.ws.client.Client object at 0x000001A669E6A890>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\ws\client.py", line 315, in send
+    raise ConnectionError('Cannot Send Message: Connection closed before send')
+
+ConnectionError: Cannot Send Message: Connection closed before send
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+> File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bingx.py", line 1356, in pong
+    client.reset(error)
+    │            └ NetworkError('bingx pong failed with error [ConnectionError] Cannot Send Message: Connection closed before send')
+    └ <ccxt.async_support.base.ws.client.Client object at 0x000001A669E6A890>
+
+AttributeError: 'Client' object has no attribute 'reset'
+2026-07-01 05:38:01 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1351] - load_markets failed | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 4972)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(screener-stream:0, started daemon 4972)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(screener-stream:0, started daemon 4972)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 4972)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 4972)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 4972)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000001A64CAC7F60>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000001A64E0E9550>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000001A64E088A40>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E0DBA90>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\app...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E0DBA90>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\gate.py", line 46, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.gate()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x000001A64CAAA980>
+          └ <arbitrator.exchanges.gate.Gate object at 0x000001A64E0DBE10>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x000001A64A72ADE0>
+          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 324, in load_markets_helper
+    markets = await self.fetch_markets(params)
+                    │    │             └ {}
+                    │    └ <function gate.fetch_markets at 0x000001A64BD049A0>
+                    └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1343, in fetch_markets
+    results = await asyncio.gather(*rawPromises)
+                    │       │       └ [<coroutine object gate.fetch_spot_markets at 0x000001A64EDD34F0>, <coroutine object gate.fetch_swap_markets at 0x000001A64E3...
+                    │       └ <function gather at 0x000001A645C939C0>
+                    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1667, in fetch_option_markets
+    response = await self.publicOptionsGetContracts(query)
+                     │    │                         └ {'underlying': 'XRP_USDT'}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x000001A6493D7560>
+                     └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 1}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {'underlying': 'XRP_USDT'}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['public', 'options']
+                 │    │      └ 'contracts'
+                 │    └ <function Exchange.fetch2 at 0x000001A64A842E80>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=XRP_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               │                  └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=XRP_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=XRP_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     └ {'url': 'https://api.gateio.ws/api/v4/options/contracts?underlying=XRP_USDT', 'method': 'GET', 'body': None, 'headers': None}
+                 │    └ <function Exchange.fetch at 0x000001A64A72AC00>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 234, in fetch
+    session_method = getattr(final_session, method.lower())
+                             │              │      └ <method 'lower' of 'str' objects>
+                             │              └ 'GET'
+                             └ None
+
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-07-01 05:38:11 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1351] - load_markets failed | exchange=mexc
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 4972)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(screener-stream:0, started daemon 4972)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(screener-stream:0, started daemon 4972)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 4972)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 4972)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 4972)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000001A64CAC7F60>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000001A64E0E9550>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000001A64E088A40>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E0DBA90>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E0DBA90>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...ibute 'get'")>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\mexc.py", line 44, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.mexc()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x000001A64CAAA980>
+          └ <arbitrator.exchanges.mexc.Mexc object at 0x000001A64DF2DED0>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x000001A64A72ADE0>
+          └ ccxt.async_support.mexc()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 324, in load_markets_helper
+    markets = await self.fetch_markets(params)
+                    │    │             └ {}
+                    │    └ <function mexc.fetch_markets at 0x000001A64BEAFCE0>
+                    └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\mexc.py", line 1225, in fetch_markets
+    spotMarket, swapMarket = await asyncio.gather(*[spotMarketPromise, swapMarketPromise])
+                                   │       │        │                  └ <coroutine object mexc.fetch_swap_markets at 0x000001A64E0434D0>
+                                   │       │        └ <coroutine object mexc.fetch_spot_markets at 0x000001A64E0968F0>
+                                   │       └ <function gather at 0x000001A645C939C0>
+                                   └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\mexc.py", line 1364, in fetch_swap_markets
+    response = await self.contractPublicGetDetail(params)
+                     │    │                       └ {}
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x000001A6498C2520>
+                     └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 100}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['contract', 'public']
+                 │    │      └ 'detail'
+                 │    └ <function Exchange.fetch2 at 0x000001A64A842E80>
+                 └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.mexc.com/api/v1/contract/detail', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               │                  └ {'url': 'https://api.mexc.com/api/v1/contract/detail', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               └ {'url': 'https://api.mexc.com/api/v1/contract/detail', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     └ {'url': 'https://api.mexc.com/api/v1/contract/detail', 'method': 'GET', 'body': None, 'headers': None}
+                 │    └ <function Exchange.fetch at 0x000001A64A72AC00>
+                 └ ccxt.async_support.mexc()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 234, in fetch
+    session_method = getattr(final_session, method.lower())
+                             │              │      └ <method 'lower' of 'str' objects>
+                             │              └ 'GET'
+                             └ None
+
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-07-01 05:38:11 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1351] - load_markets failed | exchange=gate
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 4972)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(screener-stream:0, started daemon 4972)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(screener-stream:0, started daemon 4972)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 4972)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 4972)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 4972)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000001A64CAC7F60>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000001A64E0E9550>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000001A64E088A40>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E0DBA90>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E0DBA90>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Task.task_wakeup(<Task finishe...er shutdown')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...er shutdown')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...er shutdown')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...er shutdown')>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\gate.py", line 46, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.gate()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x000001A64CAAA980>
+          └ <arbitrator.exchanges.gate.Gate object at 0x000001A64E0DBE10>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x000001A64A72ADE0>
+          └ ccxt.async_support.gate()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 324, in load_markets_helper
+    markets = await self.fetch_markets(params)
+                    │    │             └ {}
+                    │    └ <function gate.fetch_markets at 0x000001A64BD049A0>
+                    └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1343, in fetch_markets
+    results = await asyncio.gather(*rawPromises)
+                    │       │       └ [<coroutine object gate.fetch_spot_markets at 0x000001A64EDC9E10>, <coroutine object gate.fetch_swap_markets at 0x000001A6626...
+                    │       └ <function gather at 0x000001A645C939C0>
+                    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\gate.py", line 1469, in fetch_swap_markets
+    response = await self.publicFuturesGetSettleContracts(self.extend(request, params))
+                     │    │                               │    │      │        └ {}
+                     │    │                               │    │      └ {'settle': 'usdt'}
+                     │    │                               │    └ <staticmethod(<function Exchange.extend at 0x000001A6484EA520>)>
+                     │    │                               └ ccxt.async_support.gate()
+                     │    └ <function Entry.__init__.<locals>.unbound_method at 0x000001A6493D6700>
+                     └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 1}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {'settle': 'usdt'}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['public', 'futures']
+                 │    │      └ '{settle}/contracts'
+                 │    └ <function Exchange.fetch2 at 0x000001A64A842E80>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.gateio.ws/api/v4/futures/usdt/contracts', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               │                  └ {'url': 'https://api.gateio.ws/api/v4/futures/usdt/contracts', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     │               └ {'url': 'https://api.gateio.ws/api/v4/futures/usdt/contracts', 'method': 'GET', 'body': None, 'headers': None}
+                 │    │     └ {'url': 'https://api.gateio.ws/api/v4/futures/usdt/contracts', 'method': 'GET', 'body': None, 'headers': None}
+                 │    └ <function Exchange.fetch at 0x000001A64A72AC00>
+                 └ ccxt.async_support.gate()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 241, in fetch
+    async with session_method(yarl.URL(url, encoded=True),
+               │              │    │   └ 'https://api.gateio.ws/api/v4/futures/usdt/contracts'
+               │              │    └ <class 'yarl.URL'>
+               │              └ <module 'yarl' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\yarl\\__init__.py'>
+               └ <bound method ClientSession.get of <aiohttp.client.ClientSession object at 0x000001A671B24FD0>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x000001A64E11AE00>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x000001A64E11AE00>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 673, in _request
+    auth = await self._loop.run_in_executor(
+                 │    │     └ <function BaseEventLoop.run_in_executor at 0x000001A645CD9440>
+                 │    └ <ProactorEventLoop running=True closed=False debug=False>
+                 └ <aiohttp.client.ClientSession object at 0x000001A671B24FD0>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 829, in run_in_executor
+    executor.submit(func, *args), loop=self)
+    │        │      │      │           └ <ProactorEventLoop running=True closed=False debug=False>
+    │        │      │      └ ('api.gateio.ws',)
+    │        │      └ <bound method ClientSession._get_netrc_auth of <aiohttp.client.ClientSession object at 0x000001A671B24FD0>>
+    │        └ <function ThreadPoolExecutor.submit at 0x000001A64E1A5EE0>
+    └ <concurrent.futures.thread.ThreadPoolExecutor object at 0x000001A64E3B9D50>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 167, in submit
+    raise RuntimeError('cannot schedule new futures after shutdown')
+
+RuntimeError: cannot schedule new futures after shutdown
+2026-07-01 05:38:11 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Exception in callback Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407
+handle: <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407>
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    └ <bound method Thread._bootstrap of <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    │        │    └ ()
+    │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    └ <bound method OpportunityStreamWorker._thread_main of <arbitrator.application.opportunity_stream_worker.OpportunityStreamWork...
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_stream_worker.py", line 99, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function OpportunityStreamWorker._async_main at 0x000001A64DEC14E0>
+    │       │   └ <arbitrator.application.opportunity_stream_worker.OpportunityStreamWorker object at 0x000001A64E15B850>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object OpportunityStreamWorker._async_main at 0x000001A64E188580>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-63' coro=<OpportunityStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitra...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+> File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 408, in callback
+    exception = asyncio_future.exception()
+                │              └ <method 'exception' of '_asyncio.Task' objects>
+                └ <Task cancelled name='Task-2045' coro=<bitget.handle_check_sum_error() done, defined at C:\shere-folder\arbitrator\.venv\Lib\...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 911, in handle_check_sum_error
+    await self.un_watch_order_book(symbol)
+          │    │                   └ 'BNB/USDT:USDT'
+          │    └ <function bitget.un_watch_order_book at 0x000001A64C1A8D60>
+          └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 725, in un_watch_order_book
+    return await self.un_watch_channel(symbol, channel, 'orderbook', 'watchOrderBook', params)
+                 │    │                │       │                                       └ {}
+                 │    │                │       └ 'books'
+                 │    │                └ 'BNB/USDT:USDT'
+                 │    └ <function bitget.un_watch_channel at 0x000001A64C1A8E00>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 747, in un_watch_channel
+    return await self.un_watch_public(uta, messageHash, args, params)
+                 │    │               │    │            │     └ {}
+                 │    │               │    │            └ {'instType': 'USDT-FUTURES', 'channel': 'books', 'instId': 'BNBUSDT'}
+                 │    │               │    └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │               └ False
+                 │    └ <function bitget.un_watch_public at 0x000001A64C1A9C60>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2309, in un_watch_public
+    return await self.watch(url, messageHash, message, messageHash)
+                 │    │     │    │            │        └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │     │    │            └ {'op': 'unsubscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'books', 'instId': 'BNBUSDT'}]}
+                 │    │     │    └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │     └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch at 0x000001A64A72B920>
+                 └ ccxt.async_support.bitget()
+
+asyncio.exceptions.CancelledError
+2026-07-01 05:38:11 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Exception in callback Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407
+handle: <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407>
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    └ <bound method Thread._bootstrap of <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    │        │    └ ()
+    │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    └ <bound method OpportunityStreamWorker._thread_main of <arbitrator.application.opportunity_stream_worker.OpportunityStreamWork...
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_stream_worker.py", line 99, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function OpportunityStreamWorker._async_main at 0x000001A64DEC14E0>
+    │       │   └ <arbitrator.application.opportunity_stream_worker.OpportunityStreamWorker object at 0x000001A64E15B850>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object OpportunityStreamWorker._async_main at 0x000001A64E188580>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-63' coro=<OpportunityStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitra...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+> File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 408, in callback
+    exception = asyncio_future.exception()
+                │              └ <method 'exception' of '_asyncio.Task' objects>
+                └ <Task cancelled name='Task-2046' coro=<bitget.handle_check_sum_error() done, defined at C:\shere-folder\arbitrator\.venv\Lib\...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 911, in handle_check_sum_error
+    await self.un_watch_order_book(symbol)
+          │    │                   └ 'BNB/USDT:USDT'
+          │    └ <function bitget.un_watch_order_book at 0x000001A64C1A8D60>
+          └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 725, in un_watch_order_book
+    return await self.un_watch_channel(symbol, channel, 'orderbook', 'watchOrderBook', params)
+                 │    │                │       │                                       └ {}
+                 │    │                │       └ 'books'
+                 │    │                └ 'BNB/USDT:USDT'
+                 │    └ <function bitget.un_watch_channel at 0x000001A64C1A8E00>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 747, in un_watch_channel
+    return await self.un_watch_public(uta, messageHash, args, params)
+                 │    │               │    │            │     └ {}
+                 │    │               │    │            └ {'instType': 'USDT-FUTURES', 'channel': 'books', 'instId': 'BNBUSDT'}
+                 │    │               │    └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │               └ False
+                 │    └ <function bitget.un_watch_public at 0x000001A64C1A9C60>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2309, in un_watch_public
+    return await self.watch(url, messageHash, message, messageHash)
+                 │    │     │    │            │        └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │     │    │            └ {'op': 'unsubscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'books', 'instId': 'BNBUSDT'}]}
+                 │    │     │    └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │     └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch at 0x000001A64A72B920>
+                 └ ccxt.async_support.bitget()
+
+asyncio.exceptions.CancelledError
+2026-07-01 05:38:11 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Exception in callback Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407
+handle: <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407>
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    └ <bound method Thread._bootstrap of <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    │        │    └ ()
+    │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    └ <bound method OpportunityStreamWorker._thread_main of <arbitrator.application.opportunity_stream_worker.OpportunityStreamWork...
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_stream_worker.py", line 99, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function OpportunityStreamWorker._async_main at 0x000001A64DEC14E0>
+    │       │   └ <arbitrator.application.opportunity_stream_worker.OpportunityStreamWorker object at 0x000001A64E15B850>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object OpportunityStreamWorker._async_main at 0x000001A64E188580>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-63' coro=<OpportunityStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitra...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+> File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 408, in callback
+    exception = asyncio_future.exception()
+                │              └ <method 'exception' of '_asyncio.Task' objects>
+                └ <Task cancelled name='Task-2053' coro=<bitget.handle_check_sum_error() done, defined at C:\shere-folder\arbitrator\.venv\Lib\...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 911, in handle_check_sum_error
+    await self.un_watch_order_book(symbol)
+          │    │                   └ 'BNB/USDT:USDT'
+          │    └ <function bitget.un_watch_order_book at 0x000001A64C1A8D60>
+          └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 725, in un_watch_order_book
+    return await self.un_watch_channel(symbol, channel, 'orderbook', 'watchOrderBook', params)
+                 │    │                │       │                                       └ {}
+                 │    │                │       └ 'books'
+                 │    │                └ 'BNB/USDT:USDT'
+                 │    └ <function bitget.un_watch_channel at 0x000001A64C1A8E00>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 747, in un_watch_channel
+    return await self.un_watch_public(uta, messageHash, args, params)
+                 │    │               │    │            │     └ {}
+                 │    │               │    │            └ {'instType': 'USDT-FUTURES', 'channel': 'books', 'instId': 'BNBUSDT'}
+                 │    │               │    └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │               └ False
+                 │    └ <function bitget.un_watch_public at 0x000001A64C1A9C60>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2309, in un_watch_public
+    return await self.watch(url, messageHash, message, messageHash)
+                 │    │     │    │            │        └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │     │    │            └ {'op': 'unsubscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'books', 'instId': 'BNBUSDT'}]}
+                 │    │     │    └ 'unsubscribe:orderbook:BNB/USDT:USDT'
+                 │    │     └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch at 0x000001A64A72B920>
+                 └ ccxt.async_support.bitget()
+
+asyncio.exceptions.CancelledError
+2026-07-01 05:38:11 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Exception in callback Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407
+handle: <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407>
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    └ <bound method Thread._bootstrap of <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    │        │    └ ()
+    │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    └ <bound method OpportunityStreamWorker._thread_main of <arbitrator.application.opportunity_stream_worker.OpportunityStreamWork...
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_stream_worker.py", line 99, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function OpportunityStreamWorker._async_main at 0x000001A64DEC14E0>
+    │       │   └ <arbitrator.application.opportunity_stream_worker.OpportunityStreamWorker object at 0x000001A64E15B850>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object OpportunityStreamWorker._async_main at 0x000001A64E188580>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-63' coro=<OpportunityStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitra...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+> File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 408, in callback
+    exception = asyncio_future.exception()
+                │              └ <method 'exception' of '_asyncio.Task' objects>
+                └ <Task cancelled name='Task-2047' coro=<bitget.handle_check_sum_error() done, defined at C:\shere-folder\arbitrator\.venv\Lib\...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 911, in handle_check_sum_error
+    await self.un_watch_order_book(symbol)
+          │    │                   └ 'BNB/USDT'
+          │    └ <function bitget.un_watch_order_book at 0x000001A64C1A8D60>
+          └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 725, in un_watch_order_book
+    return await self.un_watch_channel(symbol, channel, 'orderbook', 'watchOrderBook', params)
+                 │    │                │       │                                       └ {}
+                 │    │                │       └ 'books'
+                 │    │                └ 'BNB/USDT'
+                 │    └ <function bitget.un_watch_channel at 0x000001A64C1A8E00>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 747, in un_watch_channel
+    return await self.un_watch_public(uta, messageHash, args, params)
+                 │    │               │    │            │     └ {}
+                 │    │               │    │            └ {'instType': 'SPOT', 'channel': 'books', 'instId': 'BNBUSDT'}
+                 │    │               │    └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │               └ False
+                 │    └ <function bitget.un_watch_public at 0x000001A64C1A9C60>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2309, in un_watch_public
+    return await self.watch(url, messageHash, message, messageHash)
+                 │    │     │    │            │        └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │     │    │            └ {'op': 'unsubscribe', 'args': [{'instType': 'SPOT', 'channel': 'books', 'instId': 'BNBUSDT'}]}
+                 │    │     │    └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │     └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch at 0x000001A64A72B920>
+                 └ ccxt.async_support.bitget()
+
+asyncio.exceptions.CancelledError
+2026-07-01 05:38:11 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Exception in callback Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407
+handle: <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407>
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    └ <bound method Thread._bootstrap of <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    │        │    └ ()
+    │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    └ <bound method OpportunityStreamWorker._thread_main of <arbitrator.application.opportunity_stream_worker.OpportunityStreamWork...
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_stream_worker.py", line 99, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function OpportunityStreamWorker._async_main at 0x000001A64DEC14E0>
+    │       │   └ <arbitrator.application.opportunity_stream_worker.OpportunityStreamWorker object at 0x000001A64E15B850>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object OpportunityStreamWorker._async_main at 0x000001A64E188580>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-63' coro=<OpportunityStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitra...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+> File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 408, in callback
+    exception = asyncio_future.exception()
+                │              └ <method 'exception' of '_asyncio.Task' objects>
+                └ <Task cancelled name='Task-2062' coro=<bitget.handle_check_sum_error() done, defined at C:\shere-folder\arbitrator\.venv\Lib\...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 911, in handle_check_sum_error
+    await self.un_watch_order_book(symbol)
+          │    │                   └ 'BNB/USDT'
+          │    └ <function bitget.un_watch_order_book at 0x000001A64C1A8D60>
+          └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 725, in un_watch_order_book
+    return await self.un_watch_channel(symbol, channel, 'orderbook', 'watchOrderBook', params)
+                 │    │                │       │                                       └ {}
+                 │    │                │       └ 'books'
+                 │    │                └ 'BNB/USDT'
+                 │    └ <function bitget.un_watch_channel at 0x000001A64C1A8E00>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 747, in un_watch_channel
+    return await self.un_watch_public(uta, messageHash, args, params)
+                 │    │               │    │            │     └ {}
+                 │    │               │    │            └ {'instType': 'SPOT', 'channel': 'books', 'instId': 'BNBUSDT'}
+                 │    │               │    └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │               └ False
+                 │    └ <function bitget.un_watch_public at 0x000001A64C1A9C60>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2309, in un_watch_public
+    return await self.watch(url, messageHash, message, messageHash)
+                 │    │     │    │            │        └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │     │    │            └ {'op': 'unsubscribe', 'args': [{'instType': 'SPOT', 'channel': 'books', 'instId': 'BNBUSDT'}]}
+                 │    │     │    └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │     └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch at 0x000001A64A72B920>
+                 └ ccxt.async_support.bitget()
+
+asyncio.exceptions.CancelledError
+2026-07-01 05:38:11 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Exception in callback Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407
+handle: <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py:407>
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+          │    └ <bound method Thread._bootstrap of <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E1AAD10>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    │        │    └ ()
+    │    │        └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+    │    └ <bound method OpportunityStreamWorker._thread_main of <arbitrator.application.opportunity_stream_worker.OpportunityStreamWork...
+    └ <Thread(opportunity-stream:BNB/USDT:USDT, started daemon 18048)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\opportunity_stream_worker.py", line 99, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function OpportunityStreamWorker._async_main at 0x000001A64DEC14E0>
+    │       │   └ <arbitrator.application.opportunity_stream_worker.OpportunityStreamWorker object at 0x000001A64E15B850>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object OpportunityStreamWorker._async_main at 0x000001A64E188580>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-63' coro=<OpportunityStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitra...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E167F10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+> File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Exchange.spawn.<locals>.callback(<Task cancell...itget.py:910>>) at C:\shere-folder\arbitrator\.venv\Lib\site-package...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 408, in callback
+    exception = asyncio_future.exception()
+                │              └ <method 'exception' of '_asyncio.Task' objects>
+                └ <Task cancelled name='Task-2065' coro=<bitget.handle_check_sum_error() done, defined at C:\shere-folder\arbitrator\.venv\Lib\...
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 911, in handle_check_sum_error
+    await self.un_watch_order_book(symbol)
+          │    │                   └ 'BNB/USDT'
+          │    └ <function bitget.un_watch_order_book at 0x000001A64C1A8D60>
+          └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 725, in un_watch_order_book
+    return await self.un_watch_channel(symbol, channel, 'orderbook', 'watchOrderBook', params)
+                 │    │                │       │                                       └ {}
+                 │    │                │       └ 'books'
+                 │    │                └ 'BNB/USDT'
+                 │    └ <function bitget.un_watch_channel at 0x000001A64C1A8E00>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 747, in un_watch_channel
+    return await self.un_watch_public(uta, messageHash, args, params)
+                 │    │               │    │            │     └ {}
+                 │    │               │    │            └ {'instType': 'SPOT', 'channel': 'books', 'instId': 'BNBUSDT'}
+                 │    │               │    └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │               └ False
+                 │    └ <function bitget.un_watch_public at 0x000001A64C1A9C60>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2309, in un_watch_public
+    return await self.watch(url, messageHash, message, messageHash)
+                 │    │     │    │            │        └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │     │    │            └ {'op': 'unsubscribe', 'args': [{'instType': 'SPOT', 'channel': 'books', 'instId': 'BNBUSDT'}]}
+                 │    │     │    └ 'unsubscribe:orderbook:BNB/USDT'
+                 │    │     └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch at 0x000001A64A72B920>
+                 └ ccxt.async_support.bitget()
+
+asyncio.exceptions.CancelledError
+2026-07-01 05:38:12 | ERROR    | [arbitrator.exchanges.ccxt_base:_ensure_markets_loaded:1351] - load_markets failed | exchange=bitget
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:0, started daemon 4972)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000001A64E0E98D0>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001A64344CB80>
+    └ <Thread(screener-stream:0, started daemon 4972)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000001A64344C860>
+    └ <Thread(screener-stream:0, started daemon 4972)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:0, started daemon 4972)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:0, started daemon 4972)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:0, started daemon 4972)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 88, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000001A64CAC7F60>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000001A64E0E9550>
+    │       └ <function run at 0x000001A645CDACA0>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000001A64E088A40>
+           │      └ <function Runner.run at 0x000001A645CDB100>
+           └ <asyncio.runners.Runner object at 0x000001A64E0DBA90>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task cancelling name='Task-3' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001A645CD8B80>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001A64E0DBA90>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000001A645D71B20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001A645CDA8E0>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001A645C46340>
+    └ <Handle Task.task_wakeup(<Task finishe...er shutdown')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Task finishe...er shutdown')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Task finishe...er shutdown')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Task finishe...er shutdown')>)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 196, in watch_tickers
+    await self._ensure_markets_loaded(client)
+          │    │                      └ ccxt.async_support.bitget()
+          │    └ <function CcxtBase._ensure_markets_loaded at 0x000001A64CAAA980>
+          └ <arbitrator.exchanges.bitget.Bitget object at 0x000001A64E0E9E90>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 1348, in _ensure_markets_loaded
+    await client.load_markets()
+          │      └ <function Exchange.load_markets at 0x000001A64A72ADE0>
+          └ ccxt.async_support.bitget()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 365, in load_markets
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 357, in load_markets
+    result = await self.markets_loading
+                   │    └ None
+                   └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 324, in load_markets_helper
+    markets = await self.fetch_markets(params)
+                    │    │             └ {}
+                    │    └ <function bitget.fetch_markets at 0x000001A64B99BC40>
+                    └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\bitget.py", line 1972, in fetch_markets
+    return await self.fetch_default_markets(params)
+                 │    │                     └ {}
+                 │    └ <function bitget.fetch_default_markets at 0x000001A64B99BCE0>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\bitget.py", line 1999, in fetch_default_markets
+    results = await asyncio.gather(*promises)
+                    │       │       └ [<coroutine object Exchange.request at 0x000001A6626EF6E0>, <coroutine object Exchange.request at 0x000001A6626EC500>, <corou...
+                    │       └ <function gather at 0x000001A645C939C0>
+                    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1033, in request
+    return await self.fetch2(path, api, method, params, headers, body, config)
+                 │    │      │     │    │       │       │        │     └ {'cost': 1}
+                 │    │      │     │    │       │       │        └ None
+                 │    │      │     │    │       │       └ None
+                 │    │      │     │    │       └ {'productType': 'SUSDC-FUTURES'}
+                 │    │      │     │    └ 'GET'
+                 │    │      │     └ ['public', 'mix']
+                 │    │      └ 'v2/mix/market/contracts'
+                 │    └ <function Exchange.fetch2 at 0x000001A64A842E80>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1029, in fetch2
+    raise e
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 1017, in fetch2
+    return await self.fetch(request['url'], request['method'], request['headers'], request['body'])
+                 │    │     │               │                  │                   └ {'url': 'https://api.bitget.com/api/v2/mix/market/contracts?productType=SUSDC-FUTURES', 'method': 'GET', 'body': None, 'heade...
+                 │    │     │               │                  └ {'url': 'https://api.bitget.com/api/v2/mix/market/contracts?productType=SUSDC-FUTURES', 'method': 'GET', 'body': None, 'heade...
+                 │    │     │               └ {'url': 'https://api.bitget.com/api/v2/mix/market/contracts?productType=SUSDC-FUTURES', 'method': 'GET', 'body': None, 'heade...
+                 │    │     └ {'url': 'https://api.bitget.com/api/v2/mix/market/contracts?productType=SUSDC-FUTURES', 'method': 'GET', 'body': None, 'heade...
+                 │    └ <function Exchange.fetch at 0x000001A64A72AC00>
+                 └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\async_support\base\exchange.py", line 241, in fetch
+    async with session_method(yarl.URL(url, encoded=True),
+               │              │    │   └ 'https://api.bitget.com/api/v2/mix/market/contracts?productType=SUSDC-FUTURES'
+               │              │    └ <class 'yarl.URL'>
+               │              └ <module 'yarl' from 'C:\\shere-folder\\arbitrator\\.venv\\Lib\\site-packages\\yarl\\__init__.py'>
+               └ <bound method ClientSession.get of <aiohttp.client.ClientSession object at 0x000001A66374D890>>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x000001A66D79EF80>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x000001A66D79EF80>
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\aiohttp\client.py", line 673, in _request
+    auth = await self._loop.run_in_executor(
+                 │    │     └ <function BaseEventLoop.run_in_executor at 0x000001A645CD9440>
+                 │    └ <ProactorEventLoop running=True closed=False debug=False>
+                 └ <aiohttp.client.ClientSession object at 0x000001A66374D890>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 829, in run_in_executor
+    executor.submit(func, *args), loop=self)
+    │        │      │      │           └ <ProactorEventLoop running=True closed=False debug=False>
+    │        │      │      └ ('api.bitget.com',)
+    │        │      └ <bound method ClientSession._get_netrc_auth of <aiohttp.client.ClientSession object at 0x000001A66374D890>>
+    │        └ <function ThreadPoolExecutor.submit at 0x000001A64E1A5EE0>
+    └ <concurrent.futures.thread.ThreadPoolExecutor object at 0x000001A64E3B9D50>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 167, in submit
+    raise RuntimeError('cannot schedule new futures after shutdown')
+
+RuntimeError: cannot schedule new futures after shutdown

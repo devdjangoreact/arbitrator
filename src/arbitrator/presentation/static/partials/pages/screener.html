@@ -1,0 +1,41 @@
+    <div class="page active" id="page-screener">
+      <div class="topbar">
+        <div class="topbar-left"><h1>Screener</h1></div>
+      </div>
+
+      <div class="screener-params">
+        <div class="field">
+          <label>Min 24h volume (K USDT) <span class="q">?</span></label>
+          <input type="text" id="filter-min-volume" value="">
+        </div>
+        <div class="field">
+          <label>Stream min 24h volume (USDT) <span class="q">?</span></label>
+          <input type="text" id="filter-stream-min-volume" value="">
+        </div>
+        <div class="field">
+          <label>Min spread %</label>
+          <input type="text" id="filter-min-spread" value="">
+        </div>
+        <button class="btn btn-primary" id="screener-filter" type="button">Filter</button>
+        <button class="btn" id="screener-reconnect" type="button">Reconnect</button>
+      </div>
+
+      <p class="stream-note" id="screener-stream-note">—</p>
+
+      <div class="table-scroll">
+        <div class="data-loading" id="screener-loading" hidden>
+          <div class="data-loading-inner">
+            <span class="data-loading-spinner" aria-hidden="true"></span>
+            <span class="data-loading-label">Завантаження даних…</span>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr><th rowspan="2">Asset</th><th colspan="2">MEXC</th><th colspan="2">Bitget</th><th colspan="2">Gate</th><th colspan="2">BingX</th><th rowspan="2">Max</th><th rowspan="2">Min</th><th rowspan="2">Spread %</th><th rowspan="2">Δ</th><th rowspan="2">Vol K USDT</th>
+              <th rowspan="2" title="Фючерс-фючерс">Ф-Ф</th><th rowspan="2" title="Фючерс-спот 2 біржі">Ф-С 2б</th><th rowspan="2" title="Фючерс-спот 1 біржа">Ф-С 1б</th><th rowspan="2" title="Фандінг фючерс-фючерс">Ф Ф-Ф</th><th rowspan="2" title="Фандінг фючерс-спот">Ф Ф-С</th><th rowspan="2" title="Фандінг різні дати">Ф різн.</th><th rowspan="2"></th></tr>
+            <tr><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th><th class="fut-col">ф'ючерс</th><th class="spot-col">спот</th></tr>
+          </thead>
+          <tbody id="screener-tbody"><tr class="empty-row"><td colspan="21">—</td></tr></tbody>
+        </table>
+      </div>
+    </div>

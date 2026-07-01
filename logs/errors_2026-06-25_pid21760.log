@@ -1,0 +1,777 @@
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [asyncio.base_events:call_exception_handler:1797] - [asyncio] Future exception was never retrieved
+future: <Future finished exception=NetworkError('Connection closed by remote server, closing code 1006')>
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=bitget chunk=9 symbols=27
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 16440)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000002DA55A91300>
+    └ <Thread(screener-stream:1, started daemon 16440)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000002DA55A90FE0>
+    └ <Thread(screener-stream:1, started daemon 16440)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 16440)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 16440)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 16440)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 77, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000002DA0A65F740>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000002DA0A69ED10>
+    │       └ <function run at 0x000002DA58D03E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000002DA5BD82AC0>
+           │      └ <function Runner.run at 0x000002DA58D30680>
+           └ <asyncio.runners.Runner object at 0x000002DA0A63DF10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-222' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000002DA58D2A0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000002DA0A63DF10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000002DA58DAC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000002DA58D2BE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000002DA58B93880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['XAU/USDT:USDT', 'XAUT/USDT:USDT', 'XLM/USDT:USDT', 'XMR/USDT:USDT', 'XPD/USDT:USDT', 'XPIN/USDT:USDT', 'XPL/USDT:USDT', 'XP...
+                    │      └ <function bitget.watch_tickers at 0x000002DA61919DA0>
+                    └ ccxt.async_support.bitget()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 205, in watch_tickers
+    tickers = await self.watch_public_multiple(uta, messageHashes, topics, params)
+                    │    │                     │    │              │       └ {}
+                    │    │                     │    │              └ [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'XAUUSDT'}, {'instType': 'USDT-FUTURES', 'channel': 'ticker', 'i...
+                    │    │                     │    └ ['ticker:XAU/USDT:USDT', 'ticker:XAUT/USDT:USDT', 'ticker:XLM/USDT:USDT', 'ticker:XMR/USDT:USDT', 'ticker:XPD/USDT:USDT', 'ti...
+                    │    │                     └ False
+                    │    └ <function bitget.watch_public_multiple at 0x000002DA6191B420>
+                    └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2324, in watch_public_multiple
+    return await self.watch_multiple(url, messageHashes, message, messageHashes)
+                 │    │              │    │              │        └ ['ticker:XAU/USDT:USDT', 'ticker:XAUT/USDT:USDT', 'ticker:XLM/USDT:USDT', 'ticker:XMR/USDT:USDT', 'ticker:XPD/USDT:USDT', 'ti...
+                 │    │              │    │              └ {'op': 'subscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'XAUUSDT'}, {'instType': 'USDT-FUTUR...
+                 │    │              │    └ ['ticker:XAU/USDT:USDT', 'ticker:XAUT/USDT:USDT', 'ticker:XLM/USDT:USDT', 'ticker:XMR/USDT:USDT', 'ticker:XPD/USDT:USDT', 'ti...
+                 │    │              └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch_multiple at 0x000002DA5FFB11C0>
+                 └ ccxt.async_support.bitget()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=bitget chunk=2 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 16440)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000002DA55A91300>
+    └ <Thread(screener-stream:1, started daemon 16440)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000002DA55A90FE0>
+    └ <Thread(screener-stream:1, started daemon 16440)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 16440)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 16440)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 16440)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 77, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000002DA0A65F740>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000002DA0A69ED10>
+    │       └ <function run at 0x000002DA58D03E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000002DA5BD82AC0>
+           │      └ <function Runner.run at 0x000002DA58D30680>
+           └ <asyncio.runners.Runner object at 0x000002DA0A63DF10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-222' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000002DA58D2A0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000002DA0A63DF10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000002DA58DAC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000002DA58D2BE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000002DA58B93880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['CELR/USDT:USDT', 'CETUS/USDT:USDT', 'CFG/USDT:USDT', 'CFX/USDT:USDT', 'CGPT/USDT:USDT', 'CHILLGUY/USDT:USDT', 'CHIP/USDT:US...
+                    │      └ <function bitget.watch_tickers at 0x000002DA61919DA0>
+                    └ ccxt.async_support.bitget()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 205, in watch_tickers
+    tickers = await self.watch_public_multiple(uta, messageHashes, topics, params)
+                    │    │                     │    │              │       └ {}
+                    │    │                     │    │              └ [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'CELRUSDT'}, {'instType': 'USDT-FUTURES', 'channel': 'ticker', '...
+                    │    │                     │    └ ['ticker:CELR/USDT:USDT', 'ticker:CETUS/USDT:USDT', 'ticker:CFG/USDT:USDT', 'ticker:CFX/USDT:USDT', 'ticker:CGPT/USDT:USDT', ...
+                    │    │                     └ False
+                    │    └ <function bitget.watch_public_multiple at 0x000002DA6191B420>
+                    └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2324, in watch_public_multiple
+    return await self.watch_multiple(url, messageHashes, message, messageHashes)
+                 │    │              │    │              │        └ ['ticker:CELR/USDT:USDT', 'ticker:CETUS/USDT:USDT', 'ticker:CFG/USDT:USDT', 'ticker:CFX/USDT:USDT', 'ticker:CGPT/USDT:USDT', ...
+                 │    │              │    │              └ {'op': 'subscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'CELRUSDT'}, {'instType': 'USDT-FUTU...
+                 │    │              │    └ ['ticker:CELR/USDT:USDT', 'ticker:CETUS/USDT:USDT', 'ticker:CFG/USDT:USDT', 'ticker:CFX/USDT:USDT', 'ticker:CGPT/USDT:USDT', ...
+                 │    │              └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch_multiple at 0x000002DA5FFB11C0>
+                 └ ccxt.async_support.bitget()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006
+2026-06-25 02:45:08 | ERROR    | [arbitrator.exchanges.ccxt_base:_watch_chunk:837] - watch_tickers error | exchange=bitget chunk=7 symbols=50
+Traceback (most recent call last):
+
+  File "c:\Users\dev_home\.cursor\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1134, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+          │    └ <bound method Thread._bootstrap of <Thread(screener-stream:1, started daemon 16440)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002DA0AC60750>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000002DA55A91300>
+    └ <Thread(screener-stream:1, started daemon 16440)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000002DA55A90FE0>
+    └ <Thread(screener-stream:1, started daemon 16440)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(screener-stream:1, started daemon 16440)>
+    │    │        │    └ ()
+    │    │        └ <Thread(screener-stream:1, started daemon 16440)>
+    │    └ <bound method ScreenerStreamWorker._thread_main of <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object...
+    └ <Thread(screener-stream:1, started daemon 16440)>
+
+  File "C:\shere-folder\arbitrator\src\arbitrator\application\screener_stream_worker.py", line 77, in _thread_main
+    asyncio.run(self._async_main())
+    │       │   │    └ <function ScreenerStreamWorker._async_main at 0x000002DA0A65F740>
+    │       │   └ <arbitrator.application.screener_stream_worker.ScreenerStreamWorker object at 0x000002DA0A69ED10>
+    │       └ <function run at 0x000002DA58D03E20>
+    └ <module 'asyncio' from 'C:\\Users\\dev_home\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           │      │   └ <coroutine object ScreenerStreamWorker._async_main at 0x000002DA5BD82AC0>
+           │      └ <function Runner.run at 0x000002DA58D30680>
+           └ <asyncio.runners.Runner object at 0x000002DA0A63DF10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-222' coro=<ScreenerStreamWorker._async_main() running at C:\shere-folder\arbitrator\src\arbitrator\a...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000002DA58D2A0C0>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000002DA0A63DF10>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function ProactorEventLoop.run_forever at 0x000002DA58DAC040>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000002DA58D2BE20>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000002DA58B93880>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+  File "C:\Users\dev_home\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finis...g code 1006')>)>
+
+> File "C:\shere-folder\arbitrator\src\arbitrator\exchanges\ccxt_base.py", line 833, in _watch_chunk
+    payload = await client.watch_tickers(chunk)
+                    │      │             └ ['RVN/USDT:USDT', 'S/USDT:USDT', 'SAFE/USDT:USDT', 'SAHARA/USDT:USDT', 'SAND/USDT:USDT', 'SANTOS/USDT:USDT', 'SAPIEN/USDT:USD...
+                    │      └ <function bitget.watch_tickers at 0x000002DA61919DA0>
+                    └ ccxt.async_support.bitget()
+
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 205, in watch_tickers
+    tickers = await self.watch_public_multiple(uta, messageHashes, topics, params)
+                    │    │                     │    │              │       └ {}
+                    │    │                     │    │              └ [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'RVNUSDT'}, {'instType': 'USDT-FUTURES', 'channel': 'ticker', 'i...
+                    │    │                     │    └ ['ticker:RVN/USDT:USDT', 'ticker:S/USDT:USDT', 'ticker:SAFE/USDT:USDT', 'ticker:SAHARA/USDT:USDT', 'ticker:SAND/USDT:USDT', '...
+                    │    │                     └ False
+                    │    └ <function bitget.watch_public_multiple at 0x000002DA6191B420>
+                    └ ccxt.async_support.bitget()
+  File "C:\shere-folder\arbitrator\.venv\Lib\site-packages\ccxt\pro\bitget.py", line 2324, in watch_public_multiple
+    return await self.watch_multiple(url, messageHashes, message, messageHashes)
+                 │    │              │    │              │        └ ['ticker:RVN/USDT:USDT', 'ticker:S/USDT:USDT', 'ticker:SAFE/USDT:USDT', 'ticker:SAHARA/USDT:USDT', 'ticker:SAND/USDT:USDT', '...
+                 │    │              │    │              └ {'op': 'subscribe', 'args': [{'instType': 'USDT-FUTURES', 'channel': 'ticker', 'instId': 'RVNUSDT'}, {'instType': 'USDT-FUTUR...
+                 │    │              │    └ ['ticker:RVN/USDT:USDT', 'ticker:S/USDT:USDT', 'ticker:SAFE/USDT:USDT', 'ticker:SAHARA/USDT:USDT', 'ticker:SAND/USDT:USDT', '...
+                 │    │              └ 'wss://ws.bitget.com/v2/ws/public'
+                 │    └ <function Exchange.watch_multiple at 0x000002DA5FFB11C0>
+                 └ ccxt.async_support.bitget()
+
+ccxt.base.errors.NetworkError: Connection closed by remote server, closing code 1006

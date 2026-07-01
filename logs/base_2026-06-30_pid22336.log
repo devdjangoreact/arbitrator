@@ -1,0 +1,19 @@
+2026-06-30 17:00:23 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
+2026-06-30 17:00:23 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
+2026-06-30 17:00:23 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Started server process [22336]
+2026-06-30 17:00:23 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Waiting for application startup.
+2026-06-30 17:00:23 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
+2026-06-30 17:00:23 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
+2026-06-30 17:00:23 | INFO     | [uvicorn.server:startup:105] - [uvicorn.error] Application startup complete.
+2026-06-30 17:00:23 | INFO     | [uvicorn.server:_serve:98] - [uvicorn.error] Shutting down
+2026-06-30 17:00:23 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Waiting for application shutdown.
+2026-06-30 17:00:23 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped
+2026-06-30 17:00:23 | INFO     | [uvicorn.server:shutdown:301] - [uvicorn.error] Application shutdown complete.
+2026-06-30 17:00:23 | INFO     | [uvicorn.server:serve:79] - [uvicorn.error] Finished server process [22336]
+2026-06-30 17:02:36 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=3d8f95e97097 symbol=BTC/USDT:USDT
+2026-06-30 17:02:36 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=3d8f95e97097 symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
+2026-06-30 17:02:36 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=abc123 symbol=BTC/USDT:USDT
+2026-06-30 17:02:36 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=67dd9721c9c0 symbol=BTC/USDT:USDT
+2026-06-30 17:02:36 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=67dd9721c9c0 symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
+2026-06-30 17:02:36 | INFO     | [arbitrator.application.screener_auto_open_service:run_pass:51] - Auto-open executed | symbol=BTC/USDT:USDT pair_id=pair-1
+2026-06-30 17:02:36 | WARNING  | [arbitrator.application.screener_auto_open_service:run_pass:57] - Auto-open skipped | symbol=BTC/USDT:USDT message=rejected

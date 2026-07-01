@@ -1,0 +1,29 @@
+2026-07-01 04:14:49 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
+2026-07-01 04:14:50 | INFO     | [arbitrator.presentation.fastapi_app:create:103] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
+2026-07-01 04:14:50 | INFO     | [uvicorn.main:run:614] - [uvicorn.error] Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-07-01 04:14:50 | INFO     | [uvicorn.supervisors.basereload:run:51] - [uvicorn.error] Started reloader process [16364] using WatchFiles
+2026-07-01 04:14:51 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:14:51 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:14:53 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:14:54 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:15:17 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:15:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:15:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:20:52 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:20:52 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\exchanges\ccxt_base.py'. Reloading...
+2026-07-01 04:20:55 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:20:56 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:20:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:20:59 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:20:59 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-07-01 04:21:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:21:02 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:21:02 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\exchanges\ccxt_base.py'. Reloading...
+2026-07-01 04:21:04 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:21:05 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:21:05 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:21:07 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:21:07 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 5 changes detected
+2026-07-01 04:21:08 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:21:41 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:22:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected

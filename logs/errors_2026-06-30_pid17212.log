@@ -1,0 +1,1 @@
+2026-06-30 08:49:11 | ERROR    | [uvicorn.server:_serve:86] - [uvicorn.error] [Errno 10048] error while attempting to bind on address ('127.0.0.1', 8765): only one usage of each socket address (protocol/network address/port) is normally permitted

@@ -1,0 +1,40 @@
+---
+description: Poetry-managed virtualenv lives in-project at .venv. Always run dev tools (pytest, mypy, ruff, black, uvicorn) through .venv, never the global interpreter.
+alwaysApply: true
+---
+
+# Tooling & environment rule
+
+This project is **Poetry-managed** and its virtualenv is **in-project** at
+`.venv/` (already created, with `arbitrator` installed editable + all dev tools).
+
+## Hard rules
+
+1. **Always invoke tools from `.venv`**, never the global `python`/`mypy`/`pytest`.
+   The global interpreter does **not** have the project or its dev deps installed
+   (`ModuleNotFoundError: No module named 'arbitrator'`, `No module named mypy`).
+2. Because `arbitrator` is installed **editable** in `.venv`, you do **not** need
+   `PYTHONPATH=src` when using the venv interpreter.
+3. **Do not use `poetry run ...`** to launch tools — in this environment it can
+   hang. Call the `.venv` executables directly instead.
+
+## Commands (Windows / PowerShell)
+
+| Task | Command |
+| ---- | ------- |
+| Run all tests | `.venv\Scripts\python.exe -m pytest tests/ -q` |
+| Run feature tests | `.venv\Scripts\python.exe -m pytest tests/ -k strategy -q` |
+| Type check (strict) | `.venv\Scripts\mypy.exe --strict src/arbitrator` |
+| Lint | `.venv\Scripts\ruff.exe check src tests` |
+| Format | `.venv\Scripts\black.exe src tests` |
+| Run app | `.venv\Scripts\uvicorn.exe main:app` (or `.venv\Scripts\python.exe main.py`) |
+
+Equivalent for activated shells: `.\.venv\Scripts\Activate.ps1`, then `pytest` /
+`mypy` / `ruff` resolve to the venv binaries.
+
+## Adding dependencies
+
+- Add via Poetry so `pyproject.toml`/`poetry.lock` stay authoritative:
+  `.venv\Scripts\poetry.exe add <pkg>` (runtime) or
+  `.venv\Scripts\poetry.exe add --group dev <pkg>` (dev). Do not hand-edit
+  installed packages in `.venv`.

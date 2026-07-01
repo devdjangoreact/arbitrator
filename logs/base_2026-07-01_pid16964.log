@@ -1,0 +1,68 @@
+2026-07-01 04:27:03 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
+2026-07-01 04:27:03 | INFO     | [arbitrator.presentation.fastapi_app:create:103] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
+2026-07-01 04:27:03 | INFO     | [uvicorn.main:run:614] - [uvicorn.error] Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-07-01 04:27:03 | INFO     | [uvicorn.supervisors.basereload:run:51] - [uvicorn.error] Started reloader process [16964] using WatchFiles
+2026-07-01 04:27:04 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:27:05 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:27:07 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:27:08 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:27:39 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:01 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-07-01 04:28:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:28:24 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\domain\strategy\checklist_result.py'. Reloading...
+2026-07-01 04:28:28 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:28:29 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:28:30 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:32 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:28:33 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:34 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:28:34 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\domain\strategy\trade_signal.py'. Reloading...
+2026-07-01 04:28:36 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:37 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:28:37 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:39 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:28:39 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 4 changes detected
+2026-07-01 04:28:40 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:40 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:41 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:42 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:43 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:44 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:46 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:46 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:47 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:48 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:49 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:50 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:51 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:52 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:56 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:28:57 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:28:57 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\application\checklist_evaluator.py'. Reloading...
+2026-07-01 04:29:00 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:29:01 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:29:02 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:29:02 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:29:04 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:29:06 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:29:20 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:29:20 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\application\checklist_evaluator.py'. Reloading...
+2026-07-01 04:29:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:29:24 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:29:25 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:29:27 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:29:28 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:29:39 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:29:39 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\application\anomaly_guard.py'. Reloading...
+2026-07-01 04:29:43 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:29:44 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:29:44 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:29:46 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:29:47 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:30:11 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:30:11 | WARNING  | [uvicorn.main:run:615] - [uvicorn.error] WatchFiles detected changes in 'src\arbitrator\application\signal_service.py'. Reloading...
+2026-07-01 04:30:15 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:30:16 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 2 changes detected
+2026-07-01 04:30:16 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected
+2026-07-01 04:30:18 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 3 changes detected
+2026-07-01 04:30:20 | INFO     | [watchfiles.main:watch:148] - [watchfiles.main] 1 change detected

@@ -1,0 +1,7 @@
+2026-06-26 06:55:21 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=13d8592e39ea symbol=BTC/USDT:USDT
+2026-06-26 06:55:21 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=13d8592e39ea symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
+2026-06-26 06:55:22 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=abc123 symbol=BTC/USDT:USDT
+2026-06-26 06:55:22 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=f4d1cc0f9e86 symbol=BTC/USDT:USDT
+2026-06-26 06:55:22 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=f4d1cc0f9e86 symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
+2026-06-26 06:55:22 | INFO     | [arbitrator.application.screener_auto_open_service:run_pass:51] - Auto-open executed | symbol=BTC/USDT:USDT pair_id=pair-1
+2026-06-26 06:55:22 | WARNING  | [arbitrator.application.screener_auto_open_service:run_pass:57] - Auto-open skipped | symbol=BTC/USDT:USDT message=rejected
