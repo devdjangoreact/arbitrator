@@ -1,0 +1,13 @@
+# Copy to terraform.tfvars (optional overrides).
+# NEVER commit terraform.tfvars — it is git-ignored.
+# RDS password lives in .env as AWS_RDS_PASSWORD (see .env.example).
+
+aws_region               = "us-east-1"
+project_prefix           = "aws-credits-lab"
+monthly_budget_limit_usd = "5"
+db_username              = "labadmin"
+
+# Optional: override model IDs if AWS updates naming in your region
+# bedrock_opus_model_id   = "us.anthropic.claude-opus-4-8"
+# bedrock_sonnet_model_id = "us.anthropic.claude-sonnet-5"
+# bedrock_fable_model_id  = "us.anthropic.claude-fable-5"
