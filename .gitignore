@@ -6,6 +6,7 @@
 # Secrets
 .env
 .env.*
+.env copy
 !.env.example
 
 # Cursor caches

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import AsyncIterator
+from collections.abc import AsyncIterator, Sequence
 from typing import Literal
 
 import pytest
@@ -12,6 +12,7 @@ from arbitrator.domain.exchange_gateway import ExchangeGateway
 from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
 from arbitrator.domain.position_leg import PositionLeg
 from arbitrator.domain.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.token_identity import CurrencyNetworkInfo
 from arbitrator.domain.trade_tick import TradeTick
 
 
@@ -111,6 +112,18 @@ class MockGateway(ExchangeGateway):
     async def close_market_position(self, leg: PositionLeg) -> str:
         self.close_calls.append(leg)
         return "close-1"
+
+    async def fetch_currency_networks(
+        self,
+        base_codes: Sequence[str],
+    ) -> dict[str, CurrencyNetworkInfo]:
+        return {}
+
+    async def common_currencies(self) -> dict[str, str]:
+        return {}
+
+    async def set_margin_mode(self, symbol: str, mode: str) -> None:
+        return None
 
     async def close(self) -> None:
         return None

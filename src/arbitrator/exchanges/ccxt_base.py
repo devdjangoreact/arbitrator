@@ -30,6 +30,7 @@ from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.symbol_market_info import SymbolMarketInfo, SymbolMarketInfoParser
 from arbitrator.domain.symbol_normalizer import SymbolNormalizer
 from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.token_identity import CurrencyNetworkInfo
 from arbitrator.domain.trade_tick import TradeTick
 
 
@@ -1083,6 +1084,37 @@ class CcxtBase(ExchangeGateway):
         )
         return str(order_id) if order_id is not None else ""
 
+    async def set_margin_mode(self, symbol: str, mode: str) -> None:
+        """Set margin mode for a swap symbol (best-effort; tolerates 'already set' errors)."""
+        client = await self._ensure_open()
+        await self._ensure_markets_loaded(client)
+        if not client.has.get("setMarginMode"):
+            logger.debug(
+                "set_margin_mode not supported | exchange={} symbol={} mode={}",
+                self.exchange_id, symbol, mode,
+            )
+            return
+        try:
+            await client.set_margin_mode(mode, symbol)
+            logger.info(
+                "set_margin_mode ok | exchange={} symbol={} mode={}",
+                self.exchange_id, symbol, mode,
+            )
+        except Exception as exc:
+            msg = str(exc).lower()
+            # Tolerate "already set" or "not supported for this market" responses
+            if any(k in msg for k in ("already", "not support", "invalid", "no need")):
+                logger.debug(
+                    "set_margin_mode ignored (already set or unsupported) | "
+                    "exchange={} symbol={} mode={} msg={}",
+                    self.exchange_id, symbol, mode, str(exc),
+                )
+            else:
+                logger.exception(
+                    "set_margin_mode failed | exchange={} symbol={} mode={}",
+                    self.exchange_id, symbol, mode,
+                )
+
     def _position_since_ms(self, payload: dict[str, object]) -> int:
         ts = payload.get("timestamp")
         if isinstance(ts, (int, float)) and ts > 0:
@@ -1128,6 +1160,82 @@ class CcxtBase(ExchangeGateway):
                 if amount is not None:
                     return abs(amount)
         return None
+
+    async def fetch_currency_networks(
+        self,
+        base_codes: Sequence[str],
+    ) -> dict[str, CurrencyNetworkInfo]:
+        """Fetch per-network contract ids for the requested base codes.
+
+        The 'id' field of each network entry is exchange-specific:
+          - Some exchanges return a blockchain contract address ('0xabc…').
+          - Others return only a chain identifier ('ERC20', 'BEP20').
+          - Some return None — preserved explicitly so callers know the field
+            existed but was empty, rather than assuming the network is absent.
+
+        Returns an empty dict when fetchCurrencies is unsupported or fails.
+        """
+        client = await self._ensure_open()
+        if not client.has.get("fetchCurrencies"):
+            logger.info("fetchCurrencies unsupported | exchange={}", self.exchange_id)
+            return {}
+        try:
+            raw: object = await client.fetch_currencies()
+        except Exception:
+            logger.warning("fetchCurrencies failed | exchange={}", self.exchange_id)
+            return {}
+        if not isinstance(raw, dict):
+            return {}
+
+        wanted = set(base_codes)
+        result: dict[str, CurrencyNetworkInfo] = {}
+
+        for code, currency in raw.items():
+            if not isinstance(code, str) or code not in wanted:
+                continue
+            if not isinstance(currency, dict):
+                continue
+
+            networks_raw = currency.get("networks")
+            network_ids: dict[str, str | None] = {}
+
+            if isinstance(networks_raw, dict):
+                for net_key, net_data in networks_raw.items():
+                    if not isinstance(net_key, str):
+                        continue
+                    if not isinstance(net_data, dict):
+                        network_ids[net_key] = None
+                        continue
+                    raw_id = net_data.get("id")
+                    # Preserve None explicitly — callers need to distinguish
+                    # "field missing/null" from "network not listed".
+                    network_ids[net_key] = str(raw_id) if raw_id is not None else None
+
+            result[code] = CurrencyNetworkInfo(
+                exchange_id=self.exchange_id,
+                base_code=code,
+                network_ids=network_ids,
+            )
+
+        logger.debug(
+            "fetch_currency_networks | exchange={} requested={} found={}",
+            self.exchange_id,
+            len(wanted),
+            len(result),
+        )
+        return result
+
+    async def common_currencies(self) -> dict[str, str]:
+        """Return ccxt commonCurrencies remapping for this exchange.
+
+        Populated after load_markets().  Returns empty dict when unavailable.
+        """
+        client = await self._ensure_open()
+        await self._ensure_markets_loaded(client)
+        raw = getattr(client, "commonCurrencies", None)
+        if not isinstance(raw, dict):
+            return {}
+        return {str(k): str(v) for k, v in raw.items() if isinstance(k, str)}
 
     async def close(self) -> None:
         if self._client is not None:

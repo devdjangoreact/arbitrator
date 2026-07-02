@@ -185,9 +185,22 @@ class FundingReentryService:
                 taker_fee_rate=buy_fee,
             )
 
-            # Reopen immediately at current prices
-            notional = self._settings.screener_auto_trade_notional_usdt
-            amount = notional / long_mid if long_mid > 0 else 0.0
+            # Reopen at minimum notional both exchanges allow.
+            # Short opens first at USDT notional; long opens for the same token amount.
+            # None means market info not yet cached — skip until data is available.
+            notional = self._resolve_min_notional(
+                sell_leg.symbol, sell_leg.exchange_id, buy_leg.exchange_id,
+                short_price=short_mid, long_price=long_mid,
+            )
+            if notional is None:
+                logger.warning(
+                    "funding reentry: market info missing, skipping reopen | sym={} short={} long={}",
+                    sell_leg.symbol, sell_leg.exchange_id, buy_leg.exchange_id,
+                )
+                continue
+            if short_mid <= 0:
+                continue
+            amount = notional / short_mid
             if amount <= 0:
                 continue
             self._gateway.open_pair(
@@ -203,6 +216,45 @@ class FundingReentryService:
                 "funding reentry: reopened pair | sym={} short={} long={} spread={:.3f}%",
                 sell_leg.symbol, sell_leg.exchange_id, buy_leg.exchange_id, current_spread_pct,
             )
+
+    def _min_notional_for_exchange(
+        self, symbol: str, exchange_id: str, live_price: float | None
+    ) -> float | None:
+        info = self._cache.get_market_info(exchange_id, symbol)
+        if info is None:
+            return None
+        if info.min_order_volume_usdt is not None:
+            return info.min_order_volume_usdt
+        if (
+            info.min_amount_contracts is not None
+            and info.contract_size > 0.0
+            and live_price is not None
+            and live_price > 0.0
+        ):
+            return info.min_amount_contracts * info.contract_size * live_price
+        return None
+
+    def _resolve_min_notional(
+        self,
+        symbol: str,
+        short_ex: str,
+        long_ex: str,
+        short_price: float | None = None,
+        long_price: float | None = None,
+    ) -> float | None:
+        """Return the effective USDT notional satisfying both exchanges and settings floor.
+
+        effective = max(exchange_min_short, exchange_min_long, settings_notional_usdt)
+
+        Returns None when market info for either exchange is missing —
+        caller must skip the trade until data is available.
+        """
+        min_a = self._min_notional_for_exchange(symbol, short_ex, short_price)
+        min_b = self._min_notional_for_exchange(symbol, long_ex, long_price)
+        if min_a is None or min_b is None:
+            return None
+        floor = self._settings.screener_auto_trade_notional_usdt
+        return max(min_a, min_b, floor)
 
     def _get_mid(self, exchange_id: str, symbol: str) -> float | None:
         quote = self._cache.get_quote(exchange_id, symbol, "futures")

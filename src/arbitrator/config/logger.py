@@ -88,6 +88,9 @@ _NOISY_STDLIB_LOGGERS_WARNING: tuple[str, ...] = (
     "aiohttp",
     "aiohttp.client",
     "aiohttp.access",
+    "watchfiles",
+    "watchfiles.main",
+    "watchfiles.watcher",
 )
 
 

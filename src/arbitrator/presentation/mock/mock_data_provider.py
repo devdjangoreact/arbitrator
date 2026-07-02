@@ -741,6 +741,8 @@ class MockDataProvider:
             native_market_id=native_id,
             min_order_volume_usdt=min_vol,
             max_order_volume_usdt=max_vol,
+            min_amount_contracts=None,
+            contract_size=1.0,
         )
 
     def _strategy_rows(

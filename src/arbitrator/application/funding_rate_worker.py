@@ -6,6 +6,7 @@ from collections.abc import Callable, Sequence
 
 from arbitrator.application.fee_snapshot_service import FeeSnapshotService
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.token_identity_service import TokenIdentityService
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.named_exchange import NamedExchange
@@ -28,17 +29,20 @@ class FundingRateWorker:
         cache: MarketDataCacheMemory,
         fee_service: FeeSnapshotService,
         symbols_provider: Callable[[], Sequence[str]],
+        token_identity: TokenIdentityService | None = None,
     ) -> None:
         self._settings = settings
         self._factory = factory
         self._cache = cache
         self._fee_service = fee_service
         self._symbols_provider = symbols_provider
+        self._token_identity = token_identity
         self._refresh_seconds = settings.funding_refresh_seconds
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
         self._loop: asyncio.AbstractEventLoop | None = None
         self._main_task: asyncio.Task[None] | None = None
+        self._token_identity_loaded = False
 
     def start(self) -> None:
         self._thread = threading.Thread(
@@ -83,6 +87,17 @@ class FundingRateWorker:
             return
         await self._fee_service.snapshot(named_exchanges, symbols)
         await self._snapshot_market_info(named_exchanges, symbols)
+        # Load token identity once — on first refresh when we have the symbol
+        # universe.  Contract addresses don't change, so a one-time load suffices.
+        if self._token_identity is not None and not self._token_identity_loaded:
+            base_codes = sorted({s.split("/")[0] for s in symbols if "/" in s})
+            await self._token_identity.load(named_exchanges, base_codes)
+            await self._token_identity.load_common_currencies(named_exchanges)
+            self._token_identity_loaded = True
+            logger.info(
+                "token_identity initial load done | base_codes={}",
+                len(base_codes),
+            )
         for exchange in named_exchanges:
             try:
                 infos = await exchange.gateway.fetch_funding_infos(symbols)

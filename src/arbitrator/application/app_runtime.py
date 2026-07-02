@@ -6,7 +6,11 @@ from arbitrator.application.fee_snapshot_service import FeeSnapshotService
 from arbitrator.application.funding_accrual_service import FundingAccrualService
 from arbitrator.application.funding_rate_worker import FundingRateWorker
 from arbitrator.application.funding_reentry_service import FundingReentryService
+from arbitrator.application.hedged_execution_service import HedgedExecutionService
 from arbitrator.application.liquidation_guard_service import LiquidationGuardService
+from arbitrator.application.live_auto_trader import LiveAutoTrader
+from arbitrator.application.live_liquidation_guard_service import LiveLiquidationGuardService
+from arbitrator.application.live_funding_protection_service import LiveFundingProtectionService
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
 from arbitrator.application.screener_auto_trader import ScreenerAutoTrader
@@ -15,6 +19,7 @@ from arbitrator.application.strategy_refresh_worker import StrategyRefreshWorker
 from arbitrator.application.strategy_inputs_assembler import StrategyInputsAssembler
 from arbitrator.application.strategy_table_service import StrategyTableService
 from arbitrator.application.symbol_universe_service import SymbolUniverseService
+from arbitrator.application.token_identity_service import TokenIdentityService
 from arbitrator.config.json_symbol_exclusions_repository import JsonSymbolExclusionsRepository
 from arbitrator.config.json_symbol_universe_repository import JsonSymbolUniverseRepository
 from arbitrator.config.logger import logger
@@ -55,9 +60,13 @@ class AppRuntime:
         self.funding_accrual_service: FundingAccrualService | None = None
         self.exchange_orders_service: ExchangeOrdersService | None = None
         self.screener_auto_trader: ScreenerAutoTrader | None = None
+        self.live_auto_trader: LiveAutoTrader | None = None
+        self.live_liq_guard: LiveLiquidationGuardService | None = None
+        self.live_funding_protect: LiveFundingProtectionService | None = None
         self.liquidation_guard: LiquidationGuardService | None = None
         self.funding_reentry: FundingReentryService | None = None
         self.strategy_refresh_worker: StrategyRefreshWorker | None = None
+        self.token_identity: TokenIdentityService = TokenIdentityService()
 
     def start(self) -> None:
         mode = self._settings.ui_data_mode
@@ -84,6 +93,15 @@ class AppRuntime:
         if self.liquidation_guard is not None:
             self.liquidation_guard.stop()
             logger.info("liquidation guard stopped")
+        if self.live_funding_protect is not None:
+            self.live_funding_protect.stop()
+            logger.info("live funding protection stopped")
+        if self.live_liq_guard is not None:
+            self.live_liq_guard.stop()
+            logger.info("live liquidation guard stopped")
+        if self.live_auto_trader is not None:
+            self.live_auto_trader.stop()
+            logger.info("live auto trader stopped")
         if self.screener_auto_trader is not None:
             self.screener_auto_trader.stop()
             logger.info("screener auto trader stopped")
@@ -141,7 +159,63 @@ class AppRuntime:
     def _start_live_workers(self) -> None:
         factory = Factory(settings=self._settings)
         self._start_stream_workers(factory)
+        if self._settings.live_auto_trade_enabled:
+            self._start_live_auto_trader(factory)
         logger.info("live workers started | mode=live")
+
+    def _start_live_auto_trader(self, factory: Factory) -> None:
+        if self.screener_worker is None or self.market_cache is None:
+            logger.warning("live auto trader skipped — stream workers not ready")
+            return
+        gateways = {
+            ex_id: factory.create(ex_id).gateway
+            for ex_id in self._settings.enabled_exchanges
+            if self._settings.credentials_for(ex_id) is not None
+        }
+        if not gateways:
+            logger.warning("live auto trader skipped — no exchanges with credentials")
+            return
+        exec_service = HedgedExecutionService(
+            gateways=gateways,
+            settings=self._settings,
+            market_cache=self.market_cache,
+        )
+        self.live_auto_trader = LiveAutoTrader(
+            settings=self._settings,
+            screener_worker=self.screener_worker,
+            execution_service=exec_service,
+            market_cache=self.market_cache,
+            token_identity=self.token_identity,
+        )
+        self.live_auto_trader.start()
+        logger.info(
+            "live auto trader started | exchanges={}",
+            list(gateways.keys()),
+        )
+        if self._settings.live_liq_guard_enabled:
+            self.live_liq_guard = LiveLiquidationGuardService(
+                gateways=gateways,
+                execution_service=exec_service,
+                market_cache=self.market_cache,
+                settings=self._settings,
+                check_interval_seconds=self._settings.live_liq_guard_check_interval_seconds,
+                warning_pct_to_liq=self._settings.live_liq_guard_warning_pct_to_liq,
+            )
+            self.live_liq_guard.start()
+            logger.info("live liquidation guard started")
+        if self._settings.live_funding_protect_enabled:
+            self.live_funding_protect = LiveFundingProtectionService(
+                gateways=gateways,
+                execution_service=exec_service,
+                market_cache=self.market_cache,
+                settings=self._settings,
+                check_interval_seconds=self._settings.live_funding_protect_check_interval_seconds,
+                act_window_seconds=self._settings.live_funding_protect_act_window_seconds,
+                skip_within_seconds=self._settings.live_funding_protect_skip_within_seconds,
+                min_reopen_spread_pct=self._settings.live_funding_protect_min_reopen_spread_pct,
+            )
+            self.live_funding_protect.start()
+            logger.info("live funding protection started")
 
     def _start_paper_workers(self) -> None:
         factory = Factory(settings=self._settings)
@@ -177,6 +251,7 @@ class AppRuntime:
             screener_worker=self.screener_worker,
             paper_gateway=self.paper_gateway,
             market_cache=self.market_cache,
+            token_identity=self.token_identity,
         )
         self.screener_auto_trader.start()
 
@@ -252,6 +327,7 @@ class AppRuntime:
             symbols_provider=lambda: (
                 self.screener_worker.read_state()[1] if self.screener_worker is not None else []
             ),
+            token_identity=self.token_identity,
         )
         self.funding_worker.start()
         logger.info("funding worker started")

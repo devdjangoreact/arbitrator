@@ -230,12 +230,16 @@ function patchPaperTradeGroup(el, group) {
     if (!row) return;
     const legCells = row.querySelectorAll(":scope > div");
     // pt-leg cells: 0 empty, 1 empty, 2=exchange+side, 3 empty, 4 empty,
-    //   5 empty, 6=entry_price/current_price, 7 empty, 8=notional,
+    //   5 empty, 6=entry_price, 7=exit/current_price, 8=notional,
     //   9=fees, 10=funding, 11=pnl, 12=net_pnl, 13=status
 
-    // price column: entry + current (open) or entry + close (closed)
+    // entry price column (static — only set on first render via renderPaperTradeLegs)
     if (legCells[6]) {
-      legCells[6].innerHTML = _legPriceHtml(leg);
+      legCells[6].innerHTML = _legEntryPriceHtml(leg);
+    }
+    // exit/current price column — updates dynamically on every push
+    if (legCells[7]) {
+      legCells[7].innerHTML = _legExitPriceHtml(leg);
     }
     // leg funding + countdown + rate per exchange
     if (legCells[10]) {
@@ -327,16 +331,20 @@ function renderPaperTradeGroup(group) {
   return wrapper;
 }
 
-/** Price column HTML for a leg: entry + live (open) or entry + close (closed) */
-function _legPriceHtml(leg) {
-  const entry = leg.entry_price != null ? Number(leg.entry_price).toPrecision(6) : "—";
+/** Entry price column HTML for a leg: only the open price */
+function _legEntryPriceHtml(leg) {
+  return leg.entry_price != null ? String(Number(leg.entry_price).toPrecision(6)) : "—";
+}
+
+/** Exit/current price column HTML for a leg: live price (open) or close price (closed) */
+function _legExitPriceHtml(leg) {
   if (leg.status === "filled" && leg.current_price != null) {
-    return `${entry}<br><span class="muted" style="font-size:0.8em;">now: ${Number(leg.current_price).toPrecision(6)}</span>`;
+    return `<span class="muted">${Number(leg.current_price).toPrecision(6)}</span>`;
   }
   if (leg.status === "closed" && leg.close_price != null) {
-    return `${entry}<br><span class="muted" style="font-size:0.8em;">close: ${Number(leg.close_price).toPrecision(6)}</span>`;
+    return String(Number(leg.close_price).toPrecision(6));
   }
-  return entry;
+  return "<span class='muted'>—</span>";
 }
 
 /** Compute live PnL for an open leg from current_price if available */
@@ -370,7 +378,8 @@ function renderPaperTradeLegs(legs, group) {
       ? `<span class="${netPnl >= 0 ? "pos" : "neg"}">${netPnl >= 0 ? "+" : ""}${Number(netPnl).toFixed(2)}</span>`
       : "<span class='muted'>—</span>";
 
-    const priceHtml = _legPriceHtml(leg);
+    const entryPriceHtml = _legEntryPriceHtml(leg);
+    const exitPriceHtml = _legExitPriceHtml(leg);
     const legFundingHtml = _legFundingHtml(leg);
     const notional = leg.notional_usdt != null ? `$${Number(leg.notional_usdt).toFixed(2)}` : "—";
     const statusStr = leg.status === "filled" ? "<span class='status-badge open'>Live</span>" : "<span class='status-badge closed'>Closed</span>";
@@ -382,8 +391,8 @@ function renderPaperTradeLegs(legs, group) {
         <div></div>
         <div></div>
         <div></div>
-        <div class="num muted">${priceHtml}</div>
-        <div></div>
+        <div class="num muted">${entryPriceHtml}</div>
+        <div class="num muted">${exitPriceHtml}</div>
         <div class="num muted">${notional}</div>
         <div class="num muted">${legFeeStr}</div>
         <div class="num muted">${legFundingHtml}</div>

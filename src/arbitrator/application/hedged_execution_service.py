@@ -3,6 +3,7 @@ from __future__ import annotations
 import uuid
 from collections.abc import Mapping
 from decimal import Decimal
+from typing import TYPE_CHECKING
 
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
@@ -13,6 +14,9 @@ from arbitrator.domain.strategy.execution_outcome import (
     LegExecution,
 )
 from arbitrator.domain.strategy.futures_execution_gateway import FuturesExecutionGateway
+
+if TYPE_CHECKING:
+    from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 
 _ZERO = Decimal("0")
 _HUNDRED = Decimal("100")
@@ -33,12 +37,69 @@ class HedgedExecutionService:
         gateways: Mapping[str, FuturesExecutionGateway],
         settings: Settings,
         *,
+        market_cache: MarketDataCacheMemory | None = None,
         dry_run: bool = False,
     ) -> None:
         self._gateways = gateways
         self._settings = settings
+        self._market_cache = market_cache
         self._dry_run = dry_run
         self._tolerance = Decimal(str(settings.leg_imbalance_tolerance_pct))
+
+    def _min_notional_for_exchange(
+        self,
+        symbol: str,
+        exchange_id: str,
+        live_price: Decimal | None,
+    ) -> Decimal | None:
+        """Return minimum USDT notional for one exchange.
+
+        Priority:
+        1. limits.cost.min  (bitget, bingx — direct USDT limit)
+        2. limits.amount.min * contractSize * live_price  (mexc, gate — contract-unit limit)
+        3. None
+        """
+        if self._market_cache is None:
+            return None
+        info = self._market_cache.get_market_info(exchange_id, symbol)
+        if info is None:
+            return None
+        if info.min_order_volume_usdt is not None:
+            return Decimal(str(info.min_order_volume_usdt))
+        if (
+            info.min_amount_contracts is not None
+            and info.contract_size > 0.0
+            and live_price is not None
+            and live_price > _ZERO
+        ):
+            return Decimal(str(info.min_amount_contracts)) * Decimal(str(info.contract_size)) * live_price
+        return None
+
+    def resolve_min_notional(
+        self,
+        symbol: str,
+        short_exchange_id: str,
+        long_exchange_id: str,
+        fallback: Decimal,
+        live_price: Decimal | None = None,
+    ) -> Decimal | None:
+        """Return the effective USDT notional satisfying both exchanges and the caller's floor.
+
+        effective = max(exchange_min_short, exchange_min_long, fallback)
+
+        Returns ``fallback`` when market cache is absent (no cache injected — tests/dry_run).
+        Returns None when cache is present but market info for either exchange is missing —
+        caller must abort the trade until data is available.
+        Pass ``live_price`` so contract-unit exchanges (mexc, gate) can compute
+        their USDT minimum from  min_contracts × contract_size × price.
+        """
+        if self._market_cache is None:
+            return fallback
+        min_a = self._min_notional_for_exchange(symbol, short_exchange_id, live_price)
+        min_b = self._min_notional_for_exchange(symbol, long_exchange_id, live_price)
+        if min_a is None or min_b is None:
+            return None
+        return max(min_a, min_b, fallback)
 
     async def open(
         self,
@@ -98,48 +159,61 @@ class HedgedExecutionService:
         notional_usdt: Decimal,
         price: Decimal,
     ) -> ExecutionOutcome:
-        if price <= _ZERO or notional_usdt <= _ZERO:
+        # Use the minimum notional both exchanges allow.
+        # None means market info is not yet cached — abort to avoid underfilled orders.
+        effective_notional = self.resolve_min_notional(
+            symbol, short_exchange_id, long_exchange_id, notional_usdt, live_price=price
+        )
+        if effective_notional is None:
+            return self._failed(action, symbol, "market_info_missing")
+        if price <= _ZERO or effective_notional <= _ZERO:
             return self._failed(action, symbol, "invalid_sizing")
-        amount = notional_usdt / price
+        # Short opens first at USDT notional using the short-side price.
+        # Long opens for exactly the same token amount derived from the short.
+        short_amount = effective_notional / price
         short_gw = self._gateways.get(short_exchange_id)
         long_gw = self._gateways.get(long_exchange_id)
         if short_gw is None or long_gw is None:
             return self._failed(action, symbol, "gateway_missing")
 
         if self._dry_run:
-            return self._simulated_enter(action, symbol, short_exchange_id, long_exchange_id, amount)
+            return self._simulated_enter(
+                action, symbol, short_exchange_id, long_exchange_id, short_amount
+            )
 
         coid = uuid.uuid4().hex[:12]
         before_short = await self._position_base(short_gw, symbol)
         try:
             short_oid = await short_gw.open_market_position(
-                symbol, "sell", float(amount), f"HX-{coid}-S"
+                symbol, "sell", float(short_amount), f"HX-{coid}-S"
             )
         except Exception:
             logger.exception("hedge open short failed | symbol={} ex={}", symbol, short_exchange_id)
             return self._failed(action, symbol, "short_leg_failed")
         filled_short = abs(await self._position_base(short_gw, symbol) - before_short)
 
+        # Long opens for the actual filled short amount to stay delta-neutral.
+        long_amount = filled_short if filled_short > _ZERO else short_amount
         before_long = await self._position_base(long_gw, symbol)
         try:
             long_oid = await long_gw.open_market_position(
-                symbol, "buy", float(amount), f"HX-{coid}-L"
+                symbol, "buy", float(long_amount), f"HX-{coid}-L"
             )
         except Exception:
             logger.exception("hedge open long failed | symbol={} ex={}", symbol, long_exchange_id)
             return await self._rollback_open(
                 action, symbol, short_exchange_id, long_exchange_id,
-                short_gw, short_oid, amount, filled_short,
+                short_gw, short_oid, short_amount, filled_short,
             )
         filled_long = abs(await self._position_base(long_gw, symbol) - before_long)
 
         short_leg = LegExecution(
             exchange_id=short_exchange_id, side="sell", symbol=symbol,
-            requested_amount=amount, filled_amount=filled_short, order_id=short_oid,
+            requested_amount=short_amount, filled_amount=filled_short, order_id=short_oid,
         )
         long_leg = LegExecution(
             exchange_id=long_exchange_id, side="buy", symbol=symbol,
-            requested_amount=amount, filled_amount=filled_long, order_id=long_oid,
+            requested_amount=long_amount, filled_amount=filled_long, order_id=long_oid,
         )
         imbalance = self._imbalance(filled_short, filled_long)
         status = self._enter_status(filled_short, filled_long, imbalance)

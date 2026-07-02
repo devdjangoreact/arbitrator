@@ -58,7 +58,7 @@ class Settings(BaseSettings):
 
     default_min_quote_volume_kusdt: float = 500.0
     default_min_spread_pct: float = 0.0
-    stream_min_quote_volume_usdt: float = 50_000.0
+    stream_min_quote_volume_usdt: float = 500_000.0
     screener_volume_discovery_seconds: float = 60.0
 
     screener_table_height_px: int = 800
@@ -76,9 +76,11 @@ class Settings(BaseSettings):
 
     # Screener auto-trader (paper mode only)
     screener_auto_trade_enabled: bool = False
+    # Live auto-trader (live mode only — places real orders)
+    live_auto_trade_enabled: bool = False
     screener_auto_trade_max_positions: int = 3
     screener_auto_trade_notional_usdt: float = 100.0
-    screener_auto_trade_open_spread_pct: float = 0.3
+    screener_auto_trade_open_spread_pct: float = 3.0
     screener_auto_trade_close_spread_pct: float = 0.05
     screener_auto_trade_check_seconds: float = 2.0
     screener_auto_trade_unhedged_timeout_seconds: float = 10.0
@@ -94,6 +96,18 @@ class Settings(BaseSettings):
     funding_reentry_act_window_seconds: float = 300.0  # check when funding is within 5 min
     funding_reentry_skip_within_seconds: float = 60.0  # do not act in last 60s before funding
     funding_reentry_min_spread_pct: float = 0.1        # minimum spread to reopen
+
+    # Live liquidation guard (live mode)
+    live_liq_guard_enabled: bool = True
+    live_liq_guard_check_interval_seconds: float = 5.0
+    live_liq_guard_warning_pct_to_liq: float = 80.0
+
+    # Live funding protection (live mode)
+    live_funding_protect_enabled: bool = False
+    live_funding_protect_check_interval_seconds: float = 30.0
+    live_funding_protect_act_window_seconds: float = 300.0
+    live_funding_protect_skip_within_seconds: float = 60.0
+    live_funding_protect_min_reopen_spread_pct: float = 0.1
 
     opportunity_order_book_depth: int = 20
     opportunity_chart_window_seconds: int = 120

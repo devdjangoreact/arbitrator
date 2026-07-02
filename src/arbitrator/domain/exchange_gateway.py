@@ -12,6 +12,7 @@ from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.symbol_market_info import SymbolMarketInfo
 from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.token_identity import CurrencyNetworkInfo
 from arbitrator.domain.trade_tick import TradeTick
 
 
@@ -117,6 +118,46 @@ class ExchangeGateway(ABC):
     @abstractmethod
     def watch_trades(self, symbol: str) -> AsyncIterator[TradeTick]:
         """Stream trade tape events for a single symbol."""
+        raise NotImplementedError
+
+    @abstractmethod
+    async def fetch_currency_networks(
+        self,
+        base_codes: Sequence[str],
+    ) -> dict[str, CurrencyNetworkInfo]:
+        """Return network/contract info for the given base currency codes.
+
+        Calls exchange.fetchCurrencies() and extracts for each requested code:
+          currency['networks'][net_key]['id']  — raw id field (may be None,
+          may be a contract address or just a chain name like "ERC20").
+
+        Returns only codes that are present in the exchange response.
+        Codes absent from the exchange (delisted, no spot currency entry) are
+        silently omitted — callers treat missing entries as unavailable.
+
+        Note: fetchCurrencies() requires no credentials on most exchanges but
+        may be gated (e.g. Binance returns empty without auth).  Callers should
+        handle empty results gracefully.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def common_currencies(self) -> dict[str, str]:
+        """Return the exchange's ccxt commonCurrencies remapping table.
+
+        This is the dict ccxt uses to normalise exchange-native codes to
+        unified codes (e.g. {'BIFI': 'BIFI2', 'LUNA': 'LUNC'}).
+        An empty dict means no remappings are configured for this exchange.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def set_margin_mode(self, symbol: str, mode: str) -> None:
+        """Set margin mode (e.g. 'cross') for a swap symbol before opening a position.
+
+        Called once per (exchange, symbol) before the first position is opened.
+        Implementations must tolerate "already set" responses without raising.
+        """
         raise NotImplementedError
 
     @abstractmethod

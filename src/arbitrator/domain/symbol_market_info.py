@@ -15,6 +15,10 @@ class SymbolMarketInfo(BaseModel):
     native_market_id: str | None
     min_order_volume_usdt: float | None
     max_order_volume_usdt: float | None
+    # Raw contract-unit limits (used when cost limits are absent, e.g. mexc/gate).
+    # min_notional_usdt(price) = min_amount_contracts * contract_size * price
+    min_amount_contracts: float | None
+    contract_size: float
 
 
 class SymbolMarketInfoParser:
@@ -32,19 +36,34 @@ class SymbolMarketInfoParser:
             return None
         native_raw = market.get("id")
         native_id = str(native_raw) if native_raw is not None else None
-        min_usdt, max_usdt = SymbolMarketInfoParser._volume_limits_usdt(market, mark_price)
+        contract_size = SymbolMarketInfoParser._as_float(market.get("contractSize")) or 1.0
+        min_usdt, max_usdt = SymbolMarketInfoParser._volume_limits_usdt(
+            market, mark_price, contract_size
+        )
+        # Always store raw contract-unit minimum so callers can recompute
+        # USDT notional later once live price is available.
+        limits = market.get("limits")
+        amount_limits = limits.get("amount") if isinstance(limits, dict) else None
+        min_contracts = (
+            SymbolMarketInfoParser._as_float(amount_limits.get("min"))
+            if isinstance(amount_limits, dict)
+            else None
+        )
         return SymbolMarketInfo(
             unified_symbol=unified,
             base_asset=base,
             native_market_id=native_id,
             min_order_volume_usdt=min_usdt,
             max_order_volume_usdt=max_usdt,
+            min_amount_contracts=min_contracts,
+            contract_size=contract_size,
         )
 
     @staticmethod
     def _volume_limits_usdt(
         market: Mapping[str, object],
         mark_price: float | None,
+        contract_size: float,
     ) -> tuple[float | None, float | None]:
         limits = market.get("limits")
         if not isinstance(limits, dict):
@@ -62,7 +81,6 @@ class SymbolMarketInfoParser:
         if mark_price is None or mark_price <= 0.0:
             return min_usdt, max_usdt
 
-        contract_size = SymbolMarketInfoParser._as_float(market.get("contractSize")) or 1.0
         min_amount = SymbolMarketInfoParser._as_float(amount_limits.get("min"))
         max_amount = SymbolMarketInfoParser._as_float(amount_limits.get("max"))
         if min_usdt is None and min_amount is not None:

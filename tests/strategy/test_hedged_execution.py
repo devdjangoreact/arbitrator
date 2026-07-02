@@ -107,7 +107,8 @@ def test_open_hedged_success() -> None:
 
 
 def test_filled_amount_comes_from_exchange_not_intent() -> None:
-    # Short leg only fills 90% on the exchange; the outcome must reflect 90, not 100.
+    # Short fills 90% (90 tokens). Long must open for exactly those 90 tokens
+    # (delta-neutral: long follows short's actual fill, not the original intent).
     short = FakeGateway("a", "short", fill_ratio=0.9)
     long = FakeGateway("b", "long")
     outcome = asyncio.run(
@@ -117,10 +118,13 @@ def test_filled_amount_comes_from_exchange_not_intent() -> None:
         )
     )
     assert outcome.short_leg is not None
-    assert outcome.short_leg.requested_amount == Decimal("100")
     assert outcome.short_leg.filled_amount == Decimal("90")
-    # 10% imbalance exceeds the 1% tolerance -> partial.
-    assert outcome.status.value == "partial"
+    assert outcome.long_leg is not None
+    # Long was sent the filled_short amount (90), not the original intent (100).
+    assert outcome.long_leg.requested_amount == Decimal("90")
+    assert outcome.long_leg.filled_amount == Decimal("90")
+    # Both legs filled the same amount -> no imbalance -> success.
+    assert outcome.status.value == "success"
 
 
 def test_partial_close_keeps_imbalance_within_tolerance() -> None:
