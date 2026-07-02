@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from collections.abc import Sequence
 
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
@@ -23,21 +24,28 @@ class FeeSnapshotService:
         named_exchanges: Sequence[NamedExchange],
         symbols: Sequence[str],
     ) -> int:
-        loaded = 0
-        for exchange in named_exchanges:
-            for symbol in symbols:
-                try:
-                    fees = await exchange.gateway.fetch_fee_schedule(symbol)
-                except Exception:
-                    logger.exception(
-                        "fetch_fee_schedule failed | exchange={} symbol={}",
-                        exchange.exchange_id,
-                        symbol,
-                    )
-                    continue
-                if fees is not None:
-                    self._cache.put_fees(fees)
-                    loaded += 1
+        async def _fetch(exchange: NamedExchange, symbol: str) -> int:
+            try:
+                fees = await exchange.gateway.fetch_fee_schedule(symbol)
+            except Exception:
+                logger.exception(
+                    "fetch_fee_schedule failed | exchange={} symbol={}",
+                    exchange.exchange_id,
+                    symbol,
+                )
+                return 0
+            if fees is not None:
+                self._cache.put_fees(fees)
+                return 1
+            return 0
+
+        tasks = [
+            _fetch(exchange, symbol)
+            for exchange in named_exchanges
+            for symbol in symbols
+        ]
+        results = await asyncio.gather(*tasks)
+        loaded = sum(results)
         logger.info(
             "fee snapshot complete | exchanges={} symbols={} loaded={}",
             len(named_exchanges),

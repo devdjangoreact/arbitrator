@@ -6,6 +6,7 @@ from typing import Literal
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.strategy.quote import Quote
+from arbitrator.domain.symbol_market_info import SymbolMarketInfo
 
 
 class MarketDataCacheMemory:
@@ -22,6 +23,7 @@ class MarketDataCacheMemory:
         self._quotes: dict[tuple[str, str, str], Quote] = {}
         self._funding: dict[tuple[str, str], FundingInfo] = {}
         self._fees: dict[tuple[str, str], FeeSchedule] = {}
+        self._market_info: dict[tuple[str, str], SymbolMarketInfo] = {}
 
     def put_quote(self, quote: Quote) -> None:
         key = (quote.exchange_id, quote.symbol, quote.market_type)
@@ -52,3 +54,11 @@ class MarketDataCacheMemory:
     def get_fees(self, exchange_id: str, symbol: str) -> FeeSchedule | None:
         with self._lock:
             return self._fees.get((exchange_id, symbol))
+
+    def put_market_info(self, info: SymbolMarketInfo, exchange_id: str) -> None:
+        with self._lock:
+            self._market_info[(exchange_id, info.unified_symbol)] = info
+
+    def get_market_info(self, exchange_id: str, symbol: str) -> SymbolMarketInfo | None:
+        with self._lock:
+            return self._market_info.get((exchange_id, symbol))

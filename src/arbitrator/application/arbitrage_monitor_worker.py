@@ -82,7 +82,7 @@ class ArbitrageMonitorWorker:
         )
         named = self._factory.create_many(exchange_ids)
         symbols_by_exchange = dict.fromkeys(exchange_ids, symbols)
-        watcher = MultiExchangeWatcher(self._settings, named)
+        watcher = MultiExchangeWatcher(named)
         try:
             async for snapshot in watcher.updates(symbols_by_exchange):
                 if self._stop.is_set():

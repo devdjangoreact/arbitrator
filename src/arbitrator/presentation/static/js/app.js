@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof initOrders === "function") initOrders();
   if (typeof initSettings === "function") initSettings();
   if (typeof initOpportunity === "function") initOpportunity();
+  if (typeof initPaperTrades === "function") initPaperTrades();
 });
 
 window.showPage = showPage;

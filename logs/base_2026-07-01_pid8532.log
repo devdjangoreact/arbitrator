@@ -1,3 +1,0 @@
-2026-07-01 06:16:53 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=live
-2026-07-01 06:16:53 | INFO     | [arbitrator.presentation.fastapi_app:create:103] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=live
-2026-07-01 06:16:53 | ERROR    | [uvicorn.main:run:614] - [uvicorn.error] [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions

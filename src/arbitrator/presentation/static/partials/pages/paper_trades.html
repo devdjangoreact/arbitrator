@@ -1,0 +1,73 @@
+    <div class="page" id="page-paper_trades">
+      <div class="topbar">
+        <div class="topbar-left">
+          <h1>Демо Торги <span class="muted" style="font-weight:400;font-size:0.9em;">· paper mode</span></h1>
+        </div>
+        <div class="topbar-right">
+          <span class="status" id="pt-status"><span class="dot"></span>—</span>
+        </div>
+      </div>
+
+      <!-- Summary metrics row -->
+      <div class="pt-metrics" id="pt-metrics">
+        <div class="metric">
+          <div class="label">Відкрито пар</div>
+          <div class="value" id="pt-open-pairs">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Закрито пар</div>
+          <div class="value" id="pt-closed-pairs">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Price PnL</div>
+          <div class="value" id="pt-total-pnl">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Комісії</div>
+          <div class="value" id="pt-total-fees">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Фандінг</div>
+          <div class="value" id="pt-total-funding">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Net PnL</div>
+          <div class="value" id="pt-total-net-pnl">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Всього ордерів</div>
+          <div class="value" id="pt-total-orders">—</div>
+        </div>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="orders-filter-bar">
+        <div class="filter-chips" id="pt-filters">
+          <div class="chip active" data-filter="all">Усі</div>
+          <div class="chip" data-filter="open">Відкриті</div>
+          <div class="chip" data-filter="closed">Закриті</div>
+        </div>
+        <span class="muted" id="pt-mode-badge" style="font-size:0.85em;margin-left:12px;">Live demo · real exchange prices · simulated orders</span>
+      </div>
+
+      <!-- Trades table -->
+      <div class="table-scroll pt-table-scroll">
+        <div class="pt-grid pt-head">
+          <div></div>
+          <div>Символ</div>
+          <div>Short</div>
+          <div>Long</div>
+          <div>Відкрито</div>
+          <div>Закрито</div>
+          <div>Вхід %</div>
+          <div>Вихід %</div>
+          <div>Notional</div>
+          <div>Fees</div>
+          <div>Funding</div>
+          <div>PnL</div>
+          <div>Net PnL</div>
+          <div>Статус</div>
+        </div>
+        <div id="pt-list"></div>
+      </div>
+    </div>

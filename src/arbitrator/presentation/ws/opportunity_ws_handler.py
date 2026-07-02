@@ -9,8 +9,10 @@ from decimal import Decimal
 from fastapi import WebSocket, WebSocketDisconnect
 
 from arbitrator.application.app_runtime import AppRuntime
+from arbitrator.application.auto_trading_engine import AutoTradingEngine
 from arbitrator.application.fee_snapshot_service import FeeSnapshotService
 from arbitrator.application.hedged_execution_service import HedgedExecutionService
+from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
 from arbitrator.application.opportunity_bootstrap_service import OpportunityBootstrapService
 from arbitrator.application.opportunity_session_state import OpportunitySessionState
 from arbitrator.application.opportunity_stream_worker import OpportunityStreamWorker
@@ -59,7 +61,7 @@ class OpportunityWsHandler:
                 return
             if self._settings.ui_data_mode == "mock_data":
                 await self._mock_loop(websocket, display_symbol, short_ex, long_ex, push_interval)
-            else:
+            else:  # live or paper — same stream, paper uses PaperExecutionGateway
                 await self._live_loop(
                     websocket,
                     swap_symbol,
@@ -171,12 +173,17 @@ class OpportunityWsHandler:
             )
         )
         prev_ring_len = 0
+        last_auto_action_ms: int = 0
+        auto_cooldown_ms: int = 5_000
         try:
             while True:
                 tickers, _symbols, _updates, _status, _threshold = screener_worker.read_state()
                 now_ms = int(time.time() * 1000)
                 table_service.refresh(tickers, now_ms)
                 stream_state = stream_worker.read_state()
+                accumulated = self._accumulated_usdt(
+                    self._runtime.account_worker, swap_symbol, {short_ex, long_ex}
+                )
                 snapshot = serializer.serialize(
                     display_symbol=display_symbol,
                     swap_symbol=swap_symbol,
@@ -202,6 +209,21 @@ class OpportunityWsHandler:
                 )
                 if new_ring:
                     prev_ring_len = len(stream_state.price_ring)
+
+                if now_ms - last_auto_action_ms >= auto_cooldown_ms:
+                    auto_result = await self._check_auto_trade(
+                        session=session,
+                        stream_state=stream_state,
+                        stream_worker=stream_worker,
+                        swap_symbol=swap_symbol,
+                        short_ex=short_ex,
+                        long_ex=long_ex,
+                        accumulated_usdt=accumulated,
+                    )
+                    if auto_result is not None:
+                        last_auto_action_ms = now_ms
+                        await WsEnvelope.send(websocket, "opportunity.action_result", auto_result)
+
                 await asyncio.sleep(push_interval)
         finally:
             receiver.cancel()
@@ -287,6 +309,12 @@ class OpportunityWsHandler:
         action: str,
         payload: Mapping[str, object],
     ) -> ActionResultDto:
+        paper = self._runtime.paper_gateway
+        if paper is not None:
+            return await self._execute_paper_trade(
+                paper, stream_worker, swap_symbol, short_ex, long_ex, action, payload
+            )
+        # live mode — real exchange execution
         factory = Factory(settings=self._settings)
         short_named = factory.create(short_ex)
         long_named = factory.create(long_ex)
@@ -305,6 +333,81 @@ class OpportunityWsHandler:
         finally:
             await short_named.gateway.close()
             await long_named.gateway.close()
+        success = outcome.status in {ExecutionStatus.success, ExecutionStatus.simulated}
+        return ActionResultDto(
+            success=success,
+            message=self._outcome_message(outcome),
+            action=action,
+        )
+
+    async def _execute_paper_trade(
+        self,
+        paper: "PaperExecutionGateway",
+        stream_worker: OpportunityStreamWorker,
+        swap_symbol: str,
+        short_ex: str,
+        long_ex: str,
+        action: str,
+        payload: Mapping[str, object],
+    ) -> ActionResultDto:
+        state = stream_worker.read_state()
+        short_ticker = state.tickers.get(short_ex)
+        long_ticker = state.tickers.get(long_ex)
+        short_price = float(
+            (short_ticker.bid if short_ticker and short_ticker.bid is not None else (short_ticker.last or 0))
+            if short_ticker else 0
+        )
+        long_price = float(
+            (long_ticker.ask if long_ticker and long_ticker.ask is not None else (long_ticker.last or 0))
+            if long_ticker else 0
+        )
+        if short_price <= 0 or long_price <= 0:
+            return ActionResultDto(success=False, message="no live price for paper trade", action=action)
+
+        spread_pct: float | None = None
+        if short_price > 0 and long_price > 0:
+            spread_pct = round((short_price - long_price) / long_price * 100, 4)
+
+        volume_usdt = float(
+            self._decimal_from(payload, "volume_usdt", None)
+            or Decimal(str(self._settings.opp_accumulate_step_usdt))
+        )
+        amount = volume_usdt / long_price
+
+        try:
+            if action in {"accumulate"}:
+                outcome = paper.open_pair(
+                    symbol=swap_symbol,
+                    short_exchange_id=short_ex,
+                    long_exchange_id=long_ex,
+                    short_price=short_price,
+                    long_price=long_price,
+                    amount=amount,
+                    spread_pct=spread_pct,
+                )
+            elif action in {"close_all", "close_partial"}:
+                pct = float(self._decimal_from(payload, "volume_pct", None) or Decimal("100"))
+                open_pairs = paper._store.open_pairs()
+                if not open_pairs:
+                    return ActionResultDto(success=False, message="no open paper pairs", action=action)
+                pair_id = open_pairs[0]
+                close_amount = amount * pct / 100.0 if action == "close_partial" else amount
+                outcome = paper.close_pair(
+                    pair_id=pair_id,
+                    symbol=swap_symbol,
+                    short_exchange_id=short_ex,
+                    long_exchange_id=long_ex,
+                    short_price=long_price,
+                    long_price=short_price,
+                    amount=close_amount,
+                    spread_pct=spread_pct,
+                )
+            else:
+                return ActionResultDto(success=False, message=f"unknown action: {action}", action=action)
+        except Exception:
+            logger.exception("paper trade failed | action={} symbol={}", action, swap_symbol)
+            return ActionResultDto(success=False, message="paper execution error", action=action)
+
         success = outcome.status in {ExecutionStatus.success, ExecutionStatus.simulated}
         return ActionResultDto(
             success=success,
@@ -380,6 +483,75 @@ class OpportunityWsHandler:
         if outcome.rolled_back:
             parts.append("rolled_back")
         return " | ".join(parts)
+
+    @staticmethod
+    def _accumulated_usdt(
+        account_worker: object,
+        swap_symbol: str,
+        exchange_ids: set[str],
+    ) -> float:
+        from arbitrator.application.account_stream_worker import AccountStreamWorker
+        if not isinstance(account_worker, AccountStreamWorker):
+            return 0.0
+        total = 0.0
+        for leg in account_worker.read_positions(list(exchange_ids)):
+            if leg.symbol != swap_symbol:
+                continue
+            mark = leg.mark_price if leg.mark_price is not None else leg.entry_price
+            total += abs(leg.contracts * leg.contract_size * mark)
+        return total
+
+    async def _check_auto_trade(
+        self,
+        *,
+        session: OpportunitySessionState,
+        stream_state: object,
+        stream_worker: OpportunityStreamWorker,
+        swap_symbol: str,
+        short_ex: str,
+        long_ex: str,
+        accumulated_usdt: float,
+    ) -> ActionResultDto | None:
+        from arbitrator.application.opportunity_stream_worker import OpportunityStreamState
+        if not isinstance(stream_state, OpportunityStreamState):
+            return None
+        signal = AutoTradingEngine.check_accumulate(
+            session=session,
+            stream_state=stream_state,
+            short_exchange_id=short_ex,
+            long_exchange_id=long_ex,
+            accumulated_usdt=accumulated_usdt,
+        )
+        if signal is None:
+            signal = AutoTradingEngine.check_close(
+                session=session,
+                stream_state=stream_state,
+                short_exchange_id=short_ex,
+                long_exchange_id=long_ex,
+                accumulated_usdt=accumulated_usdt,
+            )
+        if signal is None:
+            return None
+        logger.info(
+            "auto trade signal | action={} spread={} volume={}",
+            signal.action, signal.spread_pct, signal.volume_usdt,
+        )
+        result = await self._execute_trade(
+            session=session,
+            stream_worker=stream_worker,
+            swap_symbol=swap_symbol,
+            short_ex=short_ex,
+            long_ex=long_ex,
+            action=signal.action,
+            payload={"volume_usdt": signal.volume_usdt},
+        )
+        if result.success:
+            result = ActionResultDto(
+                success=True,
+                message=f"auto:{signal.action} spread={signal.spread_pct:.3f}% | {result.message}",
+                action=f"auto_{signal.action}",
+            )
+        return result
 
     @staticmethod
     def _chart_delta_from_ring(

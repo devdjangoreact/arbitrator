@@ -24,6 +24,16 @@ function renderOrderLeg(leg, withActionCol = true) {
     </div>`;
 }
 
+/** @param {number | null | undefined} sec */
+function fmtCountdownSec(sec) {
+  if (sec == null) return null;
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
 /**
  * @param {object} group
  * @param {{ showOpportunityBtn?: boolean }} [opts]
@@ -37,6 +47,15 @@ function renderOrderGroup(group, opts = {}) {
   const oppBtn = showBtn
     ? `<div><button class="btn btn-primary btn-opp" type="button">Opportunity</button></div>`
     : "";
+  const fundingCountdown = group.status === "open" && group.funding_countdown_sec != null
+    ? `<br><span class="muted" style="font-size:0.8em;">⏱${fmtCountdownSec(group.funding_countdown_sec)}</span>`
+    : "";
+
+  const spreadNow = group.status === "open" && group.current_spread_pct != null
+    ? `<span class="${group.current_spread_pct >= 0 ? "pos" : "neg"}">${group.current_spread_pct >= 0 ? "+" : ""}${Number(group.current_spread_pct).toFixed(2)}%</span>`
+    : group.exit_spread_pct != null
+      ? `<span class="${group.exit_spread_pct >= 0 ? "pos" : "neg"}">${group.exit_spread_pct >= 0 ? "+" : ""}${Number(group.exit_spread_pct).toFixed(2)}%</span>`
+      : "—";
 
   const div = document.createElement("div");
   div.className = `ord-group${group.status === "open" ? " expanded" : ""}`;
@@ -49,12 +68,12 @@ function renderOrderGroup(group, opts = {}) {
       <div><span class="badge short">S·${group.short_exchange_id.toUpperCase()}</span> <span class="badge long">L·${group.long_exchange_id.toUpperCase()}</span></div>
       <div>${group.opened_at}</div>
       <div>${group.closed_at || "—"}</div>
-      <div class="num">${group.leverage}x</div>
+      <div class="num">${group.leverage != null ? group.leverage + "x" : "—"}</div>
       <div class="num">${fmtNum(group.volume_usdt, 2)}</div>
       <div class="num">—</div>
-      <div class="num">—</div>
+      <div class="num">${spreadNow}</div>
       <div class="num">${fmtNum(group.fees_usdt, 2)}</div>
-      <div class="num">${fmtPnl(group.funding_usdt)}</div>
+      <div class="num">${fmtPnl(group.funding_usdt)}${fundingCountdown}</div>
       <div class="num ${pnlCls}">${fmtPnl(group.pnl_usdt)}</div>
       <div><span class="status-badge ${statusBadge}">${statusLabel}</span></div>
       ${showBtn ? oppBtn : ""}

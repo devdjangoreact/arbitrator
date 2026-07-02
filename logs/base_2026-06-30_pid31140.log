@@ -1,6 +1,0 @@
-2026-06-30 08:49:18 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
-2026-06-30 08:49:18 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
-2026-06-30 08:49:18 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
-2026-06-30 08:49:18 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
-2026-06-30 08:49:23 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:25] - ws connected | endpoint=/ws/opportunity symbol=DOGE/USDT short=mexc long=bingx
-2026-06-30 08:49:24 | INFO     | [arbitrator.presentation.ws.opportunity_ws_handler:handle:42] - ws disconnected | endpoint=/ws/opportunity symbol=DOGE/USDT

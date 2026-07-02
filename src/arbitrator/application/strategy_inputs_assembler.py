@@ -35,6 +35,7 @@ class StrategyInputsAssembler:
     ) -> StrategyInputs:
         exchange_ids = {short_exchange_id, long_exchange_id}
         max_age_ms = int(self._settings.quote_max_age_seconds * 1000)
+        funding_max_age_ms = int(self._settings.funding_refresh_seconds * 3 * 1000)
 
         futures_quotes: dict[str, Quote] = {}
         spot_quotes: dict[str, Quote] = {}
@@ -49,7 +50,7 @@ class StrategyInputsAssembler:
             if spot is not None and self._fresh(spot.recv_time_ms, now_ms, max_age_ms):
                 spot_quotes[exchange_id] = spot
             fund = self._cache.get_funding(exchange_id, symbol)
-            if fund is not None:
+            if fund is not None and self._fresh(fund.recv_time_ms, now_ms, funding_max_age_ms):
                 funding[exchange_id] = fund
             fee = self._cache.get_fees(exchange_id, symbol)
             if fee is not None:

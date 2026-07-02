@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import time
 
 from arbitrator.application.account_stream_worker import AccountStreamWorker
 from arbitrator.config.logger import logger
@@ -61,16 +60,6 @@ class ExchangeAccountService:
             ]
             if not configured:
                 return self._account_worker.read_statuses(exchange_ids)
-            deadline = time.monotonic() + timeout
-            while time.monotonic() < deadline:
-                statuses = self._account_worker.read_statuses(exchange_ids)
-                if all(
-                    status.authenticated and status.message not in (None, "Connecting…")
-                    for status in statuses
-                    if status.credentials_configured
-                ):
-                    return statuses
-                await asyncio.sleep(0.2)
             return self._account_worker.read_statuses(exchange_ids)
         logger.info("Fetching exchange statuses | count={}", len(exchange_ids))
         results = await asyncio.gather(

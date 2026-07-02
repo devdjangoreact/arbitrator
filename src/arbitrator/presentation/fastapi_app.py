@@ -13,6 +13,7 @@ from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.presentation.ws.opportunity_ws_handler import OpportunityWsHandler
 from arbitrator.presentation.ws.orders_ws_handler import OrdersWsHandler
+from arbitrator.presentation.ws.paper_trades_ws_handler import PaperTradesWsHandler
 from arbitrator.presentation.ws.screener_ws_handler import ScreenerWsHandler
 from arbitrator.presentation.ws.settings_ws_handler import SettingsWsHandler
 
@@ -20,6 +21,7 @@ _WS_ENDPOINTS: list[str] = [
     "/ws/screener",
     "/ws/opportunity?symbol=&short=&long=",
     "/ws/orders",
+    "/ws/paper_trades",
     "/ws/settings",
 ]
 
@@ -73,10 +75,17 @@ class FastApiApp:
         orders_handler = OrdersWsHandler(
             settings=self._settings,
             mock_provider=self._runtime.mock_provider,
+            paper_store=self._runtime.paper_store,
+            runtime=self._runtime,
         )
         settings_handler = SettingsWsHandler(
             settings=self._settings,
             mock_provider=self._runtime.mock_provider,
+        )
+        paper_trades_handler = PaperTradesWsHandler(
+            settings=self._settings,
+            paper_store=self._runtime.paper_store,
+            runtime=self._runtime,
         )
 
         @app.websocket("/ws/screener")
@@ -95,6 +104,10 @@ class FastApiApp:
         @app.websocket("/ws/orders")
         async def orders_ws(websocket: WebSocket) -> None:
             await orders_handler.handle(websocket)
+
+        @app.websocket("/ws/paper_trades")
+        async def paper_trades_ws(websocket: WebSocket) -> None:
+            await paper_trades_handler.handle(websocket)
 
         @app.websocket("/ws/settings")
         async def settings_ws(websocket: WebSocket) -> None:

@@ -2,12 +2,10 @@ from __future__ import annotations
 
 import asyncio
 import threading
-import time
 from collections.abc import Mapping, Sequence
 
 from arbitrator.application.multi_exchange_watcher import MultiExchangeWatcher
 from arbitrator.application.symbol_universe_service import SymbolUniverseService
-from arbitrator.application.symbol_volume_filter import SymbolVolumeFilter
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.named_exchange import NamedExchange
@@ -110,100 +108,17 @@ class ScreenerStreamWorker:
                 self._set_status("Idle")
                 return
 
-            threshold = self._volume_threshold_usdt
-            if threshold <= 0.0:
-                self._set_stream_symbols(symbols)
-                await self._stream_loop(named_exchanges, symbols_by_exchange)
-                return
-
-            discovery_snapshot = await self._discovery_phase(
-                named_exchanges=named_exchanges,
-                symbols=symbols,
-                symbols_by_exchange=symbols_by_exchange,
-                threshold_usdt=threshold,
-            )
-            if self._stop.is_set():
-                return
-            eligible, _pending, rejected = SymbolVolumeFilter.classify_all(
-                symbols=symbols,
-                symbols_by_exchange=symbols_by_exchange,
-                snapshot=discovery_snapshot,
-                threshold_usdt=threshold,
-            )
-            filtered_by_exchange = SymbolVolumeFilter.filter_symbols_by_exchange(
-                symbols_by_exchange,
-                eligible,
-            )
-            logger.info(
-                "Volume gate applied | threshold_usdt={} eligible={} rejected={}",
-                threshold,
-                len(eligible),
-                len(rejected),
-            )
-            self._set_stream_symbols(eligible)
-            if not eligible:
-                self._set_status("Idle")
-                self._publish_snapshot(discovery_snapshot)
-                return
-
-            await self._stream_loop(named_exchanges, filtered_by_exchange)
+            self._set_stream_symbols(symbols)
+            await self._stream_loop(named_exchanges, symbols_by_exchange)
         finally:
             await self._close_exchanges(named_exchanges)
-
-    async def _discovery_phase(
-        self,
-        named_exchanges: Sequence[NamedExchange],
-        symbols: Sequence[str],
-        symbols_by_exchange: Mapping[str, Sequence[str]],
-        threshold_usdt: float,
-    ) -> dict[tuple[str, str], Ticker]:
-        watcher = MultiExchangeWatcher(self._settings, named_exchanges)
-        merged: dict[tuple[str, str], Ticker] = {}
-        deadline = time.monotonic() + self._settings.screener_volume_discovery_seconds
-        self._set_status("Discovering volumes…")
-        logger.info(
-            "Volume discovery started | symbols={} threshold_usdt={} timeout_s={}",
-            len(symbols),
-            threshold_usdt,
-            self._settings.screener_volume_discovery_seconds,
-        )
-        try:
-            async for snapshot in watcher.updates(symbols_by_exchange):
-                if self._stop.is_set():
-                    break
-                merged.update(snapshot)
-                self._publish_snapshot(merged)
-                eligible, pending, _rejected = SymbolVolumeFilter.classify_all(
-                    symbols=symbols,
-                    symbols_by_exchange=symbols_by_exchange,
-                    snapshot=merged,
-                    threshold_usdt=threshold_usdt,
-                )
-                self._set_stream_symbols(eligible)
-                if not pending:
-                    logger.info(
-                        "Volume discovery complete | eligible={} snapshot_keys={}",
-                        len(eligible),
-                        len(merged),
-                    )
-                    break
-                if time.monotonic() >= deadline:
-                    logger.info(
-                        "Volume discovery timed out | eligible={} pending={}",
-                        len(eligible),
-                        len(pending),
-                    )
-                    break
-        finally:
-            await watcher.close()
-        return merged
 
     async def _stream_loop(
         self,
         named_exchanges: Sequence[NamedExchange],
         symbols_by_exchange: Mapping[str, Sequence[str]],
     ) -> None:
-        watcher = MultiExchangeWatcher(self._settings, named_exchanges)
+        watcher = MultiExchangeWatcher(named_exchanges)
         try:
             async for snapshot in watcher.updates(symbols_by_exchange):
                 if self._stop.is_set():

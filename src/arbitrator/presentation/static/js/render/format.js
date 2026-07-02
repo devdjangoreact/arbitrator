@@ -4,8 +4,9 @@ function fmtNum(value, digits = 4) {
   return Number(value).toFixed(digits);
 }
 
-/** @param {number} value */
+/** @param {number | null | undefined} value */
 function fmtPnl(value) {
+  if (value === null || value === undefined) return "—";
   const sign = value > 0 ? "+" : value < 0 ? "−" : "";
   return `${sign}${Math.abs(value).toFixed(2)}`;
 }

@@ -55,3 +55,4 @@ class ExecutionOutcome(BaseModel):
     imbalance_pct: Decimal | None = None
     rolled_back: bool = False
     message: str | None = None
+    pair_id: str | None = None

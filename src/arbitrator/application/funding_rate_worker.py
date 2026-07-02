@@ -82,6 +82,7 @@ class FundingRateWorker:
         if not symbols:
             return
         await self._fee_service.snapshot(named_exchanges, symbols)
+        await self._snapshot_market_info(named_exchanges, symbols)
         for exchange in named_exchanges:
             try:
                 infos = await exchange.gateway.fetch_funding_infos(symbols)
@@ -98,6 +99,30 @@ class FundingRateWorker:
                 exchange.exchange_id,
                 len(infos),
             )
+
+    async def _snapshot_market_info(
+        self,
+        named_exchanges: Sequence[NamedExchange],
+        symbols: Sequence[str],
+    ) -> None:
+        async def _fetch_one(exchange: NamedExchange, symbol: str) -> None:
+            if self._cache.get_market_info(exchange.exchange_id, symbol) is not None:
+                return
+            try:
+                info = await exchange.gateway.fetch_symbol_market_info(symbol)
+            except Exception:
+                logger.exception(
+                    "market_info fetch failed | exchange={} symbol={}",
+                    exchange.exchange_id,
+                    symbol,
+                )
+                return
+            if info is not None:
+                self._cache.put_market_info(info, exchange.exchange_id)
+
+        await asyncio.gather(
+            *(_fetch_one(ex, sym) for ex in named_exchanges for sym in symbols)
+        )
 
     @staticmethod
     async def _close_exchanges(named_exchanges: Sequence[NamedExchange]) -> None:

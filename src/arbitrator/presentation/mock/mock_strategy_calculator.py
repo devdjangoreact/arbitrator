@@ -161,7 +161,7 @@ class MockStrategyCalculator:
             costs = round(template.base_costs_usdt * volume_ratio, 2)
             fees = round(template.base_fees_usdt * volume_ratio, 2)
             funding = round(template.base_funding_usdt * volume_ratio * ratio, 2)
-            net = round(gross - costs, 2)
+            net = round((gross or 0.0) - costs, 2)
             percent = None
             if template.base_percent_to_deposit is not None:
                 percent = MockStrategyCalculator._scale_value(
@@ -233,11 +233,11 @@ class MockStrategyCalculator:
                 MockOpportunityRowTemplate(
                     strategy_id=str(row_data.get("strategy_id", "")),
                     strategy_label=str(row_data.get("strategy_label", "")),
-                    base_spread_pct=float(row_data.get("spread_pct", 0.0)),
+                    base_spread_pct=float(spread_raw) if isinstance(spread_raw := row_data.get("spread_pct", 0.0), (int, float)) else 0.0,
                     base_gross_usdt=gross,
-                    base_costs_usdt=float(row_data.get("costs_usdt", 0.0)),
-                    base_fees_usdt=float(row_data.get("fees_usdt", 0.0)),
-                    base_funding_usdt=float(row_data.get("funding_usdt", 0.0)),
+                    base_costs_usdt=float(costs_raw) if isinstance(costs_raw := row_data.get("costs_usdt", 0.0), (int, float)) else 0.0,
+                    base_fees_usdt=float(fees_raw) if isinstance(fees_raw := row_data.get("fees_usdt", 0.0), (int, float)) else 0.0,
+                    base_funding_usdt=float(fund_raw) if isinstance(fund_raw := row_data.get("funding_usdt", 0.0), (int, float)) else 0.0,
                     base_net_usdt=net,
                     base_percent_to_deposit=percent,
                     costs_breakdown=str(row_data.get("costs_breakdown", "")),

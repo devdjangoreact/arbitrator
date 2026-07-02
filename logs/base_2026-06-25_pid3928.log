@@ -1,5 +1,0 @@
-2026-06-25 00:49:14 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=fb4d4146768a symbol=BTC/USDT:USDT
-2026-06-25 00:49:14 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=fb4d4146768a symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget
-2026-06-25 00:49:14 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=abc123 symbol=BTC/USDT:USDT
-2026-06-25 00:49:14 | INFO     | [arbitrator.config.json_arb_markers_repository:append:39] - Arb marker appended | pair_id=2e9c67d8b760 symbol=BTC/USDT:USDT
-2026-06-25 00:49:14 | INFO     | [arbitrator.application.arbitrage_open_service:_open:140] - Arbitrage pair opened | pair_id=2e9c67d8b760 symbol=BTC/USDT:USDT short_ex=mexc long_ex=bitget

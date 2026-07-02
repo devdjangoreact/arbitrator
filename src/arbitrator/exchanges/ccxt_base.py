@@ -13,7 +13,7 @@ from typing import ClassVar, Literal
 import aiohttp
 import ccxt.pro as ccxtpro
 import certifi
-from ccxt.base.errors import NetworkError, UnsubscribeError
+from ccxt.base.errors import BadSymbol, NetworkError, UnsubscribeError
 
 from arbitrator.config.ccxt_position_mapper import CcxtPositionMapper
 from arbitrator.config.logger import logger
@@ -121,25 +121,6 @@ class CcxtBase(ExchangeGateway):
         )
 
     async def _probe_trading_access(self, client: ccxtpro.Exchange) -> bool:
-        if client.has.get("watchPositions"):
-            try:
-                await asyncio.wait_for(
-                    client.watch_positions(),
-                    timeout=self._settings.ccxt_request_timeout_ms / 1000.0,
-                )
-                return True
-            except ccxtpro.PermissionDenied:
-                return False
-            except TimeoutError:
-                logger.warning(
-                    "watch_positions probe timeout | exchange={}",
-                    self.exchange_id,
-                )
-            except Exception:
-                logger.exception(
-                    "watch_positions probe failed | exchange={}",
-                    self.exchange_id,
-                )
         if not client.has.get("fetchPositions"):
             return bool(client.has.get("createOrder"))
         try:
@@ -152,23 +133,6 @@ class CcxtBase(ExchangeGateway):
             return False
 
     async def _first_usdt_balance(self, client: ccxtpro.Exchange) -> float | None:
-        if client.has.get("watchBalance"):
-            try:
-                payload = await asyncio.wait_for(
-                    client.watch_balance(),
-                    timeout=self._settings.ccxt_request_timeout_ms / 1000.0,
-                )
-                return self._extract_usdt_balance(payload)
-            except TimeoutError:
-                logger.warning(
-                    "watch_balance timeout, falling back | exchange={}",
-                    self.exchange_id,
-                )
-            except Exception:
-                logger.exception(
-                    "watch_balance failed, falling back | exchange={}",
-                    self.exchange_id,
-                )
         balance = await client.fetch_balance()
         return self._extract_usdt_balance(balance)
 
@@ -241,6 +205,13 @@ class CcxtBase(ExchangeGateway):
                 payload = await client.watch_order_book(symbol, limit)
             except asyncio.CancelledError:
                 raise
+            except BadSymbol:
+                logger.warning(
+                    "watch_order_book symbol unknown, skipping | exchange={} symbol={}",
+                    self.exchange_id,
+                    symbol,
+                )
+                return
             except UnsubscribeError:
                 logger.debug(
                     "watch_order_book unsubscribed, resubscribing | exchange={} symbol={}",
@@ -255,7 +226,6 @@ class CcxtBase(ExchangeGateway):
                     symbol,
                     type(error).__name__,
                 )
-                await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                 continue
             except Exception:
                 logger.exception(
@@ -263,7 +233,6 @@ class CcxtBase(ExchangeGateway):
                     self.exchange_id,
                     symbol,
                 )
-                await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                 continue
             yield self._to_order_book_snapshot(symbol, payload)
 
@@ -293,7 +262,6 @@ class CcxtBase(ExchangeGateway):
                     symbol,
                     type(error).__name__,
                 )
-                await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                 continue
             except Exception:
                 logger.exception(
@@ -301,7 +269,6 @@ class CcxtBase(ExchangeGateway):
                     self.exchange_id,
                     symbol,
                 )
-                await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                 continue
             for tick in self._to_trade_ticks(symbol, payload):
                 yield tick
@@ -409,7 +376,7 @@ class CcxtBase(ExchangeGateway):
         await self._ensure_markets_loaded(client)
         resolved = CcxtBase._resolve_market_symbol(client, symbol)
         if resolved is None:
-            logger.error(
+            logger.debug(
                 "market symbol not found | exchange={} symbol={}",
                 self.exchange_id,
                 symbol,
@@ -418,10 +385,10 @@ class CcxtBase(ExchangeGateway):
         market = client.markets.get(resolved)
         if not isinstance(market, dict):
             return None
+        ticker_data = client.tickers.get(resolved) if isinstance(client.tickers, dict) else None
         mark_price: float | None = None
-        ticker = await self.fetch_ticker_once(resolved)
-        if ticker is not None and ticker.last is not None:
-            mark_price = ticker.last
+        if isinstance(ticker_data, dict):
+            mark_price = CcxtBase._as_float(ticker_data.get("last"))
         return SymbolMarketInfoParser.from_ccxt_market(market, mark_price=mark_price)
 
     async def verify_connection(self) -> ExchangeConnectionStatus:
@@ -603,14 +570,21 @@ class CcxtBase(ExchangeGateway):
         logger.info(
             "Position stream started | exchange={} mode={}",
             self.exchange_id,
-            "ws" if use_ws else "rest_poll",
+            "ws" if use_ws else "rest_once",
         )
+        if not use_ws:
+            try:
+                raw_positions = await client.fetch_positions()
+            except asyncio.CancelledError:
+                raise
+            except Exception:
+                logger.exception("position stream error | exchange={}", self.exchange_id)
+                return
+            yield await self._map_raw_positions(client, raw_positions)
+            return
         while True:
             try:
-                if use_ws:
-                    raw_positions = await client.watch_positions()
-                else:
-                    raw_positions = await client.fetch_positions()
+                raw_positions = await client.watch_positions()
             except asyncio.CancelledError:
                 raise
             except Exception:
@@ -618,12 +592,8 @@ class CcxtBase(ExchangeGateway):
                     "position stream error | exchange={}",
                     self.exchange_id,
                 )
-                await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                 continue
-            legs = await self._map_raw_positions(client, raw_positions)
-            yield legs
-            if not use_ws:
-                await asyncio.sleep(float(self._settings.arb_positions_poll_seconds))
+            yield await self._map_raw_positions(client, raw_positions)
 
     async def watch_usdt_balance(self) -> AsyncIterator[float | None]:
         creds = self._settings.credentials_for(self.exchange_id)
@@ -635,14 +605,21 @@ class CcxtBase(ExchangeGateway):
         logger.info(
             "Balance stream started | exchange={} mode={}",
             self.exchange_id,
-            "ws" if use_ws else "rest_poll",
+            "ws" if use_ws else "rest_once",
         )
+        if not use_ws:
+            try:
+                payload = await client.fetch_balance()
+            except asyncio.CancelledError:
+                raise
+            except Exception:
+                logger.exception("balance stream error | exchange={}", self.exchange_id)
+                return
+            yield self._extract_usdt_balance(payload)
+            return
         while True:
             try:
-                if use_ws:
-                    payload = await client.watch_balance()
-                else:
-                    payload = await client.fetch_balance()
+                payload = await client.watch_balance()
             except asyncio.CancelledError:
                 raise
             except Exception:
@@ -650,11 +627,8 @@ class CcxtBase(ExchangeGateway):
                     "balance stream error | exchange={}",
                     self.exchange_id,
                 )
-                await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                 continue
             yield self._extract_usdt_balance(payload)
-            if not use_ws:
-                await asyncio.sleep(float(self._settings.arb_positions_poll_seconds))
 
     async def _map_raw_positions(
         self,
@@ -969,8 +943,11 @@ class CcxtBase(ExchangeGateway):
         if not client.has.get("fetchFundingRates"):
             logger.info("fetchFundingRates unsupported | exchange={}", self.exchange_id)
             return []
+        known = {s for s in symbols if s in client.markets}
+        if not known:
+            return []
         try:
-            payload = await client.fetch_funding_rates(list(symbols))
+            payload = await client.fetch_funding_rates(list(known))
         except Exception:
             logger.exception(
                 "fetch_funding_rates failed | exchange={} symbols={}",
@@ -1002,7 +979,7 @@ class CcxtBase(ExchangeGateway):
         await self._ensure_markets_loaded(client)
         resolved = CcxtBase._resolve_market_symbol(client, symbol)
         if resolved is None:
-            logger.error(
+            logger.debug(
                 "market symbol not found for fees | exchange={} symbol={}",
                 self.exchange_id,
                 symbol,
@@ -1204,13 +1181,11 @@ class CcxtBase(ExchangeGateway):
                     continue
                 except NetworkError as error:
                     logger.debug(
-                        "watch_tickers transient, retrying | exchange={} chunk={} err={} delay_s={}",
+                        "watch_tickers transient, retrying | exchange={} chunk={} err={}",
                         self.exchange_id,
                         chunk_index,
                         type(error).__name__,
-                        self._settings.ws_reconnect_delay_seconds,
                     )
-                    await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                     continue
                 except Exception:
                     logger.exception(
@@ -1220,13 +1195,6 @@ class CcxtBase(ExchangeGateway):
                         len(chunk),
                     )
                     self._reset_markets_state(client)
-                    logger.debug(
-                        "Retrying chunk after delay | exchange={} chunk={} delay_s={}",
-                        self.exchange_id,
-                        chunk_index,
-                        self._settings.ws_reconnect_delay_seconds,
-                    )
-                    await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                     continue
                 queue.put_nowait(self._to_tickers(payload))
 
@@ -1276,13 +1244,11 @@ class CcxtBase(ExchangeGateway):
                     continue
                 except NetworkError as error:
                     logger.debug(
-                        "watch_ticker transient, retrying | exchange={} symbol={} err={} delay_s={}",
+                        "watch_ticker transient, retrying | exchange={} symbol={} err={}",
                         self.exchange_id,
                         symbol,
                         type(error).__name__,
-                        self._settings.ws_reconnect_delay_seconds,
                     )
-                    await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                     continue
                 except Exception:
                     logger.exception(
@@ -1290,13 +1256,6 @@ class CcxtBase(ExchangeGateway):
                         self.exchange_id,
                         symbol,
                     )
-                    logger.debug(
-                        "Retrying symbol after delay | exchange={} symbol={} delay_s={}",
-                        self.exchange_id,
-                        symbol,
-                        self._settings.ws_reconnect_delay_seconds,
-                    )
-                    await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
                     continue
                 queue.put_nowait((symbol, self._to_ticker(symbol, payload)))
 

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import threading
-import time
 from collections.abc import Sequence
 
 import ccxt.pro as ccxtpro
@@ -98,13 +97,6 @@ class AccountStreamWorker:
         *,
         timeout_seconds: float,
     ) -> ExchangeConnectionStatus:
-        deadline = time.monotonic() + timeout_seconds
-        while time.monotonic() < deadline:
-            statuses = self.read_statuses([exchange_id])
-            status = statuses[0]
-            if status.authenticated and status.message not in (None, "Connecting…"):
-                return status
-            time.sleep(0.2)
         return self.read_statuses([exchange_id])[0]
 
     def _thread_main(self) -> None:

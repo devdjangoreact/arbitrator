@@ -360,7 +360,9 @@ class CcxtPositionMapper:
         last_update = payload.get("lastUpdateTimestamp")
         if isinstance(last_update, (int, float)) and last_update > 0:
             return datetime.fromtimestamp(float(last_update) / 1000.0, tz=UTC)
-        return datetime.now(UTC)
+        # Return epoch-zero rather than now() — a stable sentinel that won't
+        # cause dates to change on every fetch when the exchange omits timestamps.
+        return datetime(1970, 1, 1, tzinfo=UTC)
 
     @staticmethod
     def _parse_next_funding(payload: dict[str, object]) -> datetime | None:

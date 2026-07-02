@@ -35,6 +35,7 @@ def build_index_html() -> str:
         _expand_includes(_read_partial("pages/screener.html")),
         _expand_includes(_read_partial("pages/opportunity.html")),
         _expand_includes(_read_partial("pages/orders.html")),
+        _expand_includes(_read_partial("pages/paper_trades.html")),
         _expand_includes(_read_partial("pages/settings.html")),
         "  </div>\n",
     ]

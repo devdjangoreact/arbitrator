@@ -4,7 +4,6 @@ import asyncio
 from collections.abc import AsyncIterator, Mapping, Sequence
 
 from arbitrator.config.logger import logger
-from arbitrator.config.settings import Settings
 from arbitrator.domain.named_exchange import NamedExchange
 from arbitrator.domain.ticker import Ticker
 
@@ -20,8 +19,7 @@ class MultiExchangeWatcher:
     The yielded snapshot is keyed by ``(exchange_id, symbol)``.
     """
 
-    def __init__(self, settings: Settings, exchanges: Sequence[NamedExchange]) -> None:
-        self._settings = settings
+    def __init__(self, exchanges: Sequence[NamedExchange]) -> None:
         self._exchanges = list(exchanges)
         self._state: dict[tuple[str, str], Ticker] = {}
         self._signal: asyncio.Queue[None] = asyncio.Queue()
@@ -107,7 +105,6 @@ class MultiExchangeWatcher:
                         "Failed to close gateway before reconnect | exchange={}",
                         exch.exchange_id,
                     )
-                await asyncio.sleep(self._settings.ws_reconnect_delay_seconds)
 
     async def _cancel_watchers(self) -> None:
         for task in self._tasks:

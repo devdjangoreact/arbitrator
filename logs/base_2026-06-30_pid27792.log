@@ -1,6 +1,0 @@
-2026-06-30 06:26:59 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
-2026-06-30 06:26:59 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
-2026-06-30 06:26:59 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:32] - ws connected | endpoint=/ws/screener
-2026-06-30 06:26:59 | INFO     | [arbitrator.presentation.ws.screener_ws_handler:handle:40] - ws disconnected | endpoint=/ws/screener
-2026-06-30 06:26:59 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:26] - ws connected | endpoint=/ws/orders
-2026-06-30 06:26:59 | INFO     | [arbitrator.presentation.ws.orders_ws_handler:handle:38] - ws disconnected | endpoint=/ws/orders

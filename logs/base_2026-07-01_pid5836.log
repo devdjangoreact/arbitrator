@@ -1,4 +1,0 @@
-2026-07-01 04:34:02 | INFO     | [arbitrator.application.signal_service:_open_decision:99] - signal | action=open symbol=DOGE/USDT:USDT strategy=futures_futures spread=10.0 open_thr=4.0 pct_to_deposit=49.0000
-2026-07-01 04:34:02 | INFO     | [arbitrator.application.signal_service:evaluate:55] - signal | action=close symbol=DOGE/USDT:USDT strategy=futures_futures spread=0.0500 close_thr=0.1
-2026-07-01 04:34:02 | WARNING  | [arbitrator.application.signal_service:_open_decision:81] - signal blocked | reason=anomalous_spread symbol=DOGE/USDT:USDT strategy=futures_futures spread=30.0
-2026-07-01 04:34:02 | WARNING  | [arbitrator.application.signal_service:_open_decision:91] - signal blocked | reason=checklist:same_asset symbol=DOGE/USDT:USDT strategy=futures_futures spread=10.0

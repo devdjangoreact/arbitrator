@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     aiohttp_trust_env: bool = True
     enable_rate_limit: bool = True
     watch_tickers_chunk_size: int = 50
-    watch_tickers_max_concurrent_chunks: int = 3
+    watch_tickers_max_concurrent_chunks: int = 8
     ws_reconnect_delay_seconds: float = 5.0
     ccxt_request_timeout_ms: int = 60_000
 
@@ -43,9 +43,11 @@ class Settings(BaseSettings):
     fastapi_reload: bool = False
     app_title: str = "Arbitrator"
 
-    ui_data_mode: str = "mock_data"
+    ui_data_mode: Literal["mock_data", "live", "paper"] = "mock_data"
     mock_tick_seconds: float = 1.0
     screener_ws_push_seconds: float = 1.0
+
+    paper_orders_path: Path = _DATA_DIR / "paper_orders.json"
 
     log_level: str = "INFO"
 
@@ -54,10 +56,10 @@ class Settings(BaseSettings):
     universe_ttl_hours: int = 24
     min_exchanges_per_symbol: int = 2
 
-    default_min_quote_volume_kusdt: float = 0.0
+    default_min_quote_volume_kusdt: float = 500.0
     default_min_spread_pct: float = 0.0
     stream_min_quote_volume_usdt: float = 50_000.0
-    screener_volume_discovery_seconds: float = 30.0
+    screener_volume_discovery_seconds: float = 60.0
 
     screener_table_height_px: int = 800
 
@@ -71,6 +73,27 @@ class Settings(BaseSettings):
     arb_closed_history_days: int = 30
     arb_positions_poll_seconds: int = 5
     arb_markers_path: Path = _DATA_DIR / "arb_markers.json"
+
+    # Screener auto-trader (paper mode only)
+    screener_auto_trade_enabled: bool = False
+    screener_auto_trade_max_positions: int = 3
+    screener_auto_trade_notional_usdt: float = 100.0
+    screener_auto_trade_open_spread_pct: float = 0.3
+    screener_auto_trade_close_spread_pct: float = 0.05
+    screener_auto_trade_check_seconds: float = 2.0
+    screener_auto_trade_unhedged_timeout_seconds: float = 10.0
+
+    # Liquidation guard (paper mode)
+    liq_guard_enabled: bool = True
+    liq_guard_check_interval_seconds: float = 5.0
+    liq_guard_warning_pct_to_liq: float = 80.0  # close when 80% of margin consumed
+
+    # Funding reentry (paper mode)
+    funding_reentry_enabled: bool = False
+    funding_reentry_check_interval_seconds: float = 30.0
+    funding_reentry_act_window_seconds: float = 300.0  # check when funding is within 5 min
+    funding_reentry_skip_within_seconds: float = 60.0  # do not act in last 60s before funding
+    funding_reentry_min_spread_pct: float = 0.1        # minimum spread to reopen
 
     opportunity_order_book_depth: int = 20
     opportunity_chart_window_seconds: int = 120

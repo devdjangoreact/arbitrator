@@ -15,6 +15,8 @@ const AppState = {
   opportunitySnapshot: null,
   ordersSnapshot: null,
   settingsSnapshot: null,
+  /** @type {object | null} */
+  paperTradesSnapshot: null,
 };
 
 window.AppState = AppState;

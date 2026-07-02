@@ -8,6 +8,7 @@ from arbitrator.application.opportunity_strategy_service import OpportunityStrat
 from arbitrator.application.strategy_inputs_assembler import StrategyInputsAssembler
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
+from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.strategy.quote import Quote
 from arbitrator.domain.strategy.strategy_engine import StrategyEngine
 from arbitrator.domain.strategy.strategy_math import StrategyMath
@@ -59,6 +60,22 @@ class StrategyTableService:
                     recv_time_ms=now_ms,
                 )
             )
+            # Seed funding cache from ticker when exchange streams it inline.
+            # The REST worker is authoritative (includes next_settlement_ms) but
+            # this eliminates the cold-start gap before the first REST poll.
+            if ticker.funding_rate is not None:
+                existing = self._cache.get_funding(exchange_id, symbol)
+                if existing is None or existing.rate is None:
+                    self._cache.put_funding(
+                        FundingInfo(
+                            exchange_id=exchange_id,
+                            symbol=symbol,
+                            rate=StrategyMath.to_decimal(ticker.funding_rate),
+                            next_rate=None,
+                            next_settlement_ms=None,
+                            recv_time_ms=now_ms,
+                        )
+                    )
             price = ticker.last or 0.0
             if self._last_price.get((exchange_id, symbol)) != price:
                 changed.add(symbol)
@@ -77,6 +94,9 @@ class StrategyTableService:
             len(changed),
             len(by_symbol),
         )
+        return dict(self._tables)
+
+    def read_tables(self) -> dict[str, StrategyTable]:
         return dict(self._tables)
 
     def create_opportunity_service(self) -> OpportunityStrategyService:

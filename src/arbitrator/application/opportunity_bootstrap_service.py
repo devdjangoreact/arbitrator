@@ -35,8 +35,8 @@ class OpportunityBootstrapService:
             await fee_service.snapshot(named_exchanges, [swap_symbol])
             for exchange in named_exchanges:
                 await self._refresh_funding(exchange, swap_symbol, cache)
-                futures_info = await self._fetch_market_info(exchange, swap_symbol)
-                spot_info = await self._fetch_market_info(exchange, display_symbol)
+                futures_info = await self._fetch_market_info(exchange, swap_symbol, cache)
+                spot_info = await self._fetch_market_info(exchange, display_symbol, cache)
                 session.set_market_info(
                     exchange.exchange_id,
                     futures=futures_info,
@@ -67,9 +67,13 @@ class OpportunityBootstrapService:
         self,
         exchange: NamedExchange,
         symbol: str,
+        cache: MarketDataCacheMemory,
     ) -> SymbolMarketInfo | None:
+        cached = cache.get_market_info(exchange.exchange_id, symbol)
+        if cached is not None:
+            return cached
         try:
-            return await exchange.gateway.fetch_symbol_market_info(symbol)
+            info = await exchange.gateway.fetch_symbol_market_info(symbol)
         except Exception:
             logger.exception(
                 "opportunity market info failed | exchange={} symbol={}",
@@ -77,6 +81,9 @@ class OpportunityBootstrapService:
                 symbol,
             )
             return None
+        if info is not None:
+            cache.put_market_info(info, exchange.exchange_id)
+        return info
 
     @staticmethod
     async def _close_exchanges(named_exchanges: Sequence[NamedExchange]) -> None:

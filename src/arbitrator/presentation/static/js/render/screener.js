@@ -140,6 +140,8 @@ function syncScreenerFilterInputsOnce(filters) {
   if (_screenerFiltersSynced || !filters) return;
   const streamMinInput = Dom.screener.filterStreamMin();
   if (streamMinInput) streamMinInput.value = Number(filters.stream_min_volume_usdt).toFixed(2);
+  const minVolInput = Dom.screener.filterMinVolume();
+  if (minVolInput && !minVolInput.value) minVolInput.value = Number(filters.min_volume_k_usdt).toFixed(0);
   _screenerFiltersSynced = true;
 }
 

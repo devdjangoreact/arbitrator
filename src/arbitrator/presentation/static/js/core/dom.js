@@ -51,8 +51,18 @@ const Dom = {
     exchanges: () => document.getElementById("settings-exchanges"),
     note: () => document.getElementById("settings-note"),
   },
+  paperTrades: {
+    list: () => document.getElementById("pt-list"),
+    filters: () => document.getElementById("pt-filters"),
+    status: () => document.getElementById("pt-status"),
+    openPairs: () => document.getElementById("pt-open-pairs"),
+    closedPairs: () => document.getElementById("pt-closed-pairs"),
+    totalPnl: () => document.getElementById("pt-total-pnl"),
+    totalOrders: () => document.getElementById("pt-total-orders"),
+  },
   nav: {
     ordersCount: () => document.getElementById("nav-orders-count"),
+    ptOpen: () => document.getElementById("nav-pt-open"),
   },
 };
 

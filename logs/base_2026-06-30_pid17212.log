@@ -1,6 +1,0 @@
-2026-06-30 08:49:11 | INFO     | [main:<module>:12] - Arbitrator starting | exchanges=['mexc', 'bitget', 'gate', 'bingx'] ui_data_mode=mock_data
-2026-06-30 08:49:11 | INFO     | [arbitrator.presentation.fastapi_app:create:102] - FastAPI app created | title=Arbitrator host=127.0.0.1 port=8000 ui_data_mode=mock_data
-2026-06-30 08:49:11 | INFO     | [arbitrator.application.app_runtime:start:27] - ui_data_mode=mock_data | stream workers skipped
-2026-06-30 08:49:11 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:39] - app lifespan started | ui_data_mode=mock_data
-2026-06-30 08:49:11 | ERROR    | [uvicorn.server:_serve:86] - [uvicorn.error] [Errno 10048] error while attempting to bind on address ('127.0.0.1', 8765): only one usage of each socket address (protocol/network address/port) is normally permitted
-2026-06-30 08:49:11 | INFO     | [arbitrator.presentation.fastapi_app:lifespan:45] - app lifespan stopped

@@ -179,10 +179,14 @@ class MockDataProvider:
             str(exchange_id): int(value)
             for exchange_id, value in leverage_seed.items()
         } if isinstance(leverage_seed, dict) else {}
-        self._funding_countdown_sec = int(_SEED_DATA.get("funding_countdown_sec", 0))
-        self._funding_reset_seconds = int(_SEED_DATA.get("funding_reset_seconds", 8 * 3600))
-        self._chart_window_seconds = int(_SEED_DATA.get("chart_window_seconds", 120))
-        self._chart_max_points = int(_SEED_DATA.get("chart_max_points", 61))
+        _fcd = _SEED_DATA.get("funding_countdown_sec", 0)
+        self._funding_countdown_sec = int(_fcd) if isinstance(_fcd, (int, float)) else 0
+        _frs = _SEED_DATA.get("funding_reset_seconds", 8 * 3600)
+        self._funding_reset_seconds = int(_frs) if isinstance(_frs, (int, float)) else 8 * 3600
+        _cws = _SEED_DATA.get("chart_window_seconds", 120)
+        self._chart_window_seconds = int(_cws) if isinstance(_cws, (int, float)) else 120
+        _cmp = _SEED_DATA.get("chart_max_points", 61)
+        self._chart_max_points = int(_cmp) if isinstance(_cmp, (int, float)) else 61
         tick_seed = _SEED_DATA.get("tick_settings", {})
         if not isinstance(tick_seed, dict):
             tick_seed = {}
@@ -198,11 +202,9 @@ class MockDataProvider:
         self._opportunity_row_templates = MockStrategyCalculator.build_opportunity_templates(
             [row for row in strategy_seed_list if isinstance(row, dict)]
         )
-        self._opportunity_reference_volume_usdt = float(
-            _SEED_DATA.get("opportunity_params", {}).get("accumulated_volume_usdt", 320.0)
-            if isinstance(_SEED_DATA.get("opportunity_params"), dict)
-            else 320.0
-        )
+        _opp_params = _SEED_DATA.get("opportunity_params")
+        _opp_vol = _opp_params.get("accumulated_volume_usdt", 320.0) if isinstance(_opp_params, dict) else 320.0
+        self._opportunity_reference_volume_usdt = float(_opp_vol) if isinstance(_opp_vol, (int, float)) else 320.0
         self._screener_strategy_calibrations = self._build_screener_strategy_calibrations()
         self._chart_series = self._build_chart_series()
         self._books = self._build_books()
@@ -694,14 +696,14 @@ class MockDataProvider:
             max_order_volume_usdt=market_info.max_order_volume_usdt,
             spot_min_order_volume_usdt=self._spot_volume(seed, "min"),
             spot_max_order_volume_usdt=self._spot_volume(seed, "max"),
-            balance_usdt=float(seed.get("balance_usdt", 0.0)),
-            funding_rate_pct=float(seed.get("funding_rate_pct", 0.0)),
+            balance_usdt=float(bal) if isinstance(bal := seed.get("balance_usdt", 0.0), (int, float)) else 0.0,
+            funding_rate_pct=float(fr) if isinstance(fr := seed.get("funding_rate_pct", 0.0), (int, float)) else 0.0,
             funding_countdown_sec=self._funding_countdown_sec,
             leverage=self._leverage.get(exchange_id, 10),
             futures_fee=str(seed.get("futures_fee", "")),
             spot_fee=str(seed.get("spot_fee", "")),
-            open_orders_count=int(seed.get("open_orders_count", 0)),
-            closed_orders_count=int(seed.get("closed_orders_count", 0)),
+            open_orders_count=int(oo) if isinstance(oo := seed.get("open_orders_count", 0), (int, float)) else 0,
+            closed_orders_count=int(co) if isinstance(co := seed.get("closed_orders_count", 0), (int, float)) else 0,
         )
 
     @staticmethod
