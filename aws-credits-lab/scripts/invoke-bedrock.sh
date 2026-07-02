@@ -8,6 +8,9 @@ REGION="${3:-us-east-1}"
 LAB_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$LAB_DIR"
 
+# shellcheck source=bedrock-preflight.sh
+source "$(dirname "$0")/bedrock-preflight.sh"
+
 command -v aws >/dev/null || { echo "AWS CLI required"; exit 1; }
 command -v terraform >/dev/null || { echo "Terraform required"; exit 1; }
 
@@ -25,20 +28,32 @@ case "$MODEL" in
   *)     MODEL_ID="$(terraform output -raw bedrock_sonnet_model_id)" ;;
 esac
 
+bedrock_preflight_checks "$MODEL" "$MODEL_ID" "$REGION"
+
 BODY_FILE="$(mktemp)"
 RESP_FILE="$(mktemp)"
 trap 'rm -f "$BODY_FILE" "$RESP_FILE"' EXIT
 
-cat >"$BODY_FILE" <<EOF
-{"anthropic_version":"bedrock-2023-05-31","max_tokens":128,"messages":[{"role":"user","content":"${PROMPT}"}]}
-EOF
+printf '{"anthropic_version":"bedrock-2023-05-31","max_tokens":128,"messages":[{"role":"user","content":"%s"}]}' "$PROMPT" >"$BODY_FILE"
 
 echo "Invoking model: $MODEL_ID in $REGION"
-aws bedrock-runtime invoke-model \
+echo "Prompt: $PROMPT"
+echo
+
+set +e
+invoke_output="$(aws bedrock-runtime invoke-model \
+  --region "$REGION" \
   --model-id "$MODEL_ID" \
   --content-type application/json \
   --accept application/json \
-  --body "file://$BODY_FILE" \
-  "$RESP_FILE"
+  --body "fileb://$BODY_FILE" \
+  "$RESP_FILE" 2>&1)"
+invoke_status=$?
+set -e
 
-cat "$RESP_FILE" | python -m json.tool 2>/dev/null || cat "$RESP_FILE"
+if [[ $invoke_status -ne 0 ]] || [[ ! -s "$RESP_FILE" ]]; then
+  bedrock_access_denied_help "$MODEL" "$MODEL_ID" "$REGION" "$invoke_output"
+  exit 1
+fi
+
+python -m json.tool "$RESP_FILE" 2>/dev/null || cat "$RESP_FILE"

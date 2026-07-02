@@ -9,10 +9,10 @@ locals {
   name         = var.project_prefix
   db_password  = data.external.lab_env.result.AWS_RDS_PASSWORD
 
-  # Opus 4.8 has no in-region foundation-model endpoint in us-east-1; use geo inference profiles.
+  # Geo inference profiles for frontier models are pinned to us-east-1 for this lab.
   bedrock_model_source_arn = {
-    opus   = "arn:aws:bedrock:${var.aws_region}::inference-profile/${var.bedrock_opus_model_id}"
-    sonnet = "arn:aws:bedrock:${var.aws_region}::inference-profile/${var.bedrock_sonnet_model_id}"
-    fable  = "arn:aws:bedrock:${var.aws_region}::inference-profile/${var.bedrock_fable_model_id}"
+    opus   = "arn:aws:bedrock:us-east-1::inference-profile/${var.bedrock_opus_model_id}"
+    sonnet = "arn:aws:bedrock:us-east-1::inference-profile/${var.bedrock_sonnet_model_id}"
+    fable  = "arn:aws:bedrock:us-east-1::inference-profile/${var.bedrock_fable_model_id}"
   }
 }

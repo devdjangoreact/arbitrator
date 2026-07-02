@@ -39,18 +39,32 @@ Terraform читає пароль RDS напряму з `.env` (`AWS_RDS_PASSWOR
 
 ## 2. Увімкнути доступ до моделей Bedrock (один раз)
 
-1. Відкрийте [Amazon Bedrock Console](https://console.aws.amazon.com/bedrock/) → **Model access** (або **Model catalog**).
-2. Знайдіть і увімкніть:
-   - **Claude Opus 4.8** (geo ID: `us.anthropic.claude-opus-4-8`)
-   - **Claude Sonnet 5** (geo ID: `us.anthropic.claude-sonnet-5`)
-   - **Claude Fable 5** (geo ID: `us.anthropic.claude-fable-5`)
-3. Для Anthropic моделей може знадобитися заповнити форму use case — підтвердіть доступ.
+> **Регіон:** увесь флоу — консоль, AWS CLI, Terraform provider, `invoke-bedrock` — має бути **`us-east-1` (N. Virginia)**. Не `eu-central-1` / Frankfurt: geo inference profiles для цих моделей тут не працюють.
 
-Без цього кроку `invoke-bedrock` поверне `AccessDeniedException`.
+1. Відкрийте [Amazon Bedrock Console](https://console.aws.amazon.com/bedrock/) з регіоном **US East (N. Virginia)** → **Model catalog** (сторінка Model access більше не використовується).
+2. Для кожної моделі відкрийте картку і пройдіть **Submit use case** (перший Anthropic-виклик у акаунті):
+   - **Claude Opus 4.8** — geo ID: `us.anthropic.claude-opus-4-8`
+   - **Claude Sonnet 5** — geo ID: `us.anthropic.claude-sonnet-5`
+   - **Claude Fable 5** — geo ID: `us.anthropic.claude-fable-5`
+3. **Claude Fable 5 (Mythos-class):** окремо прийміть **30-day data retention** у Bedrock Console. Без цього Fable повертає `AccessDeniedException`, навіть якщо use-case form уже подана.
+4. **Claude Fable 5** у Model catalog позначений як **RESTRICTED** — доступ може вимагати погодження з **AWS Sales** і не гарантується автоматично на trial/free tier акаунтах.
+
+Без кроків 1–2 `invoke-bedrock` поверне `AccessDeniedException` з текстом *not available for this account*. Скрипт пояснить причину (use-case / Fable retention / IAM).
+
+Перевірка регіону CLI:
+
+```powershell
+aws configure get region
+$env:AWS_DEFAULT_REGION   # має бути us-east-1 або порожньо (тоді --region us-east-1 у скрипті)
+```
 
 ## 3. Розгортання
 
+> **Credentials для Terraform:** `terraform apply` запускайте під **основним admin-ключем** акаунту (Budgets, Lambda, RDS, IAM, EC2). Ключі `aws-credits-lab-bedrock` — лише для `invoke-bedrock.ps1`, не для Terraform. Якщо після invoke у сесії лишились bedrock keys — відкрийте новий термінал або очистіть `$env:AWS_ACCESS_KEY_ID` / `$env:AWS_SECRET_ACCESS_KEY`.
+
 ```powershell
+aws sts get-caller-identity   # має бути ваш admin user/role, НЕ aws-credits-lab-bedrock
+
 terraform init
 terraform plan
 terraform apply

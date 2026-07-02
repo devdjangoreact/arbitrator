@@ -2,9 +2,14 @@
 # Terraform provisions IAM access and inference profiles; model access in the Bedrock
 # console must be enabled once per account (see README).
 
+locals {
+  # Bedrock Anthropic frontier models for this lab are pinned to us-east-1 only.
+  bedrock_region = "us-east-1"
+}
+
 data "aws_iam_policy_document" "bedrock_invoke" {
   statement {
-    sid    = "InvokeFoundationModels"
+    sid    = "InvokeLabModelsInUsEast1"
     effect = "Allow"
     actions = [
       "bedrock:InvokeModel",
@@ -13,17 +18,52 @@ data "aws_iam_policy_document" "bedrock_invoke" {
       "bedrock:ConverseStream",
     ]
     resources = [
-      "arn:aws:bedrock:*::foundation-model/*",
-      "arn:aws:bedrock:*:${local.account_id}:inference-profile/*",
+      "arn:aws:bedrock:${local.bedrock_region}::foundation-model/anthropic.claude-opus-4-8*",
+      "arn:aws:bedrock:${local.bedrock_region}::foundation-model/anthropic.claude-sonnet-5*",
+      "arn:aws:bedrock:${local.bedrock_region}::foundation-model/anthropic.claude-fable-5*",
+      "arn:aws:bedrock:*:${local.account_id}:inference-profile/us.anthropic.claude-*",
+      "arn:aws:bedrock:*:${local.account_id}:application-inference-profile/*",
     ]
   }
 
   statement {
-    sid    = "ListModels"
+    sid    = "InvokeCrossRegionFoundationModels"
     effect = "Allow"
     actions = [
+      "bedrock:InvokeModel",
+      "bedrock:InvokeModelWithResponseStream",
+      "bedrock:Converse",
+      "bedrock:ConverseStream",
+    ]
+    resources = [
+      "arn:aws:bedrock:*::foundation-model/anthropic.claude-opus-4-8*",
+      "arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-5*",
+      "arn:aws:bedrock:*::foundation-model/anthropic.claude-fable-5*",
+      "arn:aws:bedrock:*::inference-profile/us.anthropic.claude-*",
+    ]
+  }
+
+  statement {
+    sid    = "ReadModelsAndProfiles"
+    effect = "Allow"
+    actions = [
+      "bedrock:GetInferenceProfile",
       "bedrock:ListFoundationModels",
       "bedrock:GetFoundationModel",
+    ]
+    resources = [
+      "arn:aws:bedrock:*:${local.account_id}:inference-profile/*",
+      "arn:aws:bedrock:*:${local.account_id}:application-inference-profile/*",
+      "arn:aws:bedrock:*::foundation-model/*",
+      "arn:aws:bedrock:*::inference-profile/*",
+    ]
+  }
+
+  statement {
+    sid    = "ReadAccountBedrockSettings"
+    effect = "Allow"
+    actions = [
+      "bedrock:GetAccountDataRetention",
     ]
     resources = ["*"]
   }
@@ -31,7 +71,7 @@ data "aws_iam_policy_document" "bedrock_invoke" {
 
 resource "aws_iam_policy" "bedrock_invoke" {
   name        = "${local.name}-bedrock-invoke"
-  description = "Allow invoking Bedrock foundation models for credits lab"
+  description = "Allow invoking Bedrock lab models in us-east-1 (Invoke API + cross-region routing)"
   policy      = data.aws_iam_policy_document.bedrock_invoke.json
 }
 

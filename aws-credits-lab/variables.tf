@@ -1,7 +1,12 @@
 variable "aws_region" {
-  description = "AWS region for all lab resources. Bedrock Anthropic models are available in us-east-1."
+  description = "AWS region for all lab resources. Must be us-east-1 (Bedrock frontier models for this lab)."
   type        = string
   default     = "us-east-1"
+
+  validation {
+    condition     = var.aws_region == "us-east-1"
+    error_message = "aws-credits-lab requires aws_region = \"us-east-1\" (Bedrock Opus/Sonnet/Fable geo profiles)."
+  }
 }
 
 variable "project_prefix" {
