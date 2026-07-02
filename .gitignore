@@ -1,6 +1,7 @@
 # Personal overrides — never commit
 *.local.*
 .cursor/settings.local.json
+.claude/settings.local.json
 
 # Secrets
 .env

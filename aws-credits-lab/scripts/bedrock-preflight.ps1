@@ -7,25 +7,38 @@ function Invoke-AwsCliText {
         [string[]]$ArgumentList
     )
 
-    $previousPreference = $ErrorActionPreference
-    $ErrorActionPreference = "SilentlyContinue"
-    try {
-        $raw = & aws @ArgumentList 2>&1
-        $lines = @(
-            foreach ($item in @($raw)) {
-                if ($item -is [System.Management.Automation.ErrorRecord]) {
-                    $item.ToString()
-                } else {
-                    [string]$item
-                }
+    $quotedArgs = @(
+        foreach ($arg in $ArgumentList) {
+            if ($arg -match '[\s"]') {
+                '"' + ($arg -replace '"', '\"') + '"'
+            } else {
+                $arg
             }
-        )
+        }
+    ) -join ' '
+
+    $stderrPath = Join-Path $env:TEMP "aws-cli-stderr.txt"
+    $stdoutPath = Join-Path $env:TEMP "aws-cli-stdout.txt"
+    Remove-Item $stderrPath, $stdoutPath -ErrorAction SilentlyContinue
+
+    try {
+        $proc = Start-Process -FilePath "aws" `
+            -ArgumentList $quotedArgs `
+            -RedirectStandardOutput $stdoutPath `
+            -RedirectStandardError $stderrPath `
+            -NoNewWindow `
+            -PassThru `
+            -Wait
+
+        $stderr = if (Test-Path $stderrPath) { Get-Content $stderrPath -Raw } else { "" }
+        $stdout = if (Test-Path $stdoutPath) { Get-Content $stdoutPath -Raw } else { "" }
+        $combined = @($stderr, $stdout) -join [Environment]::NewLine
         return [PSCustomObject]@{
-            ExitCode = $LASTEXITCODE
-            Output   = ($lines -join [Environment]::NewLine).Trim()
+            ExitCode = $proc.ExitCode
+            Output   = $combined.Trim()
         }
     } finally {
-        $ErrorActionPreference = $previousPreference
+        Remove-Item $stderrPath, $stdoutPath -ErrorAction SilentlyContinue
     }
 }
 
