@@ -182,11 +182,20 @@ class AppRuntime:
             bot_token=self._settings.telegram_bot_token,
             chat_id=self._settings.telegram_chat_id,
         )
+        universe_snapshot = JsonSymbolUniverseRepository(
+            path=self._settings.symbols_universe_path
+        ).load()
+        universe = (
+            {ex: set(syms) for ex, syms in universe_snapshot.exchanges.items()}
+            if universe_snapshot is not None
+            else None
+        )
         exec_service = HedgedExecutionService(
             gateways=gateways,
             settings=self._settings,
             market_cache=self.market_cache,
             notifier=notifier,
+            universe=universe,
         )
         self.live_auto_trader = LiveAutoTrader(
             settings=self._settings,

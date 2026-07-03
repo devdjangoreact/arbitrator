@@ -42,6 +42,7 @@ class HedgedExecutionService:
         market_cache: MarketDataCacheMemory | None = None,
         dry_run: bool = False,
         notifier: TelegramNotifier | None = None,
+        universe: dict[str, set[str]] | None = None,
     ) -> None:
         self._gateways = gateways
         self._settings = settings
@@ -49,6 +50,7 @@ class HedgedExecutionService:
         self._dry_run = dry_run
         self._tolerance = Decimal(str(settings.leg_imbalance_tolerance_pct))
         self._notifier = notifier
+        self._universe = universe
 
     def _contract_size_for(self, symbol: str, exchange_id: str) -> Decimal:
         """Return contract_size from cache, fallback 1 (= tokens == contracts)."""
@@ -263,6 +265,11 @@ class HedgedExecutionService:
         long_gw = self._gateways.get(long_exchange_id)
         if short_gw is None or long_gw is None:
             return self._failed(action, symbol, "gateway_missing")
+        if self._universe is not None:
+            if symbol not in self._universe.get(short_exchange_id, set()):
+                return self._failed(action, symbol, "not_in_universe_short")
+            if symbol not in self._universe.get(long_exchange_id, set()):
+                return self._failed(action, symbol, "not_in_universe_long")
 
         if self._dry_run:
             return self._simulated_enter(
