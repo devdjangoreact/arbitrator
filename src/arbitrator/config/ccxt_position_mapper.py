@@ -81,7 +81,7 @@ class CcxtPositionMapper:
         side = payload.get("side")
         if not isinstance(symbol, str) or side not in ("long", "short"):
             return None
-        closed_at = CcxtPositionMapper._parse_datetime(payload)
+        closed_at = CcxtPositionMapper._parse_closed_at(payload)
         opened_at = CcxtPositionMapper._parse_opened_at(payload)
         realized = CcxtPositionMapper._extract_realized_pnl(payload)
         effective_commission = commission
@@ -151,10 +151,21 @@ class CcxtPositionMapper:
         """True for filled/closed positions; false for canceled or still-open rows."""
         if CcxtPositionMapper._payload_has_cancelled_status(payload):
             return False
+        info = payload.get("info")
+        # Gate position history: has realizedPnl and short_price/long_price — always closed.
+        if isinstance(info, dict) and (
+            info.get("short_price") is not None or info.get("long_price") is not None
+        ):
+            return True
         contracts = CcxtPositionMapper._as_float(payload.get("contracts"))
         if contracts is not None and contracts > 0.0:
+            # Position history endpoints may report the traded size in contracts
+            # while being closed. Only reject if there's no realizedPnl indicating closure.
+            rpnl = CcxtPositionMapper._as_float(payload.get("realizedPnl"))
+            last_update = payload.get("lastUpdateTimestamp")
+            if rpnl is not None and rpnl != 0.0 and last_update is not None:
+                return True
             return False
-        info = payload.get("info")
         if isinstance(info, dict):
             hold_vol = CcxtPositionMapper._as_float(info.get("holdVol"))
             if hold_vol is not None and hold_vol > 0.0:
@@ -210,7 +221,7 @@ class CcxtPositionMapper:
             close_fee = CcxtPositionMapper._as_float(info.get("closeFeeTotal"))
             if open_fee is not None or close_fee is not None:
                 return abs(open_fee or 0.0) + abs(close_fee or 0.0)
-            for key in ("fee", "commission"):
+            for key in ("fee", "commission", "pnl_fee"):
                 amount = CcxtPositionMapper._as_float(info.get(key))
                 if amount is not None:
                     return abs(amount)
@@ -224,7 +235,7 @@ class CcxtPositionMapper:
                 return value
         info = payload.get("info")
         if isinstance(info, dict):
-            for key in ("holdFee", "totalFunding", "fundingFee"):
+            for key in ("holdFee", "totalFunding", "fundingFee", "pnl_fund"):
                 value = CcxtPositionMapper._as_float(info.get(key))
                 if value is not None:
                     return value
@@ -238,10 +249,19 @@ class CcxtPositionMapper:
                 volume = CcxtPositionMapper._as_float(info.get(key))
                 if volume is not None and volume > 0.0:
                     return volume
+            # Gate position history: accum_size or max_size
+            for key in ("accum_size", "max_size"):
+                volume = CcxtPositionMapper._as_float(info.get(key))
+                if volume is not None and volume > 0.0:
+                    return volume
         for key in ("closeVol", "closeTotalPos", "closedSize"):
             volume = CcxtPositionMapper._as_float(payload.get(key))
             if volume is not None and volume > 0.0:
                 return volume
+        # Fallback: use contracts field (position history may put closed size here)
+        contracts = CcxtPositionMapper._as_float(payload.get("contracts"))
+        if contracts is not None and contracts > 0.0:
+            return contracts
         return None
 
     @staticmethod
@@ -256,6 +276,12 @@ class CcxtPositionMapper:
                 value = CcxtPositionMapper._as_float(info.get(key))
                 if value is not None:
                     return value
+            # Gate position history: long_price=entry for long, short_price=entry for short
+            side = payload.get("side")
+            entry_key = "long_price" if side == "long" else "short_price"
+            value = CcxtPositionMapper._as_float(info.get(entry_key))
+            if value is not None:
+                return value
         return None
 
     @staticmethod
@@ -270,6 +296,12 @@ class CcxtPositionMapper:
                 value = CcxtPositionMapper._as_float(info.get(key))
                 if value is not None:
                     return value
+            # Gate position history: short_price=exit for long, long_price=exit for short
+            side = payload.get("side")
+            exit_key = "short_price" if side == "long" else "long_price"
+            value = CcxtPositionMapper._as_float(info.get(exit_key))
+            if value is not None:
+                return value
         return None
 
     @staticmethod
@@ -280,6 +312,10 @@ class CcxtPositionMapper:
                 ts = CcxtPositionMapper._as_float(info.get(key))
                 if ts is not None and ts > 0:
                     return datetime.fromtimestamp(float(ts) / 1000.0, tz=UTC)
+            # Gate: first_open_time in UNIX seconds
+            fot = CcxtPositionMapper._as_float(info.get("first_open_time"))
+            if fot is not None and fot > 1_000_000_000:
+                return datetime.fromtimestamp(float(fot), tz=UTC)
         opened_at_raw = payload.get("timestamp")
         if isinstance(opened_at_raw, (int, float)) and opened_at_raw > 0:
             return datetime.fromtimestamp(float(opened_at_raw) / 1000.0, tz=UTC)
@@ -344,6 +380,20 @@ class CcxtPositionMapper:
             if marker is not None:
                 return marker
         return None
+
+    @staticmethod
+    def _parse_closed_at(payload: dict[str, object]) -> datetime:
+        """Parse close timestamp — prefer lastUpdateTimestamp (actual close time)."""
+        last_update = payload.get("lastUpdateTimestamp")
+        if isinstance(last_update, (int, float)) and last_update > 0:
+            return datetime.fromtimestamp(float(last_update) / 1000.0, tz=UTC)
+        info = payload.get("info")
+        if isinstance(info, dict):
+            # Gate: time field in UNIX seconds
+            t = CcxtPositionMapper._as_float(info.get("time"))
+            if t is not None and t > 1_000_000_000:
+                return datetime.fromtimestamp(float(t), tz=UTC)
+        return CcxtPositionMapper._parse_datetime(payload)
 
     @staticmethod
     def _parse_datetime(payload: dict[str, object]) -> datetime:

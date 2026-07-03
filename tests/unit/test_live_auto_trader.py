@@ -6,6 +6,7 @@ Collaborators are minimal async fakes.
 from __future__ import annotations
 
 import asyncio
+import time
 from decimal import Decimal
 from typing import Any, Literal
 from unittest.mock import AsyncMock, MagicMock
@@ -15,6 +16,8 @@ import pytest
 from arbitrator.application.live_auto_trader import LiveAutoTrader
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.settings import Settings
+from arbitrator.domain.order_book_level import OrderBookLevel
+from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
 from arbitrator.domain.position_leg import PositionLeg
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
 from arbitrator.domain.strategy.quote import Quote
@@ -59,10 +62,11 @@ def _ticker(symbol: str, last: float, bid: float | None = None, ask: float | Non
 
 
 def _quote(exchange_id: str, symbol: str, bid: float, ask: float) -> Quote:
+    import time as _time
     return Quote(
         exchange_id=exchange_id, symbol=symbol, market_type="futures",
         bid=Decimal(str(bid)), ask=Decimal(str(ask)),
-        last=Decimal(str((bid + ask) / 2)), recv_time_ms=1_000,
+        last=Decimal(str((bid + ask) / 2)), recv_time_ms=int(_time.time() * 1000),
     )
 
 
@@ -109,9 +113,28 @@ class _FakeScreener:
 # Fake gateway
 # ---------------------------------------------------------------------------
 
+def _order_book(exchange_id: str, symbol: str, bid: float, ask: float) -> OrderBookSnapshot:
+    return OrderBookSnapshot(
+        exchange_id=exchange_id,
+        symbol=symbol,
+        timestamp_ms=int(time.time() * 1000),
+        bids=(OrderBookLevel(price=bid, size=10000.0),),
+        asks=(OrderBookLevel(price=ask, size=10000.0),),
+    )
+
+
 class _FakeGateway:
-    def __init__(self, positions: list[PositionLeg] | None = None) -> None:
+    def __init__(
+        self,
+        positions: list[PositionLeg] | None = None,
+        exchange_id: str = "",
+        book_bid: float = 0.0,
+        book_ask: float = 0.0,
+    ) -> None:
         self._positions = positions or []
+        self._exchange_id = exchange_id
+        self._book_bid = book_bid
+        self._book_ask = book_ask
         self.open_calls: list[tuple[str, str, float, str]] = []
         self.close_calls: list[PositionLeg] = []
 
@@ -127,6 +150,9 @@ class _FakeGateway:
 
     async def fetch_open_positions(self) -> list[PositionLeg]:
         return list(self._positions)
+
+    async def fetch_order_book_once(self, symbol: str, limit: int) -> OrderBookSnapshot:
+        return _order_book(self._exchange_id, symbol, self._book_bid, self._book_ask)
 
 
 # ---------------------------------------------------------------------------
@@ -144,7 +170,10 @@ class _FakeExecService:
         self.open_calls: list[dict[str, Any]] = []
         self.close_calls: list[dict[str, Any]] = []
         self._open_status = open_status
-        self._gateways = gateways or {SHORT_EX: _FakeGateway(), LONG_EX: _FakeGateway()}
+        self._gateways = gateways or {
+            SHORT_EX: _FakeGateway(exchange_id=SHORT_EX, book_bid=SHORT_PRICE, book_ask=SHORT_PRICE + 0.1),
+            LONG_EX: _FakeGateway(exchange_id=LONG_EX, book_bid=LONG_PRICE - 0.1, book_ask=LONG_PRICE),
+        }
 
     async def open(self, **kwargs: Any) -> ExecutionOutcome:
         self.open_calls.append(kwargs)
@@ -177,6 +206,7 @@ def _make_trader(
         execution_service=exec_service,  # type: ignore[arg-type]
         market_cache=cache,
         token_identity=None,
+        gateways=exec_service._gateways,  # type: ignore[arg-type]
     )
     return trader
 
@@ -196,8 +226,8 @@ def _cache_with_data(
 
 def _tickers(short: float = SHORT_PRICE, long: float = LONG_PRICE) -> dict[tuple[str, str], Ticker]:
     return {
-        (SHORT_EX, SYM): _ticker(SYM, short, bid=short),
-        (LONG_EX, SYM): _ticker(SYM, long, ask=long),
+        (SHORT_EX, SYM): _ticker(SYM, short, bid=short, ask=short + 0.1),
+        (LONG_EX, SYM): _ticker(SYM, long, bid=long - 0.1, ask=long),
     }
 
 
@@ -250,12 +280,14 @@ class TestOpenPass:
 
         assert len(exec_svc.open_calls) == 0
 
-    def test_skips_when_fresh_spread_dropped(self) -> None:
-        """Ticker snapshot: 5% spread. Fresh cache: collapsed to 0.5% → skip."""
+    def test_skips_when_book_spread_dropped(self) -> None:
+        """Ticker snapshot: 5% spread. Order book: collapsed to 0.1% → skip."""
         settings = _settings(screener_auto_trade_open_spread_pct=3.0)
-        # Fresh cache has near-zero spread
         cache = _cache_with_data(short_bid=100.1, long_ask=100.0)
-        exec_svc = _FakeExecService()
+        exec_svc = _FakeExecService(gateways={
+            SHORT_EX: _FakeGateway(exchange_id=SHORT_EX, book_bid=100.1, book_ask=100.2),
+            LONG_EX: _FakeGateway(exchange_id=LONG_EX, book_bid=99.9, book_ask=100.0),
+        })
         trader = _make_trader(settings, _FakeScreener(_tickers()), exec_svc, cache)
 
         asyncio.run(trader._tick())
@@ -265,13 +297,15 @@ class TestOpenPass:
     def test_anomaly_spread_blocked(self) -> None:
         """Fresh spread > anomaly_max (20%) must be blocked."""
         settings = _settings(anomaly_max_spread_pct=20.0, screener_auto_trade_open_spread_pct=3.0)
-        # 277% spread — different tokens
         cache = _cache_with_data(short_bid=0.267, long_ask=0.071)
         tickers = {
-            (SHORT_EX, SYM): _ticker(SYM, 0.267, bid=0.267),
-            (LONG_EX, SYM): _ticker(SYM, 0.071, ask=0.071),
+            (SHORT_EX, SYM): _ticker(SYM, 0.267, bid=0.267, ask=0.268),
+            (LONG_EX, SYM): _ticker(SYM, 0.071, bid=0.070, ask=0.071),
         }
-        exec_svc = _FakeExecService()
+        exec_svc = _FakeExecService(gateways={
+            SHORT_EX: _FakeGateway(exchange_id=SHORT_EX, book_bid=0.267, book_ask=0.268),
+            LONG_EX: _FakeGateway(exchange_id=LONG_EX, book_bid=0.070, book_ask=0.071),
+        })
         trader = _make_trader(settings, _FakeScreener(tickers), exec_svc, cache)
 
         asyncio.run(trader._tick())

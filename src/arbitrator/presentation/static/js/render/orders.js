@@ -17,6 +17,19 @@ function renderOrdersSnapshot(payload) {
   if (openLabel) openLabel.textContent = String(summary.open_count ?? "—");
   updateOrdersNavBadge(summary.open_count);
 
+  // Render totals bar
+  const totalsEl = document.getElementById("orders-totals");
+  if (totalsEl) {
+    const pnl = summary.total_pnl_usdt || 0;
+    const fees = summary.total_fees_usdt || 0;
+    const funding = summary.total_funding_usdt || 0;
+    const pnlCls = pnl >= 0 ? "pos" : "neg";
+    totalsEl.innerHTML = `
+      <span>Всього PnL: <b class="${pnlCls}">${pnl >= 0 ? "+" : ""}${pnl.toFixed(4)}</b> USDT</span>
+      <span>Комісії: <b>${fees.toFixed(4)}</b></span>
+      <span>Фандінг: <b>${funding >= 0 ? "+" : ""}${funding.toFixed(4)}</b></span>`;
+  }
+
   const groups = payload.groups || [];
   if (!groups.length) {
     list.replaceChildren();

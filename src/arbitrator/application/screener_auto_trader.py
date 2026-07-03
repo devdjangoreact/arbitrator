@@ -7,6 +7,7 @@ from arbitrator.application.market_data_cache_memory import MarketDataCacheMemor
 from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
 from arbitrator.application.screener_stream_worker import ScreenerStreamWorker
 from arbitrator.application.token_identity_service import TokenIdentityService
+from arbitrator.domain.order_book_level import OrderBookLevel
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 
@@ -117,17 +118,19 @@ class ScreenerAutoTrader:
         info = self._market_cache.get_market_info(exchange_id, symbol)
         if info is None:
             return None
-        if info.min_order_volume_usdt is not None:
-            return info.min_order_volume_usdt
-        # Fallback: contract-unit minimum × live price
+        from_contracts: float | None = None
         if (
             info.min_amount_contracts is not None
             and info.contract_size > 0.0
             and live_price is not None
             and live_price > 0.0
         ):
-            return info.min_amount_contracts * info.contract_size * live_price
-        return None
+            from_contracts = info.min_amount_contracts * info.contract_size * live_price
+        if info.min_order_volume_usdt is not None and from_contracts is not None:
+            return max(info.min_order_volume_usdt, from_contracts)
+        if info.min_order_volume_usdt is not None:
+            return info.min_order_volume_usdt
+        return from_contracts
 
     def _resolve_min_notional(
         self,
@@ -499,6 +502,11 @@ class ScreenerAutoTrader:
                         f"{notional_usdt:.2f}<{info.min_order_volume_usdt:.2f}"
                     )
 
+        # 6 — order book depth: each side must have >= notional*10 within 1% of best price
+        depth_rejection = self._check_order_book_depth(symbol, exchange_a, exchange_b, notional_usdt)
+        if depth_rejection is not None:
+            return depth_rejection
+
         # 5 — contract address identity check (strongest guarantee)
         if self._token_identity is not None:
             result = self._token_identity.compare(expected_base, exchange_a, exchange_b)
@@ -515,3 +523,69 @@ class ScreenerAutoTrader:
                 )
 
         return None
+
+    def _check_order_book_depth(
+        self,
+        symbol: str,
+        exchange_a: str,
+        exchange_b: str,
+        notional_usdt: float,
+    ) -> str | None:
+        """Return rejection reason if either exchange lacks sufficient order book depth.
+
+        Required depth = notional_usdt * 10 within 1% of best bid/ask price.
+        Uses cached OrderBookSnapshot — no extra network requests.
+        Returns None (pass) when no book is cached yet (fail-open for first tick).
+        """
+        if self._market_cache is None:
+            return None
+        required = notional_usdt * 2.0
+        for exchange_id in (exchange_a, exchange_b):
+            book = self._market_cache.get_order_book(exchange_id, symbol)
+            if book is None:
+                logger.debug(
+                    "order book depth check skipped: no cached book | sym={} ex={}",
+                    symbol, exchange_id,
+                )
+                continue
+            ask_depth = self._side_depth_usdt(book.asks, price_limit_pct=0.004)
+            bid_depth = self._side_depth_usdt(book.bids, price_limit_pct=0.004)
+            logger.debug(
+                "order book depth | sym={} ex={} bid_depth={:.0f} ask_depth={:.0f} required={:.0f}",
+                symbol, exchange_id, bid_depth, ask_depth, required,
+            )
+            if ask_depth < required:
+                logger.warning(
+                    "auto open blocked: insufficient ask depth | sym={} ex={} "
+                    "ask_depth={:.0f} required={:.0f}",
+                    symbol, exchange_id, ask_depth, required,
+                )
+                return f"insufficient_ask_depth:{exchange_id}:{ask_depth:.0f}<{required:.0f}"
+            if bid_depth < required:
+                logger.warning(
+                    "auto open blocked: insufficient bid depth | sym={} ex={} "
+                    "bid_depth={:.0f} required={:.0f}",
+                    symbol, exchange_id, bid_depth, required,
+                )
+                return f"insufficient_bid_depth:{exchange_id}:{bid_depth:.0f}<{required:.0f}"
+        return None
+
+    @staticmethod
+    def _side_depth_usdt(
+        levels: tuple[OrderBookLevel, ...],
+        price_limit_pct: float,
+    ) -> float:
+        """Sum USDT value of levels within price_limit_pct of the best price."""
+        if not levels:
+            return 0.0
+        best = levels[0].price
+        if best <= 0.0:
+            return 0.0
+        cutoff_high = best * (1.0 + price_limit_pct)
+        cutoff_low = best * (1.0 - price_limit_pct)
+        total = 0.0
+        for level in levels:
+            if level.price < cutoff_low or level.price > cutoff_high:
+                break
+            total += level.price * level.size
+        return total

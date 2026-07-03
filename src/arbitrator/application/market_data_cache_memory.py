@@ -3,6 +3,7 @@ from __future__ import annotations
 import threading
 from typing import Literal
 
+from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.strategy.quote import Quote
@@ -24,6 +25,7 @@ class MarketDataCacheMemory:
         self._funding: dict[tuple[str, str], FundingInfo] = {}
         self._fees: dict[tuple[str, str], FeeSchedule] = {}
         self._market_info: dict[tuple[str, str], SymbolMarketInfo] = {}
+        self._order_books: dict[tuple[str, str], OrderBookSnapshot] = {}
 
     def put_quote(self, quote: Quote) -> None:
         key = (quote.exchange_id, quote.symbol, quote.market_type)
@@ -62,3 +64,11 @@ class MarketDataCacheMemory:
     def get_market_info(self, exchange_id: str, symbol: str) -> SymbolMarketInfo | None:
         with self._lock:
             return self._market_info.get((exchange_id, symbol))
+
+    def put_order_book(self, book: OrderBookSnapshot) -> None:
+        with self._lock:
+            self._order_books[(book.exchange_id, book.symbol)] = book
+
+    def get_order_book(self, exchange_id: str, symbol: str) -> OrderBookSnapshot | None:
+        with self._lock:
+            return self._order_books.get((exchange_id, symbol))

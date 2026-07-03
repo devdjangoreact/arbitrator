@@ -40,6 +40,8 @@ class OpportunityCacheSeeder:
                 market_type=market_type,
                 now_ms=now_ms,
             )
+            if market_type == "futures":
+                cache.put_order_book(book)
 
     @staticmethod
     def _put_ticker_quote(

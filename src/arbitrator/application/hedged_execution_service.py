@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import uuid
 from collections.abc import Mapping
 from decimal import Decimal
@@ -7,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
+from arbitrator.config.telegram_notifier import TelegramNotifier
 from arbitrator.domain.position_leg import PositionLeg
 from arbitrator.domain.strategy.execution_outcome import (
     ExecutionOutcome,
@@ -39,12 +41,90 @@ class HedgedExecutionService:
         *,
         market_cache: MarketDataCacheMemory | None = None,
         dry_run: bool = False,
+        notifier: TelegramNotifier | None = None,
     ) -> None:
         self._gateways = gateways
         self._settings = settings
         self._market_cache = market_cache
         self._dry_run = dry_run
         self._tolerance = Decimal(str(settings.leg_imbalance_tolerance_pct))
+        self._notifier = notifier
+
+    def _contract_size_for(self, symbol: str, exchange_id: str) -> Decimal:
+        """Return contract_size from cache, fallback 1 (= tokens == contracts)."""
+        if self._market_cache is None:
+            return Decimal("1")
+        info = self._market_cache.get_market_info(exchange_id, symbol)
+        if info is None or info.contract_size <= 0.0:
+            return Decimal("1")
+        return Decimal(str(info.contract_size))
+
+    def _amount_step_for(self, symbol: str, exchange_id: str) -> float | None:
+        """Return amount_step (precision.amount) from cache."""
+        if self._market_cache is None:
+            return None
+        info = self._market_cache.get_market_info(exchange_id, symbol)
+        if info is None:
+            return None
+        return info.amount_step
+
+    def _harmonize_amounts(
+        self,
+        symbol: str,
+        short_exchange_id: str,
+        long_exchange_id: str,
+        notional_usdt: Decimal,
+        price: Decimal,
+    ) -> tuple[float, float] | None:
+        """Pre-compute contract amounts for both legs that produce equal token exposure.
+
+        Floors each leg to its exchange step, then picks the minimum token amount
+        both can represent. Returns (short_contracts, long_contracts) or None if
+        either rounds to zero.
+        """
+        short_cs = self._contract_size_for(symbol, short_exchange_id)
+        long_cs = self._contract_size_for(symbol, long_exchange_id)
+        short_step = self._amount_step_for(symbol, short_exchange_id)
+        long_step = self._amount_step_for(symbol, long_exchange_id)
+
+        # Target tokens from notional
+        target_tokens = float(notional_usdt / price)
+
+        # Convert to contracts and floor to each exchange's step
+        short_contracts_raw = target_tokens / float(short_cs)
+        long_contracts_raw = target_tokens / float(long_cs)
+
+        if short_step and short_step > 0:
+            short_contracts = math.floor(short_contracts_raw / short_step) * short_step
+        else:
+            short_contracts = short_contracts_raw
+        if long_step and long_step > 0:
+            long_contracts = math.floor(long_contracts_raw / long_step) * long_step
+        else:
+            long_contracts = long_contracts_raw
+
+        # Actual tokens each leg can represent after rounding
+        short_tokens = short_contracts * float(short_cs)
+        long_tokens = long_contracts * float(long_cs)
+
+        # Use the minimum of both to ensure balanced exposure
+        min_tokens = min(short_tokens, long_tokens)
+        if min_tokens <= 0:
+            return None
+
+        # Re-derive contracts from the harmonized token amount
+        short_final = min_tokens / float(short_cs)
+        long_final = min_tokens / float(long_cs)
+
+        # Floor again to step (in case of floating point)
+        if short_step and short_step > 0:
+            short_final = math.floor(short_final / short_step) * short_step
+        if long_step and long_step > 0:
+            long_final = math.floor(long_final / long_step) * long_step
+
+        if short_final <= 0 or long_final <= 0:
+            return None
+        return short_final, long_final
 
     def _min_notional_for_exchange(
         self,
@@ -168,9 +248,17 @@ class HedgedExecutionService:
             return self._failed(action, symbol, "market_info_missing")
         if price <= _ZERO or effective_notional <= _ZERO:
             return self._failed(action, symbol, "invalid_sizing")
-        # Short opens first at USDT notional using the short-side price.
-        # Long opens for exactly the same token amount derived from the short.
-        short_amount = effective_notional / price
+        # Pre-compute harmonized contract amounts so both legs get equal token exposure
+        # after each exchange floors to its lot step.
+        harmonized = self._harmonize_amounts(
+            symbol, short_exchange_id, long_exchange_id, effective_notional, price
+        )
+        if harmonized is None:
+            return self._failed(action, symbol, "amount_rounds_to_zero")
+        short_amount_f, long_amount_planned = harmonized
+        short_amount = Decimal(str(short_amount_f))
+        short_cs = self._contract_size_for(symbol, short_exchange_id)
+        long_cs = self._contract_size_for(symbol, long_exchange_id)
         short_gw = self._gateways.get(short_exchange_id)
         long_gw = self._gateways.get(long_exchange_id)
         if short_gw is None or long_gw is None:
@@ -182,6 +270,12 @@ class HedgedExecutionService:
             )
 
         coid = uuid.uuid4().hex[:12]
+        logger["trades/live_trades.log"].debug(
+            "ORDER_SEND short | sym={} ex={} side=sell amount={} coid=HX-{}-S"
+            " effective_notional={} price={} long_planned={}",
+            symbol, short_exchange_id, float(short_amount), coid,
+            effective_notional, price, long_amount_planned,
+        )
         before_short = await self._position_base(short_gw, symbol)
         try:
             short_oid = await short_gw.open_market_position(
@@ -189,11 +283,32 @@ class HedgedExecutionService:
             )
         except Exception:
             logger.exception("hedge open short failed | symbol={} ex={}", symbol, short_exchange_id)
+            logger["trades/live_trades.log"].error(
+                "ORDER_FAIL short | sym={} ex={} coid=HX-{}-S amount={}",
+                symbol, short_exchange_id, coid, float(short_amount),
+            )
             return self._failed(action, symbol, "short_leg_failed")
         filled_short = abs(await self._position_base(short_gw, symbol) - before_short)
+        logger["trades/live_trades.log"].debug(
+            "ORDER_FILL short | sym={} ex={} order_id={} requested={} filled={}",
+            symbol, short_exchange_id, short_oid, float(short_amount), filled_short,
+        )
 
-        # Long opens for the actual filled short amount to stay delta-neutral.
-        long_amount = filled_short if filled_short > _ZERO else short_amount
+        # Use filled short tokens to determine long amount (delta-neutral).
+        # Floor to long exchange step to avoid the exchange rounding unpredictably.
+        filled_short_tokens = filled_short
+        long_step = self._amount_step_for(symbol, long_exchange_id)
+        if filled_short_tokens > _ZERO:
+            raw_long = float(filled_short_tokens / long_cs)
+            if long_step and long_step > 0:
+                raw_long = math.floor(raw_long / long_step) * long_step
+            long_amount = Decimal(str(raw_long))
+        else:
+            long_amount = Decimal(str(long_amount_planned))
+        logger["trades/live_trades.log"].debug(
+            "ORDER_SEND long | sym={} ex={} side=buy amount={} coid=HX-{}-L",
+            symbol, long_exchange_id, float(long_amount), coid,
+        )
         before_long = await self._position_base(long_gw, symbol)
         try:
             long_oid = await long_gw.open_market_position(
@@ -201,11 +316,19 @@ class HedgedExecutionService:
             )
         except Exception:
             logger.exception("hedge open long failed | symbol={} ex={}", symbol, long_exchange_id)
+            logger["trades/live_trades.log"].error(
+                "ORDER_FAIL long | sym={} ex={} coid=HX-{}-L amount={} short_filled={}",
+                symbol, long_exchange_id, coid, float(long_amount), filled_short,
+            )
             return await self._rollback_open(
                 action, symbol, short_exchange_id, long_exchange_id,
                 short_gw, short_oid, short_amount, filled_short,
             )
         filled_long = abs(await self._position_base(long_gw, symbol) - before_long)
+        logger["trades/live_trades.log"].debug(
+            "ORDER_FILL long | sym={} ex={} order_id={} requested={} filled={}",
+            symbol, long_exchange_id, long_oid, float(long_amount), filled_long,
+        )
 
         short_leg = LegExecution(
             exchange_id=short_exchange_id, side="sell", symbol=symbol,
@@ -221,6 +344,15 @@ class HedgedExecutionService:
             "hedge {} | symbol={} filled_short={} filled_long={} imbalance_pct={} status={}",
             action, symbol, filled_short, filled_long, imbalance, status.value,
         )
+        if self._notifier is not None:
+            emoji = "✅" if status == ExecutionStatus.success else "⚠️"
+            self._notifier.notify(
+                f"{emoji} <b>OPEN</b> {action.upper()}\n"
+                f"Symbol: <code>{symbol}</code>\n"
+                f"Short: {short_exchange_id} filled={float(filled_short):.4f}\n"
+                f"Long:  {long_exchange_id} filled={float(filled_long):.4f}\n"
+                f"Status: {status.value}"
+            )
         return ExecutionOutcome(
             action=action, status=status, symbol=symbol,
             short_leg=short_leg, long_leg=long_leg, imbalance_pct=imbalance,
@@ -255,6 +387,12 @@ class HedgedExecutionService:
         logger.warning(
             "hedge {} rollback | symbol={} rolled_back={} short_ex={}",
             action, symbol, rolled, short_exchange_id,
+        )
+        logger["trades/live_trades.log"].warning(
+            "ROLLBACK | sym={} action={} rolled_back={} short_ex={} long_ex={}"
+            " short_filled={} short_order={} reason=long_leg_failed",
+            symbol, action, rolled, short_exchange_id, long_exchange_id,
+            filled_short, short_oid,
         )
         return ExecutionOutcome(
             action=action, status=status, symbol=symbol,
@@ -292,6 +430,12 @@ class HedgedExecutionService:
             )
 
         factor = close_percent / _HUNDRED
+        logger["trades/live_trades.log"].debug(
+            "CLOSE_SEND | sym={} short_ex={} long_ex={} close_pct={}"
+            " short_pos={} long_pos={}",
+            symbol, short_exchange_id, long_exchange_id, close_percent,
+            float(short_before), float(long_before),
+        )
         short_ok = await self._close_partial_leg(short_gw, short_pos, factor)
         long_ok = await self._close_partial_leg(long_gw, long_pos, factor)
         short_after = await self._position_base(short_gw, symbol)
@@ -313,6 +457,15 @@ class HedgedExecutionService:
             "hedge {} | symbol={} rem_short={} rem_long={} imbalance_pct={} status={}",
             action, symbol, short_after, long_after, imbalance, status.value,
         )
+        if self._notifier is not None:
+            emoji = "🔴" if status == ExecutionStatus.success else "⚠️"
+            self._notifier.notify(
+                f"{emoji} <b>CLOSE</b> {action.upper()}\n"
+                f"Symbol: <code>{symbol}</code>\n"
+                f"Short: {short_exchange_id} closed={float(short_leg.filled_amount):.4f}\n"
+                f"Long:  {long_exchange_id} closed={float(long_leg.filled_amount):.4f}\n"
+                f"Status: {status.value}"
+            )
         return ExecutionOutcome(
             action=action, status=status, symbol=symbol,
             short_leg=short_leg, long_leg=long_leg, imbalance_pct=imbalance,

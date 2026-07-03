@@ -139,9 +139,11 @@ function applyScreenerClientFilter() {
 function syncScreenerFilterInputsOnce(filters) {
   if (_screenerFiltersSynced || !filters) return;
   const streamMinInput = Dom.screener.filterStreamMin();
-  if (streamMinInput) streamMinInput.value = Number(filters.stream_min_volume_usdt).toFixed(2);
+  if (streamMinInput) streamMinInput.value = Math.round(Number(filters.stream_min_volume_usdt) / 1000) + "k";
   const minVolInput = Dom.screener.filterMinVolume();
   if (minVolInput && !minVolInput.value) minVolInput.value = Number(filters.min_volume_k_usdt).toFixed(0);
+  const minSpreadInput = Dom.screener.filterMinSpread();
+  if (minSpreadInput && !minSpreadInput.value) minSpreadInput.value = Number(filters.min_spread_pct);
   _screenerFiltersSynced = true;
 }
 
@@ -239,7 +241,7 @@ function applyScreenerDelta(delta) {
   for (const row of delta.rows_changed || []) {
     rowMap.set(row.asset, row);
   }
-  snap.rows = Array.from(rowMap.values());
+  snap.rows = Array.from(rowMap.values()).sort((a, b) => (b.spread_pct ?? 0) - (a.spread_pct ?? 0));
   AppState.screenerSnapshot = snap;
   renderScreenerStreamNote(snap);
   applyScreenerClientFilter();
@@ -248,10 +250,17 @@ function applyScreenerDelta(delta) {
 /** @type {WsClient | null} */
 let _screenerClient = null;
 
+function parseVolumeInput(raw) {
+  const s = (raw || "0").trim().toLowerCase();
+  if (s.endsWith("k")) return parseFloat(s) * 1000;
+  if (s.endsWith("m")) return parseFloat(s) * 1000000;
+  return parseFloat(s) || 0;
+}
+
 function sendScreenerReconnect() {
   if (!_screenerClient) return;
   _screenerClient.send("screener.reconnect", {
-    stream_min_volume_usdt: parseFloat(Dom.screener.filterStreamMin()?.value || "0") || 0,
+    stream_min_volume_usdt: parseVolumeInput(Dom.screener.filterStreamMin()?.value),
   });
 }
 

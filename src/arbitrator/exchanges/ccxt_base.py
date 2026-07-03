@@ -729,6 +729,8 @@ class CcxtBase(ExchangeGateway):
                 for symbol in symbols:
                     try:
                         history = await client.fetch_position_history(symbol, since=since_ms)
+                    except BadSymbol:
+                        continue
                     except Exception:
                         logger.exception(
                             "fetch_position_history failed | exchange={} symbol={}",
@@ -792,6 +794,8 @@ class CcxtBase(ExchangeGateway):
         for symbol in symbols:
             try:
                 trades = await client.fetch_my_trades(symbol, since=since_ms)
+            except BadSymbol:
+                continue
             except Exception:
                 logger.exception(
                     "fetch_my_trades failed | exchange={} symbol={}",
@@ -1026,7 +1030,17 @@ class CcxtBase(ExchangeGateway):
             raise RuntimeError("credentials not configured")
         client = await self._ensure_open()
         await self._ensure_markets_loaded(client)
-        precise = float(client.amount_to_precision(symbol, amount))
+        import math
+        market = client.market(symbol)
+        step = market.get("precision", {}).get("amount")
+        if step is not None and step > 0:
+            precise = math.floor(amount / step) * step
+        else:
+            precise = float(client.amount_to_precision(symbol, amount))
+        if precise <= 0:
+            raise ValueError(
+                f"{self.exchange_id} amount rounded to zero | sym={symbol} amount={amount} step={step}"
+            )
         params: dict[str, object] = {"clientOrderId": client_order_id}
         try:
             order = await client.create_order(symbol, "market", side, precise, None, params)

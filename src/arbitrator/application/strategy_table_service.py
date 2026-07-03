@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from decimal import Decimal
+from typing import TYPE_CHECKING
 
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.opportunity_strategy_service import OpportunityStrategyService
@@ -14,6 +15,10 @@ from arbitrator.domain.strategy.strategy_engine import StrategyEngine
 from arbitrator.domain.strategy.strategy_math import StrategyMath
 from arbitrator.domain.strategy.strategy_table import StrategyTable
 from arbitrator.domain.ticker import Ticker
+
+if TYPE_CHECKING:
+    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.domain.symbol_exclusions_repository import SymbolExclusionsRepository
 
 
 class StrategyTableService:
@@ -30,11 +35,15 @@ class StrategyTableService:
         assembler: StrategyInputsAssembler,
         engine: StrategyEngine,
         settings: Settings,
+        token_identity: "TokenIdentityService | None" = None,
+        exclusions_repo: "SymbolExclusionsRepository | None" = None,
     ) -> None:
         self._cache = cache
         self._assembler = assembler
         self._engine = engine
         self._settings = settings
+        self._token_identity = token_identity
+        self._exclusions_repo = exclusions_repo
         self._notional = Decimal(str(settings.arb_default_notional_usdt))
         self._default_leverage = settings.opp_default_leverage
         self._last_price: dict[tuple[str, str], float] = {}
@@ -86,7 +95,7 @@ class StrategyTableService:
             if table is not None:
                 self._tables[symbol] = table
 
-        for stale_symbol in [s for s in self._tables if s not in by_symbol]:
+        for stale_symbol in [s for s in list(self._tables) if s not in by_symbol]:
             del self._tables[stale_symbol]
 
         logger.debug(
@@ -121,6 +130,17 @@ class StrategyTableService:
             return None
         short_exchange_id = max(priced, key=lambda ex: priced[ex])
         long_exchange_id = min(priced, key=lambda ex: priced[ex])
+        if self._token_identity is not None:
+            base = symbol.split("/")[0]
+            result = self._token_identity.compare(base, short_exchange_id, long_exchange_id)
+            if result.should_block:
+                logger.warning(
+                    "screener exclusion: token_identity_conflict | sym={} {}/{} {}",
+                    symbol, short_exchange_id, long_exchange_id, result.notes,
+                )
+                if self._exclusions_repo is not None:
+                    self._exclusions_repo.add(symbol)
+                return None
         leverage = dict.fromkeys(tickers_by_exchange, self._default_leverage)
         inputs = self._assembler.assemble(
             symbol=symbol,

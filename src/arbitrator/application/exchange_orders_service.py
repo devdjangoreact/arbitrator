@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import threading
 import time
 import datetime as _dt
 from datetime import datetime
+from pathlib import Path
 from typing import Literal
 
 from arbitrator.application.account_stream_worker import AccountStreamWorker
@@ -13,6 +15,24 @@ from arbitrator.config.settings import Settings
 from arbitrator.domain.closed_position_leg import ClosedPositionLeg
 from arbitrator.domain.position_leg import PositionLeg
 from arbitrator.exchanges.factory import Factory
+
+_SEEN_SYMBOLS_PATH = Path(__file__).resolve().parent.parent / "data" / "seen_symbols.json"
+
+
+def _load_seen_symbols() -> set[str]:
+    try:
+        return set(json.loads(_SEEN_SYMBOLS_PATH.read_text(encoding="utf-8")))
+    except Exception:
+        return set()
+
+
+def _save_seen_symbols(symbols: set[str]) -> None:
+    try:
+        _SEEN_SYMBOLS_PATH.write_text(
+            json.dumps(sorted(symbols), indent=2), encoding="utf-8"
+        )
+    except Exception:
+        logger.warning("could not save seen_symbols cache")
 
 
 class _OrderGroup:
@@ -57,6 +77,7 @@ class ExchangeOrdersService:
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
         self._last_fetch_ms: int = 0
+        self._seen_symbols: set[str] = _load_seen_symbols()
 
     def start(self) -> None:
         self._thread = threading.Thread(
@@ -83,15 +104,25 @@ class ExchangeOrdersService:
         open_count = sum(1 for g in groups if g["status"] == "open")
         closed_count = sum(1 for g in groups if g["status"] == "closed")
         total_pnl = 0.0
+        total_fees = 0.0
+        total_funding = 0.0
         for g in groups:
             val = g.get("pnl_usdt")
             if isinstance(val, (int, float)):
                 total_pnl += val
+            fees_val = g.get("fees_usdt")
+            if isinstance(fees_val, (int, float)):
+                total_fees += fees_val
+            fund_val = g.get("funding_usdt")
+            if isinstance(fund_val, (int, float)):
+                total_funding += fund_val
         return {
             "summary": {
                 "open_count": open_count,
                 "closed_count": closed_count,
                 "total_pnl_usdt": round(total_pnl, 4),
+                "total_fees_usdt": round(total_fees, 4),
+                "total_funding_usdt": round(total_funding, 4),
             },
             "groups": groups,
         }
@@ -131,6 +162,11 @@ class ExchangeOrdersService:
         with self._lock:
             self._closed_legs = all_closed
         self._last_fetch_ms = int(time.time() * 1000)
+        # Persist any new symbols discovered in closed positions
+        new_syms = {leg.symbol for leg in all_closed} - self._seen_symbols
+        if new_syms:
+            self._seen_symbols.update(new_syms)
+            _save_seen_symbols(self._seen_symbols)
         logger.debug(
             "exchange orders: fetched closed | count={}", len(all_closed)
         )
@@ -140,10 +176,15 @@ class ExchangeOrdersService:
         exchange_ids: list[str],
         since_ms: int,
     ) -> list[ClosedPositionLeg]:
-        # Use symbols from currently open positions as hints for exchanges
-        # that require them (e.g. bingx/fetchMyTrades)
+        # Merge currently open symbols with persisted seen_symbols cache so
+        # exchanges that require a symbol list (bingx/fetchMyTrades) also
+        # return history for symbols no longer open.
         open_legs = self._account_worker.read_positions()
-        known_symbols: list[str] = sorted({leg.symbol for leg in open_legs})
+        open_symbols = {leg.symbol for leg in open_legs}
+        self._seen_symbols.update(open_symbols)
+        if open_symbols:
+            _save_seen_symbols(self._seen_symbols)
+        known_symbols: list[str] = sorted(self._seen_symbols)
 
         all_legs: list[ClosedPositionLeg] = []
         for exchange_id in exchange_ids:
@@ -322,6 +363,7 @@ class ExchangeOrdersService:
         pnl = (short.realized_pnl or 0.0) + (long.realized_pnl or 0.0)
         fees = (short.commission or 0.0) + (long.commission or 0.0)
         funding = (short.funding or 0.0) + (long.funding or 0.0)
+        net_pnl = pnl - fees + funding
         opened_at = short.opened_at or long.opened_at
         closed_at = max(short.closed_at, long.closed_at)
         short_exit = short.exit_price
@@ -345,7 +387,7 @@ class ExchangeOrdersService:
             "volume_usdt": volume,
             "fees_usdt": round(fees, 4),
             "funding_usdt": round(funding, 4),
-            "pnl_usdt": round(pnl, 4),
+            "pnl_usdt": round(net_pnl, 4),
             "exit_spread_pct": exit_spread_pct,
             "legs": [
                 self._closed_leg_dict(short),
@@ -377,6 +419,10 @@ class ExchangeOrdersService:
         opened_at = leg.opened_at
         ref_price = leg.exit_price or leg.entry_price or 0.0
         volume = round((leg.contracts or 0.0) * ref_price, 2) or None
+        fees = leg.commission or 0.0
+        funding = leg.funding or 0.0
+        pnl = leg.realized_pnl or 0.0
+        net_pnl = pnl - fees + funding
         return {
             "asset": leg.symbol.replace("/USDT:USDT", ""),
             "symbol": leg.symbol,
@@ -388,9 +434,9 @@ class ExchangeOrdersService:
             "closed_at": _fmt_dt(leg.closed_at),
             "leverage": "—",
             "volume_usdt": volume,
-            "fees_usdt": round(leg.commission or 0.0, 4),
-            "funding_usdt": round(leg.funding or 0.0, 4),
-            "pnl_usdt": round(leg.realized_pnl or 0.0, 4),
+            "fees_usdt": round(fees, 4),
+            "funding_usdt": round(funding, 4),
+            "pnl_usdt": round(net_pnl, 4),
             "legs": [self._closed_leg_dict(leg)],
         }
 

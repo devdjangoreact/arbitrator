@@ -76,17 +76,18 @@ class TokenIdentityComparer:
             compared_ids[net] = (id_a, id_b)
 
             if id_a is None or id_b is None:
-                # Cannot compare — field missing on one/both sides; not a conflict
                 continue
 
-            # Normalise: lower-case for 0x addresses, strip whitespace
             norm_a = id_a.strip().lower()
             norm_b = id_b.strip().lower()
 
             if norm_a == norm_b:
                 verified.append(net)
-            else:
+            elif norm_a.startswith("0x") and norm_b.startswith("0x"):
+                # Both are contract addresses and they differ → real conflict
                 conflicting.append(net)
+            # else: both are chain-name labels (e.g. "ETH" vs "ERC20") — same network,
+            # different exchange naming conventions; not a token conflict
 
         if conflicting:
             return MatchResult(

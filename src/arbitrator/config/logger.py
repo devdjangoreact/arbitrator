@@ -93,6 +93,17 @@ _NOISY_STDLIB_LOGGERS_WARNING: tuple[str, ...] = (
     "watchfiles.watcher",
 )
 
+# ponytail: suppress asyncio internal WS noise (NetworkError 1006 = normal reconnect)
+_NOISY_STDLIB_LOGGERS_CRITICAL: tuple[str, ...] = (
+    "asyncio.base_events",
+)
+
+# Messages to drop entirely regardless of logger level resets by uvicorn/frameworks.
+_SUPPRESSED_MESSAGE_FRAGMENTS: tuple[str, ...] = (
+    "Future exception was never retrieved",
+    "Connection closed by remote server",
+)
+
 
 class _StdlibInterceptHandler(logging.Handler):
     """Send stdlib logs through Loguru with the same format and truncation."""
@@ -104,6 +115,8 @@ class _StdlibInterceptHandler(logging.Handler):
             level = record.levelno
 
         message = record.getMessage()
+        if any(frag in message for frag in _SUPPRESSED_MESSAGE_FRAGMENTS):
+            return
         if len(message) > _MAX_INTERCEPTED_MESSAGE_LEN:
             message = (
                 message[:_MAX_INTERCEPTED_MESSAGE_LEN]
@@ -151,6 +164,12 @@ def _install_stdlib_intercept() -> None:
         lg = logging.getLogger(name)
         lg.handlers.clear()
         lg.setLevel(logging.WARNING)
+        lg.propagate = True
+
+    for name in _NOISY_STDLIB_LOGGERS_CRITICAL:
+        lg = logging.getLogger(name)
+        lg.handlers.clear()
+        lg.setLevel(logging.CRITICAL)
         lg.propagate = True
 
 
@@ -265,5 +284,3 @@ class _BracketLogger:
 
 
 logger = _BracketLogger()
-
-init_logger()

@@ -165,6 +165,16 @@ Visual reference: `maket/index.html`. Data channel: WebSocket snapshot + delta.
 - `specs/002-strategy-engine/` — strategy engine: 6-strategy calc, signals, hedged execution,
   in-process cache. Read `specs/002-strategy-engine/plan.md` and
   `specs/002-strategy-engine/contracts/strategy-data-catalog.md` for current context.
+- `specs/002-strategy-engine/strategies/` — **per-strategy logic docs** (entry/exit conditions,
+  formulas, DCA, guards, settings). One file per strategy. Index:
+  `specs/002-strategy-engine/strategies/README.md`.
+
+## Strategy docs maintenance rule
+
+When modifying strategy logic in code (entry conditions, exit conditions, DCA,
+guards, slippage checks, settings) — **update the corresponding strategy doc**
+in `specs/002-strategy-engine/strategies/`. Add a row to "Історія змін" table
+with the date and a short description of what changed.
 
 ## Agent read-only exchange inspection
 

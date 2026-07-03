@@ -21,6 +21,7 @@ from arbitrator.application.strategy_table_service import StrategyTableService
 from arbitrator.application.symbol_universe_service import SymbolUniverseService
 from arbitrator.application.token_identity_service import TokenIdentityService
 from arbitrator.config.json_symbol_exclusions_repository import JsonSymbolExclusionsRepository
+from arbitrator.config.telegram_notifier import TelegramNotifier
 from arbitrator.config.json_symbol_universe_repository import JsonSymbolUniverseRepository
 from arbitrator.config.logger import logger
 from arbitrator.config.paper_order_store import PaperOrderStore
@@ -67,6 +68,9 @@ class AppRuntime:
         self.funding_reentry: FundingReentryService | None = None
         self.strategy_refresh_worker: StrategyRefreshWorker | None = None
         self.token_identity: TokenIdentityService = TokenIdentityService()
+        self.exclusions_repo: JsonSymbolExclusionsRepository = JsonSymbolExclusionsRepository(
+            path=settings.exclusions_path
+        )
 
     def start(self) -> None:
         mode = self._settings.ui_data_mode
@@ -123,10 +127,9 @@ class AppRuntime:
     ) -> ScreenerStreamWorker:
         factory = Factory(settings=self._settings)
         universe_repo = JsonSymbolUniverseRepository(path=self._settings.symbols_universe_path)
-        exclusions_repo = JsonSymbolExclusionsRepository(path=self._settings.exclusions_path)
         universe_service = SymbolUniverseService(
             repository=universe_repo,
-            exclusions=exclusions_repo,
+            exclusions=self.exclusions_repo,
             ttl_hours=self._settings.universe_ttl_hours,
             min_exchanges=self._settings.min_exchanges_per_symbol,
         )
@@ -175,10 +178,15 @@ class AppRuntime:
         if not gateways:
             logger.warning("live auto trader skipped — no exchanges with credentials")
             return
+        notifier = TelegramNotifier(
+            bot_token=self._settings.telegram_bot_token,
+            chat_id=self._settings.telegram_chat_id,
+        )
         exec_service = HedgedExecutionService(
             gateways=gateways,
             settings=self._settings,
             market_cache=self.market_cache,
+            notifier=notifier,
         )
         self.live_auto_trader = LiveAutoTrader(
             settings=self._settings,
@@ -186,6 +194,7 @@ class AppRuntime:
             execution_service=exec_service,
             market_cache=self.market_cache,
             token_identity=self.token_identity,
+            gateways=gateways,
         )
         self.live_auto_trader.start()
         logger.info(
@@ -310,6 +319,8 @@ class AppRuntime:
             assembler=assembler,
             engine=engine,
             settings=self._settings,
+            token_identity=self.token_identity,
+            exclusions_repo=self.exclusions_repo,
         )
         self.strategy_refresh_worker = StrategyRefreshWorker(
             screener_worker=self.screener_worker,

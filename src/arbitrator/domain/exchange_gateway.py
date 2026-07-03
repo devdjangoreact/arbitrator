@@ -161,5 +161,10 @@ class ExchangeGateway(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    async def fetch_order_book_once(self, symbol: str, limit: int) -> OrderBookSnapshot:
+        """One-shot REST fetch of the order book for a single symbol."""
+        raise NotImplementedError
+
+    @abstractmethod
     async def close(self) -> None:
         raise NotImplementedError

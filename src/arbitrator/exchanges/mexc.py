@@ -7,13 +7,31 @@ import aiohttp
 import ccxt.pro as ccxtpro
 
 from arbitrator.config.logger import logger
+from arbitrator.domain.symbol_market_info import SymbolMarketInfo
 from arbitrator.domain.ticker import Ticker
 from arbitrator.exchanges.ccxt_base import CcxtBase
+
+# MEXC does not return cost.min in its markets API — the actual minimum order
+# value is enforced server-side at 5 USDT for all perpetual contracts.
+_MEXC_MIN_ORDER_USDT = 5.0
 
 
 class Mexc(CcxtBase):
     exchange_id: ClassVar[str] = "mexc"
     display_name: ClassVar[str] = "MEXC"
+
+    async def set_margin_mode(self, symbol: str, mode: str) -> None:
+        # MEXC perpetual contracts are always cross-margin by default;
+        # ccxt's setMarginMode requires a leverage param we can't supply here.
+        logger.debug("set_margin_mode skipped (mexc always cross) | sym={}", symbol)
+
+    async def fetch_symbol_market_info(self, symbol: str) -> SymbolMarketInfo | None:
+        info = await super().fetch_symbol_market_info(symbol)
+        if info is None:
+            return None
+        if info.min_order_volume_usdt is None or info.min_order_volume_usdt < _MEXC_MIN_ORDER_USDT:
+            info = info.model_copy(update={"min_order_volume_usdt": _MEXC_MIN_ORDER_USDT})
+        return info
 
     def _create_client(self, session: aiohttp.ClientSession) -> ccxtpro.Exchange:
         return ccxtpro.mexc(self._base_client_config(session))

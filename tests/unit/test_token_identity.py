@@ -239,3 +239,53 @@ def test_build_report_rows_omits_single_exchange_codes() -> None:
 
     rows = svc.build_report_rows([("binance", "mexc")], ["SOLO"])
     assert rows == []
+
+
+# ── chain-label ids must NOT be treated as contract addresses ─────────────────
+# Exchanges return different label conventions for the same chain
+# (e.g. mexc: "ETH", bitget: "ERC20") — this is NOT a token conflict.
+
+def test_chain_label_vs_chain_label_is_not_conflict() -> None:
+    """'ETH' vs 'ERC20' on the same network key — both are chain names, not 0x addresses."""
+    a = _info("mexc",   "EDGE", {"ERC20": "ETH"})
+    b = _info("bitget", "EDGE", {"ERC20": "ERC20"})
+    result = TokenIdentityComparer.compare("EDGE", a, b)
+    assert result.match_type == "symbol_only_ccxt_dedup"
+    assert result.should_block is False
+
+
+def test_chain_label_vs_chain_label_base_network_is_not_conflict() -> None:
+    """'BASEEVM' vs 'BASE' on the same network key — chain names, not addresses."""
+    a = _info("gate",  "EDGE", {"BASE": "BASEEVM"})
+    b = _info("bingx", "EDGE", {"BASE": "BASE"})
+    result = TokenIdentityComparer.compare("EDGE", a, b)
+    assert result.match_type == "symbol_only_ccxt_dedup"
+    assert result.should_block is False
+
+
+def test_address_vs_chain_label_is_not_conflict() -> None:
+    """One side has 0x address, other has chain label — cannot compare, not a conflict."""
+    a = _info("binance", "TKN", {"ETH": "0xDeadBeefDeadBeefDeadBeefDeadBeefDeadBeef"})
+    b = _info("mexc",    "TKN", {"ETH": "ETH"})
+    result = TokenIdentityComparer.compare("TKN", a, b)
+    assert result.match_type == "symbol_only_ccxt_dedup"
+    assert result.should_block is False
+
+
+def test_two_different_0x_addresses_is_conflict() -> None:
+    """Two distinct 0x addresses on the same network → real token conflict → BLOCK."""
+    a = _info("bitget", "TLM", {"ERC20": "0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"})
+    b = _info("mexc",   "TLM", {"ERC20": "0xBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"})
+    result = TokenIdentityComparer.compare("TLM", a, b)
+    assert result.match_type == "conflict"
+    assert result.should_block is True
+
+
+def test_same_0x_addresses_is_verified() -> None:
+    """Identical 0x addresses → confirmed same token."""
+    addr = "0x3b9be07d622accaed78f479bc0edabfd6397e320"
+    a = _info("binance", "EDGE", {"ETH": addr})
+    b = _info("gate",    "EDGE", {"ETH": addr})
+    result = TokenIdentityComparer.compare("EDGE", a, b)
+    assert result.match_type == "network_verified"
+    assert result.should_block is False

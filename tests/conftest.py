@@ -125,6 +125,15 @@ class MockGateway(ExchangeGateway):
     async def set_margin_mode(self, symbol: str, mode: str) -> None:
         return None
 
+    async def fetch_order_book_once(self, symbol: str, limit: int) -> OrderBookSnapshot:
+        return OrderBookSnapshot(
+            exchange_id="mexc",
+            symbol=symbol,
+            timestamp_ms=None,
+            bids=(),
+            asks=(),
+        )
+
     async def close(self) -> None:
         return None
 

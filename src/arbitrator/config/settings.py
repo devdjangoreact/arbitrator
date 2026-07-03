@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     )
 
     enabled_exchanges: list[str] = [
-        # "binance",
+        "binance",
         "mexc",
         "bitget",
         "gate",
@@ -84,6 +84,16 @@ class Settings(BaseSettings):
     screener_auto_trade_close_spread_pct: float = 0.05
     screener_auto_trade_check_seconds: float = 2.0
     screener_auto_trade_unhedged_timeout_seconds: float = 10.0
+    # Post-fill guard: close pair immediately if actual spread < this after fill
+    live_auto_trade_post_fill_min_spread_pct: float = 0.5
+    # DCA: accumulate when current spread >= entry_spread + this value
+    live_auto_trade_dca_spread_step_pct: float = 1.0
+    # DCA: max times to accumulate one pair
+    live_auto_trade_dca_max_layers: int = 1
+    # DCA: min distance to liquidation (%) required to add
+    live_auto_trade_dca_min_liq_distance_pct: float = 10.0
+    # DCA: skip if next funding is within this many seconds
+    live_auto_trade_dca_funding_skip_seconds: float = 1800.0
 
     # Liquidation guard (paper mode)
     liq_guard_enabled: bool = True
@@ -128,11 +138,16 @@ class Settings(BaseSettings):
     strategy_decimal_places: int = 2
     anomaly_max_spread_pct: float = 20.0
     slippage_max_pct: float = 0.5
+    ticker_max_inner_spread_pct: float = 1.0
     prediction_enabled: bool = False
     prediction_window_seconds: float = 120.0
     deposit_basis: Literal["position_margin", "account_balance"] = "position_margin"
     execution_rollback_enabled: bool = True
     leg_imbalance_tolerance_pct: float = 1.0
+    open_fail_cooldown_sec: float = 120.0
+
+    telegram_bot_token: str = ""
+    telegram_chat_id: str = ""
 
     binance_api_key: str = ""
     binance_api_secret: str = ""

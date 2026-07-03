@@ -95,10 +95,11 @@ class TokenIdentityService:
                 return
             self._common_currencies[exchange.exchange_id] = mapping
             logger.info(
-                "commonCurrencies | exchange={} remappings={}",
+                "commonCurrencies loaded | exchange={} remappings={}",
                 exchange.exchange_id,
-                mapping,
+                len(mapping),
             )
+            logger.debug("commonCurrencies detail | exchange={} {}", exchange.exchange_id, mapping)
 
         await asyncio.gather(*(_fetch_one(ex) for ex in named_exchanges))
         return dict(self._common_currencies)

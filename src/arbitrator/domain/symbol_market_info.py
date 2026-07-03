@@ -19,6 +19,7 @@ class SymbolMarketInfo(BaseModel):
     # min_notional_usdt(price) = min_amount_contracts * contract_size * price
     min_amount_contracts: float | None
     contract_size: float
+    amount_step: float | None = None
 
 
 class SymbolMarketInfoParser:
@@ -49,6 +50,12 @@ class SymbolMarketInfoParser:
             if isinstance(amount_limits, dict)
             else None
         )
+        precision = market.get("precision")
+        amount_step = (
+            SymbolMarketInfoParser._as_float(precision.get("amount"))
+            if isinstance(precision, dict)
+            else None
+        )
         return SymbolMarketInfo(
             unified_symbol=unified,
             base_asset=base,
@@ -57,6 +64,7 @@ class SymbolMarketInfoParser:
             max_order_volume_usdt=max_usdt,
             min_amount_contracts=min_contracts,
             contract_size=contract_size,
+            amount_step=amount_step,
         )
 
     @staticmethod
