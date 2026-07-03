@@ -46,6 +46,7 @@ class PaperExecutionGateway:
         long_price: float,
         amount: float,
         spread_pct: float | None = None,
+        strategy_kind: str | None = None,
     ) -> ExecutionOutcome:
         pair_id = uuid.uuid4().hex[:12]
 
@@ -58,6 +59,7 @@ class PaperExecutionGateway:
             price=short_price,
             spread_pct=spread_pct,
             taker_fee_rate=self._taker_fee_rate(short_exchange_id, symbol),
+            strategy_kind=strategy_kind,
         )
         long_leg = self._store.record_open(
             pair_id=pair_id,
@@ -68,6 +70,7 @@ class PaperExecutionGateway:
             price=long_price,
             spread_pct=spread_pct,
             taker_fee_rate=self._taker_fee_rate(long_exchange_id, symbol),
+            strategy_kind=strategy_kind,
         )
 
         logger.info(

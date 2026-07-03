@@ -338,7 +338,7 @@ class ExchangeOrdersService:
         return {
             "asset": short.symbol.replace("/USDT:USDT", ""),
             "symbol": short.symbol,
-            "strategy_code": "FF",
+            "strategy_code": self._infer_strategy_code(short, long),
             "short_exchange_id": short.exchange_id,
             "long_exchange_id": long.exchange_id,
             "status": "open",
@@ -377,7 +377,7 @@ class ExchangeOrdersService:
         return {
             "asset": short.symbol.replace("/USDT:USDT", ""),
             "symbol": short.symbol,
-            "strategy_code": "FF",
+            "strategy_code": self._infer_strategy_code(short, long),
             "short_exchange_id": short.exchange_id,
             "long_exchange_id": long.exchange_id,
             "status": "closed",
@@ -439,6 +439,14 @@ class ExchangeOrdersService:
             "pnl_usdt": round(net_pnl, 4),
             "legs": [self._closed_leg_dict(leg)],
         }
+
+    @staticmethod
+    def _infer_strategy_code(
+        short: "PositionLeg | ClosedPositionLeg",
+        long: "PositionLeg | ClosedPositionLeg",
+    ) -> str:
+        # ponytail: both legs futures = FF; spot detection will come with spot infra
+        return "FF"
 
     @staticmethod
     def _position_leg_dict(leg: PositionLeg) -> dict[str, object]:

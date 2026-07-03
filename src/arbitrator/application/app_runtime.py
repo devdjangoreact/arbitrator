@@ -15,6 +15,7 @@ from arbitrator.application.market_data_cache_memory import MarketDataCacheMemor
 from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
 from arbitrator.application.screener_auto_trader import ScreenerAutoTrader
 from arbitrator.application.screener_stream_worker import ScreenerStreamWorker
+from arbitrator.application.spot_stream_worker import SpotStreamWorker
 from arbitrator.application.strategy_refresh_worker import StrategyRefreshWorker
 from arbitrator.application.strategy_inputs_assembler import StrategyInputsAssembler
 from arbitrator.application.strategy_table_service import StrategyTableService
@@ -54,6 +55,7 @@ class AppRuntime:
         self.screener_worker: ScreenerStreamWorker | None = None
         self.account_worker: AccountStreamWorker | None = None
         self.funding_worker: FundingRateWorker | None = None
+        self.spot_worker: SpotStreamWorker | None = None
         self.market_cache: MarketDataCacheMemory | None = None
         self.strategy_table_service: StrategyTableService | None = None
         self.paper_store = PaperOrderStore(path=settings.paper_orders_path)
@@ -82,6 +84,9 @@ class AppRuntime:
             logger.info("ui_data_mode=mock_data | stream workers skipped")
 
     def stop(self) -> None:
+        if self.spot_worker is not None:
+            self.spot_worker.stop()
+            logger.info("spot stream worker stopped")
         if self.exchange_orders_service is not None:
             self.exchange_orders_service.stop()
             logger.info("exchange orders service stopped")
@@ -204,6 +209,7 @@ class AppRuntime:
             market_cache=self.market_cache,
             token_identity=self.token_identity,
             gateways=gateways,
+            strategy_table_service=self.strategy_table_service,
         )
         self.live_auto_trader.start()
         logger.info(
@@ -270,6 +276,7 @@ class AppRuntime:
             paper_gateway=self.paper_gateway,
             market_cache=self.market_cache,
             token_identity=self.token_identity,
+            strategy_table_service=self.strategy_table_service,
         )
         self.screener_auto_trader.start()
 
@@ -363,3 +370,22 @@ class AppRuntime:
         )
         self.exchange_orders_service.start()
         logger.info("exchange orders service started")
+
+        if self._settings.spot_enabled:
+            self._start_spot_worker()
+
+    def _start_spot_worker(self) -> None:
+        from arbitrator.exchanges.spot_ccxt_adapter import SpotCcxtAdapter
+
+        if self.market_cache is None:
+            return
+        spot_gateways = {
+            ex_id: SpotCcxtAdapter(ex_id, self._settings)
+            for ex_id in self._settings.enabled_exchanges
+        }
+        self.spot_worker = SpotStreamWorker(
+            settings=self._settings,
+            spot_gateways=spot_gateways,
+            cache=self.market_cache,
+        )
+        self.spot_worker.start()

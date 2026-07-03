@@ -32,3 +32,4 @@ class PaperOrder(BaseModel):
     accrued_funding_usdt: float = 0.0
     net_pnl_usdt: float | None = None
     close_price: float | None = None
+    strategy_kind: str | None = None

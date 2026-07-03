@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import threading
 import time
+from typing import TYPE_CHECKING
 
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
@@ -10,6 +11,9 @@ from arbitrator.application.token_identity_service import TokenIdentityService
 from arbitrator.domain.order_book_level import OrderBookLevel
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
+
+if TYPE_CHECKING:
+    from arbitrator.application.strategy_table_service import StrategyTableService
 
 
 class ScreenerAutoTrader:
@@ -32,18 +36,22 @@ class ScreenerAutoTrader:
         paper_gateway: PaperExecutionGateway,
         market_cache: MarketDataCacheMemory | None = None,
         token_identity: TokenIdentityService | None = None,
+        strategy_table_service: "StrategyTableService | None" = None,
     ) -> None:
         self._settings = settings
         self._screener = screener_worker
         self._paper = paper_gateway
         self._market_cache = market_cache
         self._token_identity = token_identity
+        self._strategy_table_service = strategy_table_service
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
         # pair_id -> (symbol, short_ex, long_ex)
         self._open_pairs: dict[str, tuple[str, str, str]] = {}
         # pair_id -> open_time for unhedged detection
         self._pair_open_time: dict[str, float] = {}
+        # pair_id -> strategy_kind used for the trade
+        self._pair_strategy: dict[str, str] = {}
 
     def start(self) -> None:
         self._restore_open_pairs()
@@ -410,6 +418,14 @@ class ScreenerAutoTrader:
             if short_bid <= 0.0:
                 continue
             amount = notional / short_bid
+            # Determine best strategy from StrategyTable (defaults to futures_futures)
+            strategy_kind = "futures_futures"
+            if self._strategy_table_service is not None:
+                tables = self._strategy_table_service.read_tables()
+                table = tables.get(symbol)
+                if table is not None and table.best_strategy_id is not None:
+                    strategy_kind = table.best_strategy_id.value
+
             outcome = self._paper.open_pair(
                 symbol=symbol,
                 short_exchange_id=short_ex,
@@ -418,16 +434,18 @@ class ScreenerAutoTrader:
                 long_price=long_ask,
                 amount=amount,
                 spread_pct=round(entry_spread, 4),
+                strategy_kind=strategy_kind,
             )
             if outcome.pair_id is None:
                 continue
             self._open_pairs[outcome.pair_id] = (symbol, short_ex, long_ex)
             self._pair_open_time[outcome.pair_id] = time.monotonic()
+            self._pair_strategy[outcome.pair_id] = strategy_kind
             already_open_symbols.add(symbol)
             open_count += 1
             logger.info(
-                "auto open | pair_id={} sym={} short={} long={} spread={:.3f}%",
-                outcome.pair_id, symbol, short_ex, long_ex, entry_spread,
+                "auto open | pair_id={} sym={} short={} long={} spread={:.3f}% strategy={}",
+                outcome.pair_id, symbol, short_ex, long_ex, entry_spread, strategy_kind,
             )
 
     def _validate_cross_pair(

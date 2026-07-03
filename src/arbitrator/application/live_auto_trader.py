@@ -19,6 +19,7 @@ from arbitrator.domain.symbol_market_info import SymbolMarketInfo
 from arbitrator.domain.ticker import Ticker
 
 if TYPE_CHECKING:
+    from arbitrator.application.strategy_table_service import StrategyTableService
     from arbitrator.application.token_identity_service import TokenIdentityService
 
 
@@ -44,6 +45,7 @@ class LiveAutoTrader:
         market_cache: MarketDataCacheMemory,
         token_identity: "TokenIdentityService | None" = None,
         gateways: Mapping[str, ExchangeGateway] | None = None,
+        strategy_table_service: "StrategyTableService | None" = None,
     ) -> None:
         self._settings = settings
         self._screener = screener_worker
@@ -51,6 +53,7 @@ class LiveAutoTrader:
         self._cache = market_cache
         self._token_identity = token_identity
         self._gateways: Mapping[str, ExchangeGateway] = gateways or {}
+        self._strategy_table_service = strategy_table_service
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
         self._loop: asyncio.AbstractEventLoop | None = None
@@ -63,6 +66,8 @@ class LiveAutoTrader:
         self._dca_layers: dict[tuple[str, str, str], int] = {}
         # (symbol, short_ex, long_ex) -> cooldown_until_monotonic (after rollback/fail)
         self._open_cooldown: dict[tuple[str, str, str], float] = {}
+        # (symbol, short_ex, long_ex) -> strategy used
+        self._pair_strategy: dict[tuple[str, str, str], str] = {}
 
     # ------------------------------------------------------------------ #
     # Lifecycle
@@ -385,26 +390,36 @@ class LiveAutoTrader:
             # Set cross-margin mode on both exchanges before opening
             await self._set_cross_margin(symbol, short_ex)
             await self._set_cross_margin(symbol, long_ex)
+            # Determine best strategy from StrategyTable (defaults to futures_futures)
+            strategy_kind = "futures_futures"
+            if self._strategy_table_service is not None:
+                tables = self._strategy_table_service.read_tables()
+                table = tables.get(symbol)
+                if table is not None and table.best_strategy_id is not None:
+                    strategy_kind = table.best_strategy_id.value
+
             notional = Decimal(str(notional_float))
             price = Decimal(str(fresh_bid))
             logger.info(
                 "live auto open | sym={} short={} long={} spread={:.4f}% notional={}"
                 " short_bid={} long_ask={} entry_spread={:.4f}% threshold={}%"
-                " estimated_fill_spread={} anomaly_max={}% slippage_max={}%",
+                " estimated_fill_spread={} anomaly_max={}% slippage_max={}% strategy={}",
                 symbol, short_ex, long_ex, fresh_spread, notional,
                 fresh_bid, fresh_ask, entry_spread, open_spread_pct,
                 f"{estimated_spread:.3f}%" if estimated_spread else "n/a",
                 self._settings.anomaly_max_spread_pct, self._settings.slippage_max_pct,
+                strategy_kind,
             )
             logger["trades/live_trades.log"].info(
                 "OPEN | trigger=spread sym={} short={} long={}"
                 " spread={:.4f}% entry_spread={:.4f}% threshold={}%"
                 " short_bid={} long_ask={} notional={} max_positions={} open_count={}"
-                " estimated_fill_spread={}",
+                " estimated_fill_spread={} strategy={}",
                 symbol, short_ex, long_ex,
                 fresh_spread, entry_spread, open_spread_pct,
                 fresh_bid, fresh_ask, notional, max_pos, open_count,
                 f"{estimated_spread:.3f}%" if estimated_spread else "n/a",
+                strategy_kind,
             )
             outcome = await self._exec.open(
                 symbol=symbol,
@@ -437,6 +452,7 @@ class LiveAutoTrader:
                 self._open_pairs[key] = time.monotonic()
                 self._entry_spreads[key] = fresh_spread
                 self._dca_layers[key] = 0
+                self._pair_strategy[key] = strategy_kind
                 already_open_symbols.add(symbol)
                 open_count += 1
                 # Post-fill spread guard: verify actual spread from positions

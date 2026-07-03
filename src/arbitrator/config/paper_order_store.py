@@ -39,6 +39,7 @@ class PaperOrderStore:
         price: float,
         spread_pct: float | None = None,
         taker_fee_rate: float = 0.0,
+        strategy_kind: str | None = None,
     ) -> PaperOrder:
         notional = amount * price
         open_fee = round(notional * taker_fee_rate, 6)
@@ -57,6 +58,7 @@ class PaperOrderStore:
             entry_price=price,
             spread_pct_entry=spread_pct,
             open_fee_usdt=open_fee,
+            strategy_kind=strategy_kind,
         )
         self._append(order)
         logger.info(

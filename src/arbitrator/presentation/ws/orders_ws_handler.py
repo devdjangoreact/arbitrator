@@ -17,6 +17,20 @@ if TYPE_CHECKING:
     from arbitrator.application.exchange_orders_service import ExchangeOrdersService
     from arbitrator.config.paper_order_store import PaperOrderStore
 
+_STRATEGY_LABELS: dict[str | None, str] = {
+    "futures_futures": "FF",
+    "futures_spot_2ex": "FS-2",
+    "futures_spot_1ex": "FS-1",
+    "funding_ff": "Fund-FF",
+    "funding_fs": "Fund-FS",
+    "funding_diff_dates": "Fund-DD",
+}
+
+
+def _strategy_label(kind: str | None, *, paper: bool = False) -> str:
+    base = _STRATEGY_LABELS.get(kind, kind or "—")
+    return f"{base} paper" if paper else base
+
 
 class OrdersWsHandler:
     """WebSocket handler for /ws/orders."""
@@ -188,10 +202,16 @@ class OrdersWsHandler:
             closed_at_dt = sell_leg.closed_at if sell_leg and sell_leg.closed_at else None
             closed_str = closed_at_dt.strftime("%m/%d %H:%M") if closed_at_dt else None
 
+            # Use strategy_kind from the order record (first leg that has it)
+            raw_strategy = next(
+                (l.strategy_kind for l in legs if l.strategy_kind), None
+            )
+            strategy_label = _strategy_label(raw_strategy, paper=True)
+
             groups.append({
                 "asset": legs[0].symbol.replace("/USDT:USDT", ""),
                 "symbol": legs[0].symbol,
-                "strategy_code": "FF paper",
+                "strategy_code": strategy_label,
                 "short_exchange_id": short_ex,
                 "long_exchange_id": long_ex,
                 "status": "open" if is_open else "closed",
