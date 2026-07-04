@@ -128,6 +128,16 @@ class Settings(BaseSettings):
     opp_position_imbalance_tolerance_pct: float = 1.0
     opp_accumulate_step_usdt: float = 100.0
 
+    # --- Strategy selection & per-strategy overrides ---
+    # Which strategies the auto-trader is allowed to open.
+    # Empty list = all strategies allowed. Non-empty = whitelist.
+    allowed_strategies: list[str] = []
+    # Per-strategy parameter overrides (JSON dict in .env).
+    # Keys = strategy_id, values = dict of overridable params.
+    # Overridable: open_spread_pct, close_spread_pct, notional_usdt, max_positions
+    # Example: {"futures_futures": {"open_spread_pct": 1.5, "close_spread_pct": 0.02}}
+    strategy_overrides: dict[str, dict[str, float]] = {}
+
     # --- Strategy engine (002-strategy-engine) ---
     spot_enabled: bool = False
     spot_default_type: str = "spot"
@@ -160,6 +170,40 @@ class Settings(BaseSettings):
     gate_api_secret: str = ""
     bingx_api_key: str = ""
     bingx_api_secret: str = ""
+
+    def is_strategy_allowed(self, strategy_kind: str) -> bool:
+        """Check if strategy is in the whitelist (empty list = all allowed)."""
+        if not self.allowed_strategies:
+            return True
+        return strategy_kind in self.allowed_strategies
+
+    def strategy_open_spread_pct(self, strategy_kind: str) -> float:
+        """Return open spread threshold for a strategy (override or default)."""
+        overrides = self.strategy_overrides.get(strategy_kind)
+        if overrides and "open_spread_pct" in overrides:
+            return overrides["open_spread_pct"]
+        return self.screener_auto_trade_open_spread_pct
+
+    def strategy_close_spread_pct(self, strategy_kind: str) -> float:
+        """Return close spread threshold for a strategy (override or default)."""
+        overrides = self.strategy_overrides.get(strategy_kind)
+        if overrides and "close_spread_pct" in overrides:
+            return overrides["close_spread_pct"]
+        return self.screener_auto_trade_close_spread_pct
+
+    def strategy_notional_usdt(self, strategy_kind: str) -> float:
+        """Return notional for a strategy (override or default)."""
+        overrides = self.strategy_overrides.get(strategy_kind)
+        if overrides and "notional_usdt" in overrides:
+            return overrides["notional_usdt"]
+        return self.screener_auto_trade_notional_usdt
+
+    def strategy_max_positions(self, strategy_kind: str) -> int:
+        """Return max positions for a strategy (override or default global max)."""
+        overrides = self.strategy_overrides.get(strategy_kind)
+        if overrides and "max_positions" in overrides:
+            return int(overrides["max_positions"])
+        return self.screener_auto_trade_max_positions
 
     def credentials_for(self, exchange_id: str) -> ExchangeCredentials | None:
         mapping: dict[str, ExchangeCredentials] = {

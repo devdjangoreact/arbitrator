@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import threading
+from collections.abc import Mapping
 
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.logger import logger
@@ -15,7 +16,7 @@ class SpotStreamWorker:
     def __init__(
         self,
         settings: Settings,
-        spot_gateways: dict[str, SpotGateway],
+        spot_gateways: Mapping[str, SpotGateway],
         cache: MarketDataCacheMemory,
     ) -> None:
         self._settings = settings

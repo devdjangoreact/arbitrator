@@ -15,6 +15,7 @@ from arbitrator.domain.strategy.execution_outcome import (
     ExecutionStatus,
     LegExecution,
 )
+from arbitrator.domain.spot_gateway import SpotGateway
 from arbitrator.domain.strategy.futures_execution_gateway import FuturesExecutionGateway
 
 if TYPE_CHECKING:
@@ -34,6 +35,13 @@ class HedgedExecutionService:
     action with no real orders (verification path, no exchange risk).
     """
 
+    # Strategies where the long leg is spot (short = futures, long = spot buy)
+    _SPOT_LONG_STRATEGIES: frozenset[str] = frozenset({
+        "futures_spot_2ex",
+        "futures_spot_1ex",
+        "funding_fs",
+    })
+
     def __init__(
         self,
         gateways: Mapping[str, FuturesExecutionGateway],
@@ -43,6 +51,7 @@ class HedgedExecutionService:
         dry_run: bool = False,
         notifier: TelegramNotifier | None = None,
         universe: dict[str, set[str]] | None = None,
+        spot_gateways: Mapping[str, SpotGateway] | None = None,
     ) -> None:
         self._gateways = gateways
         self._settings = settings
@@ -51,6 +60,7 @@ class HedgedExecutionService:
         self._tolerance = Decimal(str(settings.leg_imbalance_tolerance_pct))
         self._notifier = notifier
         self._universe = universe
+        self._spot_gateways: Mapping[str, SpotGateway] = spot_gateways or {}
 
     def _contract_size_for(self, symbol: str, exchange_id: str) -> Decimal:
         """Return contract_size from cache, fallback 1 (= tokens == contracts)."""
@@ -191,7 +201,13 @@ class HedgedExecutionService:
         long_exchange_id: str,
         notional_usdt: Decimal,
         price: Decimal,
+        strategy_kind: str = "futures_futures",
     ) -> ExecutionOutcome:
+        if strategy_kind in self._SPOT_LONG_STRATEGIES:
+            return await self._enter_spot_long(
+                "open", symbol, short_exchange_id, long_exchange_id,
+                notional_usdt, price, strategy_kind,
+            )
         return await self._enter(
             "open", symbol, short_exchange_id, long_exchange_id, notional_usdt, price
         )
@@ -204,7 +220,13 @@ class HedgedExecutionService:
         long_exchange_id: str,
         notional_usdt: Decimal,
         price: Decimal,
+        strategy_kind: str = "futures_futures",
     ) -> ExecutionOutcome:
+        if strategy_kind in self._SPOT_LONG_STRATEGIES:
+            return await self._enter_spot_long(
+                "accumulate", symbol, short_exchange_id, long_exchange_id,
+                notional_usdt, price, strategy_kind,
+            )
         return await self._enter(
             "accumulate", symbol, short_exchange_id, long_exchange_id, notional_usdt, price
         )
@@ -216,7 +238,13 @@ class HedgedExecutionService:
         short_exchange_id: str,
         long_exchange_id: str,
         close_percent: Decimal,
+        strategy_kind: str = "futures_futures",
     ) -> ExecutionOutcome:
+        if strategy_kind in self._SPOT_LONG_STRATEGIES:
+            return await self._exit_spot_long(
+                "close_partial", symbol, short_exchange_id, long_exchange_id,
+                close_percent, strategy_kind,
+            )
         return await self._exit(
             "close_partial", symbol, short_exchange_id, long_exchange_id, close_percent
         )
@@ -227,10 +255,199 @@ class HedgedExecutionService:
         symbol: str,
         short_exchange_id: str,
         long_exchange_id: str,
+        strategy_kind: str = "futures_futures",
     ) -> ExecutionOutcome:
+        if strategy_kind in self._SPOT_LONG_STRATEGIES:
+            return await self._exit_spot_long(
+                "close_all", symbol, short_exchange_id, long_exchange_id,
+                _HUNDRED, strategy_kind,
+            )
         return await self._exit(
             "close_all", symbol, short_exchange_id, long_exchange_id, _HUNDRED
         )
+
+    async def _exit_spot_long(
+        self,
+        action: str,
+        symbol: str,
+        short_exchange_id: str,
+        long_exchange_id: str,
+        close_percent: Decimal,
+        strategy_kind: str,
+    ) -> ExecutionOutcome:
+        """Close a futures-short + spot-long hedge."""
+        short_gw = self._gateways.get(short_exchange_id)
+        spot_gw = self._spot_gateways.get(long_exchange_id)
+        if short_gw is None or spot_gw is None:
+            return self._failed(action, symbol, "gateway_missing")
+
+        spot_symbol = symbol.replace(":USDT", "")
+        base_asset = spot_symbol.split("/")[0]
+
+        # Close futures short
+        short_pos = await self._find_leg(short_gw, symbol)
+        factor = close_percent / _HUNDRED
+        short_ok = await self._close_partial_leg(short_gw, short_pos, factor)
+
+        # Sell spot tokens
+        spot_ok = False
+        spot_sold = _ZERO
+        coid = uuid.uuid4().hex[:12]
+        try:
+            balance = await spot_gw.fetch_balance(base_asset)
+            sell_amount = float(balance * factor)
+            if sell_amount > 0:
+                await spot_gw.sell_spot_market(spot_symbol, sell_amount, f"HX-{coid}-CL")
+                spot_sold = Decimal(str(sell_amount))
+                spot_ok = True
+            else:
+                spot_ok = True
+        except Exception:
+            logger.exception("spot close sell failed | sym={} ex={}", spot_symbol, long_exchange_id)
+
+        short_leg = LegExecution(
+            exchange_id=short_exchange_id, side="buy", symbol=symbol,
+            requested_amount=_ZERO, filled_amount=_ZERO,
+            ok=short_ok, message=None if short_ok else "close_failed",
+            market_type="futures",
+        )
+        long_leg = LegExecution(
+            exchange_id=long_exchange_id, side="sell", symbol=spot_symbol,
+            requested_amount=spot_sold, filled_amount=spot_sold,
+            ok=spot_ok, message=None if spot_ok else "spot_sell_failed",
+            market_type="spot",
+        )
+        status = self._exit_status(short_ok, spot_ok, None)
+        logger.info(
+            "spot hedge close | sym={} strategy={} short_ok={} spot_sold={} status={}",
+            symbol, strategy_kind, short_ok, spot_sold, status.value,
+        )
+        return ExecutionOutcome(
+            action=action, status=status, symbol=symbol,
+            short_leg=short_leg, long_leg=long_leg, imbalance_pct=None,
+        )
+
+    async def _enter_spot_long(
+        self,
+        action: str,
+        symbol: str,
+        short_exchange_id: str,
+        long_exchange_id: str,
+        notional_usdt: Decimal,
+        price: Decimal,
+        strategy_kind: str,
+    ) -> ExecutionOutcome:
+        """Open with futures short + spot long (§1/§2/§6 strategies)."""
+        if price <= _ZERO or notional_usdt <= _ZERO:
+            return self._failed(action, symbol, "invalid_sizing")
+        short_gw = self._gateways.get(short_exchange_id)
+        spot_gw = self._spot_gateways.get(long_exchange_id)
+        if short_gw is None:
+            return self._failed(action, symbol, "gateway_missing")
+        if spot_gw is None:
+            return self._failed(action, symbol, "spot_gateway_missing")
+
+        # Spot symbol: strip ":USDT" suffix → "BTC/USDT"
+        spot_symbol = symbol.replace(":USDT", "")
+        token_amount = float(notional_usdt / price)
+
+        if self._dry_run:
+            amount = Decimal(str(token_amount))
+            short_leg = LegExecution(
+                exchange_id=short_exchange_id, side="sell", symbol=symbol,
+                requested_amount=amount, filled_amount=amount,
+                order_id=None, message="dry_run", market_type="futures",
+            )
+            long_leg = LegExecution(
+                exchange_id=long_exchange_id, side="buy", symbol=spot_symbol,
+                requested_amount=amount, filled_amount=amount,
+                order_id=None, message="dry_run", market_type="spot",
+            )
+            return ExecutionOutcome(
+                action=action, status=ExecutionStatus.simulated, symbol=symbol,
+                short_leg=short_leg, long_leg=long_leg, imbalance_pct=_ZERO,
+            )
+
+        coid = uuid.uuid4().hex[:12]
+
+        # --- Futures short leg ---
+        short_amount = self._compute_futures_amount(symbol, short_exchange_id, token_amount)
+        if short_amount <= 0:
+            return self._failed(action, symbol, "amount_rounds_to_zero")
+
+        logger["trades/live_trades.log"].debug(
+            "SPOT_HEDGE_SEND short | sym={} ex={} amount={} coid=HX-{}-S strategy={}",
+            symbol, short_exchange_id, short_amount, coid, strategy_kind,
+        )
+        before_short = await self._position_base(short_gw, symbol)
+        try:
+            short_oid = await short_gw.open_market_position(
+                symbol, "sell", short_amount, f"HX-{coid}-S"
+            )
+        except Exception:
+            logger.exception("spot hedge short failed | sym={} ex={}", symbol, short_exchange_id)
+            return self._failed(action, symbol, "short_leg_failed")
+        filled_short = abs(await self._position_base(short_gw, symbol) - before_short)
+
+        # --- Spot long leg: buy tokens ---
+        spot_amount = float(filled_short) if filled_short > _ZERO else token_amount
+        logger["trades/live_trades.log"].debug(
+            "SPOT_HEDGE_SEND long_spot | sym={} ex={} amount={} coid=HX-{}-L",
+            spot_symbol, long_exchange_id, spot_amount, coid,
+        )
+        try:
+            long_oid = await spot_gw.buy_spot_market(
+                spot_symbol, spot_amount, f"HX-{coid}-L"
+            )
+        except Exception:
+            logger.exception("spot hedge long failed | sym={} ex={}", spot_symbol, long_exchange_id)
+            # Rollback futures short
+            if self._settings.execution_rollback_enabled and filled_short > _ZERO:
+                await self._close_full_leg(short_gw, symbol)
+            return self._failed(action, symbol, "spot_long_leg_failed")
+
+        filled_long = Decimal(str(spot_amount))
+        short_leg = LegExecution(
+            exchange_id=short_exchange_id, side="sell", symbol=symbol,
+            requested_amount=Decimal(str(short_amount)), filled_amount=filled_short,
+            order_id=short_oid, market_type="futures",
+        )
+        long_leg = LegExecution(
+            exchange_id=long_exchange_id, side="buy", symbol=spot_symbol,
+            requested_amount=Decimal(str(spot_amount)), filled_amount=filled_long,
+            order_id=long_oid, market_type="spot",
+        )
+        imbalance = self._imbalance(filled_short, filled_long)
+        status = self._enter_status(filled_short, filled_long, imbalance)
+        logger.info(
+            "spot hedge {} | sym={} strategy={} filled_short={} filled_long_spot={} status={}",
+            action, symbol, strategy_kind, filled_short, filled_long, status.value,
+        )
+        if self._notifier is not None:
+            emoji = "✅" if status == ExecutionStatus.success else "⚠️"
+            self._notifier.notify(
+                f"{emoji} <b>OPEN SPOT HEDGE</b> {action.upper()}\n"
+                f"Symbol: <code>{symbol}</code>\n"
+                f"Strategy: {strategy_kind}\n"
+                f"Short (futures): {short_exchange_id} filled={float(filled_short):.4f}\n"
+                f"Long (spot): {long_exchange_id} filled={float(filled_long):.4f}\n"
+                f"Status: {status.value}"
+            )
+        return ExecutionOutcome(
+            action=action, status=status, symbol=symbol,
+            short_leg=short_leg, long_leg=long_leg, imbalance_pct=imbalance,
+        )
+
+    def _compute_futures_amount(
+        self, symbol: str, exchange_id: str, token_amount: float
+    ) -> float:
+        """Convert token amount to contracts, floored to exchange step."""
+        cs = self._contract_size_for(symbol, exchange_id)
+        step = self._amount_step_for(symbol, exchange_id)
+        raw = token_amount / float(cs)
+        if step and step > 0:
+            raw = math.floor(raw / step) * step
+        return raw
 
     async def _enter(
         self,

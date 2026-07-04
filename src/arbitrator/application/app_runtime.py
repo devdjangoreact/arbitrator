@@ -195,12 +195,25 @@ class AppRuntime:
             if universe_snapshot is not None
             else None
         )
+        # Build spot gateways for strategies that need spot execution
+        from arbitrator.exchanges.spot_ccxt_adapter import SpotCcxtAdapter
+
+        spot_gateways = (
+            {
+                ex_id: SpotCcxtAdapter(ex_id, self._settings)
+                for ex_id in self._settings.enabled_exchanges
+                if self._settings.credentials_for(ex_id) is not None
+            }
+            if self._settings.spot_enabled
+            else {}
+        )
         exec_service = HedgedExecutionService(
             gateways=gateways,
             settings=self._settings,
             market_cache=self.market_cache,
             notifier=notifier,
             universe=universe,
+            spot_gateways=spot_gateways,
         )
         self.live_auto_trader = LiveAutoTrader(
             settings=self._settings,

@@ -60,7 +60,7 @@ class SpotCcxtAdapter(SpotGateway):
             and market.get("active", True)
         ]
 
-    async def watch_spot_tickers(  # type: ignore[override]
+    async def watch_spot_tickers(
         self, symbols: Sequence[str]
     ) -> AsyncIterator[dict[str, Quote]]:
         client = await self._ensure_client()
@@ -113,6 +113,38 @@ class SpotCcxtAdapter(SpotGateway):
             spot_maker=Decimal(str(maker)) if maker is not None else None,
             spot_taker=Decimal(str(taker)) if taker is not None else None,
         )
+
+    async def buy_spot_market(
+        self, symbol: str, amount: float, client_order_id: str
+    ) -> str:
+        client = await self._ensure_client()
+        params: dict[str, object] = {"clientOrderId": client_order_id}
+        order = await client.create_order(symbol, "market", "buy", amount, params=params)
+        order_id: str = order.get("id", client_order_id)
+        logger.info(
+            "spot buy executed | exchange={} symbol={} amount={} order_id={}",
+            self._exchange_id, symbol, amount, order_id,
+        )
+        return order_id
+
+    async def sell_spot_market(
+        self, symbol: str, amount: float, client_order_id: str
+    ) -> str:
+        client = await self._ensure_client()
+        params: dict[str, object] = {"clientOrderId": client_order_id}
+        order = await client.create_order(symbol, "market", "sell", amount, params=params)
+        order_id: str = order.get("id", client_order_id)
+        logger.info(
+            "spot sell executed | exchange={} symbol={} amount={} order_id={}",
+            self._exchange_id, symbol, amount, order_id,
+        )
+        return order_id
+
+    async def fetch_balance(self, asset: str) -> Decimal:
+        client = await self._ensure_client()
+        balance = await client.fetch_balance()
+        free = balance.get(asset, {}).get("free", 0)
+        return Decimal(str(free))
 
     async def close(self) -> None:
         if self._client is not None:

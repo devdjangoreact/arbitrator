@@ -262,11 +262,13 @@ class LiveAutoTrader:
                     continue
                 short_ask, long_bid, _ = fresh
             exit_spread = (short_ask - long_bid) / long_bid * 100.0
+            pair_strategy = self._pair_strategy.get(key, "futures_futures")
+            pair_close_threshold = self._settings.strategy_close_spread_pct(pair_strategy)
             logger.debug(
                 "live close check | sym={} short={} long={} exit_spread={:.4f}% threshold={}%",
-                sym, s_ex, l_ex, exit_spread, close_spread_pct,
+                sym, s_ex, l_ex, exit_spread, pair_close_threshold,
             )
-            if exit_spread > close_spread_pct:
+            if exit_spread > pair_close_threshold:
                 continue
             logger.info(
                 "live auto close | sym={} short={} long={} exit_spread={:.4f}% threshold={}%"
@@ -278,10 +280,12 @@ class LiveAutoTrader:
                 " exit_spread={:.4f}% threshold={}% short_ask={} long_bid={}",
                 sym, s_ex, l_ex, exit_spread, close_spread_pct, short_ask, long_bid,
             )
+            strategy_for_close = self._pair_strategy.get(key, "futures_futures")
             outcome = await self._exec.close_all(
                 symbol=sym,
                 short_exchange_id=s_ex,
                 long_exchange_id=l_ex,
+                strategy_kind=strategy_for_close,
             )
             logger.info(
                 "live auto close result | sym={} status={} imbalance={}",
@@ -397,6 +401,22 @@ class LiveAutoTrader:
                 table = tables.get(symbol)
                 if table is not None and table.best_strategy_id is not None:
                     strategy_kind = table.best_strategy_id.value
+            # Strategy whitelist filter
+            if not self._settings.is_strategy_allowed(strategy_kind):
+                logger.debug(
+                    "live open skipped: strategy not allowed | sym={} strategy={}",
+                    symbol, strategy_kind,
+                )
+                continue
+            # Per-strategy spread threshold (overrides global default)
+            strategy_open_threshold = self._settings.strategy_open_spread_pct(strategy_kind)
+            if fresh_spread < strategy_open_threshold:
+                logger.debug(
+                    "live open skipped: below strategy threshold | sym={} strategy={}"
+                    " spread={:.3f}% threshold={}%",
+                    symbol, strategy_kind, fresh_spread, strategy_open_threshold,
+                )
+                continue
 
             notional = Decimal(str(notional_float))
             price = Decimal(str(fresh_bid))
@@ -427,6 +447,7 @@ class LiveAutoTrader:
                 long_exchange_id=long_ex,
                 notional_usdt=notional,
                 price=price,
+                strategy_kind=strategy_kind,
             )
             logger.info(
                 "live auto open result | sym={} status={} imbalance={}",
@@ -512,6 +533,7 @@ class LiveAutoTrader:
                 symbol=symbol,
                 short_exchange_id=short_ex,
                 long_exchange_id=long_ex,
+                strategy_kind=self._pair_strategy.get(key, "futures_futures"),
             )
             self._open_pairs.pop(key, None)
             self._entry_spreads.pop(key, None)
@@ -588,12 +610,14 @@ class LiveAutoTrader:
                 symbol, short_ex, long_ex, current_spread,
                 entry_spread, required_spread, dca_notional, layers + 1,
             )
+            dca_strategy = self._pair_strategy.get(key, "futures_futures")
             outcome = await self._exec.accumulate(
                 symbol=symbol,
                 short_exchange_id=short_ex,
                 long_exchange_id=long_ex,
                 notional_usdt=notional,
                 price=price,
+                strategy_kind=dca_strategy,
             )
             if outcome.status.value in ("success", "partial"):
                 self._dca_layers[key] = layers + 1

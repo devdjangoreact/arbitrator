@@ -253,7 +253,9 @@ class ScreenerAutoTrader:
             if short_ask is None or long_bid is None or long_bid <= 0.0:
                 continue
             exit_spread = (short_ask - long_bid) / long_bid * 100.0
-            if exit_spread > close_spread:
+            pair_strategy = self._pair_strategy.get(pair_id, "futures_futures")
+            pair_close_threshold = self._settings.strategy_close_spread_pct(pair_strategy)
+            if exit_spread > pair_close_threshold:
                 continue
             # Use the filled amount from the open record (long/buy leg).
             long_record = next(
@@ -425,6 +427,13 @@ class ScreenerAutoTrader:
                 table = tables.get(symbol)
                 if table is not None and table.best_strategy_id is not None:
                     strategy_kind = table.best_strategy_id.value
+            # Strategy whitelist filter
+            if not self._settings.is_strategy_allowed(strategy_kind):
+                continue
+            # Per-strategy spread threshold
+            strategy_open_threshold = self._settings.strategy_open_spread_pct(strategy_kind)
+            if fresh_spread < strategy_open_threshold:
+                continue
 
             outcome = self._paper.open_pair(
                 symbol=symbol,

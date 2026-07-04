@@ -35,6 +35,7 @@ class LegExecution(BaseModel):
     order_id: str | None = None
     ok: bool = True
     message: str | None = None
+    market_type: Literal["futures", "spot"] = "futures"
 
 
 class ExecutionOutcome(BaseModel):
