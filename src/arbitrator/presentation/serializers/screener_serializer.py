@@ -2,10 +2,13 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from datetime import UTC, datetime
+from typing import TYPE_CHECKING
 
+from arbitrator.application.executable_spread_resolver import ExecutableSpreadResolver
 from arbitrator.config.settings import Settings
 from arbitrator.domain.strategy.strategy_kind import StrategyKind
 from arbitrator.domain.strategy.strategy_table import StrategyTable
+from arbitrator.domain.spread_calculator import SpreadCalculator
 from arbitrator.domain.ticker import Ticker
 from arbitrator.presentation.dto.opportunity_dto import OpportunityFocusDto
 from arbitrator.presentation.dto.screener_dto import (
@@ -16,6 +19,9 @@ from arbitrator.presentation.dto.screener_dto import (
     StrategyProfitsDto,
 )
 
+if TYPE_CHECKING:
+    from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+
 
 class ScreenerSerializer:
     """Builds the live ``ScreenerSnapshotDto`` from worker tickers + StrategyTables.
@@ -24,9 +30,18 @@ class ScreenerSerializer:
     spreads/nets are rounded only here, at the edge (FR-005/T063).
     """
 
-    def __init__(self, settings: Settings) -> None:
+    def __init__(
+        self,
+        settings: Settings,
+        market_cache: MarketDataCacheMemory | None = None,
+    ) -> None:
         self._exchanges = list(settings.enabled_exchanges)
         self._ticker_max_inner_spread_pct = settings.ticker_max_inner_spread_pct
+        self._spread_resolver = (
+            ExecutableSpreadResolver(settings, market_cache)
+            if market_cache is not None
+            else None
+        )
         self._filters = ScreenerFiltersDto(
             min_volume_k_usdt=settings.default_min_quote_volume_kusdt,
             stream_min_volume_usdt=settings.stream_min_quote_volume_usdt,
@@ -99,16 +114,18 @@ class ScreenerSerializer:
         # Filter out illiquid: if exchange streams bid/ask and inner spread > threshold
         for exchange_id, ticker in per_exchange.items():
             if ticker.bid and ticker.ask and ticker.ask > 0.0:
-                inner = (ticker.ask - ticker.bid) / ticker.ask * 100.0
+                inner = round((ticker.ask - ticker.bid) / ticker.ask * 100.0, 6)
                 if inner > self._ticker_max_inner_spread_pct:
                     priced.pop(exchange_id, None)
         if len(priced) < 2:
             return None
-        # Prefer bid/ask-based spread (verified), fallback to last-based
-        short_exchange_id, long_exchange_id, max_price, min_price = (
-            self._best_pair(per_exchange, priced)
+        short_exchange_id, long_exchange_id, max_price, min_price, executable_spread = (
+            self._best_pair(symbol, per_exchange, priced)
         )
-        spread_pct = (max_price - min_price) / min_price * 100.0 if min_price > 0 else 0.0
+        if executable_spread is not None:
+            spread_pct = executable_spread
+        else:
+            spread_pct = (max_price - min_price) / min_price * 100.0 if min_price > 0 else 0.0
         spread_delta = spread_pct - self._prev_spread.get(symbol, spread_pct)
         self._prev_spread[symbol] = spread_pct
 
@@ -132,36 +149,38 @@ class ScreenerSerializer:
             long_exchange_id=long_exchange_id,
         )
 
-    @staticmethod
     def _best_pair(
+        self,
+        symbol: str,
         per_exchange: Mapping[str, Ticker],
         priced: dict[str, float],
-    ) -> tuple[str, str, float, float]:
-        """Pick short/long pair using bid/ask when available.
-
-        Priority: exchanges that stream bid/ask (verified price).
-        Fallback: last-based for exchanges without bid/ask.
-        """
-        # Collect exchanges with real bid/ask
-        with_book = {
-            ex_id: ticker
-            for ex_id, ticker in per_exchange.items()
-            if ex_id in priced and ticker.bid and ticker.ask
-        }
-        if len(with_book) >= 2:
-            short_ex = max(with_book, key=lambda ex: with_book[ex].bid or 0.0)
-            long_ex = min(with_book, key=lambda ex: with_book[ex].ask or 0.0)
-            short_t = with_book[short_ex]
-            long_t = with_book[long_ex]
-            return short_ex, long_ex, short_t.bid or 0.0, long_t.ask or 0.0
-        # Fallback: use last prices
+    ) -> tuple[str, str, float, float, float | None]:
+        """Pick short/long via cache book/quote + ticker bid/ask; else last for display."""
+        if self._spread_resolver is not None:
+            best = self._spread_resolver.best_entry_pair_sync(symbol, per_exchange)
+            if best is not None:
+                short_ex, long_ex, short_bid, long_ask, spread_pct = best
+                return short_ex, long_ex, short_bid, long_ask, spread_pct
+        bid_by_exchange: dict[str, float] = {}
+        ask_by_exchange: dict[str, float] = {}
+        for exchange_id, ticker in per_exchange.items():
+            if exchange_id not in priced:
+                continue
+            if ticker.bid is not None and ticker.bid > 0.0:
+                bid_by_exchange[exchange_id] = ticker.bid
+            if ticker.ask is not None and ticker.ask > 0.0:
+                ask_by_exchange[exchange_id] = ticker.ask
+        best = SpreadCalculator.best_executable_pair(bid_by_exchange, ask_by_exchange)
+        if best is not None:
+            short_ex, long_ex, short_bid, long_ask, spread_pct = best
+            return short_ex, long_ex, short_bid, long_ask, spread_pct
         short_ex = max(priced, key=lambda ex: priced[ex])
         long_ex = min(priced, key=lambda ex: priced[ex])
         short_t = per_exchange[short_ex]
         long_t = per_exchange[long_ex]
-        max_price = short_t.bid if short_t.bid else short_t.last or 0.0
-        min_price = long_t.ask if long_t.ask else long_t.last or 0.0
-        return short_ex, long_ex, max_price, min_price
+        max_price = short_t.last if short_t.last else 0.0
+        min_price = long_t.last if long_t.last else 0.0
+        return short_ex, long_ex, max_price, min_price, None
 
     @staticmethod
     def _volume_k(per_exchange: Mapping[str, Ticker]) -> float:

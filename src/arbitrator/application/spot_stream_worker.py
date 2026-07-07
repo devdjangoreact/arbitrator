@@ -73,26 +73,44 @@ class SpotStreamWorker:
                     pass
 
     async def _watch_exchange(self, exchange_id: str, gw: SpotGateway) -> None:
-        try:
-            symbols = await gw.list_spot_symbols()
-        except Exception:
-            logger.exception("spot list_symbols failed | exchange={}", exchange_id)
-            return
-        if not symbols:
-            logger.info("spot stream: no USDT spot symbols | exchange={}", exchange_id)
-            return
-        # Only watch symbols that also exist in futures (intersection with screener)
-        # ponytail: watch all — filtering is caller's job
-        logger.info(
-            "spot stream watching | exchange={} symbols={}",
-            exchange_id, len(symbols),
-        )
-        async for quotes in gw.watch_spot_tickers(symbols):
-            if self._stop.is_set():
-                break
-            for _symbol, quote in quotes.items():
-                # Store with futures symbol key so assembler finds it
-                # spot "BTC/USDT" -> futures key "BTC/USDT:USDT"
-                futures_symbol = quote.symbol + ":USDT" if ":USDT" not in quote.symbol else quote.symbol
-                normalized = quote.model_copy(update={"symbol": futures_symbol})
-                self._cache.put_quote(normalized)
+        delay = self._settings.ws_reconnect_delay_seconds
+        while not self._stop.is_set():
+            try:
+                symbols = await gw.list_spot_symbols()
+            except Exception:
+                logger.exception(
+                    "spot list_symbols failed | exchange={} retry_in={}s",
+                    exchange_id,
+                    delay,
+                )
+                await asyncio.sleep(delay)
+                continue
+            if not symbols:
+                logger.info("spot stream: no USDT spot symbols | exchange={}", exchange_id)
+                return
+            logger.info(
+                "spot stream watching | exchange={} symbols={}",
+                exchange_id,
+                len(symbols),
+            )
+            try:
+                async for quotes in gw.watch_spot_tickers(symbols):
+                    if self._stop.is_set():
+                        return
+                    for _symbol, quote in quotes.items():
+                        futures_symbol = (
+                            quote.symbol + ":USDT"
+                            if ":USDT" not in quote.symbol
+                            else quote.symbol
+                        )
+                        normalized = quote.model_copy(update={"symbol": futures_symbol})
+                        self._cache.put_quote(normalized)
+            except asyncio.CancelledError:
+                raise
+            except Exception:
+                logger.exception(
+                    "spot stream disconnected | exchange={} retry_in={}s",
+                    exchange_id,
+                    delay,
+                )
+                await asyncio.sleep(delay)

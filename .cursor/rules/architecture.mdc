@@ -82,6 +82,11 @@ Wiring of concrete implementations happens in `main.py` (composition root).
   `Settings.ccxt_request_timeout_ms`.
 - Always close async resources in `finally` or via `async with`.
 - Async generators are the preferred shape for live data streams.
+- **Executable spreads**: `ExecutableSpreadResolver` in `application/` resolves
+  bid/ask for open/close (cache book → quote → ticker; REST via
+  `entry_spread_for_open` only when spread ≥ `screener_rest_prefilter_spread_pct`
+  and a `screener_book_stream_exchanges` leg lacks cache). Screener ranking uses
+  cached path only.
 - The **browser UI** uses **WebSocket only** for data and commands (`presentation/ws/`).
   Static files via `GET /` + `StaticFiles`. Exchange **REST** (`fetch_*`, orders, leverage)
   runs inside `application/` / `exchanges/` when a `watch_*` stream is unavailable — see

@@ -6,6 +6,7 @@ import time
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
+from arbitrator.application.executable_spread_resolver import ExecutableSpreadResolver
 from arbitrator.config.logger import logger
 from arbitrator.domain.position_leg import PositionLeg
 
@@ -23,7 +24,7 @@ class LiveFundingProtectionService:
     Decision logic per open pair at each check:
       net_funding_cost  = funding_charge_we_pay_in_usdt (positive = we pay)
       round_trip_fees   = 2 × (taker_fee_short × notional + taker_fee_long × notional)
-      current_spread    = (short_bid - long_ask) / long_ask × 100
+      current_spread    = (short_bid - long_ask) / long_ask × 100  (via ExecutableSpreadResolver)
 
     Reopen is worthwhile when:
       net_funding_cost > round_trip_fees
@@ -55,6 +56,7 @@ class LiveFundingProtectionService:
         self._exec = execution_service
         self._cache = market_cache
         self._settings = settings
+        self._spread_resolver = ExecutableSpreadResolver(settings, market_cache, gateways)
         self._interval = check_interval_seconds
         self._act_window = act_window_seconds
         self._skip_window = skip_within_seconds
@@ -187,12 +189,14 @@ class LiveFundingProtectionService:
             if funding_cost <= round_trip_fees:
                 continue
 
-            # Current spread check
-            short_mid = self._mid_price(short_ex, symbol)
-            long_mid = self._mid_price(long_ex, symbol)
-            if short_mid is None or long_mid is None or long_mid <= 0.0:
+            # Current executable entry spread (short bid / long ask — never last/mid)
+            entry_quotes = await self._spread_resolver.entry_spread(
+                symbol, short_ex, long_ex,
+                fetch_fresh=True,
+            )
+            if entry_quotes is None:
                 continue
-            current_spread_pct = (short_mid - long_mid) / long_mid * 100.0
+            _short_bid, _long_ask, current_spread_pct = entry_quotes
 
             if current_spread_pct < self._min_spread:
                 logger.info(
@@ -228,14 +232,14 @@ class LiveFundingProtectionService:
                 continue
 
             # Reopen at fresh notional from current market data
-            notional = self._resolve_notional(symbol, short_ex, long_ex, short_mid, long_mid)
+            notional = self._resolve_notional(symbol, short_ex, long_ex, _short_bid, _long_ask)
             if notional is None:
                 logger.warning(
                     "live funding protect: market info missing, cannot reopen | sym={} short={} long={}",
                     symbol, short_ex, long_ex,
                 )
                 continue
-            if short_mid <= 0.0:
+            if _short_bid <= 0.0:
                 continue
 
             logger.info(
@@ -248,7 +252,7 @@ class LiveFundingProtectionService:
                     short_exchange_id=short_ex,
                     long_exchange_id=long_ex,
                     notional_usdt=Decimal(str(notional)),
-                    price=Decimal(str(short_mid)),
+                    price=Decimal(str(_short_bid)),
                 )
                 logger.info(
                     "live funding protect: reopened | sym={} status={} imbalance={}",
@@ -263,16 +267,6 @@ class LiveFundingProtectionService:
     # ------------------------------------------------------------------ #
     # Helpers
     # ------------------------------------------------------------------ #
-
-    def _mid_price(self, exchange_id: str, symbol: str) -> float | None:
-        quote = self._cache.get_quote(exchange_id, symbol, "futures")
-        if quote is None:
-            return None
-        if quote.bid and quote.ask:
-            return round((float(quote.bid) + float(quote.ask)) / 2.0, 8)
-        if quote.last:
-            return round(float(quote.last), 8)
-        return None
 
     def _taker_fee(self, exchange_id: str, symbol: str) -> float:
         fee_schedule = self._cache.get_fees(exchange_id, symbol)

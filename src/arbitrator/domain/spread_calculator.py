@@ -6,7 +6,50 @@ from arbitrator.domain.spread_snapshot import SpreadSnapshot
 
 
 class SpreadCalculator:
-    """Shared cross-exchange spread formula for screener and arbitrage."""
+    """Shared cross-exchange spread formula for screener and arbitrage.
+
+    Display / screener ranking may use ``last`` via :meth:`compute`.
+    Open/close trading decisions must use :meth:`entry_spread_pct` /
+    :meth:`exit_spread_pct` with bid/ask (or order-book top), never ``last``.
+    """
+
+    @staticmethod
+    def entry_spread_pct(short_bid: float, long_ask: float) -> float | None:
+        """Entry spread: short sells at bid, long buys at ask."""
+        if long_ask <= 0.0:
+            return None
+        return (short_bid - long_ask) / long_ask * 100.0
+
+    @staticmethod
+    def exit_spread_pct(short_ask: float, long_bid: float) -> float | None:
+        """Exit spread: buy back short at ask, sell long at bid."""
+        if long_bid <= 0.0:
+            return None
+        return (short_ask - long_bid) / long_bid * 100.0
+
+    @staticmethod
+    def best_executable_pair(
+        bid_by_exchange: dict[str, float],
+        ask_by_exchange: dict[str, float],
+    ) -> tuple[str, str, float, float, float] | None:
+        """Pick short/long venues by max bid / min ask; return best positive pair.
+
+        Returns ``(short_ex, long_ex, short_bid, long_ask, spread_pct)`` or None
+        when fewer than two exchanges or no cross-venue pair exists.
+        """
+        if len(bid_by_exchange) < 2 or len(ask_by_exchange) < 2:
+            return None
+        best: tuple[str, str, float, float, float] | None = None
+        for short_ex, short_bid in bid_by_exchange.items():
+            for long_ex, long_ask in ask_by_exchange.items():
+                if short_ex == long_ex:
+                    continue
+                spread = SpreadCalculator.entry_spread_pct(short_bid, long_ask)
+                if spread is None:
+                    continue
+                if best is None or spread > best[4]:
+                    best = (short_ex, long_ex, short_bid, long_ask, spread)
+        return best
 
     @staticmethod
     def compute(symbol: str, prices_by_exchange: dict[str, float]) -> SpreadSnapshot:

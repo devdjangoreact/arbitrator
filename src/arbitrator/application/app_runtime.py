@@ -14,6 +14,7 @@ from arbitrator.application.live_funding_protection_service import LiveFundingPr
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
 from arbitrator.application.screener_auto_trader import ScreenerAutoTrader
+from arbitrator.application.screener_book_stream_worker import ScreenerBookStreamWorker
 from arbitrator.application.screener_stream_worker import ScreenerStreamWorker
 from arbitrator.application.spot_stream_worker import SpotStreamWorker
 from arbitrator.application.strategy_refresh_worker import StrategyRefreshWorker
@@ -53,6 +54,7 @@ class AppRuntime:
         self._settings = settings
         self.mock_provider = MockDataProvider(enabled_exchanges=settings.enabled_exchanges)
         self.screener_worker: ScreenerStreamWorker | None = None
+        self.screener_book_worker: ScreenerBookStreamWorker | None = None
         self.account_worker: AccountStreamWorker | None = None
         self.funding_worker: FundingRateWorker | None = None
         self.spot_worker: SpotStreamWorker | None = None
@@ -114,6 +116,9 @@ class AppRuntime:
         if self.screener_auto_trader is not None:
             self.screener_auto_trader.stop()
             logger.info("screener auto trader stopped")
+        if self.screener_book_worker is not None:
+            self.screener_book_worker.stop()
+            logger.info("screener book stream worker stopped")
         if self.screener_worker is not None:
             self.screener_worker.stop()
             logger.info("screener worker stopped")
@@ -163,6 +168,8 @@ class AppRuntime:
             volume_threshold_usdt=stream_min_volume_usdt,
         )
         self.screener_worker.start()
+        if self.screener_book_worker is not None:
+            self.screener_book_worker.set_screener_worker(self.screener_worker)
 
     def _start_live_workers(self) -> None:
         factory = Factory(settings=self._settings)
@@ -283,6 +290,11 @@ class AppRuntime:
         ):
             logger.warning("screener auto trader skipped — workers not ready")
             return
+        factory = Factory(settings=self._settings)
+        gateways = {
+            ex_id: factory.create(ex_id).gateway
+            for ex_id in self._settings.enabled_exchanges
+        }
         self.screener_auto_trader = ScreenerAutoTrader(
             settings=self._settings,
             screener_worker=self.screener_worker,
@@ -290,6 +302,7 @@ class AppRuntime:
             market_cache=self.market_cache,
             token_identity=self.token_identity,
             strategy_table_service=self.strategy_table_service,
+            gateways=gateways,
         )
         self.screener_auto_trader.start()
 
@@ -332,6 +345,16 @@ class AppRuntime:
         logger.info("screener worker started")
 
         self.market_cache = MarketDataCacheMemory()
+        screener_worker = self.screener_worker
+        self.screener_book_worker = ScreenerBookStreamWorker(
+            settings=self._settings,
+            factory=factory,
+            cache=self.market_cache,
+            screener_worker=screener_worker,
+            snapshot_provider=lambda: screener_worker.read_state()[0],
+        )
+        self.screener_book_worker.start()
+
         engine = StrategyEngine(
             [
                 FuturesFuturesCalculator(),

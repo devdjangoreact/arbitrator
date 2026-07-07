@@ -43,6 +43,8 @@ def _snapshot() -> dict[tuple[str, str], Ticker]:
         ("mexc", symbol): Ticker(
             symbol=symbol,
             last=105.0,
+            bid=105.0,
+            ask=105.1,
             high_24h=110.0,
             low_24h=100.0,
             base_volume_24h=1.0,
@@ -52,6 +54,8 @@ def _snapshot() -> dict[tuple[str, str], Ticker]:
         ("bitget", symbol): Ticker(
             symbol=symbol,
             last=100.0,
+            bid=99.9,
+            ask=100.0,
             high_24h=101.0,
             low_24h=99.0,
             base_volume_24h=1.0,

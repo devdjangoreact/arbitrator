@@ -7,6 +7,7 @@ from collections.abc import Mapping
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
+from arbitrator.application.executable_spread_resolver import ExecutableSpreadResolver
 from arbitrator.application.hedged_execution_service import HedgedExecutionService
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.screener_auto_trader import ScreenerAutoTrader
@@ -14,8 +15,7 @@ from arbitrator.application.screener_stream_worker import ScreenerStreamWorker
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.exchange_gateway import ExchangeGateway
-from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.spread_calculator import SpreadCalculator
 from arbitrator.domain.ticker import Ticker
 
 if TYPE_CHECKING:
@@ -43,9 +43,9 @@ class LiveAutoTrader:
         screener_worker: ScreenerStreamWorker,
         execution_service: HedgedExecutionService,
         market_cache: MarketDataCacheMemory,
-        token_identity: "TokenIdentityService | None" = None,
+        token_identity: TokenIdentityService | None = None,
         gateways: Mapping[str, ExchangeGateway] | None = None,
-        strategy_table_service: "StrategyTableService | None" = None,
+        strategy_table_service: StrategyTableService | None = None,
     ) -> None:
         self._settings = settings
         self._screener = screener_worker
@@ -53,6 +53,7 @@ class LiveAutoTrader:
         self._cache = market_cache
         self._token_identity = token_identity
         self._gateways: Mapping[str, ExchangeGateway] = gateways or {}
+        self._spread_resolver = ExecutableSpreadResolver(settings, market_cache, self._gateways)
         self._strategy_table_service = strategy_table_service
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
@@ -126,7 +127,7 @@ class LiveAutoTrader:
                     asyncio.shield(asyncio.get_event_loop().create_future()),
                     timeout=interval,
                 )
-            except (asyncio.TimeoutError, asyncio.CancelledError):
+            except (TimeoutError, asyncio.CancelledError):
                 if self._stop.is_set():
                     raise asyncio.CancelledError
                 pass
@@ -168,8 +169,7 @@ class LiveAutoTrader:
             # Reconstruct entry spread from position entry prices
             if short_leg.entry_price > 0 and long_leg.entry_price > 0:
                 entry_spread = (
-                    (short_leg.entry_price - long_leg.entry_price)
-                    / long_leg.entry_price * 100.0
+                    (short_leg.entry_price - long_leg.entry_price) / long_leg.entry_price * 100.0
                 )
                 self._entry_spreads[key] = entry_spread
             # Determine DCA layers already done by comparing position size to base notional
@@ -184,8 +184,12 @@ class LiveAutoTrader:
             logger.info(
                 "live auto trader: restored open pair | sym={} short={} long={}"
                 " entry_spread={:.3f}% position_usdt={:.1f} dca_layers={}",
-                symbol, short_ex, long_ex, self._entry_spreads.get(key, 0.0),
-                position_usdt, self._dca_layers[key],
+                symbol,
+                short_ex,
+                long_ex,
+                self._entry_spreads.get(key, 0.0),
+                position_usdt,
+                self._dca_layers[key],
             )
 
         logger.info("live auto trader: restored {} open pairs", len(self._open_pairs))
@@ -203,32 +207,23 @@ class LiveAutoTrader:
         close_spread_pct = self._settings.screener_auto_trade_close_spread_pct
         max_pos = self._settings.screener_auto_trade_max_positions
 
-        # --- build ranked candidates ---
-        by_symbol: dict[str, dict[str, float]] = {}
+        # --- build ranked candidates (bid/ask or order-book top — never last) ---
+        by_symbol: dict[str, dict[str, Ticker]] = {}
         for (exchange_id, symbol), ticker in tickers.items():
-            if ticker.last is not None and ticker.last > 0.0:
-                by_symbol.setdefault(symbol, {})[exchange_id] = ticker.last
+            by_symbol.setdefault(symbol, {})[exchange_id] = ticker
 
         candidates: list[tuple[float, str, str, str, float, float]] = []
-        for symbol, prices in by_symbol.items():
-            if len(prices) < 2:
+        for symbol, per_exchange in by_symbol.items():
+            if len(per_exchange) < 2:
                 continue
-            short_ex = max(prices, key=lambda ex: prices[ex])
-            long_ex = min(prices, key=lambda ex: prices[ex])
-            short_ticker = tickers.get((short_ex, symbol))
-            long_ticker = tickers.get((long_ex, symbol))
-            if not short_ticker or not long_ticker:
+            best = self._spread_resolver.best_entry_pair_sync(symbol, per_exchange)
+            if best is None:
                 continue
-            # Use bid/ask when available, fallback to last for exchanges
-            # that don't stream bid/ask (mexc, gate)
-            short_bid = short_ticker.bid or short_ticker.last
-            long_ask = long_ticker.ask or long_ticker.last
-            if not short_bid or not long_ask or long_ask <= 0.0:
-                continue
-            # Skip illiquid: if either ticker streams bid/ask and it's too wide
+            short_ex, long_ex, short_bid, long_ask, spread = best
+            short_ticker = per_exchange.get(short_ex)
+            long_ticker = per_exchange.get(long_ex)
             if self._ticker_too_wide(short_ticker) or self._ticker_too_wide(long_ticker):
                 continue
-            spread = (short_bid - long_ask) / long_ask * 100.0
             candidates.append((spread, symbol, short_ex, long_ex, short_bid, long_ask))
 
         candidates.sort(key=lambda c: c[0], reverse=True)
@@ -239,46 +234,56 @@ class LiveAutoTrader:
             sym, s_ex, l_ex = key
             s_ticker = tickers.get((s_ex, sym))
             l_ticker = tickers.get((l_ex, sym))
-            short_ask = (
-                s_ticker.ask if s_ticker and s_ticker.ask
-                else s_ticker.last if s_ticker else None
+            exit_quotes = await self._spread_resolver.exit_spread(
+                sym,
+                s_ex,
+                l_ex,
+                short_ticker=s_ticker,
+                long_ticker=l_ticker,
+                fetch_fresh=True,
             )
-            long_bid = (
-                l_ticker.bid if l_ticker and l_ticker.bid
-                else l_ticker.last if l_ticker else None
-            )
-            if short_ask is None or long_bid is None or long_bid <= 0.0:
-                # Ticker absent from screener universe — fallback to order book REST
+            if exit_quotes is None:
                 logger.debug(
-                    "live close: no ticker, fetching book | sym={} short={} long={}",
-                    sym, s_ex, l_ex,
+                    "live close skipped: no executable bid/ask | sym={} short={} long={}",
+                    sym,
+                    s_ex,
+                    l_ex,
                 )
-                fresh = await self._fetch_book_spread(sym, s_ex, l_ex)
-                if fresh is None:
-                    logger.warning(
-                        "live close skipped: book fetch also failed | sym={} short={} long={}",
-                        sym, s_ex, l_ex,
-                    )
-                    continue
-                short_ask, long_bid, _ = fresh
-            exit_spread = (short_ask - long_bid) / long_bid * 100.0
+                continue
+            short_ask, long_bid, exit_spread = exit_quotes
             pair_strategy = self._pair_strategy.get(key, "futures_futures")
             pair_close_threshold = self._settings.strategy_close_spread_pct(pair_strategy)
             logger.debug(
                 "live close check | sym={} short={} long={} exit_spread={:.4f}% threshold={}%",
-                sym, s_ex, l_ex, exit_spread, pair_close_threshold,
+                sym,
+                s_ex,
+                l_ex,
+                exit_spread,
+                pair_close_threshold,
             )
             if exit_spread > pair_close_threshold:
                 continue
             logger.info(
                 "live auto close | sym={} short={} long={} exit_spread={:.4f}% threshold={}%"
                 " short_ask={} long_bid={}",
-                sym, s_ex, l_ex, exit_spread, close_spread_pct, short_ask, long_bid,
+                sym,
+                s_ex,
+                l_ex,
+                exit_spread,
+                close_spread_pct,
+                short_ask,
+                long_bid,
             )
             logger["trades/live_trades.log"].info(
                 "CLOSE | trigger=spread sym={} short={} long={}"
                 " exit_spread={:.4f}% threshold={}% short_ask={} long_bid={}",
-                sym, s_ex, l_ex, exit_spread, close_spread_pct, short_ask, long_bid,
+                sym,
+                s_ex,
+                l_ex,
+                exit_spread,
+                close_spread_pct,
+                short_ask,
+                long_bid,
             )
             strategy_for_close = self._pair_strategy.get(key, "futures_futures")
             outcome = await self._exec.close_all(
@@ -289,12 +294,17 @@ class LiveAutoTrader:
             )
             logger.info(
                 "live auto close result | sym={} status={} imbalance={}",
-                sym, outcome.status.value, outcome.imbalance_pct,
+                sym,
+                outcome.status.value,
+                outcome.imbalance_pct,
             )
             logger["trades/live_trades.log"].info(
                 "CLOSE_RESULT | sym={} status={} short_ex={} long_ex={}"
                 " short_filled={} short_order={} long_filled={} long_order={} imbalance={}",
-                sym, outcome.status.value, s_ex, l_ex,
+                sym,
+                outcome.status.value,
+                s_ex,
+                l_ex,
                 outcome.short_leg.filled_amount if outcome.short_leg else "n/a",
                 outcome.short_leg.order_id if outcome.short_leg else "n/a",
                 outcome.long_leg.filled_amount if outcome.long_leg else "n/a",
@@ -327,57 +337,67 @@ class LiveAutoTrader:
             # Skip if no gateway for either exchange
             if short_ex not in self._exec._gateways or long_ex not in self._exec._gateways:
                 continue
-            entry_spread = (short_bid - long_ask) / long_ask * 100.0
-            if entry_spread < open_spread_pct:
+            entry_spread = SpreadCalculator.entry_spread_pct(short_bid, long_ask)
+            if entry_spread is None or entry_spread < open_spread_pct:
                 continue
-            # Fetch fresh order books (REST) — gates all subsequent checks
-            fresh = await self._fetch_book_spread(symbol, short_ex, long_ex)
+            # Re-fetch bid/ask — REST only above prefilter when a leg lacks WS bid/ask
+            fresh = await self._spread_resolver.entry_spread_for_open(
+                symbol,
+                short_ex,
+                long_ex,
+                entry_spread,
+                short_ticker=tickers.get((short_ex, symbol)),
+                long_ticker=tickers.get((long_ex, symbol)),
+            )
             if fresh is None:
                 logger.debug(
-                    "live open skipped: order book fetch failed | sym={} short={} long={}",
-                    symbol, short_ex, long_ex,
+                    "live open skipped: executable bid/ask unavailable | sym={} short={} long={}",
+                    symbol,
+                    short_ex,
+                    long_ex,
                 )
                 continue
             fresh_bid, fresh_ask, fresh_spread = fresh
             if fresh_spread < open_spread_pct:
-                # Book disagrees with ticker direction — try reversed legs from cache
-                rev = self._reversed_book_spread(symbol, short_ex, long_ex)
-                if rev is None or rev[2] < open_spread_pct:
-                    logger.debug(
-                        "live open skipped: book spread below threshold | sym={} short={} long={} was={:.3f}% now={:.3f}%",
-                        symbol, short_ex, long_ex, entry_spread, fresh_spread,
-                    )
-                    continue
-                short_ex, long_ex = long_ex, short_ex
-                fresh_bid, fresh_ask, fresh_spread = rev
-                # ponytail: check cooldown for reversed direction too
-                _ck_rev = (symbol, short_ex, long_ex)
-                if self._open_cooldown.get(_ck_rev, 0.0) > time.monotonic():
-                    continue
                 logger.debug(
-                    "live open: reversed legs from book | sym={} short={} long={} spread={:.3f}%",
-                    symbol, short_ex, long_ex, fresh_spread,
+                    "live open skipped: book spread below threshold | sym={} short={} long={} was={:.3f}% now={:.3f}%",
+                    symbol,
+                    short_ex,
+                    long_ex,
+                    entry_spread,
+                    fresh_spread,
                 )
+                continue
             if fresh_spread > self._settings.anomaly_max_spread_pct:
                 logger.warning(
                     "live open blocked: anomaly spread — likely different tokens | "
                     "sym={} short={} long={} spread={:.1f}% max={}%",
-                    symbol, short_ex, long_ex, fresh_spread,
+                    symbol,
+                    short_ex,
+                    long_ex,
+                    fresh_spread,
                     self._settings.anomaly_max_spread_pct,
                 )
                 continue
-            notional_float = self._resolve_min_notional(symbol, short_ex, long_ex, fresh_bid, fresh_ask)
+            notional_float = self._resolve_min_notional(
+                symbol, short_ex, long_ex, fresh_bid, fresh_ask
+            )
             if notional_float is None:
                 logger.debug(
                     "live open skipped: market info not yet cached | sym={} short={} long={}",
-                    symbol, short_ex, long_ex,
+                    symbol,
+                    short_ex,
+                    long_ex,
                 )
                 continue
             rejection = self._validate_cross_pair(symbol, short_ex, long_ex, notional_float)
             if rejection is not None:
                 logger.warning(
                     "live open skipped: {} | sym={} short={} long={}",
-                    rejection, symbol, short_ex, long_ex,
+                    rejection,
+                    symbol,
+                    short_ex,
+                    long_ex,
                 )
                 continue
             # Pre-trade slippage estimation: predict actual fill spread from book depth
@@ -388,7 +408,12 @@ class LiveAutoTrader:
                 logger.warning(
                     "live open blocked: estimated fill spread below threshold | "
                     "sym={} short={} long={} book_spread={:.3f}% estimated_fill={:.3f}% threshold={}%",
-                    symbol, short_ex, long_ex, fresh_spread, estimated_spread, open_spread_pct,
+                    symbol,
+                    short_ex,
+                    long_ex,
+                    fresh_spread,
+                    estimated_spread,
+                    open_spread_pct,
                 )
                 continue
             # Set cross-margin mode on both exchanges before opening
@@ -405,7 +430,8 @@ class LiveAutoTrader:
             if not self._settings.is_strategy_allowed(strategy_kind):
                 logger.debug(
                     "live open skipped: strategy not allowed | sym={} strategy={}",
-                    symbol, strategy_kind,
+                    symbol,
+                    strategy_kind,
                 )
                 continue
             # Per-strategy spread threshold (overrides global default)
@@ -414,7 +440,10 @@ class LiveAutoTrader:
                 logger.debug(
                     "live open skipped: below strategy threshold | sym={} strategy={}"
                     " spread={:.3f}% threshold={}%",
-                    symbol, strategy_kind, fresh_spread, strategy_open_threshold,
+                    symbol,
+                    strategy_kind,
+                    fresh_spread,
+                    strategy_open_threshold,
                 )
                 continue
 
@@ -424,10 +453,18 @@ class LiveAutoTrader:
                 "live auto open | sym={} short={} long={} spread={:.4f}% notional={}"
                 " short_bid={} long_ask={} entry_spread={:.4f}% threshold={}%"
                 " estimated_fill_spread={} anomaly_max={}% slippage_max={}% strategy={}",
-                symbol, short_ex, long_ex, fresh_spread, notional,
-                fresh_bid, fresh_ask, entry_spread, open_spread_pct,
+                symbol,
+                short_ex,
+                long_ex,
+                fresh_spread,
+                notional,
+                fresh_bid,
+                fresh_ask,
+                entry_spread,
+                open_spread_pct,
                 f"{estimated_spread:.3f}%" if estimated_spread else "n/a",
-                self._settings.anomaly_max_spread_pct, self._settings.slippage_max_pct,
+                self._settings.anomaly_max_spread_pct,
+                self._settings.slippage_max_pct,
                 strategy_kind,
             )
             logger["trades/live_trades.log"].info(
@@ -435,9 +472,17 @@ class LiveAutoTrader:
                 " spread={:.4f}% entry_spread={:.4f}% threshold={}%"
                 " short_bid={} long_ask={} notional={} max_positions={} open_count={}"
                 " estimated_fill_spread={} strategy={}",
-                symbol, short_ex, long_ex,
-                fresh_spread, entry_spread, open_spread_pct,
-                fresh_bid, fresh_ask, notional, max_pos, open_count,
+                symbol,
+                short_ex,
+                long_ex,
+                fresh_spread,
+                entry_spread,
+                open_spread_pct,
+                fresh_bid,
+                fresh_ask,
+                notional,
+                max_pos,
+                open_count,
                 f"{estimated_spread:.3f}%" if estimated_spread else "n/a",
                 strategy_kind,
             )
@@ -451,14 +496,19 @@ class LiveAutoTrader:
             )
             logger.info(
                 "live auto open result | sym={} status={} imbalance={}",
-                symbol, outcome.status.value, outcome.imbalance_pct,
+                symbol,
+                outcome.status.value,
+                outcome.imbalance_pct,
             )
             logger["trades/live_trades.log"].info(
                 "OPEN_RESULT | sym={} status={} short_ex={} long_ex={}"
                 " short_requested={} short_filled={} short_order={}"
                 " long_requested={} long_filled={} long_order={}"
                 " imbalance={} message={}",
-                symbol, outcome.status.value, short_ex, long_ex,
+                symbol,
+                outcome.status.value,
+                short_ex,
+                long_ex,
                 outcome.short_leg.requested_amount if outcome.short_leg else "n/a",
                 outcome.short_leg.filled_amount if outcome.short_leg else "n/a",
                 outcome.short_leg.order_id if outcome.short_leg else "n/a",
@@ -510,8 +560,7 @@ class LiveAutoTrader:
         if long_leg.entry_price <= 0:
             return
         actual_spread = (
-            (short_leg.entry_price - long_leg.entry_price)
-            / long_leg.entry_price * 100.0
+            (short_leg.entry_price - long_leg.entry_price) / long_leg.entry_price * 100.0
         )
         # Update stored entry spread with the real value
         self._entry_spreads[key] = actual_spread
@@ -519,15 +568,22 @@ class LiveAutoTrader:
             logger.warning(
                 "post_fill_guard: actual spread {:.3f}% < {:.1f}% — closing immediately | "
                 "sym={} short={} long={} short_entry={} long_entry={}",
-                actual_spread, min_spread,
-                symbol, short_ex, long_ex,
-                short_leg.entry_price, long_leg.entry_price,
+                actual_spread,
+                min_spread,
+                symbol,
+                short_ex,
+                long_ex,
+                short_leg.entry_price,
+                long_leg.entry_price,
             )
             logger["trades/live_trades.log"].warning(
                 "POST_FILL_CLOSE | sym={} actual_spread={:.3f}% min={:.1f}%"
                 " short_entry={} long_entry={}",
-                symbol, actual_spread, min_spread,
-                short_leg.entry_price, long_leg.entry_price,
+                symbol,
+                actual_spread,
+                min_spread,
+                short_leg.entry_price,
+                long_leg.entry_price,
             )
             await self._exec.close_all(
                 symbol=symbol,
@@ -561,12 +617,30 @@ class LiveAutoTrader:
             entry_spread = self._entry_spreads.get(key)
             if entry_spread is None:
                 continue
-            # Check current spread
-            fresh = await self._fetch_book_spread(symbol, short_ex, long_ex)
+            cached = self._spread_resolver.entry_spread_sync(
+                symbol,
+                short_ex,
+                long_ex,
+                short_ticker=tickers.get((short_ex, symbol)),
+                long_ticker=tickers.get((long_ex, symbol)),
+            )
+            if cached is None:
+                continue
+            _bid, _ask, current_spread = cached
+            required_spread = entry_spread + dca_step
+            if current_spread < required_spread:
+                continue
+            fresh = await self._spread_resolver.entry_spread_for_open(
+                symbol,
+                short_ex,
+                long_ex,
+                current_spread,
+                short_ticker=tickers.get((short_ex, symbol)),
+                long_ticker=tickers.get((long_ex, symbol)),
+            )
             if fresh is None:
                 continue
             _bid, _ask, current_spread = fresh
-            required_spread = entry_spread + dca_step
             if current_spread < required_spread:
                 continue
             # Notional for DCA = 2x base notional
@@ -576,10 +650,14 @@ class LiveAutoTrader:
             dca_notional = notional_float * 2.0
             # Pre-trade slippage estimation for DCA volume
             estimated = self._estimate_spread_after_fill(symbol, short_ex, long_ex, dca_notional)
-            if estimated is not None and estimated < self._settings.screener_auto_trade_open_spread_pct:
+            if (
+                estimated is not None
+                and estimated < self._settings.screener_auto_trade_open_spread_pct
+            ):
                 logger.debug(
                     "DCA skipped: estimated fill spread too low | sym={} est={:.3f}%",
-                    symbol, estimated,
+                    symbol,
+                    estimated,
                 )
                 continue
             # Depth check for DCA volume
@@ -601,14 +679,25 @@ class LiveAutoTrader:
             logger.info(
                 "DCA accumulate | sym={} short={} long={} current_spread={:.3f}%"
                 " entry_spread={:.3f}% dca_notional={} layer={}",
-                symbol, short_ex, long_ex, current_spread,
-                entry_spread, dca_notional, layers + 1,
+                symbol,
+                short_ex,
+                long_ex,
+                current_spread,
+                entry_spread,
+                dca_notional,
+                layers + 1,
             )
             logger["trades/live_trades.log"].info(
                 "DCA | sym={} short={} long={} current_spread={:.3f}%"
                 " entry_spread={:.3f}% required={:.3f}% notional={} layer={}",
-                symbol, short_ex, long_ex, current_spread,
-                entry_spread, required_spread, dca_notional, layers + 1,
+                symbol,
+                short_ex,
+                long_ex,
+                current_spread,
+                entry_spread,
+                required_spread,
+                dca_notional,
+                layers + 1,
             )
             dca_strategy = self._pair_strategy.get(key, "futures_futures")
             outcome = await self._exec.accumulate(
@@ -624,16 +713,20 @@ class LiveAutoTrader:
                 # Update entry spread to average (weighted by layers)
                 total_layers = layers + 2  # original + all DCA layers
                 self._entry_spreads[key] = (
-                    (entry_spread * (total_layers - 1) + current_spread) / total_layers
-                )
+                    entry_spread * (total_layers - 1) + current_spread
+                ) / total_layers
                 logger.info(
                     "DCA result | sym={} status={} new_avg_spread={:.3f}%",
-                    symbol, outcome.status.value, self._entry_spreads[key],
+                    symbol,
+                    outcome.status.value,
+                    self._entry_spreads[key],
                 )
             else:
                 logger.warning(
                     "DCA failed | sym={} status={} message={}",
-                    symbol, outcome.status.value, outcome.message,
+                    symbol,
+                    outcome.status.value,
+                    outcome.message,
                 )
 
     async def _liq_distance_ok(
@@ -747,54 +840,17 @@ class LiveAutoTrader:
         floor = self._settings.screener_auto_trade_notional_usdt
         return max(min_a, min_b, floor)
 
-    def _ticker_too_wide(self, ticker: Ticker) -> bool:
+    def _ticker_too_wide(self, ticker: Ticker | None) -> bool:
         """Reject tickers where the exchange's own bid-ask spread indicates illiquidity.
 
-        Returns False (pass) when bid/ask absent — those exchanges (mexc, gate)
-        don't stream bid/ask; the book fetch later is the real gate.
+        Returns False when ticker is None or bid/ask absent — resolver fetches books.
         """
+        if ticker is None:
+            return False
         if ticker.bid and ticker.ask and ticker.ask > 0.0:
             inner_spread = (ticker.ask - ticker.bid) / ticker.ask * 100.0
             return inner_spread > self._settings.ticker_max_inner_spread_pct
         return False
-
-    async def _fetch_book_spread(
-        self,
-        symbol: str,
-        short_ex: str,
-        long_ex: str,
-    ) -> tuple[float, float, float] | None:
-        """Fetch order books via REST for both legs, cache them, return (bid, ask, spread%).
-
-        Returns None if either fetch fails or book is empty — blocks the trade.
-        """
-        depth = self._settings.opportunity_order_book_depth
-        for exchange_id in (short_ex, long_ex):
-            gw = self._gateways.get(exchange_id)
-            if gw is None:
-                return None
-            try:
-                book = await gw.fetch_order_book_once(symbol, depth)
-            except Exception:
-                logger.exception(
-                    "fetch_order_book_once failed | ex={} sym={}", exchange_id, symbol
-                )
-                return None
-            if not book.bids or not book.asks:
-                return None
-            self._cache.put_order_book(book)
-        short_book = self._cache.get_order_book(short_ex, symbol)
-        long_book = self._cache.get_order_book(long_ex, symbol)
-        if short_book is None or long_book is None:
-            return None
-        if not short_book.bids or not long_book.asks:
-            return None
-        bid = short_book.bids[0].price
-        ask = long_book.asks[0].price
-        if ask <= 0.0:
-            return None
-        spread = (bid - ask) / ask * 100.0
-        return bid, ask, spread
 
     def _estimate_fill_price(
         self,
@@ -845,61 +901,7 @@ class LiveAutoTrader:
         long_fill = self._estimate_fill_price(long_ex, symbol, "buy", notional_usdt)
         if short_fill is None or long_fill is None or long_fill <= 0:
             return None
-        return (short_fill - long_fill) / long_fill * 100.0
-
-    def _reversed_book_spread(
-        self,
-        symbol: str,
-        short_ex: str,
-        long_ex: str,
-    ) -> tuple[float, float, float] | None:
-        """Return (bid, ask, spread%) for the reversed direction using cached books."""
-        long_book = self._cache.get_order_book(short_ex, symbol)   # was short → now long
-        short_book = self._cache.get_order_book(long_ex, symbol)   # was long → now short
-        if long_book is None or short_book is None:
-            return None
-        if not short_book.bids or not long_book.asks:
-            return None
-        bid = short_book.bids[0].price
-        ask = long_book.asks[0].price
-        if ask <= 0.0:
-            return None
-        return bid, ask, (bid - ask) / ask * 100.0
-
-    def _fresh_spread(
-        self,
-        symbol: str,
-        short_ex: str,
-        long_ex: str,
-    ) -> tuple[float, float, float] | None:
-        q_short = self._cache.get_quote(short_ex, symbol, "futures")
-        q_long = self._cache.get_quote(long_ex, symbol, "futures")
-        if q_short is None or q_long is None:
-            return None
-        max_age_ms = int(self._settings.quote_max_age_seconds * 1000)
-        now_ms = int(time.time() * 1000)
-        if now_ms - q_short.recv_time_ms > max_age_ms:
-            logger.debug(
-                "_fresh_spread: quote stale | ex={} sym={} age_ms={}",
-                short_ex, symbol, now_ms - q_short.recv_time_ms,
-            )
-            return None
-        if now_ms - q_long.recv_time_ms > max_age_ms:
-            logger.debug(
-                "_fresh_spread: quote stale | ex={} sym={} age_ms={}",
-                long_ex, symbol, now_ms - q_long.recv_time_ms,
-            )
-            return None
-        bid = float(q_short.bid) if q_short.bid is not None else (
-            float(q_short.last) if q_short.last is not None else None
-        )
-        ask = float(q_long.ask) if q_long.ask is not None else (
-            float(q_long.last) if q_long.last is not None else None
-        )
-        if bid is None or ask is None or ask <= 0.0:
-            return None
-        spread = (bid - ask) / ask * 100.0
-        return bid, ask, spread
+        return SpreadCalculator.entry_spread_pct(short_fill, long_fill)
 
     def _validate_cross_pair(
         self,
@@ -942,7 +944,10 @@ class LiveAutoTrader:
             )
 
         for info, ex in ((info_a, exchange_a), (info_b, exchange_b)):
-            if info.min_order_volume_usdt is not None and notional_usdt < info.min_order_volume_usdt:
+            if (
+                info.min_order_volume_usdt is not None
+                and notional_usdt < info.min_order_volume_usdt
+            ):
                 return (
                     f"below_min_notional:{ex}:"
                     f"{notional_usdt:.2f}<{info.min_order_volume_usdt:.2f}"
@@ -958,10 +963,15 @@ class LiveAutoTrader:
             if result.match_type == "symbol_only_ccxt_dedup":
                 logger.debug(
                     "token_identity unverified, proceeding | base={} {}/{} notes={}",
-                    expected_base, exchange_a, exchange_b, result.notes,
+                    expected_base,
+                    exchange_a,
+                    exchange_b,
+                    result.notes,
                 )
 
-        depth_rejection = self._check_order_book_depth(symbol, exchange_a, exchange_b, notional_usdt)
+        depth_rejection = self._check_order_book_depth(
+            symbol, exchange_a, exchange_b, notional_usdt
+        )
         if depth_rejection is not None:
             return depth_rejection
 
@@ -977,7 +987,7 @@ class LiveAutoTrader:
         """Return rejection reason if either exchange lacks sufficient order book depth.
 
         Required depth = notional_usdt * 2 within 0.4% of best bid/ask price.
-        Uses cached OrderBookSnapshot (populated by _fetch_book_spread before this runs).
+        Uses cached OrderBookSnapshot (populated by ExecutableSpreadResolver before this runs).
         """
         required = notional_usdt * 2.0
         for exchange_id in (exchange_a, exchange_b):
@@ -988,20 +998,30 @@ class LiveAutoTrader:
             bid_depth = ScreenerAutoTrader._side_depth_usdt(book.bids, price_limit_pct=0.004)
             logger.debug(
                 "order book depth | sym={} ex={} bid_depth={:.0f} ask_depth={:.0f} required={:.0f}",
-                symbol, exchange_id, bid_depth, ask_depth, required,
+                symbol,
+                exchange_id,
+                bid_depth,
+                ask_depth,
+                required,
             )
             if ask_depth < required:
                 logger.warning(
                     "live open blocked: insufficient ask depth | sym={} ex={} "
                     "ask_depth={:.0f} required={:.0f}",
-                    symbol, exchange_id, ask_depth, required,
+                    symbol,
+                    exchange_id,
+                    ask_depth,
+                    required,
                 )
                 return f"insufficient_ask_depth:{exchange_id}:{ask_depth:.0f}<{required:.0f}"
             if bid_depth < required:
                 logger.warning(
                     "live open blocked: insufficient bid depth | sym={} ex={} "
                     "bid_depth={:.0f} required={:.0f}",
-                    symbol, exchange_id, bid_depth, required,
+                    symbol,
+                    exchange_id,
+                    bid_depth,
+                    required,
                 )
                 return f"insufficient_bid_depth:{exchange_id}:{bid_depth:.0f}<{required:.0f}"
         return None

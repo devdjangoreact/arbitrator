@@ -28,7 +28,14 @@ from arbitrator.domain.ticker import Ticker
 NOW_MS = 1_700_000_000_000
 
 
-def _ticker(symbol: str, *, last: float, bid: float, ask: float, volume: float) -> Ticker:
+def _ticker(
+    symbol: str,
+    *,
+    last: float,
+    bid: float | None,
+    ask: float | None,
+    volume: float,
+) -> Ticker:
     return Ticker(
         symbol=symbol,
         last=last,
@@ -94,6 +101,40 @@ def test_strategy_table_service_computes_futures_futures_live() -> None:
     assert ff.net_profit_usdt == Decimal("9.8")
 
 
+def test_screener_serializer_uses_order_book_bid_ask_for_spread() -> None:
+    from arbitrator.presentation.serializers.screener_serializer import ScreenerSerializer
+    from arbitrator.domain.order_book_level import OrderBookLevel
+    from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
+
+    symbol = "TLM/USDT:USDT"
+    cache = MarketDataCacheMemory()
+    _seed_fees(cache, symbol, "mexc", "gate")
+    cache.put_order_book(
+        OrderBookSnapshot(
+            exchange_id="mexc",
+            symbol=symbol,
+            timestamp_ms=NOW_MS,
+            bids=(OrderBookLevel(price=0.003280, size=1000.0),),
+            asks=(OrderBookLevel(price=0.003290, size=1000.0),),
+        )
+    )
+    service = _service(cache)
+    tickers = {
+        ("mexc", symbol): _ticker(symbol, last=0.003350, bid=None, ask=None, volume=2_000_000.0),
+        ("gate", symbol): _ticker(symbol, last=0.003270, bid=0.003275, ask=0.003280, volume=1_500_000.0),
+    }
+    tables = service.refresh(tickers, NOW_MS)
+    snapshot = ScreenerSerializer(Settings(), cache).serialize(tickers, tables, "Live", len(tables))
+
+    assert len(snapshot.rows) == 1
+    row = snapshot.rows[0]
+    assert row.short_exchange_id == "mexc"
+    assert row.long_exchange_id == "gate"
+    assert row.spread_pct == 0.0
+    assert row.max_price == 0.003280
+    assert row.min_price == 0.003280
+
+
 def test_strategy_screener_serializer_maps_na_for_missing_data() -> None:
     from arbitrator.presentation.serializers.screener_serializer import ScreenerSerializer
 
@@ -106,7 +147,7 @@ def test_strategy_screener_serializer_maps_na_for_missing_data() -> None:
         ("bingx", symbol): _ticker(symbol, last=1.00, bid=0.99, ask=1.00, volume=1_500_000.0),
     }
     tables = service.refresh(tickers, NOW_MS)
-    snapshot = ScreenerSerializer(Settings()).serialize(tickers, tables, "Live", len(tables))
+    snapshot = ScreenerSerializer(Settings(), cache).serialize(tickers, tables, "Live", len(tables))
 
     assert len(snapshot.rows) == 1
     row = snapshot.rows[0]

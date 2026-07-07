@@ -82,7 +82,7 @@ class ScreenerWsHandler:
             )
             await asyncio.sleep(push_interval)
             return
-        serializer = ScreenerSerializer(self._settings)
+        serializer = ScreenerSerializer(self._settings, self._runtime.market_cache)
         receiver = asyncio.create_task(self._receive_live_commands(websocket, serializer))
         previous = None
         try:

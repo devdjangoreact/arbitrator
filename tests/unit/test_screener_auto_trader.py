@@ -195,8 +195,7 @@ class TestFreshSpread:
         assert fresh_ask == 100.0
         assert abs(spread - 5.0) < 0.01
 
-    def test_falls_back_to_last_when_bid_ask_absent(self) -> None:
-        # Quote with bid=None/ask=None — falls back to last
+    def test_returns_none_when_bid_ask_absent(self) -> None:
         cache = MarketDataCacheMemory()
         cache.put_quote(Quote(
             exchange_id=SHORT_EX, symbol=SYM, market_type="futures",
@@ -208,9 +207,7 @@ class TestFreshSpread:
         ))
         trader = _make_trader(_settings(), _FakeScreener({}), _FakePaper(), cache=cache)
         result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX)
-        assert result is not None
-        _, _, spread = result
-        assert abs(spread - 5.0) < 0.01
+        assert result is None
 
     def test_negative_spread_returned_as_is(self) -> None:
         # Inverted market — short cheaper than long

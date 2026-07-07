@@ -176,16 +176,28 @@ guards, slippage checks, settings) — **update the corresponding strategy doc**
 in `specs/002-strategy-engine/strategies/`. Add a row to "Історія змін" table
 with the date and a short description of what changed.
 
-## Agent read-only exchange inspection
+## Agent diagnostics — scripts first (no trading)
 
-For checking exchange connectivity or account state — no trading:
+When investigating exchange data or trading situations, **run existing
+`scripts/` CLIs** before ad-hoc ccxt/REST or one-off code. Skill:
+`.cursor/skills/exchange-read-only-inspect/`.
+
+| Situation | Script |
+| --------- | ------ |
+| Credentials, balance, positions, open orders | `scripts/inspect_exchanges.py --json verify` / `account` |
+| Public ticker, order book, symbols | `scripts/inspect_exchanges.py --json ticker` / `orderbook` / `list-symbols` |
+| Open + closed positions (Orders UI parity) | `scripts/trade_report.py` (`--refresh` bypasses cache) |
+| Paper orders vs OHLCV audit | `scripts/audit_paper_orders.py` |
+| FF strategy historical backtest | `scripts/backtest_ff.py` |
+| Cross-exchange token contract check | `scripts/check_token_identity.py` |
 
 ```bash
-.venv\Scripts\python.exe scripts/inspect_exchanges.py --json list-exchanges
 .venv\Scripts\python.exe scripts/inspect_exchanges.py --json verify
 .venv\Scripts\python.exe scripts/inspect_exchanges.py --json account --exchange bitget
-.venv\Scripts\python.exe scripts/inspect_exchanges.py --json ticker --exchange mexc --symbol BTC/USDT:USDT
+.venv\Scripts\python.exe scripts/trade_report.py
+.venv\Scripts\python.exe scripts/audit_paper_orders.py
 ```
 
 **Never** call `open_market_position`, `close_market_position`, `create_order`,
-`cancel_order`, `set_leverage` without explicit user approval.
+`cancel_order`, `set_leverage`, or `audit_paper_orders.py --fix` without explicit
+user approval.

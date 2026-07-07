@@ -13,7 +13,6 @@ Scenarios covered:
   - close_all raises → exception logged, no crash
   - reopen (exec.open) raises → exception logged, no crash
   - market info missing → skip reopen after close
-  - mid price fallback (no bid/ask — only last)
   - taker fee from cache
   - taker fee defaults when cache miss
   - Multiple symbols: only one with net funding cost
@@ -441,18 +440,6 @@ class TestFeeHelpers:
         svc = _make_svc(_settings(), exec_svc, MarketDataCacheMemory(), )
         svc._default_taker_fee = 0.0005
         assert svc._taker_fee(SHORT_EX, SYM) == pytest.approx(0.0005)
-
-    def test_mid_price_from_bid_ask(self) -> None:
-        cache = MarketDataCacheMemory()
-        cache.put_quote(_quote(SHORT_EX, SYM, bid=100.0, ask=102.0))
-        exec_svc = _FakeExecService()
-        svc = _make_svc(_settings(), exec_svc, cache)
-        assert svc._mid_price(SHORT_EX, SYM) == pytest.approx(101.0)
-
-    def test_mid_price_returns_none_when_no_quote(self) -> None:
-        exec_svc = _FakeExecService()
-        svc = _make_svc(_settings(), exec_svc, MarketDataCacheMemory())
-        assert svc._mid_price(SHORT_EX, SYM) is None
 
 
 # ===========================================================================

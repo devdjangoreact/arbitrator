@@ -1,27 +1,33 @@
 from __future__ import annotations
 
+import asyncio
 import threading
 import time
+from collections.abc import Mapping
 from typing import TYPE_CHECKING
 
+from arbitrator.application.executable_spread_resolver import ExecutableSpreadResolver
 from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
 from arbitrator.application.screener_stream_worker import ScreenerStreamWorker
 from arbitrator.application.token_identity_service import TokenIdentityService
 from arbitrator.domain.order_book_level import OrderBookLevel
+from arbitrator.domain.spread_calculator import SpreadCalculator
+from arbitrator.domain.ticker import Ticker
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 
 if TYPE_CHECKING:
     from arbitrator.application.strategy_table_service import StrategyTableService
+    from arbitrator.domain.exchange_gateway import ExchangeGateway
 
 
 class ScreenerAutoTrader:
     """Background thread: scans screener every N seconds, auto-trades via paper gateway.
 
     Logic per tick:
-    1. Group screener tickers by symbol, pick best short/long exchange by last price.
-    2. Sort by raw spread descending.
+    1. Group screener tickers by symbol; pick best short/long by bid/ask (never last).
+    2. Sort by executable entry spread descending.
     3. For each symbol where spread >= open_spread and open pairs < max_positions: open a paper pair.
     4. For each tracked open pair where exit_spread <= close_spread: close it.
 
@@ -37,11 +43,17 @@ class ScreenerAutoTrader:
         market_cache: MarketDataCacheMemory | None = None,
         token_identity: TokenIdentityService | None = None,
         strategy_table_service: "StrategyTableService | None" = None,
+        gateways: Mapping[str, ExchangeGateway] | None = None,
     ) -> None:
         self._settings = settings
         self._screener = screener_worker
         self._paper = paper_gateway
         self._market_cache = market_cache
+        self._spread_resolver = (
+            ExecutableSpreadResolver(settings, market_cache, gateways)
+            if market_cache is not None
+            else None
+        )
         self._token_identity = token_identity
         self._strategy_table_service = strategy_table_service
         self._stop = threading.Event()
@@ -167,28 +179,25 @@ class ScreenerAutoTrader:
         symbol: str,
         short_ex: str,
         long_ex: str,
+        cached_spread: float,
+        *,
+        short_ticker: Ticker | None = None,
+        long_ticker: Ticker | None = None,
     ) -> tuple[float, float, float] | None:
-        """Return (short_bid, long_ask, spread_pct) from the freshest cached quotes.
+        """Return (short_bid, long_ask, spread_pct); REST only when prefilter + leg needs book."""
 
-        Returns None when either exchange has no cached quote or bid/ask is missing.
-        Used for the final spread re-check immediately before open_pair is called.
-        """
-        if self._market_cache is None:
+        if self._spread_resolver is None:
             return None
-        q_short = self._market_cache.get_quote(short_ex, symbol, "futures")
-        q_long = self._market_cache.get_quote(long_ex, symbol, "futures")
-        if q_short is None or q_long is None:
-            return None
-        bid = float(q_short.bid) if q_short.bid is not None else (
-            float(q_short.last) if q_short.last is not None else None
+        return asyncio.run(
+            self._spread_resolver.entry_spread_for_open(
+                symbol,
+                short_ex,
+                long_ex,
+                cached_spread,
+                short_ticker=short_ticker,
+                long_ticker=long_ticker,
+            )
         )
-        ask = float(q_long.ask) if q_long.ask is not None else (
-            float(q_long.last) if q_long.last is not None else None
-        )
-        if bid is None or ask is None or ask <= 0.0:
-            return None
-        spread = (bid - ask) / ask * 100.0
-        return bid, ask, spread
 
     def _tick(self) -> None:
         tickers, _symbols, _updates, status, _threshold = self._screener.read_state()
@@ -199,37 +208,19 @@ class ScreenerAutoTrader:
         close_spread = self._settings.screener_auto_trade_close_spread_pct
         max_pos = self._settings.screener_auto_trade_max_positions
 
-        # --- build ranked candidates for open ---
-        # Group tickers by symbol, pick best short/long pair by last price.
-        # Use ticker.last (bid/ask rarely present in bulk watch_tickers).
-        # Sort by raw spread descending so the best opportunity opens first.
-        by_symbol: dict[str, dict[str, float]] = {}
+        # --- build ranked candidates for open (bid/ask or book top — never last) ---
+        by_symbol: dict[str, dict[str, Ticker]] = {}
         for (exchange_id, symbol), ticker in tickers.items():
-            if ticker.last is not None and ticker.last > 0.0:
-                by_symbol.setdefault(symbol, {})[exchange_id] = ticker.last
+            by_symbol.setdefault(symbol, {})[exchange_id] = ticker
 
         candidates: list[tuple[float, str, str, str, float, float]] = []
-        for symbol, prices in by_symbol.items():
-            if len(prices) < 2:
+        for symbol, per_exchange in by_symbol.items():
+            if len(per_exchange) < 2 or self._spread_resolver is None:
                 continue
-            short_ex = max(prices, key=lambda ex: prices[ex])
-            long_ex = min(prices, key=lambda ex: prices[ex])
-
-            short_ticker = tickers.get((short_ex, symbol))
-            long_ticker = tickers.get((long_ex, symbol))
-            # prefer bid/ask; fall back to last
-            short_bid = (
-                short_ticker.bid if short_ticker and short_ticker.bid
-                else short_ticker.last if short_ticker else None
-            )
-            long_ask = (
-                long_ticker.ask if long_ticker and long_ticker.ask
-                else long_ticker.last if long_ticker else None
-            )
-            if short_bid is None or long_ask is None or long_ask <= 0.0:
+            best = self._spread_resolver.best_entry_pair_sync(symbol, per_exchange)
+            if best is None:
                 continue
-
-            spread = (short_bid - long_ask) / long_ask * 100.0
+            short_ex, long_ex, short_bid, long_ask, spread = best
             candidates.append((spread, symbol, short_ex, long_ex, short_bid, long_ask))
 
         candidates.sort(key=lambda c: c[0], reverse=True)
@@ -242,17 +233,16 @@ class ScreenerAutoTrader:
         for pair_id, (sym, s_ex, l_ex) in list(self._open_pairs.items()):
             s_ticker = tickers.get((s_ex, sym))
             l_ticker = tickers.get((l_ex, sym))
-            short_ask = (
-                s_ticker.ask if s_ticker and s_ticker.ask
-                else s_ticker.last if s_ticker else None
+            exit_quotes = (
+                self._spread_resolver.exit_spread_sync(
+                    sym, s_ex, l_ex, short_ticker=s_ticker, long_ticker=l_ticker,
+                )
+                if self._spread_resolver is not None
+                else None
             )
-            long_bid = (
-                l_ticker.bid if l_ticker and l_ticker.bid
-                else l_ticker.last if l_ticker else None
-            )
-            if short_ask is None or long_bid is None or long_bid <= 0.0:
+            if exit_quotes is None:
                 continue
-            exit_spread = (short_ask - long_bid) / long_bid * 100.0
+            short_ask, long_bid, exit_spread = exit_quotes
             pair_strategy = self._pair_strategy.get(pair_id, "futures_futures")
             pair_close_threshold = self._settings.strategy_close_spread_pct(pair_strategy)
             if exit_spread > pair_close_threshold:
@@ -317,11 +307,15 @@ class ScreenerAutoTrader:
             ex_id = unhedged_leg.exchange_id
             unhedged_ticker = tickers.get((ex_id, sym))
             close_price: float | None = None
-            if unhedged_ticker is not None:
-                if unhedged_leg.side == "sell":
-                    close_price = unhedged_ticker.bid or unhedged_ticker.last
-                else:
-                    close_price = unhedged_ticker.ask or unhedged_ticker.last
+            if unhedged_ticker is not None and self._spread_resolver is not None:
+                top = self._spread_resolver.top_of_book_sync(
+                    ex_id, sym, unhedged_ticker,
+                )
+                if top is not None:
+                    if unhedged_leg.side == "sell":
+                        close_price = top.bid
+                    else:
+                        close_price = top.ask
             if close_price is None or close_price <= 0:
                 continue
             amount_to_close = unhedged_leg.amount
@@ -384,9 +378,15 @@ class ScreenerAutoTrader:
                     rejection, symbol, short_ex, long_ex,
                 )
                 continue
-            # Re-confirm spread on the freshest cached quotes before placing the order.
-            # The ticker snapshot above may be stale by the time all validations passed.
-            fresh = self._fresh_spread(symbol, short_ex, long_ex)
+            # Re-confirm spread; REST only above prefilter when a leg lacks WS bid/ask.
+            fresh = self._fresh_spread(
+                symbol,
+                short_ex,
+                long_ex,
+                entry_spread,
+                short_ticker=tickers.get((short_ex, symbol)),
+                long_ticker=tickers.get((long_ex, symbol)),
+            )
             if fresh is None:
                 logger.debug(
                     "auto open skipped: no fresh quote for recheck | sym={} short={} long={}",

@@ -113,13 +113,18 @@ class Settings(BaseSettings):
     live_liq_guard_warning_pct_to_liq: float = 80.0
 
     # Live funding protection (live mode)
-    live_funding_protect_enabled: bool = False
+    live_funding_protect_enabled: bool = True
     live_funding_protect_check_interval_seconds: float = 30.0
     live_funding_protect_act_window_seconds: float = 300.0
     live_funding_protect_skip_within_seconds: float = 60.0
     live_funding_protect_min_reopen_spread_pct: float = 0.1
 
     opportunity_order_book_depth: int = 20
+    screener_book_stream_exchanges: list[str] = ["mexc"]
+    screener_book_stream_max_concurrent: int = 20
+    screener_book_stream_symbol_refresh_seconds: float = 30.0
+    # REST order-book verify only when cached entry spread >= this and a leg lacks WS bid/ask
+    screener_rest_prefilter_spread_pct: float = 2.0
     opportunity_chart_window_seconds: int = 120
     opportunity_poll_seconds: int = 1
     opp_default_accumulate_spread_pct: float = 4.0

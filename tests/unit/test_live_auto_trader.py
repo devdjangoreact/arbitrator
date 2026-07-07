@@ -135,6 +135,7 @@ class _FakeGateway:
         self._exchange_id = exchange_id
         self._book_bid = book_bid
         self._book_ask = book_ask
+        self.fetch_count = 0
         self.open_calls: list[tuple[str, str, float, str]] = []
         self.close_calls: list[PositionLeg] = []
 
@@ -152,6 +153,7 @@ class _FakeGateway:
         return list(self._positions)
 
     async def fetch_order_book_once(self, symbol: str, limit: int) -> OrderBookSnapshot:
+        self.fetch_count += 1
         return _order_book(self._exchange_id, symbol, self._book_bid, self._book_ask)
 
 
@@ -249,6 +251,29 @@ class TestOpenPass:
         assert call["short_exchange_id"] == SHORT_EX
         assert call["long_exchange_id"] == LONG_EX
         assert call["notional_usdt"] >= Decimal("5")
+
+    def test_candidate_scan_does_not_rest_fetch_before_open_gate(self) -> None:
+        """Ranking uses cache/ticker; REST runs only on fresh open/close checks."""
+        settings = _settings(screener_auto_trade_open_spread_pct=10.0)
+        exec_svc = _FakeExecService()
+        trader = _make_trader(settings, _FakeScreener(_tickers()), exec_svc, _cache_with_data())
+
+        asyncio.run(trader._tick())
+
+        assert len(exec_svc.open_calls) == 0
+        for gw in exec_svc._gateways.values():
+            assert gw.fetch_count == 0
+
+    def test_open_confirmation_fetches_fresh_order_books(self) -> None:
+        settings = _settings(screener_auto_trade_open_spread_pct=3.0)
+        exec_svc = _FakeExecService()
+        trader = _make_trader(settings, _FakeScreener(_tickers()), exec_svc, _cache_with_data())
+
+        asyncio.run(trader._tick())
+
+        assert len(exec_svc.open_calls) == 1
+        assert exec_svc._gateways[SHORT_EX].fetch_count >= 1
+        assert exec_svc._gateways[LONG_EX].fetch_count >= 1
 
     def test_skips_when_spread_below_threshold(self) -> None:
         settings = _settings(screener_auto_trade_open_spread_pct=10.0)  # 5% spread < 10%
@@ -394,8 +419,13 @@ class TestClosePass:
             (SHORT_EX, SYM): _ticker(SYM, 100.1, bid=100.0, ask=100.1),
             (LONG_EX, SYM): _ticker(SYM, 100.0, bid=100.0, ask=100.1),
         }
-        exec_svc = _FakeExecService()
-        cache = _cache_with_data()
+        exec_svc = _FakeExecService(gateways={
+            SHORT_EX: _FakeGateway(exchange_id=SHORT_EX, book_bid=100.0, book_ask=100.1),
+            LONG_EX: _FakeGateway(exchange_id=LONG_EX, book_bid=100.0, book_ask=100.1),
+        })
+        cache = MarketDataCacheMemory()
+        cache.put_quote(_quote(SHORT_EX, SYM, bid=100.0, ask=100.1))
+        cache.put_quote(_quote(LONG_EX, SYM, bid=100.0, ask=100.1))
         trader = _make_trader(settings, _FakeScreener(tickers), exec_svc, cache)
         trader._open_pairs[(SYM, SHORT_EX, LONG_EX)] = 0.0
 
@@ -512,18 +542,13 @@ class TestHelpers:
         result = trader._resolve_min_notional(SYM, SHORT_EX, LONG_EX, SHORT_PRICE, LONG_PRICE)
         assert result == pytest.approx(20.0)
 
-    def test_fresh_spread_returns_none_when_no_quote(self) -> None:
-        exec_svc = _FakeExecService()
-        trader = _make_trader(_settings(), _FakeScreener({}), exec_svc, MarketDataCacheMemory())
-        assert trader._fresh_spread(SYM, SHORT_EX, LONG_EX) is None
-
     def test_fresh_spread_returns_correct_value(self) -> None:
         cache = MarketDataCacheMemory()
         cache.put_quote(_quote(SHORT_EX, SYM, bid=105.0, ask=105.1))
         cache.put_quote(_quote(LONG_EX, SYM, bid=99.9, ask=100.0))
         exec_svc = _FakeExecService()
         trader = _make_trader(_settings(), _FakeScreener({}), exec_svc, cache)
-        result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX)
+        result = trader._spread_resolver.entry_spread_sync(SYM, SHORT_EX, LONG_EX)
         assert result is not None
         _, _, spread = result
         assert abs(spread - 5.0) < 0.1
