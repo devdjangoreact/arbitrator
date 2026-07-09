@@ -11,7 +11,7 @@ from typing import Literal
 from pydantic import TypeAdapter
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.paper_order import PaperOrder
+from arbitrator.domain.opportunity.paper_order import PaperOrder
 
 _ADAPTER: TypeAdapter[list[PaperOrder]] = TypeAdapter(list[PaperOrder])
 

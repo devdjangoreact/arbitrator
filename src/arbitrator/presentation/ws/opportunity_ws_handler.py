@@ -9,17 +9,17 @@ from decimal import Decimal
 from fastapi import WebSocket, WebSocketDisconnect
 
 from arbitrator.application.app_runtime import AppRuntime
-from arbitrator.application.auto_trading_engine import AutoTradingEngine
-from arbitrator.application.fee_snapshot_service import FeeSnapshotService
-from arbitrator.application.hedged_execution_service import HedgedExecutionService
-from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
-from arbitrator.application.opportunity_bootstrap_service import OpportunityBootstrapService
-from arbitrator.application.opportunity_session_state import OpportunitySessionState
-from arbitrator.application.opportunity_stream_worker import OpportunityStreamWorker
+from arbitrator.application.trading.auto_trading_engine import AutoTradingEngine
+from arbitrator.application.market_data.fee_snapshot_service import FeeSnapshotService
+from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
+from arbitrator.application.trading.paper_execution_gateway import PaperExecutionGateway
+from arbitrator.application.opportunities.opportunity_bootstrap_service import OpportunityBootstrapService
+from arbitrator.application.opportunities.opportunity_session_state import OpportunitySessionState
+from arbitrator.application.opportunities.opportunity_stream_worker import OpportunityStreamWorker
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
-from arbitrator.domain.symbol_normalizer import SymbolNormalizer
+from arbitrator.domain.universe.symbol_normalizer import SymbolNormalizer
 from arbitrator.exchanges.factory import Factory
 from arbitrator.presentation.dto.trading_dto import ActionResultDto
 from arbitrator.presentation.mock.mock_data_provider import MockDataProvider
@@ -490,7 +490,7 @@ class OpportunityWsHandler:
         swap_symbol: str,
         exchange_ids: set[str],
     ) -> float:
-        from arbitrator.application.account_stream_worker import AccountStreamWorker
+        from arbitrator.application.account.account_stream_worker import AccountStreamWorker
         if not isinstance(account_worker, AccountStreamWorker):
             return 0.0
         total = 0.0
@@ -512,7 +512,7 @@ class OpportunityWsHandler:
         long_ex: str,
         accumulated_usdt: float,
     ) -> ActionResultDto | None:
-        from arbitrator.application.opportunity_stream_worker import OpportunityStreamState
+        from arbitrator.application.opportunities.opportunity_stream_worker import OpportunityStreamState
         if not isinstance(stream_state, OpportunityStreamState):
             return None
         signal = AutoTradingEngine.check_accumulate(

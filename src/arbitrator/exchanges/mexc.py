@@ -7,8 +7,8 @@ import aiohttp
 import ccxt.pro as ccxtpro
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.exchanges.ccxt_base import CcxtBase
 
 # MEXC does not return cost.min in its markets API — the actual minimum order

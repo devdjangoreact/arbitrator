@@ -1,13 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-from typing import TYPE_CHECKING
-
-from arbitrator.config.logger import logger
-
-if TYPE_CHECKING:
-    pass
-
 _API = "https://api.telegram.org/bot{token}/sendMessage"
 
 

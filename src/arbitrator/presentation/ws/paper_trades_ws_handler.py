@@ -12,9 +12,9 @@ from arbitrator.presentation.ws.ws_envelope import WsEnvelope
 
 if TYPE_CHECKING:
     from arbitrator.application.app_runtime import AppRuntime
-    from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+    from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
     from arbitrator.config.paper_order_store import PaperOrderStore
-    from arbitrator.domain.paper_order import PaperOrder
+    from arbitrator.domain.opportunity.paper_order import PaperOrder
 
 
 class PaperTradesWsHandler:

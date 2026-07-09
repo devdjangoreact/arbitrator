@@ -5,9 +5,9 @@ from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Literal
 
-from arbitrator.application.hedged_execution_service import HedgedExecutionService
+from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
 from arbitrator.config.settings import Settings
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 
 SYMBOL = "DOGE/USDT:USDT"
 

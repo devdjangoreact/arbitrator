@@ -12,7 +12,7 @@ import certifi
 
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
-from arbitrator.domain.spot_gateway import SpotGateway
+from arbitrator.domain.exchange.spot_gateway import SpotGateway
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.quote import Quote
 

@@ -9,20 +9,19 @@ import asyncio
 import time
 from decimal import Decimal
 from typing import Any, Literal
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from arbitrator.application.live_auto_trader import LiveAutoTrader
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.trading.live_auto_trader import LiveAutoTrader
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.settings import Settings
-from arbitrator.domain.order_book_level import OrderBookLevel
-from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.market.order_book_level import OrderBookLevel
+from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
 from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.market.ticker import Ticker
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -33,6 +32,12 @@ SHORT_EX = "bitget"
 LONG_EX = "gate"
 SHORT_PRICE = 105.0
 LONG_PRICE = 100.0
+
+EPIC = "EPIC/USDT:USDT"
+BINGX = "bingx"
+BITGET = "bitget"
+MEXC = "mexc"
+GATE = "gate"
 
 
 # ---------------------------------------------------------------------------
@@ -57,7 +62,8 @@ def _ticker(symbol: str, last: float, bid: float | None = None, ask: float | Non
     return Ticker(
         symbol=symbol, last=last, bid=bid, ask=ask,
         high_24h=last, low_24h=last,
-        base_volume_24h=1.0, quote_volume_24h=1_000_000.0, timestamp_ms=1_000,
+        base_volume_24h=1.0, quote_volume_24h=1_000_000.0,
+        timestamp_ms=int(time.time() * 1000),
     )
 
 
@@ -156,6 +162,9 @@ class _FakeGateway:
         self.fetch_count += 1
         return _order_book(self._exchange_id, symbol, self._book_bid, self._book_ask)
 
+    async def set_margin_mode(self, symbol: str, mode: str) -> None:
+        return None
+
 
 # ---------------------------------------------------------------------------
 # Fake HedgedExecutionService
@@ -233,6 +242,34 @@ def _tickers(short: float = SHORT_PRICE, long: float = LONG_PRICE) -> dict[tuple
     }
 
 
+def _epic_tickers() -> dict[tuple[str, str], Ticker]:
+    """Four venues; bingx/bitget is the best executable pair (~3.96% spread)."""
+    return {
+        (BINGX, EPIC): _ticker(EPIC, 1.05, bid=1.05, ask=1.06),
+        (BITGET, EPIC): _ticker(EPIC, 1.00, bid=1.00, ask=1.01),
+        (MEXC, EPIC): _ticker(EPIC, 1.02, bid=1.02, ask=1.03),
+        (GATE, EPIC): _ticker(EPIC, 1.01, bid=1.01, ask=1.02),
+    }
+
+
+def _epic_gateways() -> dict[str, _FakeGateway]:
+    return {
+        BINGX: _FakeGateway(exchange_id=BINGX, book_bid=1.05, book_ask=1.06),
+        BITGET: _FakeGateway(exchange_id=BITGET, book_bid=1.00, book_ask=1.01),
+        MEXC: _FakeGateway(exchange_id=MEXC, book_bid=1.02, book_ask=1.03),
+        GATE: _FakeGateway(exchange_id=GATE, book_bid=1.01, book_ask=1.02),
+    }
+
+
+def _epic_cache_bingx_ticker_only() -> MarketDataCacheMemory:
+    """bitget has cached book; bingx has market info but no order book (prod scenario)."""
+    cache = MarketDataCacheMemory()
+    cache.put_order_book(_order_book(BITGET, EPIC, bid=1.00, ask=1.01))
+    for exchange_id in (BINGX, BITGET, MEXC, GATE):
+        cache.put_market_info(_market_info(symbol=EPIC, base="EPIC", min_usdt=5.0), exchange_id)
+    return cache
+
+
 # ===========================================================================
 # Tests: open pass
 # ===========================================================================
@@ -272,8 +309,8 @@ class TestOpenPass:
         asyncio.run(trader._tick())
 
         assert len(exec_svc.open_calls) == 1
-        assert exec_svc._gateways[SHORT_EX].fetch_count >= 1
-        assert exec_svc._gateways[LONG_EX].fetch_count >= 1
+        assert exec_svc._gateways[SHORT_EX].fetch_count >= 2
+        assert exec_svc._gateways[LONG_EX].fetch_count >= 2
 
     def test_skips_when_spread_below_threshold(self) -> None:
         settings = _settings(screener_auto_trade_open_spread_pct=10.0)  # 5% spread < 10%
@@ -408,10 +445,179 @@ class TestOpenPass:
 
 
 # ===========================================================================
-# Tests: close pass
+# Tests: EPIC bingx/bitget — ticker spread ok, depth check needs full book
 # ===========================================================================
 
+class TestEpicBingxBitgetNoOrderBookSkip:
+    """Ticker bid/ask for ranking; live open REST-fetches books twice before depth check."""
+
+    def test_depth_rejects_without_cached_book(self) -> None:
+        tickers = _epic_tickers()
+        exec_svc = _FakeExecService(gateways=_epic_gateways())
+        trader = _make_trader(
+            _settings(screener_auto_trade_open_spread_pct=3.0),
+            _FakeScreener(tickers),
+            exec_svc,
+            _epic_cache_bingx_ticker_only(),
+        )
+        rejection = trader._validate_cross_pair(
+            EPIC, BINGX, BITGET, 100.0, tickers=tickers,
+        )
+        assert rejection == f"no_order_book:{BINGX}"
+
+    def test_ensure_books_then_depth_passes(self) -> None:
+        tickers = _epic_tickers()
+        exec_svc = _FakeExecService(gateways=_epic_gateways())
+        trader = _make_trader(
+            _settings(screener_auto_trade_open_spread_pct=3.0),
+            _FakeScreener(tickers),
+            exec_svc,
+            _epic_cache_bingx_ticker_only(),
+        )
+        asyncio.run(
+            trader._ensure_order_books_cached(EPIC, BINGX, BITGET, tickers=tickers)
+        )
+        rejection = trader._validate_cross_pair(
+            EPIC, BINGX, BITGET, 100.0, tickers=tickers,
+        )
+        assert rejection is None
+        assert exec_svc._gateways[BINGX].fetch_count == 1
+
+    def test_open_skip_detail_explains_ticker_top_without_book_stream(self) -> None:
+        tickers = _epic_tickers()
+        exec_svc = _FakeExecService(gateways=_epic_gateways())
+        trader = _make_trader(
+            _settings(screener_auto_trade_open_spread_pct=3.0),
+            _FakeScreener(tickers),
+            exec_svc,
+            _epic_cache_bingx_ticker_only(),
+        )
+        detail = trader._open_skip_detail(
+            f"no_order_book:{BINGX}",
+            EPIC,
+            BINGX,
+            BITGET,
+            100.0,
+            tickers,
+        )
+        assert "top_of_book=yes" in detail
+        assert "book_ws_stream=no" in detail
+        assert "required_depth=200USDT" in detail
+        assert "ticker bid/ask alone is not enough" in detail
+
+    def test_tick_opens_for_epic_bingx_bitget_after_rest_book(self) -> None:
+        tickers = _epic_tickers()
+        exec_svc = _FakeExecService(gateways=_epic_gateways())
+        trader = _make_trader(
+            _settings(
+                screener_auto_trade_open_spread_pct=3.0,
+                screener_book_stream_exchanges=["mexc"],
+            ),
+            _FakeScreener(tickers),
+            exec_svc,
+            _epic_cache_bingx_ticker_only(),
+        )
+
+        asyncio.run(trader._tick())
+
+        assert len(exec_svc.open_calls) == 1
+        assert exec_svc.open_calls[0]["symbol"] == EPIC
+        assert exec_svc._gateways[BINGX].fetch_count >= 2
+        assert exec_svc._gateways[BITGET].fetch_count >= 2
+
+
+class TestDoubleOpenCheck:
+    """Dual pre-open verification: clear executable cache, fresh REST, 1s desync cap."""
+
+    def test_requires_two_passing_checks_before_open(self) -> None:
+        settings = _settings(screener_auto_trade_open_spread_pct=3.0)
+        exec_svc = _FakeExecService()
+        trader = _make_trader(settings, _FakeScreener(_tickers()), exec_svc, _cache_with_data())
+
+        asyncio.run(trader._tick())
+
+        assert len(exec_svc.open_calls) == 1
+        assert exec_svc._gateways[SHORT_EX].fetch_count >= 2
+        assert exec_svc._gateways[LONG_EX].fetch_count >= 2
+
+    def test_check2_failure_blocks_open(self) -> None:
+        """Second check sees collapsed book → no open."""
+
+        class _CollapseOnLaterFetch(_FakeGateway):
+            def __init__(self, exchange_id: str, good_bid: float, good_ask: float) -> None:
+                super().__init__(exchange_id=exchange_id, book_bid=good_bid, book_ask=good_ask)
+                self._good_bid = good_bid
+                self._good_ask = good_ask
+
+            async def fetch_order_book_once(self, symbol: str, limit: int) -> OrderBookSnapshot:
+                self.fetch_count += 1
+                bid, ask = self._good_bid, self._good_ask
+                if self.fetch_count >= 2:
+                    bid, ask = 99.0, 100.0
+                return _order_book(self._exchange_id, symbol, bid=bid, ask=ask)
+
+        gateways = {
+            SHORT_EX: _CollapseOnLaterFetch(SHORT_EX, SHORT_PRICE, SHORT_PRICE + 0.1),
+            LONG_EX: _FakeGateway(exchange_id=LONG_EX, book_bid=LONG_PRICE - 0.1, book_ask=LONG_PRICE),
+        }
+        exec_svc = _FakeExecService(gateways=gateways)
+        trader = _make_trader(
+            _settings(screener_auto_trade_open_spread_pct=3.0),
+            _FakeScreener(_tickers()),
+            exec_svc,
+            _cache_with_data(),
+        )
+
+        asyncio.run(trader._tick())
+
+        assert len(exec_svc.open_calls) == 0
+
+    def test_cache_desync_blocks_open_check(self) -> None:
+        cache = _cache_with_data()
+        exec_svc = _FakeExecService()
+        trader = _make_trader(_settings(), _FakeScreener(_tickers()), exec_svc, cache)
+        now = int(time.time() * 1000)
+        cache.put_order_book(OrderBookSnapshot(
+            exchange_id=SHORT_EX, symbol=SYM, timestamp_ms=now,
+            bids=(OrderBookLevel(price=SHORT_PRICE, size=10_000.0),),
+            asks=(OrderBookLevel(price=SHORT_PRICE + 0.1, size=10_000.0),),
+        ))
+        cache.put_order_book(OrderBookSnapshot(
+            exchange_id=LONG_EX, symbol=SYM, timestamp_ms=now + 5_000,
+            bids=(OrderBookLevel(price=LONG_PRICE - 0.1, size=10_000.0),),
+            asks=(OrderBookLevel(price=LONG_PRICE, size=10_000.0),),
+        ))
+        assert trader._cache_desync_ms(SHORT_EX, LONG_EX, SYM) == 5_000
+
+    def test_clear_executable_keeps_market_info(self) -> None:
+        cache = _cache_with_data()
+        cache.clear_executable(SHORT_EX, SYM)
+        assert cache.get_market_info(SHORT_EX, SYM) is not None
+        assert cache.get_order_book(SHORT_EX, SYM) is None
+
 class TestClosePass:
+    """Close path: clear executable cache, fresh REST exit spread, 2-tick confirm."""
+
+    def test_close_requires_two_ticks_confirmation(self) -> None:
+        settings = _settings(screener_auto_trade_close_spread_pct=0.5)
+        tickers = {
+            (SHORT_EX, SYM): _ticker(SYM, 100.1, bid=100.0, ask=100.1),
+            (LONG_EX, SYM): _ticker(SYM, 100.0, bid=100.0, ask=100.1),
+        }
+        exec_svc = _FakeExecService(gateways={
+            SHORT_EX: _FakeGateway(exchange_id=SHORT_EX, book_bid=100.0, book_ask=100.1),
+            LONG_EX: _FakeGateway(exchange_id=LONG_EX, book_bid=100.0, book_ask=100.1),
+        })
+        cache = MarketDataCacheMemory()
+        trader = _make_trader(settings, _FakeScreener(tickers), exec_svc, cache)
+        trader._open_pairs[(SYM, SHORT_EX, LONG_EX)] = 0.0
+
+        asyncio.run(trader._tick())
+        assert len(exec_svc.close_calls) == 0
+
+        asyncio.run(trader._tick())
+        assert len(exec_svc.close_calls) == 1
+
     def test_closes_when_spread_collapses(self) -> None:
         settings = _settings(screener_auto_trade_close_spread_pct=0.5)
         # exit spread ≈ 0.1% — below threshold
@@ -429,6 +635,7 @@ class TestClosePass:
         trader = _make_trader(settings, _FakeScreener(tickers), exec_svc, cache)
         trader._open_pairs[(SYM, SHORT_EX, LONG_EX)] = 0.0
 
+        asyncio.run(trader._tick())
         asyncio.run(trader._tick())
 
         assert len(exec_svc.close_calls) == 1

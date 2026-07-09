@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from typing import Literal
 
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 
 
 def make_leg(

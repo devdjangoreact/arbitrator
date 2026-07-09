@@ -5,7 +5,7 @@ from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from arbitrator.domain.exchange_credentials import ExchangeCredentials
+from arbitrator.domain.exchange.exchange_credentials import ExchangeCredentials
 
 _DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -57,8 +57,8 @@ class Settings(BaseSettings):
     min_exchanges_per_symbol: int = 2
 
     default_min_quote_volume_kusdt: float = 500.0
-    default_min_spread_pct: float = 0.0
-    stream_min_quote_volume_usdt: float = 500_000.0
+    default_min_spread_pct: float = 1.0
+    stream_min_quote_volume_usdt: float = 1_000_000.0
     screener_volume_discovery_seconds: float = 60.0
 
     screener_table_height_px: int = 800
@@ -122,7 +122,7 @@ class Settings(BaseSettings):
     opportunity_order_book_depth: int = 20
     screener_book_stream_exchanges: list[str] = ["mexc"]
     screener_book_stream_max_concurrent: int = 20
-    screener_book_stream_symbol_refresh_seconds: float = 30.0
+    screener_book_stream_symbol_refresh_seconds: float = 3600.0
     # REST order-book verify only when cached entry spread >= this and a leg lacks WS bid/ask
     screener_rest_prefilter_spread_pct: float = 2.0
     opportunity_chart_window_seconds: int = 120
@@ -154,8 +154,6 @@ class Settings(BaseSettings):
     anomaly_max_spread_pct: float = 20.0
     slippage_max_pct: float = 0.5
     ticker_max_inner_spread_pct: float = 1.0
-    prediction_enabled: bool = False
-    prediction_window_seconds: float = 120.0
     deposit_basis: Literal["position_margin", "account_balance"] = "position_margin"
     execution_rollback_enabled: bool = True
     leg_imbalance_tolerance_pct: float = 1.0

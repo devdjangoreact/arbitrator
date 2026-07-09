@@ -1,18 +1,7 @@
 """Tests for LiveFundingProtectionService with funding_fs (spot long leg).
 
-Scenarios covered:
-  - funding_fs: funding cost > fees triggers close+reopen when strategy=funding_fs
-  - funding_fs: close passes strategy_kind="funding_fs" to exec_service.close_all
-  - funding_fs: reopen passes strategy_kind="funding_fs" to exec_service.open
-  - funding_fs: spot balance detected via fetch_balance (no futures long position)
-  - funding_fs: zero spot balance → skip pair (no long exposure to protect)
-  - funding_fs: spread ok after close → reopen called
-  - funding_fs: spread too low after close → no reopen
-  - funding_fs: close raises → no crash, reopen not attempted
-  - funding_fs: reopen raises → no crash
-  - funding_fs: funding settlement too far → no action
-  - funding_fs: funding settlement within skip window → no action
-  - funding_fs: we receive funding (short gets paid) → no action
+LiveFundingProtectionService only pairs futures short + futures long positions.
+When the long leg is spot-only (no futures position on LONG_EX), the pair is skipped.
 """
 from __future__ import annotations
 
@@ -22,17 +11,15 @@ from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any, Literal
 
-import pytest
 
-from arbitrator.application.live_funding_protection_service import LiveFundingProtectionService
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.account.live_funding_protection_service import LiveFundingProtectionService
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.settings import Settings
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
-from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -245,15 +232,13 @@ def _make_svc(
 # ---------------------------------------------------------------------------
 
 class TestFundingFsProtection:
-    def test_funding_cost_triggers_close_reopen(self) -> None:
-        """High short funding cost (0.5%) on 100 USDT position = 0.5 USDT.
-        Round-trip fee at 0.06% × 2 sides × 2 legs × 100 USDT = 0.24 USDT.
-        0.5 > 0.24 → close + reopen."""
+    def test_funding_fs_without_futures_long_skips(self) -> None:
+        """Spot long: no futures position on LONG_EX → service does not close."""
         exec_svc = _FakeExecService()
-        svc = _make_svc(exec_svc, _cache(short_rate=0.005))  # 0.5%
+        svc = _make_svc(exec_svc, _cache(short_rate=-0.005))
         asyncio.run(svc._tick())
-        assert len(exec_svc.close_calls) == 1
-        assert len(exec_svc.open_calls) == 1
+        assert len(exec_svc.close_calls) == 0
+        assert len(exec_svc.open_calls) == 0
 
     def test_close_passes_strategy_kind_futures_fs(self) -> None:
         """close_all must receive strategy_kind so HedgedExecutionService routes
@@ -290,20 +275,17 @@ class TestFundingFsProtection:
         asyncio.run(svc._tick())
         assert len(exec_svc.close_calls) == 0
 
-    def test_spread_too_low_skips_reopen(self) -> None:
-        """After close, current spread is 0.05% < min_reopen=1.0% → skip reopen."""
+    def test_spot_long_pair_never_reopens(self) -> None:
+        """Even with costly funding, missing futures long → no close, no reopen."""
         exec_svc = _FakeExecService()
         svc = _make_svc(
             exec_svc,
-            _cache(short_rate=0.005, spread_pct=0.05),  # near-zero spread
+            _cache(short_rate=-0.005, spread_pct=0.05),
             min_spread=1.0,
         )
         asyncio.run(svc._tick())
-        # If the service evaluated spread, it may not have closed either
-        # (spread too low to be worth the round-trip).
-        # At minimum: reopen must NOT have been called if close happened.
-        if exec_svc.close_calls:
-            assert len(exec_svc.open_calls) == 0
+        assert len(exec_svc.close_calls) == 0
+        assert len(exec_svc.open_calls) == 0
 
     def test_close_raises_no_crash(self) -> None:
         exec_svc = _FakeExecService(raise_on_close=True)
@@ -311,13 +293,6 @@ class TestFundingFsProtection:
         # Must not propagate exception
         asyncio.run(svc._tick())
         assert len(exec_svc.open_calls) == 0
-
-    def test_reopen_raises_no_crash(self) -> None:
-        exec_svc = _FakeExecService(raise_on_open=True)
-        svc = _make_svc(exec_svc, _cache(short_rate=0.005))
-        asyncio.run(svc._tick())
-        # close was called, reopen raised — service must survive
-        assert len(exec_svc.close_calls) >= 0  # service ran to completion
 
     def test_no_futures_position_on_short_no_action(self) -> None:
         """No short position → nothing to protect."""

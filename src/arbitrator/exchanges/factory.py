@@ -4,7 +4,7 @@ from typing import ClassVar
 
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
-from arbitrator.domain.named_exchange import NamedExchange
+from arbitrator.domain.exchange.named_exchange import NamedExchange
 from arbitrator.exchanges.binance import Binance
 from arbitrator.exchanges.bingx import Bingx
 from arbitrator.exchanges.bitget import Bitget

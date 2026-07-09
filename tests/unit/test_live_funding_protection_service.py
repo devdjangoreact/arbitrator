@@ -6,13 +6,10 @@ Scenarios covered:
   - Funding settlement too close (within skip window) → no action
   - We receive net funding (negative cost) → no action
   - Funding cost < round-trip fees → no action
-  - Funding cost > round-trip fees AND spread ok → close + reopen
-  - Current spread < min_reopen_spread_pct → skip reopen
+  - Funding cost > round-trip fees → close only (screener reopens if conditions match)
   - Only short positions (no matching long) → skip
   - fetch_open_positions raises → continues gracefully
   - close_all raises → exception logged, no crash
-  - reopen (exec.open) raises → exception logged, no crash
-  - market info missing → skip reopen after close
   - taker fee from cache
   - taker fee defaults when cache miss
   - Multiple symbols: only one with net funding cost
@@ -29,15 +26,15 @@ from typing import Any, Literal
 
 import pytest
 
-from arbitrator.application.live_funding_protection_service import LiveFundingProtectionService
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.account.live_funding_protection_service import LiveFundingProtectionService
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.settings import Settings
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -339,10 +336,8 @@ class TestFundingCostDecision:
         asyncio.run(svc._tick())
         assert len(exec_svc.close_calls) == 0
 
-    def test_funding_cost_exceeds_fees_triggers_close_reopen(self) -> None:
-        """Large net funding cost > round_trip_fees → close and reopen.
-        net = -(1000*0.001) + (1000*0.01) = 9 USDT
-        fees = 2*(1000*0.0006 + 1000*0.0006) = 2.4 USDT → act."""
+    def test_funding_cost_exceeds_fees_triggers_close_only(self) -> None:
+        """Large net funding cost > round_trip_fees → close only (no reopen)."""
         gateways = _standard_gateways(notional=1000.0)
         cache = _standard_cache(short_rate=0.001, long_rate=0.01)
         exec_svc = _FakeExecService(gateways=gateways)
@@ -350,18 +345,17 @@ class TestFundingCostDecision:
         asyncio.run(svc._tick())
         assert len(exec_svc.close_calls) == 1
         assert exec_svc.close_calls[0]["symbol"] == SYM
-        assert len(exec_svc.open_calls) == 1
-        assert exec_svc.open_calls[0]["symbol"] == SYM
+        assert len(exec_svc.open_calls) == 0
 
-    def test_spread_too_low_skips_reopen(self) -> None:
-        """Funding cost > fees but spread collapsed → skip."""
+    def test_low_spread_still_closes_when_funding_costly(self) -> None:
+        """Funding cost > fees → close even when spread collapsed."""
         gateways = _standard_gateways(notional=1000.0)
-        # Very small spread (0.001%)
-        cache = _standard_cache(short_rate=0.01, long_rate=0.01, spread_pct=0.001)
+        cache = _standard_cache(short_rate=0.001, long_rate=0.01, spread_pct=0.001)
         exec_svc = _FakeExecService(gateways=gateways)
-        svc = _make_svc(_settings(), exec_svc, cache, min_spread=0.5)  # requires 0.5% spread
+        svc = _make_svc(_settings(), exec_svc, cache, min_spread=0.5)
         asyncio.run(svc._tick())
-        assert len(exec_svc.close_calls) == 0
+        assert len(exec_svc.close_calls) == 1
+        assert len(exec_svc.open_calls) == 0
 
 
 # ===========================================================================
@@ -385,18 +379,9 @@ class TestErrorHandling:
         svc = _make_svc(_settings(), exec_svc, cache)
         asyncio.run(svc._tick())  # must not raise
 
-    def test_reopen_exception_does_not_crash(self) -> None:
+    def test_market_info_missing_still_closes(self) -> None:
+        """Funding cost > fees → close even without market info in cache."""
         gateways = _standard_gateways(notional=1000.0)
-        cache = _standard_cache(short_rate=0.01, long_rate=0.01)
-        exec_svc = _FakeExecService(gateways=gateways, raise_on_open=True)
-        svc = _make_svc(_settings(), exec_svc, cache)
-        asyncio.run(svc._tick())  # must not raise; close succeeded but open didn't
-
-    def test_market_info_missing_skips_reopen(self) -> None:
-        """close_all is called, but reopen is skipped because market info missing.
-        net = -(1000*0.001) + (1000*0.01) = 9 USDT > fees → triggers close."""
-        gateways = _standard_gateways(notional=1000.0)
-        # cache: only quotes and funding — no market_info
         cache = MarketDataCacheMemory()
         cache.put_quote(_quote(SHORT_EX, SYM, bid=102.0, ask=102.1))
         cache.put_quote(_quote(LONG_EX, SYM, bid=99.9, ask=100.0))
@@ -405,9 +390,7 @@ class TestErrorHandling:
         exec_svc = _FakeExecService(gateways=gateways)
         svc = _make_svc(_settings(), exec_svc, cache)
         asyncio.run(svc._tick())
-        # close is called
         assert len(exec_svc.close_calls) == 1
-        # reopen is NOT called (market info missing)
         assert len(exec_svc.open_calls) == 0
 
     def test_only_short_positions_no_action(self) -> None:
@@ -461,7 +444,6 @@ class TestMultipleSymbols:
             ]),
         }
         cache = MarketDataCacheMemory()
-        mid = 100.0
         # SYM: high spread, asymmetric funding (net = -1000*0.001 + 1000*0.01 = 9 USDT > fees)
         cache.put_quote(_quote(SHORT_EX, SYM, bid=102.0, ask=102.1))
         cache.put_quote(_quote(LONG_EX, SYM, bid=99.9, ask=100.0))

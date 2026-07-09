@@ -5,20 +5,19 @@ All collaborators are minimal fakes: no IO, no file system, no ccxt.
 """
 from __future__ import annotations
 
-import threading
 from decimal import Decimal
 from typing import Any
 from unittest.mock import MagicMock
 
 import pytest
 
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.screener_auto_trader import ScreenerAutoTrader
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.trading.screener_auto_trader import ScreenerAutoTrader
 from arbitrator.config.settings import Settings
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
 from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.market.ticker import Ticker
 
 # ---------------------------------------------------------------------------
 # Constants / helpers
@@ -548,7 +547,7 @@ class TestClosePass:
 
         # Pre-populate open pair
         pair_id = "abc123"
-        from arbitrator.domain.paper_order import PaperOrder
+        from arbitrator.domain.opportunity.paper_order import PaperOrder
         stored_amount = 0.5
         open_record = MagicMock(spec=PaperOrder)
         open_record.pair_id = pair_id
@@ -579,7 +578,7 @@ class TestClosePass:
         tickers = _tickers_with_spread(SHORT_PRICE, LONG_PRICE)
         pair_id = "xyz987"
 
-        from arbitrator.domain.paper_order import PaperOrder
+        from arbitrator.domain.opportunity.paper_order import PaperOrder
         open_record = MagicMock(spec=PaperOrder)
         open_record.pair_id = pair_id
         open_record.side = "buy"

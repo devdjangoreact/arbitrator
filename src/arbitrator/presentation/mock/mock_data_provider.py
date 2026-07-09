@@ -8,8 +8,8 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.symbol_normalizer import SymbolNormalizer
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.universe.symbol_normalizer import SymbolNormalizer
 from arbitrator.presentation.dto.opportunity_dto import (
     ChartPointDto,
     ChartSeriesDto,

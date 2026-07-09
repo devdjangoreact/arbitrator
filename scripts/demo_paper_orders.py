@@ -13,7 +13,7 @@ import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 
-from arbitrator.domain.paper_order import PaperOrder
+from arbitrator.domain.opportunity.paper_order import PaperOrder
 
 _OUT = Path(__file__).resolve().parent.parent / "src" / "arbitrator" / "data" / "paper_orders_demo.json"
 

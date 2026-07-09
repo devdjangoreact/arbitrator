@@ -27,17 +27,16 @@ import asyncio
 from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any, Literal
-from unittest.mock import AsyncMock
 
 import pytest
 
-from arbitrator.application.live_liquidation_guard_service import LiveLiquidationGuardService
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.account.live_liquidation_guard_service import LiveLiquidationGuardService
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.settings import Settings
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
 from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
 
 # ---------------------------------------------------------------------------
 # Constants

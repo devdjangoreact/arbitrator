@@ -16,6 +16,7 @@ Usage:
     .venv\\Scripts\\python.exe scripts\\audit_paper_orders.py --fix --output report.json
     .venv\\Scripts\\python.exe scripts\\audit_paper_orders.py --orders path/to/other.json
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,17 +30,17 @@ from typing import TypedDict
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import ccxt.async_support as ccxt_async  # noqa: E402
+import ccxt.async_support as ccxt_async
 
 # -
 # Configuration
 # -
 
-ANOMALY_MAX_SPREAD_PCT: float = 20.0   # spread_pct_entry above this is flagged
-PRICE_TOLERANCE_PCT: float = 5.0       # allow +/-5% vs candle high/low for mark-price drift
+ANOMALY_MAX_SPREAD_PCT: float = 20.0  # spread_pct_entry above this is flagged
+PRICE_TOLERANCE_PCT: float = 5.0  # allow +/-5% vs candle high/low for mark-price drift
 CANDLE_TIMEFRAME: str = "1m"
-CANDLE_MARGIN_MIN: int = 3             # fetch N minutes before/after the trade
-FETCH_CONCURRENCY: int = 8             # max simultaneous ccxt sessions
+CANDLE_MARGIN_MIN: int = 3  # fetch N minutes before/after the trade
+FETCH_CONCURRENCY: int = 8  # max simultaneous ccxt sessions
 
 # -
 # Types
@@ -61,6 +62,7 @@ class Candle(TypedDict):
 # -
 # OHLCV helpers
 # -
+
 
 async def fetch_candles(
     exchange_id: str,
@@ -118,9 +120,7 @@ def candle_at(candles: list[Candle], ts_ms: int) -> Candle | None:
     return None
 
 
-def validate_price(
-    price: float, candle: Candle | None
-) -> tuple[bool, str]:
+def validate_price(price: float, candle: Candle | None) -> tuple[bool, str]:
     """Return (valid, reason_string).  valid=True if price is within tolerance."""
     if candle is None:
         return True, "no_candle"
@@ -139,6 +139,7 @@ def validate_price(
 # -
 # Math helpers
 # -
+
 
 def compute_exit_price(order: PaperOrder) -> float | None:
     """Reverse-engineer exit price from pnl_usdt + entry_price + amount."""
@@ -165,6 +166,7 @@ def iso_now() -> str:
 # -
 # Synthetic close
 # -
+
 
 def make_synthetic_close(order: PaperOrder, exit_price: float) -> PaperOrder:
     """Return an updated copy of order with synthetic close data."""
@@ -196,6 +198,7 @@ def make_synthetic_close(order: PaperOrder, exit_price: float) -> PaperOrder:
 # Core audit
 # -
 
+
 async def run_audit(
     orders_path: Path,
     fix: bool,
@@ -203,7 +206,7 @@ async def run_audit(
 ) -> None:
     sep = "=" * 64
     print(f"\n{sep}")
-    print(f"  PAPER ORDER AUDIT")
+    print("  PAPER ORDER AUDIT")
     print(f"  File : {orders_path}")
     print(f"  Fix  : {fix}")
     print(f"{sep}\n")
@@ -216,18 +219,15 @@ async def run_audit(
     for o in orders:
         pairs[o["pair_id"]].append(o)
 
-    orphan_pids: list[str] = []         # only 1 leg found
-    mismatched_pids: list[str] = []     # 1 filled + 1 closed
-    open_pids: list[str] = []           # both legs filled (normal open)
-    closed_pids: list[str] = []         # both legs closed
-    anomaly_pids: list[str] = []        # any leg has spread_pct_entry > threshold
+    orphan_pids: list[str] = []  # only 1 leg found
+    mismatched_pids: list[str] = []  # 1 filled + 1 closed
+    open_pids: list[str] = []  # both legs filled (normal open)
+    closed_pids: list[str] = []  # both legs closed
+    anomaly_pids: list[str] = []  # any leg has spread_pct_entry > threshold
 
     for pid, legs in pairs.items():
         statuses = {leg["status"] for leg in legs}
-        if any(
-            (leg.get("spread_pct_entry") or 0.0) > ANOMALY_MAX_SPREAD_PCT
-            for leg in legs
-        ):
+        if any((leg.get("spread_pct_entry") or 0.0) > ANOMALY_MAX_SPREAD_PCT for leg in legs):
             anomaly_pids.append(pid)
         if len(legs) == 1:
             orphan_pids.append(pid)
@@ -241,10 +241,7 @@ async def run_audit(
 
     unhedged_pids = set(orphan_pids) | set(mismatched_pids)
     unhedged_legs: list[PaperOrder] = [
-        leg
-        for pid in unhedged_pids
-        for leg in pairs[pid]
-        if leg["status"] == "filled"
+        leg for pid in unhedged_pids for leg in pairs[pid] if leg["status"] == "filled"
     ]
 
     print("- Structure -")
@@ -272,20 +269,16 @@ async def run_audit(
         closed_dt = parse_dt(o.get("closed_at"))
         if not opened_dt:
             continue
-        since_ms = int(
-            (opened_dt - timedelta(minutes=CANDLE_MARGIN_MIN)).timestamp() * 1000
-        )
+        since_ms = int((opened_dt - timedelta(minutes=CANDLE_MARGIN_MIN)).timestamp() * 1000)
         ref_dt = closed_dt if closed_dt else opened_dt
-        until_ms = int(
-            (ref_dt + timedelta(minutes=CANDLE_MARGIN_MIN)).timestamp() * 1000
-        )
+        until_ms = int((ref_dt + timedelta(minutes=CANDLE_MARGIN_MIN)).timestamp() * 1000)
         if key in fetch_ranges:
             s0, u0 = fetch_ranges[key]
             fetch_ranges[key] = (min(s0, since_ms), max(u0, until_ms))
         else:
             fetch_ranges[key] = (since_ms, until_ms)
 
-    print(f"\n- OHLCV Fetch -")
+    print("\n- OHLCV Fetch -")
     print(f"  Fetching 1m candles for {len(fetch_ranges)} (exchange, symbol) pairs ...")
 
     sem = asyncio.Semaphore(FETCH_CONCURRENCY)
@@ -314,7 +307,7 @@ async def run_audit(
             print(f"  {key[0]:8s}  {key[1]:30s}  {status}")
 
     # - 3. Validate each order against OHLCV -
-    print(f"\n- Price Validation -")
+    print("\n- Price Validation -")
 
     flags: list[dict] = []
     validation: list[dict] = []
@@ -357,7 +350,9 @@ async def run_audit(
             else:
                 entry_fail += 1
                 rec["issues"].append(f"entry:{reason}")
-                flags.append({"order_id": o["order_id"], "type": "entry_price_invalid", "detail": reason})
+                flags.append(
+                    {"order_id": o["order_id"], "type": "entry_price_invalid", "detail": reason}
+                )
         else:
             entry_skip += 1
 
@@ -374,7 +369,9 @@ async def run_audit(
                 else:
                     exit_fail += 1
                     rec["issues"].append(f"exit:{reason}")
-                    flags.append({"order_id": o["order_id"], "type": "exit_price_invalid", "detail": reason})
+                    flags.append(
+                        {"order_id": o["order_id"], "type": "exit_price_invalid", "detail": reason}
+                    )
             else:
                 exit_skip += 1
 
@@ -384,7 +381,7 @@ async def run_audit(
     print(f"  Exit  - OK:{exit_ok}  INVALID:{exit_fail}  SKIP:{exit_skip}")
 
     # - 4. PnL statistics -
-    print(f"\n- PnL Statistics -")
+    print("\n- PnL Statistics -")
 
     pair_net_pnls: list[float] = []
     pair_hold_secs: list[float] = []
@@ -449,7 +446,7 @@ async def run_audit(
             shown.add(key_str)
             print(f"  [{fl['type']:30s}] {fl['order_id']}  {fl['detail']}")
     else:
-        print(f"\n- Flags -")
+        print("\n- Flags -")
         print("  None.")
 
     # - 6. Fix unhedged legs -
@@ -497,7 +494,9 @@ async def run_audit(
         print(f"  Saved  {orders_path}")
 
     elif unhedged_legs and not fix:
-        print(f"\n  NOTE: {len(unhedged_legs)} unhedged leg(s) found. Run with --fix to close them.")
+        print(
+            f"\n  NOTE: {len(unhedged_legs)} unhedged leg(s) found. Run with --fix to close them."
+        )
 
     # - 7. Optional JSON report -
     if output_path:
@@ -541,10 +540,9 @@ async def run_audit(
 # Entry point
 # -
 
+
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Audit paper_orders.json against OHLCV history."
-    )
+    parser = argparse.ArgumentParser(description="Audit paper_orders.json against OHLCV history.")
     parser.add_argument(
         "--orders",
         type=Path,

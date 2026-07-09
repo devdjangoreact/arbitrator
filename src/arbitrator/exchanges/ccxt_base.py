@@ -13,25 +13,25 @@ from typing import ClassVar, Literal
 import aiohttp
 import ccxt.pro as ccxtpro
 import certifi
-from ccxt.base.errors import BadSymbol, NetworkError, UnsubscribeError
+from ccxt.base.errors import BadSymbol, ExchangeError, NetworkError, RateLimitExceeded, UnsubscribeError
 
 from arbitrator.config.ccxt_position_mapper import CcxtPositionMapper
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
-from arbitrator.domain.closed_position_leg import ClosedPositionLeg
-from arbitrator.domain.exchange_connection_status import ExchangeConnectionStatus
-from arbitrator.domain.exchange_gateway import ExchangeGateway
-from arbitrator.domain.open_order_leg import OpenOrderLeg
-from arbitrator.domain.order_book_level import OrderBookLevel
-from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.account.closed_position_leg import ClosedPositionLeg
+from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
+from arbitrator.domain.exchange.exchange_gateway import ExchangeGateway
+from arbitrator.domain.account.open_order_leg import OpenOrderLeg
+from arbitrator.domain.market.order_book_level import OrderBookLevel
+from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo, SymbolMarketInfoParser
-from arbitrator.domain.symbol_normalizer import SymbolNormalizer
-from arbitrator.domain.ticker import Ticker
-from arbitrator.domain.token_identity import CurrencyNetworkInfo
-from arbitrator.domain.trade_tick import TradeTick
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo, SymbolMarketInfoParser
+from arbitrator.domain.universe.symbol_normalizer import SymbolNormalizer
+from arbitrator.domain.market.ticker import Ticker
+from arbitrator.domain.universe.token_identity import CurrencyNetworkInfo
+from arbitrator.domain.market.trade_tick import TradeTick
 
 
 @dataclass
@@ -219,6 +219,15 @@ class CcxtBase(ExchangeGateway):
                     self.exchange_id,
                     symbol,
                 )
+                continue
+            except (RateLimitExceeded, ExchangeError) as error:
+                logger.warning(
+                    "watch_order_book rate limited, backing off | exchange={} symbol={} err={}",
+                    self.exchange_id,
+                    symbol,
+                    str(error),
+                )
+                await asyncio.sleep(10.0)
                 continue
             except NetworkError as error:
                 logger.debug(
@@ -774,10 +783,16 @@ class CcxtBase(ExchangeGateway):
             market = client.markets.get(symbol) if isinstance(client.markets, dict) else None
             if not CcxtBase._is_arbitrage_symbol(market):
                 continue
+            csize = 1.0
+            if isinstance(market, dict):
+                raw_cs = CcxtBase._as_float(market.get("contractSize"))
+                if raw_cs is not None and raw_cs > 0.0:
+                    csize = raw_cs
             mapped = CcxtPositionMapper.map_closed_position(
                 item,
                 exchange_id=self.exchange_id,
                 display_name=self.display_name,
+                contract_size=csize,
             )
             if mapped is not None:
                 legs.append(mapped)
@@ -830,6 +845,12 @@ class CcxtBase(ExchangeGateway):
                     acc.arb_marker_id = marker
                 if trade_id is not None:
                     acc.position_id = trade_id
+            market = client.markets.get(symbol) if isinstance(client.markets, dict) else None
+            csize = 1.0
+            if isinstance(market, dict):
+                raw_cs = CcxtBase._as_float(market.get("contractSize"))
+                if raw_cs is not None and raw_cs > 0.0:
+                    csize = raw_cs
             for side, acc in accumulators.items():
                 if acc.realized_pnl == 0.0:
                     continue
@@ -850,6 +871,7 @@ class CcxtBase(ExchangeGateway):
                         realized_pnl=acc.realized_pnl,
                         commission=acc.commission if acc.commission else None,
                         funding=funding_total,
+                        contract_size=csize,
                         opened_at=opened_at,
                         closed_at=closed_at,
                         arb_marker_id=acc.arb_marker_id,

@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.opportunity_session_state import OpportunitySessionState
-from arbitrator.application.opportunity_stream_worker import OpportunityStreamState
-from arbitrator.application.opportunity_strategy_service import OpportunityStrategyService
-from arbitrator.application.strategy_inputs_assembler import StrategyInputsAssembler
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.opportunities.opportunity_session_state import OpportunitySessionState
+from arbitrator.application.opportunities.opportunity_stream_worker import OpportunityStreamState
+from arbitrator.application.opportunities.opportunity_strategy_service import OpportunityStrategyService
+from arbitrator.application.strategies.strategy_inputs_assembler import StrategyInputsAssembler
 from arbitrator.config.settings import Settings
 from arbitrator.domain.strategy.strategies.futures_futures_calculator import (
     FuturesFuturesCalculator,
@@ -25,7 +25,7 @@ from arbitrator.domain.strategy.strategies.futures_spot_2ex_calculator import (
 from arbitrator.domain.strategy.strategy_engine import StrategyEngine
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.presentation.serializers.opportunity_serializer import OpportunitySerializer
 
 NOW_MS = 1_700_000_000_000

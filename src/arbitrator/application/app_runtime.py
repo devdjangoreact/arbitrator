@@ -1,27 +1,27 @@
 from __future__ import annotations
 
-from arbitrator.application.account_stream_worker import AccountStreamWorker
-from arbitrator.application.exchange_orders_service import ExchangeOrdersService
-from arbitrator.application.fee_snapshot_service import FeeSnapshotService
-from arbitrator.application.funding_accrual_service import FundingAccrualService
-from arbitrator.application.funding_rate_worker import FundingRateWorker
-from arbitrator.application.funding_reentry_service import FundingReentryService
-from arbitrator.application.hedged_execution_service import HedgedExecutionService
-from arbitrator.application.liquidation_guard_service import LiquidationGuardService
-from arbitrator.application.live_auto_trader import LiveAutoTrader
-from arbitrator.application.live_liquidation_guard_service import LiveLiquidationGuardService
-from arbitrator.application.live_funding_protection_service import LiveFundingProtectionService
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
-from arbitrator.application.screener_auto_trader import ScreenerAutoTrader
-from arbitrator.application.screener_book_stream_worker import ScreenerBookStreamWorker
-from arbitrator.application.screener_stream_worker import ScreenerStreamWorker
-from arbitrator.application.spot_stream_worker import SpotStreamWorker
-from arbitrator.application.strategy_refresh_worker import StrategyRefreshWorker
-from arbitrator.application.strategy_inputs_assembler import StrategyInputsAssembler
-from arbitrator.application.strategy_table_service import StrategyTableService
-from arbitrator.application.symbol_universe_service import SymbolUniverseService
-from arbitrator.application.token_identity_service import TokenIdentityService
+from arbitrator.application.account.account_stream_worker import AccountStreamWorker
+from arbitrator.application.trading.exchange_orders_service import ExchangeOrdersService
+from arbitrator.application.market_data.fee_snapshot_service import FeeSnapshotService
+from arbitrator.application.account.funding_accrual_service import FundingAccrualService
+from arbitrator.application.account.funding_rate_worker import FundingRateWorker
+from arbitrator.application.account.funding_reentry_service import FundingReentryService
+from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
+from arbitrator.application.account.liquidation_guard_service import LiquidationGuardService
+from arbitrator.application.trading.live_auto_trader import LiveAutoTrader
+from arbitrator.application.account.live_liquidation_guard_service import LiveLiquidationGuardService
+from arbitrator.application.account.live_funding_protection_service import LiveFundingProtectionService
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.trading.paper_execution_gateway import PaperExecutionGateway
+from arbitrator.application.trading.screener_auto_trader import ScreenerAutoTrader
+from arbitrator.application.market_data.screener_book_stream_worker import ScreenerBookStreamWorker
+from arbitrator.application.market_data.screener_stream_worker import ScreenerStreamWorker
+from arbitrator.application.market_data.spot_stream_worker import SpotStreamWorker
+from arbitrator.application.strategies.strategy_refresh_worker import StrategyRefreshWorker
+from arbitrator.application.strategies.strategy_inputs_assembler import StrategyInputsAssembler
+from arbitrator.application.strategies.strategy_table_service import StrategyTableService
+from arbitrator.application.market_data.symbol_universe_service import SymbolUniverseService
+from arbitrator.application.account.token_identity_service import TokenIdentityService
 from arbitrator.config.json_symbol_exclusions_repository import JsonSymbolExclusionsRepository
 from arbitrator.config.telegram_notifier import TelegramNotifier
 from arbitrator.config.json_symbol_universe_repository import JsonSymbolUniverseRepository
@@ -387,8 +387,10 @@ class AppRuntime:
             factory=factory,
             cache=self.market_cache,
             fee_service=FeeSnapshotService(self.market_cache),
-            symbols_provider=lambda: (
-                self.screener_worker.read_state()[1] if self.screener_worker is not None else []
+            symbols_by_exchange_provider=lambda: (
+                self.screener_worker.read_symbols_by_exchange()
+                if self.screener_worker is not None
+                else {}
             ),
             token_identity=self.token_identity,
         )

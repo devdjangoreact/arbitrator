@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from arbitrator.domain.closed_position_leg import ClosedPositionLeg
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.account.closed_position_leg import ClosedPositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 
 
 class CcxtPositionMapper:
@@ -72,6 +72,7 @@ class CcxtPositionMapper:
         display_name: str,
         commission: float | None = None,
         funding: float | None = None,
+        contract_size: float | None = None,
     ) -> ClosedPositionLeg | None:
         if not isinstance(payload, dict):
             return None
@@ -93,6 +94,9 @@ class CcxtPositionMapper:
         contracts = CcxtPositionMapper._extract_closed_contracts(payload)
         entry_price = CcxtPositionMapper._extract_entry_price(payload)
         exit_price = CcxtPositionMapper._extract_exit_price(payload)
+        size = contract_size
+        if size is None or size <= 0.0:
+            size = CcxtPositionMapper._as_float(payload.get("contractSize")) or 1.0
         position_id = CcxtPositionMapper._as_str(payload.get("id"))
         if position_id is None:
             info = payload.get("info")
@@ -107,6 +111,7 @@ class CcxtPositionMapper:
             commission=effective_commission,
             funding=effective_funding,
             contracts=contracts,
+            contract_size=size,
             entry_price=entry_price,
             exit_price=exit_price,
             opened_at=opened_at,
@@ -217,8 +222,16 @@ class CcxtPositionMapper:
                 return abs(amount)
         info = payload.get("info")
         if isinstance(info, dict):
-            open_fee = CcxtPositionMapper._as_float(info.get("openFeeTotal"))
-            close_fee = CcxtPositionMapper._as_float(info.get("closeFeeTotal"))
+            open_fee = None
+            close_fee = None
+            for key in ("openFeeTotal", "openFee", "open_fee"):
+                open_fee = CcxtPositionMapper._as_float(info.get(key))
+                if open_fee is not None:
+                    break
+            for key in ("closeFeeTotal", "closeFee", "close_fee"):
+                close_fee = CcxtPositionMapper._as_float(info.get(key))
+                if close_fee is not None:
+                    break
             if open_fee is not None or close_fee is not None:
                 return abs(open_fee or 0.0) + abs(close_fee or 0.0)
             for key in ("fee", "commission", "pnl_fee"):

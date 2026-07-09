@@ -4,12 +4,12 @@ from collections.abc import Mapping
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
-from arbitrator.application.executable_spread_resolver import ExecutableSpreadResolver
+from arbitrator.application.trading.executable_spread_resolver import ExecutableSpreadResolver
 from arbitrator.config.settings import Settings
 from arbitrator.domain.strategy.strategy_kind import StrategyKind
 from arbitrator.domain.strategy.strategy_table import StrategyTable
-from arbitrator.domain.spread_calculator import SpreadCalculator
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.market.spread_calculator import SpreadCalculator
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.presentation.dto.opportunity_dto import OpportunityFocusDto
 from arbitrator.presentation.dto.screener_dto import (
     ExchangePricesDto,
@@ -20,7 +20,7 @@ from arbitrator.presentation.dto.screener_dto import (
 )
 
 if TYPE_CHECKING:
-    from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+    from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 
 
 class ScreenerSerializer:

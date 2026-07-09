@@ -14,7 +14,7 @@ from arbitrator.presentation.ws.ws_envelope import WsEnvelope
 
 if TYPE_CHECKING:
     from arbitrator.application.app_runtime import AppRuntime
-    from arbitrator.application.exchange_orders_service import ExchangeOrdersService
+    from arbitrator.application.trading.exchange_orders_service import ExchangeOrdersService
     from arbitrator.config.paper_order_store import PaperOrderStore
 
 _STRATEGY_LABELS: dict[str | None, str] = {
@@ -179,7 +179,7 @@ class OrdersWsHandler:
     def _build_paper_order_groups(self) -> list[dict[str, object]]:
         """Convert paper orders into the same group format as exchange orders."""
         assert self._paper_store is not None
-        from arbitrator.domain.paper_order import PaperOrder
+        from arbitrator.domain.opportunity.paper_order import PaperOrder
 
         orders = self._paper_store.load_all()
         by_pair: dict[str, list[PaperOrder]] = {}
@@ -267,7 +267,7 @@ class OrdersWsHandler:
 
     @staticmethod
     def _build_groups(orders: list["PaperOrder"]) -> list[dict[str, object]]:  # type: ignore[name-defined]
-        from arbitrator.domain.paper_order import PaperOrder
+        from arbitrator.domain.opportunity.paper_order import PaperOrder
 
         by_pair: dict[str, list[PaperOrder]] = {}
         for o in orders:

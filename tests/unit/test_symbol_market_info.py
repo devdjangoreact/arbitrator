@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from arbitrator.domain.symbol_market_info import SymbolMarketInfoParser
-from arbitrator.domain.symbol_normalizer import SymbolNormalizer
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfoParser
+from arbitrator.domain.universe.symbol_normalizer import SymbolNormalizer
 
 
 def test_to_swap_symbol_from_display() -> None:

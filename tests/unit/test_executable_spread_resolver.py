@@ -6,16 +6,16 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from arbitrator.application.executable_spread_resolver import ExecutableSpreadResolver
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.trading.executable_spread_resolver import ExecutableSpreadResolver
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.settings import Settings
-from arbitrator.domain.order_book_level import OrderBookLevel
-from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
+from arbitrator.domain.market.order_book_level import OrderBookLevel
+from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
 from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.market.ticker import Ticker
 
 if TYPE_CHECKING:
-    from arbitrator.domain.exchange_gateway import ExchangeGateway
+    from arbitrator.domain.exchange.exchange_gateway import ExchangeGateway
 
 SYM = "BTC/USDT:USDT"
 EX_A = "bitget"

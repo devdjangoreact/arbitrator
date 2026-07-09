@@ -10,7 +10,7 @@ import json
 
 import pytest
 import websockets  # type: ignore[import]
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 
 
 APP_WS = "ws://127.0.0.1:8000"

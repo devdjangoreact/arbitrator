@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC
 
-from arbitrator.domain.spread_calculator import SpreadCalculator
+from arbitrator.domain.market.spread_calculator import SpreadCalculator
 
 
 def test_spread_calculator_computes_pct() -> None:

@@ -8,8 +8,8 @@ import aiohttp
 import ccxt.pro as ccxtpro
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.position_leg import PositionLeg
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.account.position_leg import PositionLeg
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.exchanges.ccxt_base import CcxtBase
 
 

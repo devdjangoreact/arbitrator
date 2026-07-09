@@ -23,13 +23,12 @@ from typing import Literal
 
 import pytest
 
-from arbitrator.application.hedged_execution_service import HedgedExecutionService
+from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
 from arbitrator.config.settings import Settings
-from arbitrator.domain.position_leg import PositionLeg
-from arbitrator.domain.spot_gateway import SpotGateway
+from arbitrator.domain.account.position_leg import PositionLeg
+from arbitrator.domain.exchange.spot_gateway import SpotGateway
 from arbitrator.domain.strategy.execution_outcome import ExecutionStatus
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
-from arbitrator.domain.strategy.quote import Quote
 
 SYMBOL = "DOGE/USDT:USDT"
 SPOT_SYMBOL = "DOGE/USDT"
