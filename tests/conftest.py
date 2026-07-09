@@ -141,3 +141,6 @@ class MockGateway(ExchangeGateway):
 @pytest.fixture
 def settings() -> Settings:
     return Settings()
+
+import nest_asyncio
+nest_asyncio.apply()

@@ -85,10 +85,8 @@ class ScreenerBookStreamWorker:
         }
         if symbols:
             return sorted(symbols)
-        _tickers, stream_symbols, _updates, _status, _threshold = (
-            self._screener_worker.read_state()
-        )
-        return sorted(stream_symbols)
+        symbols_by_ex = self._screener_worker.read_symbols_by_exchange()
+        return sorted(symbols_by_ex.get(exchange_id, []))
 
     def _thread_main(self) -> None:
         try:

@@ -1,0 +1,14 @@
+# UI static assets — code graph uses JS/Python; HTML needs LLM semantic pass
+src/arbitrator/presentation/static/
+
+# Docs/specs — require LLM API key for semantic extraction
+*.md
+specs/
+.cursor/
+.claude/
+aws-credits-lab/
+graphify-out/
+
+# Local-only graphify artifacts
+graphify-out/cost.json
+graphify-out/cache/

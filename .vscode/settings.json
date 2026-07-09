@@ -2,12 +2,16 @@
   "claudeCode.disableLoginPrompt": true,
   "claudeCode.selectedModel": "sonnet",
   "claudeCode.environmentVariables": [
-    { "name": "CLAUDE_CODE_USE_BEDROCK", "value": "1" },
-    { "name": "AWS_REGION", "value": "us-east-1" },
-    { "name": "ANTHROPIC_DEFAULT_SONNET_MODEL", "value": "us.anthropic.claude-sonnet-4-6" },
-    { "name": "ANTHROPIC_DEFAULT_OPUS_MODEL", "value": "us.anthropic.claude-opus-4-6-v1" },
-    { "name": "ANTHROPIC_DEFAULT_HAIKU_MODEL", "value": "us.anthropic.claude-haiku-4-5-20251001-v1:0" }
+    { "name": "ANTHROPIC_BASE_URL", "value": "http://localhost:4000" },
+    { "name": "ANTHROPIC_AUTH_TOKEN", "value": "sk-litellm-local" },
+    { "name": "ANTHROPIC_DEFAULT_SONNET_MODEL", "value": "sonnet" },
+    { "name": "ANTHROPIC_DEFAULT_OPUS_MODEL", "value": "opus" },
+    { "name": "ANTHROPIC_DEFAULT_HAIKU_MODEL", "value": "haiku" },
+    { "name": "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY", "value": "1" }
   ],
+  "geminicodeassist.project": "vertex-ai-model-501607",
+  "geminicodeassist.enable": true,
+  "geminicodeassist.beta.forceOobLogin": true,
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
   "python.terminal.activateEnvironment": true,
   "python.testing.pytestEnabled": true,

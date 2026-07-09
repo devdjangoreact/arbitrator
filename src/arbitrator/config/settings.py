@@ -100,6 +100,11 @@ class Settings(BaseSettings):
     liq_guard_check_interval_seconds: float = 5.0
     liq_guard_warning_pct_to_liq: float = 80.0  # close when 80% of margin consumed
 
+    # --- PUBLIC GATEWAY PROXIES (Spec 003) ---
+    exchange_public_http_proxy: str | None = None
+    exchange_public_ws_proxy: str | None = None
+    exchange_public_socks_proxy: str | None = None
+
     # Funding reentry (paper mode)
     funding_reentry_enabled: bool = False
     funding_reentry_check_interval_seconds: float = 30.0
@@ -179,6 +184,14 @@ class Settings(BaseSettings):
         if not self.allowed_strategies:
             return True
         return strategy_kind in self.allowed_strategies
+
+    def public_http_proxy_for(self, exchange_id: str) -> str | None:
+        """Return public HTTP proxy for the given exchange."""
+        return self.exchange_public_http_proxy
+
+    def public_ws_proxy_for(self, exchange_id: str) -> str | None:
+        """Return public WS proxy for the given exchange."""
+        return self.exchange_public_ws_proxy
 
     def strategy_open_spread_pct(self, strategy_kind: str) -> float:
         """Return open spread threshold for a strategy (override or default)."""

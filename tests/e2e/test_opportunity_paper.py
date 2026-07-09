@@ -22,6 +22,8 @@ MOCK_LONG = "bingx"
 @pytest.fixture
 def page(browser_context, app_server):  # type: ignore[no-untyped-def]
     p = browser_context.new_page()
+    p.on("console", lambda msg: print(f"Browser console [{msg.type}]: {msg.text}"))
+    p.on("pageerror", lambda err: print(f"Browser error: {err}"))
     yield p
     p.close()
 
@@ -29,9 +31,9 @@ def page(browser_context, app_server):  # type: ignore[no-untyped-def]
 def test_opportunity_page_loads(page: Page, app_server: str) -> None:
     """Navigate to opportunity page via screener row click or direct URL."""
     page.goto(app_server)
-    page.wait_for_selector("#screenerTable tbody tr", timeout=10_000)
+    page.wait_for_selector("#screener-tbody tr", timeout=10_000)
     # click first row to navigate to opportunity page
-    first_row = page.query_selector("#screenerTable tbody tr")
+    first_row = page.query_selector("#screener-tbody tr")
     if first_row:
         first_row.click()
     else:

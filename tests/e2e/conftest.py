@@ -57,7 +57,7 @@ def app_server():
 
 @pytest.fixture(scope="session")
 def browser_context(app_server, playwright):  # type: ignore[no-untyped-def]
-    browser = playwright.chromium.launch(headless=True)
+    browser = playwright.chromium.launch(headless=True, args=['--enable-logging', '--v=1'])
     context = browser.new_context()
     yield context
     context.close()

@@ -16,7 +16,7 @@ from arbitrator.domain.account.closed_position_leg import ClosedPositionLeg
 from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.exchanges.factory import Factory
 
-_SEEN_SYMBOLS_PATH = Path(__file__).resolve().parent.parent / "data" / "seen_symbols.json"
+_SEEN_SYMBOLS_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "seen_symbols.json"
 
 
 def _load_seen_symbols() -> set[str]:

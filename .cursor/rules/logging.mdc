@@ -2,7 +2,7 @@
 description: Use the project Loguru-based logger for all diagnostic output. Forbid print() and stdlib logging.getLogger() in application code.
 globs:
   - "**/*.py"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Logging rule

@@ -12,6 +12,8 @@ from playwright.sync_api import Page, expect
 @pytest.fixture
 def page(browser_context, app_server):  # type: ignore[no-untyped-def]
     p = browser_context.new_page()
+    p.on("console", lambda msg: print(f"Browser console [{msg.type}]: {msg.text}"))
+    p.on("pageerror", lambda err: print(f"Browser error: {err}"))
     yield p
     p.close()
 
@@ -26,16 +28,20 @@ def test_screener_has_rows(page: Page, app_server: str) -> None:
     """Screener table must have at least one row after WS snapshot arrives."""
     page.goto(app_server)
     # sidebar nav: Screener should be default page
-    page.wait_for_selector("#screenerTable tbody tr", timeout=10_000)
-    rows = page.query_selector_all("#screenerTable tbody tr")
+    try:
+        page.wait_for_selector("#screener-tbody tr", timeout=10_000)
+    except Exception:
+        page.screenshot(path="screener_failed.png")
+        raise
+    rows = page.query_selector_all("#screener-tbody tr")
     assert len(rows) > 0, "Expected at least one screener row"
 
 
 def test_screener_shows_spread(page: Page, app_server: str) -> None:
     """Each screener row must have a non-empty spread value."""
     page.goto(app_server)
-    page.wait_for_selector("#screenerTable tbody tr", timeout=10_000)
-    first_row = page.query_selector("#screenerTable tbody tr")
+    page.wait_for_selector("#screener-tbody tr", timeout=10_000)
+    first_row = page.query_selector("#screener-tbody tr")
     assert first_row is not None
     spread_cell = first_row.query_selector("[data-col='spread']")
     if spread_cell is None:

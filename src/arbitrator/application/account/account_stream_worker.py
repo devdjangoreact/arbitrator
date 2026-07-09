@@ -111,7 +111,7 @@ class AccountStreamWorker:
     async def _async_main(self) -> None:
         self._loop = asyncio.get_running_loop()
         self._main_task = asyncio.current_task()
-        named_exchanges = self._factory.create_many(self._running_exchange_ids)
+        named_exchanges = self._factory.create_many(self._running_exchange_ids, mode="private")
         self._set_stream_status("Connecting…")
         logger.info(
             "Account stream spawned | exchanges={}",

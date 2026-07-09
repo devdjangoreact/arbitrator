@@ -85,9 +85,19 @@ description: >-
 | Ситуація | Скрипт |
 | -------- | ------ |
 | Відкриті + закриті позиції (як Orders UI) | `scripts/trade_report.py` |
+| **Аналіз трейдів (агент)** | `scripts/trade_report.py --refresh [--last N]` → читай **`src/arbitrator/data/trade_report.json`** (не xlsx) |
 | Аудит paper orders vs OHLCV | `scripts/audit_paper_orders.py` |
 | Бектест FF на історичних OHLCV | `scripts/backtest_ff.py` |
 | Перевірка contract address токена між біржами | `scripts/check_token_identity.py` |
+
+При аналізі угод / PnL / останніх трейдів:
+
+1. Завжди спочатку згенеруй звіт:  
+   `.venv\Scripts\python.exe scripts/trade_report.py --refresh --last 10`  
+   (або без `--last` для повного списку).
+2. Для аналізу читай лише `src/arbitrator/data/trade_report.json`  
+   (згруповані арби + ноги, числа). `trade_report.xlsx` — для людини в Excel.
+3. Не читай `closed_positions_cache.json` як джерело правди для висновків — це сирий кеш; звіт після `--refresh` авторитетний.
 
 ## Коди виходу
 

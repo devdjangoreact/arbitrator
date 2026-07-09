@@ -4,7 +4,7 @@ globs:
   - src/arbitrator/application/**/*
   - src/arbitrator/exchanges/**/*
   - src/arbitrator/presentation/**/*
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Exchange data access
@@ -120,11 +120,21 @@ existing `scripts/` CLIs** before writing ad-hoc ccxt calls, raw REST/curl, or
 one-off Python that duplicates project adapters. Always invoke via
 `.venv\Scripts\python.exe` (see `.cursor/rules/tooling.mdc`).
 
+**Never use cached files for analysis.** `closed_positions_cache.json` and any
+other data files under `src/arbitrator/data/` are stale snapshots — **do not
+read them to answer questions about trades, positions, PnL, or prices.**
+Always fetch live data from exchanges:
+- Closed positions / trade history → `scripts/trade_report.py --refresh`
+  then read **`src/arbitrator/data/trade_report.json`** for analysis (xlsx is human-only).
+  Never analyze from `closed_positions_cache.json` alone.
+- Open positions / balances → `scripts/inspect_exchanges.py --json account`
+- Tickers / order books → `scripts/inspect_exchanges.py --json ticker|orderbook`
+
 | Situation | Script | Key flags |
 | --------- | ------ | --------- |
 | Credentials, USDT balance, positions, open orders | `scripts/inspect_exchanges.py` | `--json verify`, `--json account` |
 | Public ticker, order book, symbol list | `scripts/inspect_exchanges.py` | `--json ticker`, `orderbook`, `list-symbols` |
-| Open + closed positions (same pipeline as Orders UI) | `scripts/trade_report.py` | `--refresh` to bypass cache |
+| Open + closed positions (same pipeline as Orders UI) | `scripts/trade_report.py` | **always `--refresh`**; agent reads `data/trade_report.json` |
 | Paper orders vs OHLCV, spread/PnL audit | `scripts/audit_paper_orders.py` | read-only by default |
 | FF strategy backtest on historical OHLCV | `scripts/backtest_ff.py` | public data; no keys |
 | Cross-exchange token contract identity | `scripts/check_token_identity.py` | `--output report.md` |
@@ -140,7 +150,9 @@ Example commands (repo root, Windows):
 .venv\Scripts\python.exe scripts/inspect_exchanges.py --json verify
 .venv\Scripts\python.exe scripts/inspect_exchanges.py --json account --exchange bitget
 .venv\Scripts\python.exe scripts/inspect_exchanges.py --json ticker --exchange mexc --symbol BTC/USDT:USDT
-.venv\Scripts\python.exe scripts/trade_report.py
+.venv\Scripts\python.exe scripts/trade_report.py --refresh --last 10
+# agent: parse src/arbitrator/data/trade_report.json
+# human: open src/arbitrator/data/trade_report.xlsx
 .venv\Scripts\python.exe scripts/audit_paper_orders.py
 .venv\Scripts\python.exe scripts/check_token_identity.py
 ```

@@ -13,6 +13,10 @@
 .cursor/cache/
 .cursor/logs/
 
+# graphify (generated knowledge graph — local only)
+graphify-out/
+**/graphify-out/
+
 # Python / Poetry
 .venv/
 __pycache__/

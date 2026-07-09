@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import time
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
@@ -22,17 +23,20 @@ EX_A = "bitget"
 EX_B = "gate"
 
 
-def _ticker(bid: float, ask: float) -> Ticker:
+def _ticker(bid: float | None, ask: float | None) -> Ticker:
+    last = 0.0
+    if bid is not None and ask is not None:
+        last = (bid + ask) / 2
     return Ticker(
         symbol=SYM,
-        last=(bid + ask) / 2,
+        last=last,
         bid=bid,
         ask=ask,
         high_24h=ask,
         low_24h=bid,
         base_volume_24h=1.0,
         quote_volume_24h=1_000_000.0,
-        timestamp_ms=1,
+        timestamp_ms=int(time.time() * 1000),
     )
 
 
@@ -44,7 +48,7 @@ def _quote(exchange_id: str, bid: float, ask: float) -> Quote:
         bid=Decimal(str(bid)),
         ask=Decimal(str(ask)),
         last=Decimal(str((bid + ask) / 2)),
-        recv_time_ms=1,
+        recv_time_ms=int(time.time() * 1000),
     )
 
 
@@ -62,7 +66,7 @@ class _CountingGateway:
         return OrderBookSnapshot(
             exchange_id=self.exchange_id,
             symbol=symbol,
-            timestamp_ms=1,
+            timestamp_ms=int(time.time() * 1000),
             bids=(OrderBookLevel(price=self._bid, size=100.0),),
             asks=(OrderBookLevel(price=self._ask, size=100.0),),
         )
@@ -74,7 +78,7 @@ def test_top_of_book_sync_prefers_cached_order_book() -> None:
         OrderBookSnapshot(
             exchange_id=EX_A,
             symbol=SYM,
-            timestamp_ms=1,
+            timestamp_ms=int(time.time() * 1000),
             bids=(OrderBookLevel(price=105.0, size=1.0),),
             asks=(OrderBookLevel(price=105.5, size=1.0),),
         )
@@ -178,7 +182,7 @@ def test_should_rest_verify_when_book_venue_lacks_cache() -> None:
         "mexc",
         EX_B,
         3.0,
-        short_ticker=_ticker(105.0, 105.1),
+        short_ticker=_ticker(None, None),
         long_ticker=_ticker(100.0, 100.1),
     ) is True
 
@@ -200,7 +204,7 @@ def test_entry_spread_for_open_skips_rest_when_prefilter_not_met() -> None:
             "mexc",
             EX_B,
             1.0,
-            short_ticker=_ticker(105.0, 105.1),
+            short_ticker=_ticker(None, None),
             long_ticker=_ticker(100.0, 100.1),
         )
     )
@@ -226,7 +230,7 @@ def test_entry_spread_for_open_fetches_rest_above_prefilter() -> None:
             "mexc",
             EX_B,
             3.0,
-            short_ticker=_ticker(105.0, 105.1),
+            short_ticker=_ticker(None, None),
             long_ticker=_ticker(100.0, 100.1),
         )
     )

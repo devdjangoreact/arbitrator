@@ -1,0 +1,38 @@
+---
+description: Write compact code — minimal lines, no file bloat, no unnecessary abstractions or comments.
+alwaysApply: true
+---
+
+# Compact code rule
+
+Prefer the **shortest correct solution**. Do not inflate files with boilerplate,
+redundant helpers, or verbose comments.
+
+## Hard rules
+
+1. **Minimal diff** — change only what the task requires; do not refactor unrelated code.
+2. **No file bloat** — do not add new files, classes, or layers unless the task
+   explicitly needs them. Reuse existing code first.
+3. **No premature abstraction** — inline logic until a second real use case appears.
+   One-line helpers and thin wrappers are forbidden.
+4. **Comments only when non-obvious** — skip docstrings and comments that restate
+   the code. Business rules and non-obvious trade-offs only.
+5. **No defensive noise** — avoid extra error handling, fallbacks, or config for
+   edges that cannot happen in this codebase.
+6. **Match existing style** — same naming, patterns, and density as surrounding code.
+
+## Forbidden patterns
+
+| Bad | Good |
+| --- | ---- |
+| New class/file for a one-off 5-line helper | Inline or extend existing class |
+| `# Get the user balance` above `balance = ...` | No comment |
+| Wrapper that only calls one method | Call the method directly |
+| Splitting a 20-line function into three 10-line functions | One clear function |
+| Adding Settings fields for values that never change | Literal or existing constant |
+
+## When adding code
+
+- Ask: *Can this be 3 lines instead of 30?*
+- Ask: *Does a similar function already exist?*
+- Ask: *Will deleting this break anything?* — if not, don't add it.

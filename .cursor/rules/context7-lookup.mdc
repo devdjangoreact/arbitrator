@@ -1,6 +1,10 @@
 ---
 description: When the agent needs documentation, API reference, or usage examples for any third-party library, query the Context7 MCP server — never guess or invent methods, parameters, or signatures.
-alwaysApply: true
+globs:
+  - src/**/*
+  - tests/**/*
+  - main.py
+alwaysApply: false
 ---
 
 # Context7 lookup rule
