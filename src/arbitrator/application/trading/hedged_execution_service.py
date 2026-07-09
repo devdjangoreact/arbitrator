@@ -90,9 +90,9 @@ class HedgedExecutionService:
     ) -> tuple[float, float] | None:
         """Pre-compute contract amounts for both legs that produce equal token exposure.
 
-        Floors each leg to its exchange step, then picks the minimum token amount
-        both can represent. Returns (short_contracts, long_contracts) or None if
-        either rounds to zero.
+        Floors each leg to its exchange step, then verifies that the resulting token
+        amounts are exactly identical (delta neutral). If the steps cause an imbalance,
+        it returns None, rejecting the trade to avoid unhedged exposure.
         """
         short_cs = self._contract_size_for(symbol, short_exchange_id)
         long_cs = self._contract_size_for(symbol, long_exchange_id)
@@ -110,6 +110,7 @@ class HedgedExecutionService:
             short_contracts = math.floor(short_contracts_raw / short_step) * short_step
         else:
             short_contracts = short_contracts_raw
+
         if long_step and long_step > 0:
             long_contracts = math.floor(long_contracts_raw / long_step) * long_step
         else:
@@ -119,24 +120,19 @@ class HedgedExecutionService:
         short_tokens = short_contracts * float(short_cs)
         long_tokens = long_contracts * float(long_cs)
 
-        # Use the minimum of both to ensure balanced exposure
-        min_tokens = min(short_tokens, long_tokens)
-        if min_tokens <= 0:
+        if short_tokens <= 0 or long_tokens <= 0:
             return None
 
-        # Re-derive contracts from the harmonized token amount
-        short_final = min_tokens / float(short_cs)
-        long_final = min_tokens / float(long_cs)
-
-        # Floor again to step (in case of floating point)
-        if short_step and short_step > 0:
-            short_final = math.floor(short_final / short_step) * short_step
-        if long_step and long_step > 0:
-            long_final = math.floor(long_final / long_step) * long_step
-
-        if short_final <= 0 or long_final <= 0:
+        # Ensure exact delta neutrality. If the calculated token amounts differ at all
+        # after step flooring, we reject the harmonization.
+        if abs(short_tokens - long_tokens) > 1e-8:
+            logger.debug(
+                "harmonize_amounts rejected: lot size imbalance | sym={} short_tokens={} long_tokens={}",
+                symbol, short_tokens, long_tokens
+            )
             return None
-        return short_final, long_final
+
+        return short_contracts, long_contracts
 
     def _min_notional_for_exchange(
         self,
@@ -467,6 +463,14 @@ class HedgedExecutionService:
             return self._failed(action, symbol, "market_info_missing")
         if price <= _ZERO or effective_notional <= _ZERO:
             return self._failed(action, symbol, "invalid_sizing")
+
+        if not self._dry_run:
+            margin_rejection = self._check_sufficient_margin(
+                symbol, short_exchange_id, long_exchange_id, effective_notional
+            )
+            if margin_rejection is not None:
+                return self._failed(action, symbol, margin_rejection)
+
         # Pre-compute harmonized contract amounts so both legs get equal token exposure
         # after each exchange floors to its lot step.
         harmonized = self._harmonize_amounts(
@@ -820,6 +824,41 @@ class HedgedExecutionService:
             action=action, status=ExecutionStatus.simulated, symbol=symbol,
             short_leg=short_leg, long_leg=long_leg, imbalance_pct=_ZERO,
         )
+
+    def _check_sufficient_margin(
+        self,
+        symbol: str,
+        short_exchange_id: str,
+        long_exchange_id: str,
+        notional_usdt: Decimal,
+    ) -> str | None:
+        """Verify cached USDT balance is sufficient for the notional amount on both exchanges."""
+        if self._market_cache is None:
+            return "cache_missing"
+
+        # Typically margin required = notional / leverage. Assuming cross margin and buffer.
+        # This acts as a conservative check (leverage=1) if leverage isn't tracked here,
+        # or we can use default leverage from settings.
+        leverage = float(self._settings.opp_default_leverage)
+        if leverage <= 0:
+            leverage = 1.0
+
+        required_margin = float(notional_usdt) / leverage
+        # Add 5% buffer for fees and slippage
+        required_margin_with_buffer = required_margin * 1.05
+
+        for ex_id in (short_exchange_id, long_exchange_id):
+            balance = self._market_cache.get_usdt_balance(ex_id)
+            if balance is None:
+                return f"balance_unknown:{ex_id}"
+            if balance < required_margin_with_buffer:
+                logger.warning(
+                    "insufficient margin for trade | sym={} ex={} balance={:.2f} required={:.2f}",
+                    symbol, ex_id, balance, required_margin_with_buffer
+                )
+                return f"insufficient_balance:{ex_id}:{balance:.2f}<{required_margin_with_buffer:.2f}"
+
+        return None
 
     @staticmethod
     def _failed(action: str, symbol: str, reason: str) -> ExecutionOutcome:

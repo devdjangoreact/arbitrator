@@ -10,6 +10,7 @@ from arbitrator.application.trading.hedged_execution_service import HedgedExecut
 from arbitrator.application.account.liquidation_guard_service import LiquidationGuardService
 from arbitrator.application.trading.live_auto_trader import LiveAutoTrader
 from arbitrator.application.account.live_liquidation_guard_service import LiveLiquidationGuardService
+from arbitrator.application.account.orphaned_position_monitor import OrphanedPositionMonitor
 from arbitrator.application.account.live_funding_protection_service import LiveFundingProtectionService
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.trading.paper_execution_gateway import PaperExecutionGateway
@@ -69,6 +70,7 @@ class AppRuntime:
         self.live_liq_guard: LiveLiquidationGuardService | None = None
         self.live_funding_protect: LiveFundingProtectionService | None = None
         self.liquidation_guard: LiquidationGuardService | None = None
+        self.orphan_monitor: OrphanedPositionMonitor | None = None
         self.funding_reentry: FundingReentryService | None = None
         self.strategy_refresh_worker: StrategyRefreshWorker | None = None
         self.token_identity: TokenIdentityService = TokenIdentityService()
@@ -110,6 +112,9 @@ class AppRuntime:
         if self.live_liq_guard is not None:
             self.live_liq_guard.stop()
             logger.info("live liquidation guard stopped")
+        if self.orphan_monitor is not None:
+            self.orphan_monitor.stop()
+            logger.info("orphan monitor stopped")
         if self.live_auto_trader is not None:
             self.live_auto_trader.stop()
             logger.info("live auto trader stopped")
@@ -261,6 +266,14 @@ class AppRuntime:
             self.live_funding_protect.start()
             logger.info("live funding protection started")
 
+        self.orphan_monitor = OrphanedPositionMonitor(
+            gateways=gateways,
+            notifier=notifier,
+            check_interval_seconds=300.0,
+        )
+        self.orphan_monitor.start()
+        logger.info("orphan position monitor started")
+
     def _start_paper_workers(self) -> None:
         factory = Factory(settings=self._settings)
         self._start_stream_workers(factory)
@@ -397,7 +410,7 @@ class AppRuntime:
         self.funding_worker.start()
         logger.info("funding worker started")
 
-        self.account_worker = AccountStreamWorker(settings=self._settings, factory=factory)
+        self.account_worker = AccountStreamWorker(settings=self._settings, factory=factory, market_cache=self.market_cache)
         self.account_worker.ensure_running(self._settings.enabled_exchanges)
         logger.info("account worker started")
 

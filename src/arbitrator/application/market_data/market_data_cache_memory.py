@@ -26,6 +26,15 @@ class MarketDataCacheMemory:
         self._fees: dict[tuple[str, str], FeeSchedule] = {}
         self._market_info: dict[tuple[str, str], SymbolMarketInfo] = {}
         self._order_books: dict[tuple[str, str], OrderBookSnapshot] = {}
+        self._usdt_balances: dict[str, float] = {}
+
+    def put_usdt_balance(self, exchange_id: str, balance: float) -> None:
+        with self._lock:
+            self._usdt_balances[exchange_id] = balance
+
+    def get_usdt_balance(self, exchange_id: str) -> float | None:
+        with self._lock:
+            return self._usdt_balances.get(exchange_id)
 
     def put_quote(self, quote: Quote) -> None:
         key = (quote.exchange_id, quote.symbol, quote.market_type)

@@ -6,6 +6,7 @@ from collections.abc import Sequence
 
 import ccxt.pro as ccxtpro
 
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
@@ -22,9 +23,10 @@ class AccountStreamWorker:
     UI layers read thread-safe snapshots instead of issuing REST polls.
     """
 
-    def __init__(self, settings: Settings, factory: Factory) -> None:
+    def __init__(self, settings: Settings, factory: Factory, market_cache: MarketDataCacheMemory | None = None) -> None:
         self._settings = settings
         self._factory = factory
+        self._market_cache = market_cache
         self._stop = threading.Event()
         self._lock = threading.Lock()
         self._positions_by_exchange: dict[str, list[PositionLeg]] = {}
@@ -253,6 +255,8 @@ class AccountStreamWorker:
     ) -> None:
         with self._lock:
             self._balances[exchange_id] = balance
+            if self._market_cache is not None and balance is not None:
+                self._market_cache.put_usdt_balance(exchange_id, balance)
             current = self._statuses.get(exchange_id)
             trading_enabled = current.trading_enabled if current is not None else False
             message = current.message if current is not None else "Connected"

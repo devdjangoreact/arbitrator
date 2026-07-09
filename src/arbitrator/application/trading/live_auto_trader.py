@@ -1017,6 +1017,24 @@ class LiveAutoTrader:
             )
             return None, reason
 
+        # Check funding risk: avoid opening if funding is imminent and potentially adverse
+        funding_skip_sec = self._settings.live_auto_trade_dca_funding_skip_seconds
+        if self._funding_too_close(symbol, short_ex, long_ex, funding_skip_sec):
+            reason = "funding_too_close"
+            self._log_open_check(
+                check_no, symbol, short_ex, long_ex, reason=reason,
+                candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
+                fresh_spread=fresh_spread, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
+                notional=notional_float, short_recv_ms=short_recv, long_recv_ms=long_recv,
+                desync_ms=desync_ms,
+            )
+            self._stamp_check_trace(
+                stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
+                fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
+                fresh_spread=fresh_spread, notional=notional_float, desync_ms=desync_ms,
+            )
+            return None, reason
+
         rejection = self._validate_cross_pair(
             symbol, short_ex, long_ex, notional_float, tickers=tickers,
         )
