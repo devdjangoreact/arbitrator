@@ -188,7 +188,7 @@ class ExchangeOrdersService:
 
         all_legs: list[ClosedPositionLeg] = []
         for exchange_id in exchange_ids:
-            named = self._factory.create(exchange_id)
+            named = self._factory.create_private(exchange_id)
             try:
                 legs = await named.gateway.fetch_closed_positions(
                     since_ms=since_ms, symbols=known_symbols

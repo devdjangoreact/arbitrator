@@ -33,16 +33,22 @@ class Factory:
     def display_name(self, exchange_id: str) -> str:
         return self._lookup(exchange_id).display_name
 
-    def create(self, exchange_id: str) -> NamedExchange:
+    def create(self, exchange_id: str, mode: str = "public") -> NamedExchange:
         cls = self._lookup(exchange_id)
         return NamedExchange(
             exchange_id=cls.exchange_id,
             display_name=cls.display_name,
-            gateway=cls(self._settings),
+            gateway=cls(self._settings, mode=mode),
         )
 
-    def create_many(self, exchange_ids: list[str]) -> list[NamedExchange]:
-        return [self.create(eid) for eid in exchange_ids]
+    def create_public(self, exchange_id: str) -> NamedExchange:
+        return self.create(exchange_id, mode="public")
+
+    def create_private(self, exchange_id: str) -> NamedExchange:
+        return self.create(exchange_id, mode="private")
+
+    def create_many(self, exchange_ids: list[str], mode: str = "public") -> list[NamedExchange]:
+        return [self.create(eid, mode=mode) for eid in exchange_ids]
 
     @classmethod
     def _lookup(cls, exchange_id: str) -> type[CcxtBase]:

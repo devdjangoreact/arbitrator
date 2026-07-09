@@ -183,7 +183,7 @@ class AppRuntime:
             logger.warning("live auto trader skipped — stream workers not ready")
             return
         gateways = {
-            ex_id: factory.create(ex_id).gateway
+            ex_id: factory.create_private(ex_id).gateway
             for ex_id in self._settings.enabled_exchanges
             if self._settings.credentials_for(ex_id) is not None
         }
@@ -292,7 +292,7 @@ class AppRuntime:
             return
         factory = Factory(settings=self._settings)
         gateways = {
-            ex_id: factory.create(ex_id).gateway
+            ex_id: factory.create_public(ex_id).gateway
             for ex_id in self._settings.enabled_exchanges
         }
         self.screener_auto_trader = ScreenerAutoTrader(

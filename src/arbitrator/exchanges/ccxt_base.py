@@ -80,7 +80,8 @@ class CcxtBase(ExchangeGateway):
     display_name: ClassVar[str]
     _COMPOSITE_INDEX_BASES: ClassVar[frozenset[str]] = frozenset({"ALL", "DEFI", "BTCDOM"})
 
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, mode: str = "public") -> None:
+        self._mode = mode
         self._settings = settings
         self._client: ccxtpro.Exchange | None = None
         self._session: aiohttp.ClientSession | None = None
@@ -97,12 +98,13 @@ class CcxtBase(ExchangeGateway):
             "enableRateLimit": self._settings.enable_rate_limit,
             "options": {"defaultType": self._settings.default_type},
         }
-        creds = self._settings.credentials_for(self.exchange_id)
-        if creds is not None:
-            config["apiKey"] = creds.api_key
-            config["secret"] = creds.api_secret
-            if creds.password:
-                config["password"] = creds.password
+        if self._mode == "private":
+            creds = self._settings.credentials_for(self.exchange_id)
+            if creds is not None:
+                config["apiKey"] = creds.api_key
+                config["secret"] = creds.api_secret
+                if creds.password:
+                    config["password"] = creds.password
         return config
 
     def _missing_credentials_message(self) -> str:
@@ -154,6 +156,9 @@ class CcxtBase(ExchangeGateway):
         return None
 
     async def watch_tickers(self, symbols: Sequence[str]) -> AsyncIterator[dict[str, Ticker]]:
+        if self._mode == "private":
+            logger.error("Forbidden call: watch_tickers on private gateway | exchange={}", self.exchange_id)
+            return
         symbol_list = list(symbols)
         if not symbol_list:
             return
@@ -190,6 +195,9 @@ class CcxtBase(ExchangeGateway):
         symbol: str,
         limit: int,
     ) -> AsyncIterator[OrderBookSnapshot]:
+        if self._mode == "private":
+            logger.error("Forbidden call: watch_order_book on private gateway | exchange={}", self.exchange_id)
+            return
         client = await self._ensure_open()
         await self._ensure_markets_loaded(client)
         if not client.has.get("watchOrderBook"):
@@ -1436,7 +1444,17 @@ class CcxtBase(ExchangeGateway):
             self._session = self._build_session()
             self._client = self._create_client(self._session)
             self._client.timeout = self._settings.ccxt_request_timeout_ms
-            logger.info("Exchange client opened | exchange={}", self.exchange_id)
+            
+            if self._mode == "public":
+                if proxy := self._settings.public_http_proxy_for(self.exchange_id):
+                    self._client.http_proxy = proxy
+                if proxy := self._settings.public_ws_proxy_for(self.exchange_id):
+                    self._client.ws_proxy = proxy
+            elif self._mode == "private":
+                self._client.http_proxy = None
+                self._client.ws_proxy = None
+
+            logger.info("Exchange client opened | exchange={} mode={}", self.exchange_id, self._mode)
             return self._client
 
     async def _ensure_markets_loaded(self, client: ccxtpro.Exchange) -> None:
