@@ -90,47 +90,53 @@ class HedgedExecutionService:
     ) -> tuple[float, float] | None:
         """Pre-compute contract amounts for both legs that produce equal token exposure.
 
-        Floors each leg to its exchange step, then verifies that the resulting token
-        amounts are exactly identical (delta neutral). If the steps cause an imbalance,
-        it returns None, rejecting the trade to avoid unhedged exposure.
+        Finds the Least Common Multiple (LCM) of the token step sizes for both exchanges
+        and floors the target token amount to this common step. This guarantees that
+        both exchanges receive an order for the exact same number of tokens, satisfying
+        both amount_step constraints without any delta exposure.
         """
         short_cs = self._contract_size_for(symbol, short_exchange_id)
         long_cs = self._contract_size_for(symbol, long_exchange_id)
-        short_step = self._amount_step_for(symbol, short_exchange_id)
-        long_step = self._amount_step_for(symbol, long_exchange_id)
+        short_step_raw = self._amount_step_for(symbol, short_exchange_id)
+        long_step_raw = self._amount_step_for(symbol, long_exchange_id)
+
+        short_step = Decimal(str(short_step_raw)) if short_step_raw and short_step_raw > 0 else Decimal("1")
+        long_step = Decimal(str(long_step_raw)) if long_step_raw and long_step_raw > 0 else Decimal("1")
+
+        # Minimum token increment each exchange can trade
+        short_token_step = short_cs * short_step
+        long_token_step = long_cs * long_step
+
+        # Calculate Least Common Multiple (LCM) of the two token steps.
+        # We multiply by 1e8 to convert to integers for the math.lcm function,
+        # then divide back to Decimal. This handles steps like 0.01 and 0.001 cleanly.
+        scale = Decimal("100000000")
+        short_int = int(short_token_step * scale)
+        long_int = int(long_token_step * scale)
+
+        if short_int == 0 or long_int == 0:
+            return None
+
+        lcm_int = math.lcm(short_int, long_int)
+        common_token_step = Decimal(lcm_int) / scale
 
         # Target tokens from notional
-        target_tokens = float(notional_usdt / price)
+        target_tokens = notional_usdt / price
 
-        # Convert to contracts and floor to each exchange's step
-        short_contracts_raw = target_tokens / float(short_cs)
-        long_contracts_raw = target_tokens / float(long_cs)
+        # Floor target tokens to the common step
+        steps_count = int(target_tokens / common_token_step)
+        final_tokens = Decimal(steps_count) * common_token_step
 
-        if short_step and short_step > 0:
-            short_contracts = math.floor(short_contracts_raw / short_step) * short_step
-        else:
-            short_contracts = short_contracts_raw
-
-        if long_step and long_step > 0:
-            long_contracts = math.floor(long_contracts_raw / long_step) * long_step
-        else:
-            long_contracts = long_contracts_raw
-
-        # Actual tokens each leg can represent after rounding
-        short_tokens = short_contracts * float(short_cs)
-        long_tokens = long_contracts * float(long_cs)
-
-        if short_tokens <= 0 or long_tokens <= 0:
-            return None
-
-        # Ensure exact delta neutrality. If the calculated token amounts differ at all
-        # after step flooring, we reject the harmonization.
-        if abs(short_tokens - long_tokens) > 1e-8:
+        if final_tokens <= _ZERO:
             logger.debug(
-                "harmonize_amounts rejected: lot size imbalance | sym={} short_tokens={} long_tokens={}",
-                symbol, short_tokens, long_tokens
+                "harmonize_amounts rejected: notional too small for common step | sym={} notional={} common_step_tokens={}",
+                symbol, notional_usdt, common_token_step
             )
             return None
+
+        # Convert back to contracts for each exchange
+        short_contracts = float(final_tokens / short_cs)
+        long_contracts = float(final_tokens / long_cs)
 
         return short_contracts, long_contracts
 
