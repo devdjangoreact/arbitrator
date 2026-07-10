@@ -152,11 +152,14 @@ class ExecutableSpreadResolver:
         symbol: str,
         ticker: Ticker | None = None,
     ) -> bool:
-        """True when venue omits bid/ask in ticker WS and cache has no executable quote."""
-
-        if exchange_id not in self._settings.screener_book_stream_exchanges:
-            return False
-        return self.top_of_book_sync(exchange_id, symbol, ticker) is None
+        """True if we don't have a fresh cached order book with depth for this venue."""
+        now_ms = time.time() * 1000
+        book = self._cache.get_order_book(exchange_id, symbol)
+        if book is not None and book.bids and book.asks:
+            age_ms = now_ms - (book.timestamp_ms or 0)
+            if book.timestamp_ms is not None and age_ms <= (self._settings.book_max_age_seconds * 1000):
+                return False
+        return True
 
     def should_rest_verify_entry(
         self,
@@ -219,28 +222,28 @@ class ExecutableSpreadResolver:
     ) -> tuple[float, float, float] | None:
         """Return ``(short_bid, long_ask, spread_pct)`` or None."""
 
-        short_book = await self.top_of_book(
-            short_ex,
-            symbol,
-            short_ticker,
-            fetch_fresh=fetch_fresh,
-        )
-
-        long_book = await self.top_of_book(
-            long_ex,
-            symbol,
-            long_ticker,
-            fetch_fresh=fetch_fresh,
+        import asyncio
+        short_book, long_book = await asyncio.gather(
+            self.top_of_book(
+                short_ex,
+                symbol,
+                short_ticker,
+                fetch_fresh=fetch_fresh,
+            ),
+            self.top_of_book(
+                long_ex,
+                symbol,
+                long_ticker,
+                fetch_fresh=fetch_fresh,
+            )
         )
 
         if short_book is None or long_book is None:
-
             return None
 
         spread = SpreadCalculator.entry_spread_pct(short_book.bid, long_book.ask)
 
         if spread is None:
-
             return None
 
         return short_book.bid, long_book.ask, spread
@@ -283,28 +286,28 @@ class ExecutableSpreadResolver:
     ) -> tuple[float, float, float] | None:
         """Return ``(short_ask, long_bid, spread_pct)`` or None."""
 
-        short_book = await self.top_of_book(
-            short_ex,
-            symbol,
-            short_ticker,
-            fetch_fresh=fetch_fresh,
-        )
-
-        long_book = await self.top_of_book(
-            long_ex,
-            symbol,
-            long_ticker,
-            fetch_fresh=fetch_fresh,
+        import asyncio
+        short_book, long_book = await asyncio.gather(
+            self.top_of_book(
+                short_ex,
+                symbol,
+                short_ticker,
+                fetch_fresh=fetch_fresh,
+            ),
+            self.top_of_book(
+                long_ex,
+                symbol,
+                long_ticker,
+                fetch_fresh=fetch_fresh,
+            )
         )
 
         if short_book is None or long_book is None:
-
             return None
 
         spread = SpreadCalculator.exit_spread_pct(short_book.ask, long_book.bid)
 
         if spread is None:
-
             return None
 
         return short_book.ask, long_book.bid, spread
