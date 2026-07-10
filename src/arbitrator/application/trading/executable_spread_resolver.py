@@ -166,15 +166,12 @@ class ExecutableSpreadResolver:
         symbol: str,
         short_ex: str,
         long_ex: str,
-        cached_spread_pct: float,
         *,
         short_ticker: Ticker | None = None,
         long_ticker: Ticker | None = None,
     ) -> bool:
-        """REST verify only above prefilter and when a leg still lacks cached bid/ask."""
+        """REST verify when a leg lacks a cached order book."""
 
-        if cached_spread_pct < self._settings.screener_rest_prefilter_spread_pct:
-            return False
         return self.needs_rest_book(short_ex, symbol, short_ticker) or self.needs_rest_book(
             long_ex,
             symbol,
@@ -186,18 +183,16 @@ class ExecutableSpreadResolver:
         symbol: str,
         short_ex: str,
         long_ex: str,
-        cached_spread_pct: float,
         *,
         short_ticker: Ticker | None = None,
         long_ticker: Ticker | None = None,
     ) -> tuple[float, float, float] | None:
-        """Entry spread with REST only when prefilter met and a leg needs a fresh book."""
+        """Entry spread with REST only when a leg needs a fresh book."""
 
         fetch_fresh = self.should_rest_verify_entry(
             symbol,
             short_ex,
             long_ex,
-            cached_spread_pct,
             short_ticker=short_ticker,
             long_ticker=long_ticker,
         )

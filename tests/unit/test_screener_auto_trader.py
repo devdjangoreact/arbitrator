@@ -171,26 +171,26 @@ def _make_trader(
 class TestFreshSpread:
     def test_returns_none_when_no_cache(self) -> None:
         trader = _make_trader(_settings(), _FakeScreener({}), _FakePaper(), cache=None)
-        assert trader._fresh_spread(SYM, SHORT_EX, LONG_EX, 5.0) is None
+        assert trader._fresh_spread(SYM, SHORT_EX, LONG_EX) is None
 
     def test_returns_none_when_short_quote_missing(self) -> None:
         cache = MarketDataCacheMemory()
         cache.put_quote(_quote(LONG_EX, bid=100.0, ask=100.1))
         trader = _make_trader(_settings(), _FakeScreener({}), _FakePaper(), cache=cache)
-        assert trader._fresh_spread(SYM, SHORT_EX, LONG_EX, 5.0) is None
+        assert trader._fresh_spread(SYM, SHORT_EX, LONG_EX) is None
 
     def test_returns_none_when_long_quote_missing(self) -> None:
         cache = MarketDataCacheMemory()
         cache.put_quote(_quote(SHORT_EX, bid=105.0, ask=105.2))
         trader = _make_trader(_settings(), _FakeScreener({}), _FakePaper(), cache=cache)
-        assert trader._fresh_spread(SYM, SHORT_EX, LONG_EX, 5.0) is None
+        assert trader._fresh_spread(SYM, SHORT_EX, LONG_EX) is None
 
     def test_returns_spread_from_bid_ask(self) -> None:
         cache = MarketDataCacheMemory()
         cache.put_quote(_quote(SHORT_EX, bid=105.0, ask=105.5))
         cache.put_quote(_quote(LONG_EX, bid=99.5, ask=100.0))
         trader = _make_trader(_settings(), _FakeScreener({}), _FakePaper(), cache=cache)
-        result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX, 5.0)
+        result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX)
         assert result is not None
         fresh_bid, fresh_ask, spread = result
         assert fresh_bid == 105.0
@@ -208,7 +208,7 @@ class TestFreshSpread:
             bid=None, ask=None, last=Decimal("100"), recv_time_ms=1,
         ))
         trader = _make_trader(_settings(), _FakeScreener({}), _FakePaper(), cache=cache)
-        result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX, 5.0)
+        result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX)
         assert result is None
 
     def test_negative_spread_returned_as_is(self) -> None:
@@ -217,7 +217,7 @@ class TestFreshSpread:
         cache.put_quote(_quote(SHORT_EX, bid=98.0, ask=98.5))
         cache.put_quote(_quote(LONG_EX, bid=101.0, ask=101.5))
         trader = _make_trader(_settings(), _FakeScreener({}), _FakePaper(), cache=cache)
-        result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX, -3.0)
+        result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX)
         assert result is not None
         _, _, spread = result
         assert spread < 0.0

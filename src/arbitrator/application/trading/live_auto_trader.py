@@ -4,86 +4,36 @@ import asyncio
 import threading
 import time
 from collections.abc import Mapping
-from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.market_data.screener_stream_worker import ScreenerStreamWorker
+from arbitrator.application.trading.auto_trader_base import AutoTraderBase
 from arbitrator.application.trading.executable_spread_resolver import ExecutableSpreadResolver
 from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
-from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.trading.screener_auto_trader import ScreenerAutoTrader
-from arbitrator.application.market_data.screener_stream_worker import ScreenerStreamWorker
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.exchange.exchange_gateway import ExchangeGateway
-from arbitrator.domain.market.order_book_level import OrderBookLevel
 from arbitrator.domain.market.spread_calculator import SpreadCalculator
 from arbitrator.domain.market.ticker import Ticker
 
+from .excel_logger import ExcelTradesLogger
+
 if TYPE_CHECKING:
-    from arbitrator.application.strategies.strategy_table_service import StrategyTableService
     from arbitrator.application.account.token_identity_service import TokenIdentityService
+    from arbitrator.application.strategies.strategy_table_service import StrategyTableService
 
-_CACHE_MAX_DESYNC_MS = 1000
-class _OpenCheckStageTrace:
-    passed: bool = False
-    fail_reason: str = ""
-    fresh_bid: float | None = None
-    fresh_ask: float | None = None
-    fresh_spread: float | None = None
-    estimated_spread: float | None = None
-    notional: float | None = None
-    desync_ms: int | None = None
-    strategy: str = ""
-    strategy_threshold: float | None = None
-    short_book: str = ""
-    long_book: str = ""
+from .live_trader_logger import (
+    _CACHE_MAX_DESYNC_MS,
+    LiveTraderLogger,
+    _OpenCandidateTrace,
+    _OpenCheckResult,
+    _OpenCheckStageTrace,
+)
 
 
-@dataclass
-class _OpenCandidateTrace:
-    tick_ms: int
-    rank: int
-    symbol: str
-    short_ex: str
-    long_ex: str
-    threshold_pct: float
-    notional_floor: float
-    cache_short_bid: float
-    cache_long_ask: float
-    cache_spread_pct: float
-    stages: dict[str, str] = field(default_factory=dict)
-    check1: _OpenCheckStageTrace | None = None
-    check2: _OpenCheckStageTrace | None = None
-    final_outcome: str = "—"
-    final_detail: str = ""
-
-    def mark_ok(self, stage: str) -> None:
-        self.stages[stage] = "ok"
-
-    def mark_skip(self, stage: str, detail: str = "") -> None:
-        self.stages[stage] = f"skip:{detail}" if detail else "skip"
-
-    def reject(self, stage: str, detail: str) -> None:
-        self.stages[stage] = "FAIL"
-        self.final_outcome = f"REJECT@{stage}"
-        self.final_detail = detail
-
-
-@dataclass(frozen=True, slots=True)
-class _OpenCheckResult:
-    fresh_bid: float
-    fresh_ask: float
-    fresh_spread: float
-    estimated_spread: float
-    notional_float: float
-    strategy_kind: str
-    strategy_open_threshold: float
-    short_recv_ms: int
-    long_recv_ms: int
-
-
-class LiveAutoTrader:
+class LiveAutoTrader(AutoTraderBase):
     """Auto-trader for live mode: places real orders via HedgedExecutionService.
 
     Mirrors ScreenerAutoTrader logic (same open/close/validation pass) but:
@@ -107,14 +57,18 @@ class LiveAutoTrader:
         gateways: Mapping[str, ExchangeGateway] | None = None,
         strategy_table_service: StrategyTableService | None = None,
     ) -> None:
-        self._settings = settings
+        super().__init__(
+            settings=settings,
+            market_cache=market_cache,
+            token_identity=token_identity,
+        )
         self._screener = screener_worker
         self._exec = execution_service
-        self._cache = market_cache
-        self._token_identity = token_identity
         self._gateways: Mapping[str, ExchangeGateway] = gateways or {}
         self._spread_resolver = ExecutableSpreadResolver(settings, market_cache, self._gateways)
         self._strategy_table_service = strategy_table_service
+        self._excel_logger = ExcelTradesLogger()
+        self._live_logger = LiveTraderLogger(market_cache, self._excel_logger)
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
         self._loop: asyncio.AbstractEventLoop | None = None
@@ -288,6 +242,7 @@ class LiveAutoTrader:
                 continue
             if spread < open_spread_pct:
                 continue
+
             candidates.append((spread, symbol, short_ex, long_ex, short_bid, long_ask))
 
         candidates.sort(key=lambda c: c[0], reverse=True)
@@ -297,8 +252,8 @@ class LiveAutoTrader:
         for key, _opened_at in list(self._open_pairs.items()):
             sym, s_ex, l_ex = key
 
-            self._cache.clear_executable(s_ex, sym)
-            self._cache.clear_executable(l_ex, sym)
+            self._market_cache.clear_executable(s_ex, sym)
+            self._market_cache.clear_executable(l_ex, sym)
 
             s_ticker = tickers.get((s_ex, sym))
             l_ticker = tickers.get((l_ex, sym))
@@ -356,7 +311,7 @@ class LiveAutoTrader:
                 )
                 continue
 
-            self._log_close_decision(
+            self._live_logger.log_close_decision(
                 sym, s_ex, l_ex, exit_spread, pair_close_threshold,
                 short_ask, long_bid, s_recv, l_recv, desync_ms, confirm_count=count,
             )
@@ -426,7 +381,7 @@ class LiveAutoTrader:
         notional_floor = self._settings.screener_auto_trade_notional_usdt
 
         if candidates:
-            self._log_open_candidates_header(
+            self._live_logger.log_open_candidates_header(
                 tick_ms,
                 threshold_pct=open_spread_pct,
                 notional_floor=notional_floor,
@@ -458,13 +413,13 @@ class LiveAutoTrader:
 
             if open_count >= max_pos:
                 trace.reject("max_pos", f"відкрито {open_count}/{max_pos}")
-                self._log_open_candidate(trace)
+                self._live_logger.log_open_candidate(trace)
                 continue
             trace.mark_ok("max_pos")
 
             if symbol in already_open_symbols:
                 trace.reject("dup_sym", f"символ {symbol} вже в портфелі")
-                self._log_open_candidate(trace)
+                self._live_logger.log_open_candidate(trace)
                 continue
             trace.mark_ok("dup_sym")
 
@@ -472,13 +427,13 @@ class LiveAutoTrader:
             cooldown_left = self._open_cooldown.get(_ck, 0.0) - time.monotonic()
             if cooldown_left > 0:
                 trace.reject("cooldown", f"cooldown {cooldown_left:.0f}s після фейлу")
-                self._log_open_candidate(trace)
+                self._live_logger.log_open_candidate(trace)
                 continue
             trace.mark_ok("cooldown")
 
             if short_ex not in self._exec._gateways or long_ex not in self._exec._gateways:
                 trace.reject("gateway", "немає gateway/credentials для біржі")
-                self._log_open_candidate(trace)
+                self._live_logger.log_open_candidate(trace)
                 continue
             trace.mark_ok("gateway")
             trace.mark_ok("cache_thr")
@@ -494,7 +449,7 @@ class LiveAutoTrader:
             trace.check1 = check1_trace
             if check1 is None:
                 trace.reject("check1", reason1 or "unknown")
-                self._log_open_candidate(trace)
+                self._live_logger.log_open_candidate(trace)
                 logger.debug(
                     "live open skipped check1 | sym={} short={} long={} reason={}",
                     symbol, short_ex, long_ex, reason1,
@@ -513,7 +468,7 @@ class LiveAutoTrader:
             trace.check2 = check2_trace
             if check2 is None:
                 trace.reject("check2", reason2 or "unknown")
-                self._log_open_candidate(trace)
+                self._live_logger.log_open_candidate(trace)
                 logger.warning(
                     "live open skipped check2 | sym={} short={} long={} reason={}"
                     " check1_spread={:.4f}%",
@@ -529,7 +484,7 @@ class LiveAutoTrader:
             price = Decimal(str(check2.fresh_bid))
             trace.mark_ok("execute")
             trace.final_outcome = "OPEN"
-            self._log_open_candidate(trace)
+            self._live_logger.log_open_candidate(trace)
             logger.info(
                 "live auto open | sym={} short={} long={} spread={:.4f}% notional={}"
                 " short_bid={} long_ask={} candidate_spread={:.4f}% threshold={}%"
@@ -584,8 +539,8 @@ class LiveAutoTrader:
                 strategy_kind=check2.strategy_kind,
             )
             # Clear cache after open so next close pass uses only fresh data
-            self._cache.clear_symbol(short_ex, symbol)
-            self._cache.clear_symbol(long_ex, symbol)
+            self._market_cache.clear_symbol(short_ex, symbol)
+            self._market_cache.clear_symbol(long_ex, symbol)
             logger.info(
                 "live auto open result | sym={} status={} imbalance={}",
                 symbol,
@@ -618,11 +573,11 @@ class LiveAutoTrader:
                 self._pair_strategy[key] = check2.strategy_kind
                 already_open_symbols.add(symbol)
                 open_count += 1
-                self._log_open_candidate_result(trace, outcome.status.value, outcome.message)
+                self._live_logger.log_open_candidate_result(trace, outcome.status.value, outcome.message)
                 # Post-fill spread guard: verify actual spread from positions
                 await self._post_fill_guard(key)
             else:
-                self._log_open_candidate_result(trace, outcome.status.value, outcome.message)
+                self._live_logger.log_open_candidate_result(trace, outcome.status.value, outcome.message)
                 # Prevent immediate re-entry after rollback/fail on same pair
                 self._open_cooldown[key] = time.monotonic() + self._settings.open_fail_cooldown_sec
 
@@ -728,7 +683,6 @@ class LiveAutoTrader:
                 symbol,
                 short_ex,
                 long_ex,
-                current_spread,
                 short_ticker=tickers.get((short_ex, symbol)),
                 long_ticker=tickers.get((long_ex, symbol)),
             )
@@ -757,7 +711,7 @@ class LiveAutoTrader:
             await self._ensure_order_books_cached(
                 symbol, short_ex, long_ex, tickers=tickers,
             )
-            depth_rejection = self._check_order_book_depth(symbol, short_ex, long_ex, dca_notional)
+            depth_rejection = self._check_order_book_depth(symbol, short_ex, long_ex, dca_notional, fail_on_missing_book=True)
             if depth_rejection is not None:
                 logger.debug("DCA skipped: {} | sym={}", depth_rejection, symbol)
                 continue
@@ -851,10 +805,7 @@ class LiveAutoTrader:
                 continue
             # Approximate liquidation distance
             buffer = 1.0 / leverage
-            if leg.side == "short":
-                liq = entry * (1.0 + buffer)
-            else:
-                liq = entry * (1.0 - buffer)
+            liq = entry * (1.0 + buffer) if leg.side == "short" else entry * (1.0 - buffer)
             distance = abs(liq - mark) / mark * 100.0
             if distance < min_pct:
                 return False
@@ -871,7 +822,7 @@ class LiveAutoTrader:
         now_ms = int(time.time() * 1000)
         threshold_ms = int(threshold_seconds * 1000)
         for exchange_id in (short_ex, long_ex):
-            funding = self._cache.get_funding(exchange_id, symbol)
+            funding = self._market_cache.get_funding(exchange_id, symbol)
             if funding is None:
                 continue
             if funding.next_settlement_ms is not None:
@@ -899,8 +850,8 @@ class LiveAutoTrader:
         tickers: Mapping[tuple[str, str], Ticker],
         stage_trace: _OpenCheckStageTrace | None = None,
     ) -> tuple[_OpenCheckResult | None, str | None]:
-        self._cache.clear_executable(short_ex, symbol)
-        self._cache.clear_executable(long_ex, symbol)
+        self._market_cache.clear_executable(short_ex, symbol)
+        self._market_cache.clear_executable(long_ex, symbol)
 
         short_ticker = tickers.get((short_ex, symbol))
         long_ticker = tickers.get((long_ex, symbol))
@@ -914,11 +865,11 @@ class LiveAutoTrader:
         )
         if fresh is None:
             reason = "no_executable_bid_ask"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason,
             )
@@ -928,12 +879,12 @@ class LiveAutoTrader:
         desync_ms = self._cache_desync_ms(short_ex, long_ex, symbol)
         if desync_ms is None:
             reason = "cache_timestamp_missing"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread,
@@ -941,7 +892,7 @@ class LiveAutoTrader:
             return None, reason
         if desync_ms > _CACHE_MAX_DESYNC_MS:
             reason = f"cache_desync:{desync_ms}"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
@@ -949,7 +900,7 @@ class LiveAutoTrader:
                 long_recv_ms=self._leg_recv_time_ms(long_ex, symbol),
                 desync_ms=desync_ms,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, desync_ms=desync_ms,
@@ -960,11 +911,11 @@ class LiveAutoTrader:
         long_recv = self._leg_recv_time_ms(long_ex, symbol)
         if short_recv is None or long_recv is None:
             reason = "cache_timestamp_missing"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread,
@@ -973,13 +924,13 @@ class LiveAutoTrader:
 
         if fresh_spread < open_spread_pct:
             reason = f"spread_below_threshold:{fresh_spread:.4f}<{open_spread_pct}"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 short_recv_ms=short_recv, long_recv_ms=long_recv, desync_ms=desync_ms,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, desync_ms=desync_ms,
@@ -987,13 +938,13 @@ class LiveAutoTrader:
             return None, reason
         if fresh_spread > self._settings.anomaly_max_spread_pct:
             reason = f"anomaly_spread:{fresh_spread:.1f}"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 short_recv_ms=short_recv, long_recv_ms=long_recv, desync_ms=desync_ms,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, desync_ms=desync_ms,
@@ -1005,12 +956,12 @@ class LiveAutoTrader:
         )
         if notional_float is None:
             reason = "market_info_missing"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread,
@@ -1021,14 +972,14 @@ class LiveAutoTrader:
         funding_skip_sec = self._settings.live_auto_trade_dca_funding_skip_seconds
         if self._funding_too_close(symbol, short_ex, long_ex, funding_skip_sec):
             reason = "funding_too_close"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 notional=notional_float, short_recv_ms=short_recv, long_recv_ms=long_recv,
                 desync_ms=desync_ms,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, notional=notional_float, desync_ms=desync_ms,
@@ -1036,10 +987,10 @@ class LiveAutoTrader:
             return None, reason
 
         rejection = self._validate_cross_pair(
-            symbol, short_ex, long_ex, notional_float, tickers=tickers,
+            symbol, short_ex, long_ex, notional_float, tickers_snapshot=tickers, fail_on_missing_book=True
         )
         if rejection is not None:
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=rejection,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
@@ -1049,7 +1000,7 @@ class LiveAutoTrader:
                     rejection, symbol, short_ex, long_ex, notional_float, tickers,
                 ),
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=rejection, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, notional=notional_float, desync_ms=desync_ms,
@@ -1061,13 +1012,13 @@ class LiveAutoTrader:
         )
         if estimated_spread is None:
             reason = "estimated_fill_unavailable"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread, notional=notional_float,
                 short_recv_ms=short_recv, long_recv_ms=long_recv, desync_ms=desync_ms,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, notional=notional_float, desync_ms=desync_ms,
@@ -1075,14 +1026,14 @@ class LiveAutoTrader:
             return None, reason
         if estimated_spread < open_spread_pct:
             reason = f"estimated_fill_below_threshold:{estimated_spread:.4f}"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
                 fresh_spread=fresh_spread, estimated_spread=estimated_spread,
                 notional=notional_float, short_recv_ms=short_recv, long_recv_ms=long_recv,
                 desync_ms=desync_ms,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, estimated_spread=estimated_spread,
@@ -1093,11 +1044,11 @@ class LiveAutoTrader:
         strategy_kind = self._resolve_strategy_kind(symbol)
         if not self._settings.is_strategy_allowed(strategy_kind):
             reason = f"strategy_not_allowed:{strategy_kind}"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, strategy=strategy_kind,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, estimated_spread=estimated_spread,
@@ -1108,13 +1059,13 @@ class LiveAutoTrader:
         strategy_open_threshold = self._settings.strategy_open_spread_pct(strategy_kind)
         if fresh_spread < strategy_open_threshold:
             reason = f"below_strategy_threshold:{fresh_spread:.4f}<{strategy_open_threshold}"
-            self._log_open_check(
+            self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
                 candidate_spread=candidate_spread, fresh_spread=fresh_spread,
                 strategy=strategy_kind, strategy_threshold=strategy_open_threshold,
                 short_recv_ms=short_recv, long_recv_ms=long_recv, desync_ms=desync_ms,
             )
-            self._stamp_check_trace(
+            self._live_logger.stamp_check_trace(
                 stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
                 fail_reason=reason, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
                 fresh_spread=fresh_spread, estimated_spread=estimated_spread,
@@ -1134,7 +1085,7 @@ class LiveAutoTrader:
             short_recv_ms=short_recv,
             long_recv_ms=long_recv,
         )
-        self._log_open_check(
+        self._live_logger.log_open_check(
             check_no, symbol, short_ex, long_ex, reason="pass",
             candidate_spread=candidate_spread, open_spread_pct=open_spread_pct,
             fresh_spread=fresh_spread, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
@@ -1142,7 +1093,7 @@ class LiveAutoTrader:
             strategy=strategy_kind, strategy_threshold=strategy_open_threshold,
             short_recv_ms=short_recv, long_recv_ms=long_recv, desync_ms=desync_ms,
         )
-        self._stamp_check_trace(
+        self._live_logger.stamp_check_trace(
             stage_trace, symbol=symbol, short_ex=short_ex, long_ex=long_ex,
             passed=True, fresh_bid=fresh_bid, fresh_ask=fresh_ask,
             fresh_spread=fresh_spread, estimated_spread=estimated_spread,
@@ -1161,10 +1112,10 @@ class LiveAutoTrader:
         return "futures_futures"
 
     def _leg_recv_time_ms(self, exchange_id: str, symbol: str) -> int | None:
-        book = self._cache.get_order_book(exchange_id, symbol)
+        book = self._market_cache.get_order_book(exchange_id, symbol)
         if book is not None and book.timestamp_ms is not None:
             return book.timestamp_ms
-        quote = self._cache.get_quote(exchange_id, symbol, "futures")
+        quote = self._market_cache.get_quote(exchange_id, symbol, "futures")
         if quote is not None:
             return quote.recv_time_ms
         return None
@@ -1176,335 +1127,6 @@ class LiveAutoTrader:
             return None
         return abs(s_ms - l_ms)
 
-    @staticmethod
-    def _format_book_levels(levels: tuple[OrderBookLevel, ...], n: int = 5) -> str:
-        return ";".join(f"{lv.price}@{lv.size}" for lv in levels[:n])
-
-    def _book_log_fields(self, exchange_id: str, symbol: str) -> str:
-        book = self._cache.get_order_book(exchange_id, symbol)
-        if book is None:
-            return "book=missing"
-        bids = self._format_book_levels(book.bids)
-        asks = self._format_book_levels(book.asks)
-        ts = book.timestamp_ms if book.timestamp_ms is not None else "n/a"
-        return f"ts_ms={ts} bids=[{bids}] asks=[{asks}]"
-
-    def _book_leg_summary(self, exchange_id: str, symbol: str) -> str:
-        book = self._cache.get_order_book(exchange_id, symbol)
-        if book is None:
-            return f"{exchange_id}:no_book"
-        top_bid = book.bids[0] if book.bids else None
-        top_ask = book.asks[0] if book.asks else None
-        bid_dep = (
-            ScreenerAutoTrader._side_depth_usdt(book.bids, price_limit_pct=0.004)
-            if book.bids
-            else 0.0
-        )
-        ask_dep = (
-            ScreenerAutoTrader._side_depth_usdt(book.asks, price_limit_pct=0.004)
-            if book.asks
-            else 0.0
-        )
-        bid_s = f"bid={top_bid.price}@{top_bid.size}" if top_bid else "bid=—"
-        ask_s = f"ask={top_ask.price}@{top_ask.size}" if top_ask else "ask=—"
-        return (
-            f"{exchange_id} {bid_s} {ask_s}"
-            f" bid_dep={bid_dep:.0f} ask_dep={ask_dep:.0f}USDT"
-        )
-
-    def _stamp_check_trace(
-        self,
-        trace: _OpenCheckStageTrace | None,
-        *,
-        symbol: str,
-        short_ex: str,
-        long_ex: str,
-        fail_reason: str = "",
-        passed: bool = False,
-        fresh_bid: float | None = None,
-        fresh_ask: float | None = None,
-        fresh_spread: float | None = None,
-        estimated_spread: float | None = None,
-        notional: float | None = None,
-        desync_ms: int | None = None,
-        strategy: str = "",
-        strategy_threshold: float | None = None,
-    ) -> None:
-        if trace is None:
-            return
-        trace.passed = passed
-        trace.fail_reason = fail_reason
-        trace.fresh_bid = fresh_bid
-        trace.fresh_ask = fresh_ask
-        trace.fresh_spread = fresh_spread
-        trace.estimated_spread = estimated_spread
-        trace.notional = notional
-        trace.desync_ms = desync_ms
-        trace.strategy = strategy
-        trace.strategy_threshold = strategy_threshold
-        trace.short_book = self._book_leg_summary(short_ex, symbol)
-        trace.long_book = self._book_leg_summary(long_ex, symbol)
-
-    @staticmethod
-    def _stage_cell(stages: dict[str, str], name: str) -> str:
-        val = stages.get(name, "—")
-        if val == "ok":
-            return "  ok "
-        if val == "FAIL":
-            return "FAIL "
-        if val.startswith("skip:"):
-            return "skip "
-        return f"{val[:4]:>4} "
-
-    @staticmethod
-    def _fmt_pct(value: float | None) -> str:
-        return f"{value:6.3f}" if value is not None else "     —"
-
-    def _log_open_candidates_header(
-        self,
-        tick_ms: int,
-        *,
-        threshold_pct: float,
-        notional_floor: float,
-        open_count: int,
-        max_pos: int,
-        candidate_count: int,
-    ) -> None:
-        trades = logger["trades/open_candidates.log"]
-        sep = "=" * 120
-        trades.info(sep)
-        trades.info(
-            "OPEN CANDIDATES | tick_ms={} thr={}% notional_floor={}USDT"
-            " open={}/{} candidates={}",
-            tick_ms,
-            threshold_pct,
-            notional_floor,
-            open_count,
-            max_pos,
-            candidate_count,
-        )
-        trades.info(
-            "# | symbol           | short  | long   | cache% | thr% |"
-            " pool | max | dup | cool | gw | cache | chk1 | chk2 | exec |"
-            " fresh% | est_fill% | notional | result"
-        )
-        trades.info("-" * 120)
-
-    def _log_open_candidate(self, trace: _OpenCandidateTrace) -> None:
-        chk = trace.check2 if trace.check2 and not trace.check2.passed else trace.check1
-        if chk is None and trace.check1 is not None:
-            chk = trace.check1
-        fresh = self._fmt_pct(chk.fresh_spread if chk else None)
-        est = self._fmt_pct(chk.estimated_spread if chk else None)
-        notional = f"{chk.notional:6.1f}" if chk and chk.notional is not None else "     —"
-        explain = self._explain_open_candidate(trace)
-        book_part = ""
-        if chk and (chk.short_book or chk.long_book):
-            book_part = f" | short_book={chk.short_book} | long_book={chk.long_book}"
-        elif trace.final_outcome.startswith("REJECT@cache_thr"):
-            book_part = (
-                f" | short_bid={trace.cache_short_bid} long_ask={trace.cache_long_ask}"
-            )
-        row = (
-            f"{trace.rank:2} | {trace.symbol:<16} | {trace.short_ex:<6} | {trace.long_ex:<6} |"
-            f" {trace.cache_spread_pct:6.3f} | {trace.threshold_pct:4.1f} |"
-            f" {self._stage_cell(trace.stages, 'pool')}|"
-            f" {self._stage_cell(trace.stages, 'max_pos')}|"
-            f" {self._stage_cell(trace.stages, 'dup_sym')}|"
-            f" {self._stage_cell(trace.stages, 'cooldown')}|"
-            f" {self._stage_cell(trace.stages, 'gateway')}|"
-            f" {self._stage_cell(trace.stages, 'cache_thr')}|"
-            f" {self._stage_cell(trace.stages, 'check1')}|"
-            f" {self._stage_cell(trace.stages, 'check2')}|"
-            f" {self._stage_cell(trace.stages, 'execute')}|"
-            f" {fresh} | {est} | {notional} | {trace.final_outcome}"
-            f" | {explain}{book_part}"
-        )
-        trades = logger["trades/open_candidates.log"]
-        trades.info(row)
-
-    def _log_open_candidate_result(
-        self, trace: _OpenCandidateTrace, status: str, message: str | None,
-    ) -> None:
-        trace.final_outcome = f"OPEN_{status.upper()}"
-        trace.final_detail = message or ""
-        chk = trace.check2 or trace.check1
-        fresh = self._fmt_pct(chk.fresh_spread if chk else None)
-        est = self._fmt_pct(chk.estimated_spread if chk else None)
-        notional = f"{chk.notional:6.1f}" if chk and chk.notional is not None else "     —"
-        row = (
-            f"{trace.rank:2} | {trace.symbol:<16} | {trace.short_ex:<6} | {trace.long_ex:<6} |"
-            f" {trace.cache_spread_pct:6.3f} | {trace.threshold_pct:4.1f} |"
-            f" RESULT | status={status} | fresh={fresh} est_fill={est} notional={notional}"
-            f" | {message or ''}"
-        )
-        trades = logger["trades/open_candidates.log"]
-        trades.info(row)
-
-    def _explain_open_candidate(self, trace: _OpenCandidateTrace) -> str:
-        if trace.final_outcome == "OPEN":
-            chk = trace.check2 or trace.check1
-            if chk is None:
-                return "відправлено на виконання"
-            return (
-                f"відкриття: fresh={chk.fresh_spread:.3f}% est_fill={chk.estimated_spread:.3f}%"
-                f" notional={chk.notional:.1f}USDT strategy={chk.strategy}"
-            )
-        if trace.final_outcome.startswith("OPEN_"):
-            return trace.final_detail or trace.final_outcome
-        if trace.final_outcome.startswith("REJECT@"):
-            stage = trace.final_outcome.split("@", 1)[-1]
-            if stage == "check1" and trace.check1 and trace.check1.fail_reason:
-                return self._explain_check_fail(
-                    stage, trace.check1.fail_reason, trace.threshold_pct, trace.check1,
-                )
-            if stage == "check2" and trace.check2 and trace.check2.fail_reason:
-                return self._explain_check_fail(
-                    stage, trace.check2.fail_reason, trace.threshold_pct, trace.check2,
-                )
-        if trace.final_detail:
-            return trace.final_detail
-        return ""
-
-    @staticmethod
-    def _explain_check_fail(
-        stage: str,
-        reason: str,
-        threshold_pct: float,
-        chk: _OpenCheckStageTrace,
-    ) -> str:
-        fresh_s = f"{chk.fresh_spread:.3f}%" if chk.fresh_spread is not None else "n/a"
-        est_s = f"{chk.estimated_spread:.3f}%" if chk.estimated_spread is not None else "n/a"
-        bid_ask = ""
-        if chk.fresh_bid is not None and chk.fresh_ask is not None:
-            bid_ask = f" short_bid={chk.fresh_bid} long_ask={chk.fresh_ask}"
-        notional_s = f" notional={chk.notional:.1f}USDT" if chk.notional else ""
-        desync_s = f" desync={chk.desync_ms}ms" if chk.desync_ms is not None else ""
-        if reason == "no_executable_bid_ask":
-            return f"{stage}: немає executable bid/ask у свіжому стакані{bid_ask}"
-        if reason == "cache_timestamp_missing":
-            return f"{stage}: немає timestamp кешу стакана/котировки{desync_s}"
-        if reason.startswith("cache_desync:"):
-            return f"{stage}: розсинхрон кешу ніг {reason.split(':', 1)[-1]}ms > {_CACHE_MAX_DESYNC_MS}ms"
-        if reason.startswith("spread_below_threshold:"):
-            return (
-                f"{stage}: свіжий спред {fresh_s} < поріг {threshold_pct}%"
-                f"{bid_ask}{desync_s}"
-            )
-        if reason.startswith("anomaly_spread:"):
-            return f"{stage}: аномальний спред {fresh_s} > max anomaly"
-        if reason == "market_info_missing":
-            return f"{stage}: не завантажено market_info біржі{notional_s}"
-        if reason.startswith("estimated_fill_below_threshold:"):
-            return (
-                f"{stage}: estimated_fill {est_s} < поріг {threshold_pct}%"
-                f" (fresh={fresh_s}{notional_s}) — стакан не тримає обсяг"
-            )
-        if reason == "estimated_fill_unavailable":
-            return f"{stage}: не вистачає глибини стакана для notional{notional_s}"
-        if reason.startswith("token_identity_conflict:"):
-            return f"{stage}: різні токени на біржах — {reason}"
-        if reason.startswith("insufficient_ask_depth:"):
-            return f"{stage}: мало ask-глибини — {reason}"
-        if reason.startswith("insufficient_bid_depth:"):
-            return f"{stage}: мало bid-глибини — {reason}"
-        if reason.startswith("no_order_book:"):
-            return f"{stage}: немає стакана — {reason}"
-        if reason.startswith("below_strategy_threshold:"):
-            return f"{stage}: спред нижче порогу стратегії — {reason}"
-        if reason.startswith("strategy_not_allowed:"):
-            return f"{stage}: стратегія не в whitelist — {reason}"
-        return f"{stage}: {reason}{bid_ask} fresh={fresh_s} est={est_s}{notional_s}{desync_s}"
-
-    def _log_open_check(
-        self,
-        check_no: int,
-        symbol: str,
-        short_ex: str,
-        long_ex: str,
-        *,
-        reason: str,
-        candidate_spread: float | None = None,
-        open_spread_pct: float | None = None,
-        fresh_spread: float | None = None,
-        fresh_bid: float | None = None,
-        fresh_ask: float | None = None,
-        estimated_spread: float | None = None,
-        notional: float | None = None,
-        strategy: str | None = None,
-        strategy_threshold: float | None = None,
-        short_recv_ms: int | None = None,
-        long_recv_ms: int | None = None,
-        desync_ms: int | None = None,
-        detail: str | None = None,
-    ) -> None:
-        now_ms = int(time.time() * 1000)
-        short_book = self._book_log_fields(short_ex, symbol)
-        long_book = self._book_log_fields(long_ex, symbol)
-        msg = (
-            f"OPEN_CHECK{check_no} | ts_ms={now_ms} sym={symbol} short={short_ex} long={long_ex}"
-            f" result={reason}"
-        )
-        if candidate_spread is not None:
-            msg += f" candidate_spread={candidate_spread:.4f}%"
-        if open_spread_pct is not None:
-            msg += f" threshold={open_spread_pct}%"
-        if fresh_spread is not None:
-            msg += f" fresh_spread={fresh_spread:.4f}%"
-        if fresh_bid is not None and fresh_ask is not None:
-            msg += f" short_bid={fresh_bid} long_ask={fresh_ask}"
-        if estimated_spread is not None:
-            msg += f" estimated_fill={estimated_spread:.4f}%"
-        if notional is not None:
-            msg += f" notional={notional:.2f}"
-        if strategy is not None:
-            msg += f" strategy={strategy}"
-        if strategy_threshold is not None:
-            msg += f" strategy_threshold={strategy_threshold}%"
-        if short_recv_ms is not None and long_recv_ms is not None:
-            msg += f" short_recv_ms={short_recv_ms} long_recv_ms={long_recv_ms}"
-        if desync_ms is not None:
-            msg += f" desync_ms={desync_ms} max_desync_ms={_CACHE_MAX_DESYNC_MS}"
-        if detail:
-            msg += f" detail={detail}"
-        msg += f" | short_book {short_book} | long_book {long_book}"
-        log_fn = logger.info if reason == "pass" else logger.debug
-        log_fn(msg)
-        logger["trades/open_candidates.log"].info(msg)
-
-    def _log_close_decision(
-        self,
-        symbol: str,
-        short_ex: str,
-        long_ex: str,
-        exit_spread: float,
-        close_threshold: float,
-        short_ask: float,
-        long_bid: float,
-        short_recv_ms: int | None,
-        long_recv_ms: int | None,
-        desync_ms: int,
-        *,
-        confirm_count: int,
-    ) -> None:
-        now_ms = int(time.time() * 1000)
-        msg = (
-            f"CLOSE_DECISION | ts_ms={now_ms} sym={symbol} short={short_ex} long={long_ex}"
-            f" exit_spread={exit_spread:.4f}% threshold={close_threshold}%"
-            f" short_ask={short_ask} long_bid={long_bid}"
-            f" confirm={confirm_count}/2"
-            f" short_recv_ms={short_recv_ms} long_recv_ms={long_recv_ms}"
-            f" desync_ms={desync_ms} max_desync_ms={_CACHE_MAX_DESYNC_MS}"
-            f" | short_book {self._book_log_fields(short_ex, symbol)}"
-            f" | long_book {self._book_log_fields(long_ex, symbol)}"
-        )
-        logger.info(msg)
-        logger["trades/open_candidates.log"].info(msg)
-
-    # ------------------------------------------------------------------ #
-    # Helpers — identical logic to ScreenerAutoTrader
-    # ------------------------------------------------------------------ #
-
     async def _set_cross_margin(self, symbol: str, exchange_id: str) -> None:
         gateway = self._exec._gateways.get(exchange_id)
         if gateway is None:
@@ -1515,44 +1137,6 @@ class LiveAutoTrader:
             logger.exception(
                 "set_margin_mode failed (non-fatal) | ex={} sym={}", exchange_id, symbol
             )
-
-    def _min_notional_for_exchange(
-        self,
-        symbol: str,
-        exchange_id: str,
-        live_price: float | None,
-    ) -> float | None:
-        info = self._cache.get_market_info(exchange_id, symbol)
-        if info is None:
-            return None
-        from_contracts: float | None = None
-        if (
-            info.min_amount_contracts is not None
-            and info.contract_size > 0.0
-            and live_price is not None
-            and live_price > 0.0
-        ):
-            from_contracts = info.min_amount_contracts * info.contract_size * live_price
-        if info.min_order_volume_usdt is not None and from_contracts is not None:
-            return max(info.min_order_volume_usdt, from_contracts)
-        if info.min_order_volume_usdt is not None:
-            return info.min_order_volume_usdt
-        return from_contracts
-
-    def _resolve_min_notional(
-        self,
-        symbol: str,
-        short_ex: str,
-        long_ex: str,
-        short_price: float | None = None,
-        long_price: float | None = None,
-    ) -> float | None:
-        min_a = self._min_notional_for_exchange(symbol, short_ex, short_price)
-        min_b = self._min_notional_for_exchange(symbol, long_ex, long_price)
-        if min_a is None or min_b is None:
-            return None
-        floor = self._settings.screener_auto_trade_notional_usdt
-        return max(min_a, min_b, floor)
 
     def _ticker_too_wide(self, ticker: Ticker | None) -> bool:
         """Reject tickers where the exchange's own bid-ask spread indicates illiquidity.
@@ -1578,7 +1162,7 @@ class LiveAutoTrader:
         side='buy' walks asks, side='sell' walks bids.
         Returns None if book is absent or insufficient depth.
         """
-        book = self._cache.get_order_book(exchange_id, symbol)
+        book = self._market_cache.get_order_book(exchange_id, symbol)
         if book is None:
             return None
         levels = book.asks if side == "buy" else book.bids
@@ -1677,6 +1261,7 @@ class LiveAutoTrader:
             return f"resolved notional {notional_usdt:.2f} USDT below exchange minimum"
         return "only best spread pair per symbol is attempted each tick; see alt_pairs for others"
 
+
     def _validate_cross_pair(
         self,
         symbol: str,
@@ -1684,78 +1269,41 @@ class LiveAutoTrader:
         exchange_b: str,
         notional_usdt: float,
         *,
-        tickers: Mapping[tuple[str, str], Ticker] | None = None,
+        tickers_snapshot: Mapping[tuple[str, str], Ticker] | None = None,
+        **kwargs,
     ) -> str | None:
-        from arbitrator.domain.universe.symbol_normalizer import SymbolNormalizer
-
-        expected_base = SymbolNormalizer.base_asset(symbol)
-        tickers_snapshot = self._screener.read_state()[0]
-        ticker_a = tickers_snapshot.get((exchange_a, symbol))
-        ticker_b = tickers_snapshot.get((exchange_b, symbol))
-
-        for ticker, ex in ((ticker_a, exchange_a), (ticker_b, exchange_b)):
-            if ticker is not None:
-                ticker_base = ticker.base_asset.upper()
-                if ticker_base and ticker_base != expected_base.upper():
-                    return f"ticker_base_mismatch:{ex}:{ticker_base}!={expected_base}"
-
-        for ticker, ex in ((ticker_a, exchange_a), (ticker_b, exchange_b)):
-            if ticker is not None:
-                q = ticker.quote_asset.upper()
-                if q and q != "USDT":
-                    return f"quote_asset_not_usdt:{ex}:{q}"
-
-        info_a = self._cache.get_market_info(exchange_a, symbol)
-        info_b = self._cache.get_market_info(exchange_b, symbol)
-        if info_a is None:
-            return f"market_info_missing:{exchange_a}"
-        if info_b is None:
-            return f"market_info_missing:{exchange_b}"
-
-        if info_a.base_asset.upper() != info_b.base_asset.upper():
-            return (
-                f"market_base_mismatch:"
-                f"{exchange_a}:{info_a.base_asset}"
-                f"!={exchange_b}:{info_b.base_asset}"
-            )
-
-        for info, ex in ((info_a, exchange_a), (info_b, exchange_b)):
-            if (
-                info.min_order_volume_usdt is not None
-                and notional_usdt < info.min_order_volume_usdt
-            ):
-                return (
-                    f"below_min_notional:{ex}:"
-                    f"{notional_usdt:.2f}<{info.min_order_volume_usdt:.2f}"
-                )
-
-        if self._token_identity is not None:
-            result = self._token_identity.compare(expected_base, exchange_a, exchange_b)
-            if result.should_block:
-                return (
-                    f"token_identity_conflict:{expected_base}:"
-                    f"{exchange_a}/{exchange_b}:{result.notes}"
-                )
-            if result.match_type == "symbol_only_ccxt_dedup":
-                logger.debug(
-                    "token_identity unverified, proceeding | base={} {}/{} notes={}",
-                    expected_base,
-                    exchange_a,
-                    exchange_b,
-                    result.notes,
-                )
-
-        depth_rejection = self._check_order_book_depth(
+        if "tickers" in kwargs and tickers_snapshot is None:
+            tickers_snapshot = kwargs.pop("tickers")
+        kwargs.pop("fail_on_missing_book", None)
+        return super()._validate_cross_pair(
             symbol,
             exchange_a,
             exchange_b,
             notional_usdt,
-            tickers=tickers,
+            tickers_snapshot=tickers_snapshot,
+            fail_on_missing_book=True,
+            **kwargs,
         )
-        if depth_rejection is not None:
-            return depth_rejection
 
-        return None
+    def _check_order_book_depth(
+        self,
+        symbol: str,
+        exchange_a: str,
+        exchange_b: str,
+        notional_usdt: float,
+        *,
+        tickers: Mapping[tuple[str, str], Ticker] | None = None,
+        **kwargs,
+    ) -> str | None:
+        kwargs.pop("fail_on_missing_book", None)
+        return super()._check_order_book_depth(
+            symbol,
+            exchange_a,
+            exchange_b,
+            notional_usdt,
+            fail_on_missing_book=True,
+            **kwargs,
+        )
 
     async def _ensure_order_books_cached(
         self,
@@ -1766,7 +1314,7 @@ class LiveAutoTrader:
         tickers: Mapping[tuple[str, str], Ticker] | None = None,
     ) -> None:
         for exchange_id in (exchange_a, exchange_b):
-            if self._cache.get_order_book(exchange_id, symbol) is not None:
+            if self._market_cache.get_order_book(exchange_id, symbol) is not None:
                 continue
             await self._spread_resolver.top_of_book(
                 exchange_id,
@@ -1775,53 +1323,3 @@ class LiveAutoTrader:
                 fetch_fresh=True,
             )
 
-    def _check_order_book_depth(
-        self,
-        symbol: str,
-        exchange_a: str,
-        exchange_b: str,
-        notional_usdt: float,
-        *,
-        tickers: Mapping[tuple[str, str], Ticker] | None = None,
-    ) -> str | None:
-        """Return rejection reason if either exchange lacks sufficient order book depth.
-
-        Required depth = notional_usdt * 2 within 0.4% of best bid/ask price.
-        Call :meth:`_ensure_order_books_cached` first so REST fills missing books.
-        """
-        required = notional_usdt * 2.0
-        for exchange_id in (exchange_a, exchange_b):
-            book = self._cache.get_order_book(exchange_id, symbol)
-            if book is None:
-                return f"no_order_book:{exchange_id}"
-            ask_depth = ScreenerAutoTrader._side_depth_usdt(book.asks, price_limit_pct=0.004)
-            bid_depth = ScreenerAutoTrader._side_depth_usdt(book.bids, price_limit_pct=0.004)
-            logger.debug(
-                "order book depth | sym={} ex={} bid_depth={:.0f} ask_depth={:.0f} required={:.0f}",
-                symbol,
-                exchange_id,
-                bid_depth,
-                ask_depth,
-                required,
-            )
-            if ask_depth < required:
-                logger.warning(
-                    "live open blocked: insufficient ask depth | sym={} ex={} "
-                    "ask_depth={:.0f} required={:.0f}",
-                    symbol,
-                    exchange_id,
-                    ask_depth,
-                    required,
-                )
-                return f"insufficient_ask_depth:{exchange_id}:{ask_depth:.0f}<{required:.0f}"
-            if bid_depth < required:
-                logger.warning(
-                    "live open blocked: insufficient bid depth | sym={} ex={} "
-                    "bid_depth={:.0f} required={:.0f}",
-                    symbol,
-                    exchange_id,
-                    bid_depth,
-                    required,
-                )
-                return f"insufficient_bid_depth:{exchange_id}:{bid_depth:.0f}<{required:.0f}"
-        return None

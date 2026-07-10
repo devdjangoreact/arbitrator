@@ -48,6 +48,7 @@ class Settings(BaseSettings):
     screener_ws_push_seconds: float = 1.0
 
     paper_orders_path: Path = _DATA_DIR / "paper_orders.json"
+    monitor_configs_path: Path = _DATA_DIR / "monitor_configs.json"
 
     log_level: str = "INFO"
 
@@ -95,6 +96,17 @@ class Settings(BaseSettings):
     # DCA: skip if next funding is within this many seconds
     live_auto_trade_dca_funding_skip_seconds: float = 1800.0
 
+    # Historical Screener & Monitor
+    historical_screener_enabled: bool = False
+    historical_screener_lookback_minutes: int = 60
+    historical_screener_spread_threshold_pct: float = 1.0
+    historical_screener_scan_interval_seconds: float = 300.0
+
+    historical_monitor_open_spread_pct: float = 1.0
+    historical_monitor_close_spread_pct: float = 0.1
+    historical_monitor_max_positions: int = 3
+    historical_monitor_notional_usdt: float = 100.0
+
     # Liquidation guard (paper mode)
     liq_guard_enabled: bool = True
     liq_guard_check_interval_seconds: float = 5.0
@@ -128,8 +140,6 @@ class Settings(BaseSettings):
     screener_book_stream_exchanges: list[str] = ["mexc"]
     screener_book_stream_max_concurrent: int = 20
     screener_book_stream_symbol_refresh_seconds: float = 3600.0
-    # REST order-book verify only when cached entry spread >= this and a leg lacks WS bid/ask
-    screener_rest_prefilter_spread_pct: float = 2.0
     opportunity_chart_window_seconds: int = 120
     opportunity_poll_seconds: int = 1
     opp_default_accumulate_spread_pct: float = 4.0

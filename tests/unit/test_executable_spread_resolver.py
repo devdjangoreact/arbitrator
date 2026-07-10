@@ -152,22 +152,6 @@ def test_best_entry_pair_sync_uses_cache_not_rest() -> None:
     assert gw_b.fetch_count == 0
 
 
-def test_should_rest_verify_skips_below_prefilter() -> None:
-    settings = Settings(
-        screener_rest_prefilter_spread_pct=2.0,
-        screener_book_stream_exchanges=["mexc"],
-    )
-    cache = MarketDataCacheMemory()
-    resolver = ExecutableSpreadResolver(settings, cache)
-    assert resolver.should_rest_verify_entry(
-        SYM,
-        "mexc",
-        EX_B,
-        1.5,
-        short_ticker=_ticker(105.0, 105.1),
-        long_ticker=_ticker(100.0, 100.1),
-    ) is False
-
 
 def test_should_rest_verify_when_book_venue_lacks_cache() -> None:
     settings = Settings(
@@ -181,13 +165,13 @@ def test_should_rest_verify_when_book_venue_lacks_cache() -> None:
         SYM,
         "mexc",
         EX_B,
-        3.0,
         short_ticker=_ticker(None, None),
         long_ticker=_ticker(100.0, 100.1),
     ) is True
 
 
-def test_entry_spread_for_open_skips_rest_when_prefilter_not_met() -> None:
+
+def test_entry_spread_for_open_fetches_rest_when_needed() -> None:
     settings = Settings(
         screener_rest_prefilter_spread_pct=2.0,
         screener_book_stream_exchanges=["mexc"],
@@ -203,33 +187,6 @@ def test_entry_spread_for_open_skips_rest_when_prefilter_not_met() -> None:
             SYM,
             "mexc",
             EX_B,
-            1.0,
-            short_ticker=_ticker(None, None),
-            long_ticker=_ticker(100.0, 100.1),
-        )
-    )
-
-    assert result is None
-    assert gw.fetch_count == 0
-
-
-def test_entry_spread_for_open_fetches_rest_above_prefilter() -> None:
-    settings = Settings(
-        screener_rest_prefilter_spread_pct=2.0,
-        screener_book_stream_exchanges=["mexc"],
-    )
-    cache = MarketDataCacheMemory()
-    cache.put_quote(_quote(EX_B, 100.0, 100.1))
-    gw = _CountingGateway("mexc", 106.0, 106.1)
-    gateways: dict[str, ExchangeGateway] = {"mexc": gw}  # type: ignore[dict-item]
-    resolver = ExecutableSpreadResolver(settings, cache, gateways)
-
-    result = asyncio.run(
-        resolver.entry_spread_for_open(
-            SYM,
-            "mexc",
-            EX_B,
-            3.0,
             short_ticker=_ticker(None, None),
             long_ticker=_ticker(100.0, 100.1),
         )
