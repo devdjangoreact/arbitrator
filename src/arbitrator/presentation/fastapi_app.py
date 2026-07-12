@@ -35,7 +35,10 @@ class FastApiApp:
     def __init__(self, settings: Settings, runtime: AppRuntime) -> None:
         self._settings = settings
         self._runtime = runtime
-        self._static_dir = Path(__file__).resolve().parent / "static"
+        if self._settings.use_react_frontend:
+            self._static_dir = Path(__file__).resolve().parent / "react-ui" / "dist"
+        else:
+            self._static_dir = Path(__file__).resolve().parent / "static"
 
     def create(self) -> FastAPI:
         @asynccontextmanager

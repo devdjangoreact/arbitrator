@@ -40,13 +40,12 @@ app = FastApiApp(settings=_settings, runtime=_runtime).create()
 
 
 def _run() -> None:
-    uvicorn.run(
-        "main:app",
-        host=_settings.fastapi_host,
-        port=_settings.fastapi_port,
-        reload=_settings.fastapi_reload,
-        loop="asyncio",
-    )
+    # Use the new unified launch script if run directly
+    import subprocess
+    from pathlib import Path
+    
+    script_path = Path(__file__).resolve().parent / "scripts" / "run_app.py"
+    subprocess.run([sys.executable, str(script_path)])
 
 
 if __name__ == "__main__":

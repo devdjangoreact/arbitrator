@@ -46,6 +46,8 @@ class Settings(BaseSettings):
     fastapi_reload: bool = False
     app_title: str = "Arbitrator"
 
+    use_react_frontend: bool = False
+
     ui_data_mode: Literal["mock_data", "live", "paper"] = "mock_data"
     mock_tick_seconds: float = 1.0
     screener_ws_push_seconds: float = 1.0

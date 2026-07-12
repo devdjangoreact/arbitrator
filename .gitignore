@@ -35,3 +35,10 @@ Thumbs.db
 # aws-credits-lab/
 logs/
 src/arbitrator/data/
+
+# Node.js / React UI
+node_modules/
+src/arbitrator/presentation/react-ui/dist/
+src/arbitrator/presentation/react-ui/build/
+src/arbitrator/presentation/react-ui/.eslintcache
+src/arbitrator/presentation/react-ui/*.log
