@@ -1,6 +1,7 @@
 let monitorsWs = null;
 let historicalOpps = [];
-let activeMonitors = {}; // Track monitors from server
+let activeMonitors = {};
+let activeCardWs = {}; // Track ws clients per card // Track monitors from server
 let monitorsInitialized = false;
 
 function initMonitors() {
@@ -81,6 +82,9 @@ function startMonitorsWs() {
         // Sync active monitors from backend
         if (msg.data.monitors) {
           syncMonitorsFromServer(msg.data.monitors);
+          if (msg.data.live_state) {
+             applyLiveStateToMonitors(msg.data.live_state, msg.data.monitors);
+          }
         }
       }
     } catch (e) {
@@ -389,3 +393,225 @@ document.addEventListener("DOMContentLoaded", () => {
 window.initMonitors = initMonitors;
 window.startMonitorsWs = startMonitorsWs;
 window.stopMonitorsWs = stopMonitorsWs;
+
+
+function startCardWs(cardEl, config) {
+  const symbol = config.symbol;
+  if (activeCardWs[symbol]) return;
+
+  const q = new URLSearchParams({
+    symbol: config.symbol,
+    short: config.short_ex,
+    long: config.long_ex,
+  });
+  const url = `/ws/opportunity?${q.toString()}`;
+
+  const client = new window.WsClient(url, {
+    onMessage: (msg) => {
+      if (msg.type === "opportunity.snapshot") {
+        updateCardLiveState(cardEl, msg.payload, config);
+      } else if (msg.type === "opportunity.delta") {
+        // Delta can be handled for chart updates
+      }
+    }
+  });
+  activeCardWs[symbol] = client;
+}
+
+function stopCardWs(symbol) {
+  if (activeCardWs[symbol]) {
+    activeCardWs[symbol].close();
+    delete activeCardWs[symbol];
+  }
+}
+
+function updateCardLiveState(cardEl, payload, config) {
+  if (!payload || !payload.exchange_cards) return;
+
+  // 1. Funding & Countdown
+  payload.exchange_cards.forEach(card => {
+    const isShort = card.side === "short";
+    const prefix = isShort ? ".lc-ex1" : ".lc-ex2";
+    const exFund = cardEl.querySelector(`${prefix}-funding`);
+    if (exFund) {
+      exFund.textContent = card.funding_rate_pct != null ? `${card.funding_rate_pct.toFixed(3)}%` : "—";
+      exFund.style.color = card.funding_rate_pct < 0 ? "#ef4444" : "#10b981";
+    }
+    const nextFund = cardEl.querySelector(`${prefix}-next-fund`);
+    if (nextFund && card.funding_countdown_sec != null) {
+      const h = Math.floor(card.funding_countdown_sec / 3600);
+      const m = Math.floor((card.funding_countdown_sec % 3600) / 60);
+      nextFund.textContent = `${h}h ${m}m`;
+    }
+    const leverage = cardEl.querySelector(`${prefix}-leverage-display`);
+    if (leverage) leverage.textContent = `${card.leverage}x`;
+  });
+
+  // 2. Orderbook Top
+  if (payload.books) {
+    payload.books.forEach(book => {
+      const isShort = book.side_role === "short";
+      const prefix = isShort ? ".lc-ex1" : ".lc-ex2";
+
+      const bestAsk = book.asks && book.asks.length > 0 ? book.asks[book.asks.length - 1] : null;
+      const bestBid = book.bids && book.bids.length > 0 ? book.bids[0] : null;
+
+      const askEl = cardEl.querySelector(`${prefix}-ask`);
+      if (askEl && bestAsk) askEl.textContent = bestAsk.price.toFixed(5);
+      const bidEl = cardEl.querySelector(`${prefix}-bid`);
+      if (bidEl && bestBid) bidEl.textContent = bestBid.price.toFixed(5);
+      const sizeEl = cardEl.querySelector(`${prefix}-size`);
+      if (sizeEl && bestAsk) {
+        sizeEl.textContent = bestAsk.amount.toFixed(2);
+      }
+    });
+  }
+
+  // 3. Current Spread & Strategy stats
+  const activeStrategyId = payload.params?.active_strategy_id || "futures_futures";
+  const stratRow = payload.strategy_rows ? payload.strategy_rows.find(r => r.strategy_id === activeStrategyId) : null;
+  if (stratRow) {
+    const openCurr = cardEl.querySelector(".lc-track-open-curr");
+    if (openCurr) openCurr.textContent = stratRow.spread_pct.toFixed(3);
+
+    const closeSpreadTarget = config.close_spread_pct || 0; // Using config target or could be from strat
+
+    if (!cardEl._monitorChart) {
+      const canvas = cardEl.querySelector(".lc-chart-canvas");
+      if (canvas) {
+        cardEl._monitorChart = new MonitorCardChart(canvas);
+      }
+    }
+    if (cardEl._monitorChart) {
+      cardEl._monitorChart.addPoint(stratRow.spread_pct, closeSpreadTarget);
+    }
+
+    // For now, let's just populate the short side PnL / execution price with mock or real if available
+    const execPrice1 = cardEl.querySelector(".lc-ex1-exec-price");
+    if (execPrice1) execPrice1.textContent = stratRow.prices_label.split(" / ")[0] || "—";
+    const execPrice2 = cardEl.querySelector(".lc-ex2-exec-price");
+    if (execPrice2) execPrice2.textContent = stratRow.prices_label.split(" / ")[1] || "—";
+
+    const pnl1 = cardEl.querySelector(".lc-ex1-pnl");
+    if (pnl1) pnl1.textContent = stratRow.net_profit_usdt != null ? stratRow.net_profit_usdt.toFixed(2) : "—";
+  }
+}
+
+
+class MonitorCardChart {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.history = []; // { t, open_spread, close_spread }
+    this.maxPoints = 60;
+  }
+
+  addPoint(openSpread, closeSpread) {
+    this.history.push({ t: Date.now(), o: openSpread, c: closeSpread });
+    if (this.history.length > this.maxPoints) {
+      this.history.shift();
+    }
+    this.draw();
+  }
+
+  draw() {
+    if (this.history.length === 0) return;
+    const w = this.canvas.width = this.canvas.offsetWidth || 400;
+    const h = this.canvas.height = this.canvas.offsetHeight || 100;
+    const ctx = this.ctx;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Find bounds
+    let minVal = Number.MAX_VALUE;
+    let maxVal = -Number.MAX_VALUE;
+    for (let p of this.history) {
+      if (p.o < minVal) minVal = p.o;
+      if (p.o > maxVal) maxVal = p.o;
+      if (p.c < minVal) minVal = p.c;
+      if (p.c > maxVal) maxVal = p.c;
+    }
+    if (minVal === maxVal) { minVal -= 1; maxVal += 1; }
+    const padding = (maxVal - minVal) * 0.1;
+    minVal -= padding; maxVal += padding;
+    const range = maxVal - minVal;
+
+    const getX = (index) => (index / (this.maxPoints - 1)) * w;
+    const getY = (val) => h - ((val - minVal) / range) * h;
+
+    const drawLine = (key, color) => {
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      for (let i = 0; i < this.history.length; i++) {
+        const x = getX(i + (this.maxPoints - this.history.length));
+        const y = getY(this.history[i][key]);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    };
+
+    // Close spread (red)
+    drawLine('c', '#ef4444');
+    // Open spread (green)
+    drawLine('o', '#10b981');
+  }
+}
+
+
+function applyLiveStateToMonitors(liveState, monitorsArray) {
+  monitorsArray.forEach(config => {
+    const symbol = config.symbol;
+    const state = liveState[symbol];
+    if (!state) return;
+
+    const cardId = `monitor-card-${symbol.replace(/[^a-zA-Z0-9]/g, "_")}`;
+    const cardEl = document.getElementById(cardId);
+    if (!cardEl) return;
+
+    // Spread text
+    const openCurr = cardEl.querySelector(".lc-track-open-curr");
+    if (openCurr) openCurr.textContent = fmtPct(state.open_spread, 3);
+    const closeCurr = cardEl.querySelector(".lc-track-close-curr");
+    if (closeCurr) closeCurr.textContent = fmtPct(state.close_spread, 3);
+
+    // T-logic visual feedback
+    const renderTLogic = (selector, currentTicks, maxTicks) => {
+      const parent = cardEl.querySelector(selector);
+      if (!parent) return;
+      // We will append a small progress badge next to the input
+      let badge = parent.querySelector(".t-badge");
+      if (!badge) {
+        badge = document.createElement("span");
+        badge.className = "t-badge";
+        badge.style.cssText = "position: absolute; right: -30px; top: 50%; transform: translateY(-50%); font-size: 0.8em; font-weight: bold; background: #374151; padding: 2px 4px; border-radius: 4px;";
+        parent.appendChild(badge);
+      }
+      if (currentTicks > 0) {
+        badge.textContent = `${currentTicks}/${maxTicks}`;
+        badge.style.color = currentTicks >= maxTicks ? "#10b981" : "#f59e0b";
+      } else {
+        badge.textContent = "";
+      }
+    };
+
+    renderTLogic(".lc-param-open-t", state.open_ticks, config.open_ticks);
+    renderTLogic(".lc-param-close-t", state.close_ticks, config.close_ticks);
+
+    // Chart
+    if (!cardEl._monitorChart) {
+      const canvas = cardEl.querySelector(".lc-chart-canvas");
+      if (canvas) {
+        cardEl._monitorChart = new MonitorCardChart(canvas);
+      }
+    }
+    if (cardEl._monitorChart) {
+      cardEl._monitorChart.addPoint(state.open_spread, state.close_spread);
+    }
+
+    // Status text (Orders)
+    const ex1Orders = cardEl.querySelector(".lc-ex1-orders");
+    if (ex1Orders) ex1Orders.textContent = state.open_orders;
+  });
+}

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import asyncio
 import threading
@@ -37,9 +38,10 @@ class HistoricalAutoTrader:
         # Tracks how many consecutive ticks a spread condition has been met
         self._open_tick_counters: dict[str, int] = {}
         self._close_tick_counters: dict[str, int] = {}
+        self._live_state: dict[str, dict] = {}
 
     def start(self) -> None:
-        if not self._settings.historical_screener_enabled:
+        if not UIConfigManager.get_config().historical_screener_enabled:
             return
         self._restore_open_pairs()
         self._thread = threading.Thread(
@@ -54,6 +56,10 @@ class HistoricalAutoTrader:
 
     def is_alive(self) -> bool:
         return self._thread is not None and self._thread.is_alive()
+
+    
+    def get_live_state(self) -> dict:
+        return self._live_state
 
     def _restore_open_pairs(self) -> None:
         records = self._paper._store.load_all()
@@ -79,7 +85,7 @@ class HistoricalAutoTrader:
             logger.exception("Historical auto trader run failed")
 
     async def _async_run(self) -> None:
-        check_interval = 2.0
+        check_interval = self._settings.historical_trader_tick_seconds
         while not self._stop.is_set():
             try:
                 await self._tick()
@@ -93,6 +99,45 @@ class HistoricalAutoTrader:
 
     async def _tick(self) -> None:
         configs = self._store.get_all()
+
+        # 1. Update live state for ALL configs (even stopped) for UI charts
+        new_state = {}
+        for config in configs:
+            try:
+                # Figure out active sides
+                if config.side == "auto":
+                    # For UI display when auto, just pick short=short_ex to show *some* spread, or resolve best
+                    active_short = config.short_ex
+                    active_long = config.long_ex
+                elif config.side == "short":
+                    active_short = config.short_ex
+                    active_long = config.long_ex
+                else:
+                    active_short = config.long_ex
+                    active_long = config.short_ex
+
+                # Fetch fresh spread once per config for UI
+                entry_res = await self._spread_resolver.entry_spread(config.symbol, active_short, active_long, fetch_fresh=True)
+                exit_res = await self._spread_resolver.exit_spread(config.symbol, active_short, active_long, fetch_fresh=True)
+
+                entry_pct = entry_res[2] if entry_res else 0.0
+                exit_pct = exit_res[2] if exit_res else 0.0
+
+                # Check how many pairs are open
+                open_pairs = [(pid, sym, s, l) for pid, (sym, s, l) in self._open_pairs.items() if sym == config.symbol]
+
+                new_state[config.symbol] = {
+                    "open_spread": entry_pct,
+                    "close_spread": exit_pct,
+                    "open_ticks": self._open_tick_counters.get(config.symbol, 0),
+                    "close_ticks": max([self._close_tick_counters.get(pid, 0) for pid, _, _, _ in open_pairs]) if open_pairs else 0,
+                    "open_orders": len(open_pairs)
+                }
+            except Exception:
+                logger.exception(f"Error resolving state for {config.symbol}")
+
+        self._live_state = new_state
+
 
         closed_this_tick = []
         for pair_id, (symbol, short_ex, long_ex) in list(self._open_pairs.items()):

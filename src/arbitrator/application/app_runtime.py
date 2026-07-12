@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 from arbitrator.application.account.account_stream_worker import AccountStreamWorker
 from arbitrator.application.account.funding_accrual_service import FundingAccrualService
@@ -191,7 +192,7 @@ class AppRuntime:
     def _start_live_workers(self) -> None:
         factory = Factory(settings=self._settings)
         self._start_stream_workers(factory)
-        if self._settings.live_auto_trade_enabled:
+        if UIConfigManager.get_config().live_auto_trade_enabled:
             self._start_live_auto_trader(factory)
         logger.info("live workers started | mode=live")
 
@@ -220,7 +221,7 @@ class AppRuntime:
                 for ex_id in self._settings.enabled_exchanges
                 if self._settings.credentials_for(ex_id) is not None
             }
-            if self._settings.spot_enabled
+            if UIConfigManager.get_config().spot_enabled
             else {}
         )
         return HedgedExecutionService(
@@ -257,30 +258,30 @@ class AppRuntime:
             list(exec_service._gateways.keys()),
         )
 
-        if self._settings.live_liq_guard_enabled:
+        if UIConfigManager.get_config().live_liq_guard_enabled:
             liq_exec = self._create_live_execution_service(factory)
             self.live_liq_guard = LiveLiquidationGuardService(
                 gateways=liq_exec._gateways,
                 execution_service=liq_exec,
                 market_cache=self.market_cache,
                 settings=self._settings,
-                check_interval_seconds=self._settings.live_liq_guard_check_interval_seconds,
-                warning_pct_to_liq=self._settings.live_liq_guard_warning_pct_to_liq,
+                check_interval_seconds=UIConfigManager.get_config().live_liq_guard_check_interval_seconds,
+                warning_pct_to_liq=UIConfigManager.get_config().live_liq_guard_warning_pct_to_liq,
             )
             self.live_liq_guard.start()
             logger.info("live liquidation guard started")
 
-        if self._settings.live_funding_protect_enabled:
+        if UIConfigManager.get_config().live_funding_protect_enabled:
             fund_exec = self._create_live_execution_service(factory)
             self.live_funding_protect = LiveFundingProtectionService(
                 gateways=fund_exec._gateways,
                 execution_service=fund_exec,
                 market_cache=self.market_cache,
                 settings=self._settings,
-                check_interval_seconds=self._settings.live_funding_protect_check_interval_seconds,
-                act_window_seconds=self._settings.live_funding_protect_act_window_seconds,
-                skip_within_seconds=self._settings.live_funding_protect_skip_within_seconds,
-                min_reopen_spread_pct=self._settings.live_funding_protect_min_reopen_spread_pct,
+                check_interval_seconds=UIConfigManager.get_config().live_funding_protect_check_interval_seconds,
+                act_window_seconds=UIConfigManager.get_config().live_funding_protect_act_window_seconds,
+                skip_within_seconds=UIConfigManager.get_config().live_funding_protect_skip_within_seconds,
+                min_reopen_spread_pct=UIConfigManager.get_config().live_funding_protect_min_reopen_spread_pct,
             )
             self.live_funding_protect.start()
             logger.info("live funding protection started")
@@ -304,16 +305,16 @@ class AppRuntime:
         self.funding_accrual_service = FundingAccrualService(
             store=self.paper_store,
             cache=self.market_cache,
-            interval_seconds=self._settings.funding_refresh_seconds,
+            interval_seconds=UIConfigManager.get_config().funding_refresh_seconds,
         )
         self.funding_accrual_service.start()
-        if self._settings.screener_auto_trade_enabled:
+        if UIConfigManager.get_config().screener_auto_trade_enabled:
             self._start_screener_auto_trader()
-        if self._settings.historical_screener_enabled:
+        if UIConfigManager.get_config().historical_screener_enabled:
             self._start_historical_auto_trader()
-        if self._settings.liq_guard_enabled:
+        if UIConfigManager.get_config().liq_guard_enabled:
             self._start_liquidation_guard()
-        if self._settings.funding_reentry_enabled:
+        if UIConfigManager.get_config().funding_reentry_enabled:
             self._start_funding_reentry()
         logger.info("paper workers started | mode=paper orders_path={}", self._settings.paper_orders_path)
 
@@ -368,10 +369,10 @@ class AppRuntime:
             paper_gateway=self.paper_gateway,
             market_cache=self.market_cache,
             settings=self._settings,
-            check_interval_seconds=self._settings.funding_reentry_check_interval_seconds,
-            act_window_seconds=self._settings.funding_reentry_act_window_seconds,
-            skip_within_seconds=self._settings.funding_reentry_skip_within_seconds,
-            min_reopen_spread_pct=self._settings.funding_reentry_min_spread_pct,
+            check_interval_seconds=UIConfigManager.get_config().funding_reentry_check_interval_seconds,
+            act_window_seconds=UIConfigManager.get_config().funding_reentry_act_window_seconds,
+            skip_within_seconds=UIConfigManager.get_config().funding_reentry_skip_within_seconds,
+            min_reopen_spread_pct=UIConfigManager.get_config().funding_reentry_min_spread_pct,
         )
         self.funding_reentry.start()
 
@@ -384,8 +385,8 @@ class AppRuntime:
             paper_gateway=self.paper_gateway,
             market_cache=self.market_cache,
             settings=self._settings,
-            check_interval_seconds=self._settings.liq_guard_check_interval_seconds,
-            warning_pct_to_liq=self._settings.liq_guard_warning_pct_to_liq,
+            check_interval_seconds=UIConfigManager.get_config().liq_guard_check_interval_seconds,
+            warning_pct_to_liq=UIConfigManager.get_config().liq_guard_warning_pct_to_liq,
         )
         self.liquidation_guard.start()
 
@@ -406,7 +407,7 @@ class AppRuntime:
             store=self.monitor_store,
             screener_provider=lambda: self.screener_worker,
         )
-        if self._settings.historical_screener_enabled:
+        if UIConfigManager.get_config().historical_screener_enabled:
             self.historical_screener_worker.start()
             logger.info("historical screener worker started")
         else:
@@ -476,7 +477,7 @@ class AppRuntime:
         self.exchange_orders_service.start()
         logger.info("exchange orders service started")
 
-        if self._settings.spot_enabled:
+        if UIConfigManager.get_config().spot_enabled:
             self._start_spot_worker()
 
     def _start_spot_worker(self) -> None:

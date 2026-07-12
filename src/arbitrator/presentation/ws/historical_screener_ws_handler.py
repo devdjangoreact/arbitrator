@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import asyncio
 
@@ -89,9 +90,9 @@ class HistoricalScreenerWsHandler:
                                 symbol=symbol,
                                 short_ex=short_ex,
                                 long_ex=long_ex,
-                                open_spread_pct=self._settings.historical_monitor_open_spread_pct,
-                                close_spread_pct=self._settings.historical_monitor_close_spread_pct,
-                                order_size_usdt=self._settings.historical_monitor_notional_usdt,
+                                open_spread_pct=UIConfigManager.get_config().historical_monitor_open_spread_pct,
+                                close_spread_pct=UIConfigManager.get_config().historical_monitor_close_spread_pct,
+                                order_size_usdt=UIConfigManager.get_config().historical_monitor_notional_usdt,
                                 max_historical_spread_pct=max_spread,
                                 is_active=False,
                             )
@@ -147,6 +148,7 @@ class HistoricalScreenerWsHandler:
                 "status": status,
                 "opportunities": opportunities,
                 "monitors": [c.__dict__ for c in configs],
+                "live_state": self._runtime.historical_auto_trader.get_live_state() if self._runtime.historical_auto_trader else {},
             },
         }
         try:

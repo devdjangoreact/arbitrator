@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import time
 from collections.abc import Mapping
@@ -79,7 +80,7 @@ class ExecutableSpreadResolver:
 
         if book is not None and book.bids and book.asks:
             age_ms = now_ms - (book.timestamp_ms or 0)
-            book_max = (self._settings.book_max_age_seconds * 1000) if max_age_ms is None else max_age_ms
+            book_max = (UIConfigManager.get_config().book_max_age_seconds * 1000) if max_age_ms is None else max_age_ms
             if book.timestamp_ms is None or age_ms <= book_max:
                 return TopOfBook(bid=book.bids[0].price, ask=book.asks[0].price)
 
@@ -87,7 +88,7 @@ class ExecutableSpreadResolver:
 
         if quote is not None and quote.bid is not None and quote.ask is not None:
             age_ms = now_ms - quote.recv_time_ms
-            quote_max = (self._settings.quote_max_age_seconds * 1000) if max_age_ms is None else max_age_ms
+            quote_max = (UIConfigManager.get_config().quote_max_age_seconds * 1000) if max_age_ms is None else max_age_ms
             if age_ms <= quote_max:
                 bid = float(quote.bid)
                 ask = float(quote.ask)
@@ -101,7 +102,7 @@ class ExecutableSpreadResolver:
             and ticker.bid > 0.0
             and ticker.ask > 0.0
         ):
-            ticker_max = (self._settings.quote_max_age_seconds * 1000) if max_age_ms is None else max_age_ms
+            ticker_max = (UIConfigManager.get_config().quote_max_age_seconds * 1000) if max_age_ms is None else max_age_ms
             if ticker.timestamp_ms is None or now_ms - ticker.timestamp_ms <= ticker_max:
                 return TopOfBook(bid=ticker.bid, ask=ticker.ask)
 
@@ -157,7 +158,7 @@ class ExecutableSpreadResolver:
         book = self._cache.get_order_book(exchange_id, symbol)
         if book is not None and book.bids and book.asks:
             age_ms = now_ms - (book.timestamp_ms or 0)
-            if book.timestamp_ms is not None and age_ms <= (self._settings.book_max_age_seconds * 1000):
+            if book.timestamp_ms is not None and age_ms <= (UIConfigManager.get_config().book_max_age_seconds * 1000):
                 return False
         return True
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 from decimal import Decimal
 
@@ -33,7 +34,7 @@ class OpportunityStrategyService:
     ) -> StrategyTable:
         exchange_ids = {short_exchange_id, long_exchange_id}
         leverage = {
-            exchange_id: leverage_by_exchange.get(exchange_id, self._settings.opp_default_leverage)
+            exchange_id: leverage_by_exchange.get(exchange_id, UIConfigManager.get_config().opp_default_leverage)
             for exchange_id in exchange_ids
         }
         inputs = self._assembler.assemble(

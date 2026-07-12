@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import asyncio
 import threading
@@ -20,7 +21,7 @@ class LiveLiquidationGuardService:
 
     Liquidation price is derived from **real position data** (entry price and
     contracts) plus the leverage value from exchange position metadata when
-    available, falling back to `settings.opp_default_leverage`.
+    available, falling back to `UIConfigManager.get_config().opp_default_leverage`.
 
     Cross-margin approximation (conservative):
       Short: liq_px = entry * (1 + 1/leverage * (1 - MM_RATE))
@@ -258,7 +259,7 @@ class LiveLiquidationGuardService:
             margin_fraction = (position_value - abs(pnl)) / position_value
             if 0.01 <= margin_fraction <= 1.0:
                 return round(1.0 / margin_fraction, 1)
-        return float(self._settings.opp_default_leverage)
+        return float(UIConfigManager.get_config().opp_default_leverage)
 
     @classmethod
     def _liquidation_price(

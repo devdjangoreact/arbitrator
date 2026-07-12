@@ -19,6 +19,7 @@ import uvicorn
 
 from arbitrator.application.app_runtime import AppRuntime
 from arbitrator.config.logger import init_logger, logger
+from arbitrator.config.ui_config_manager import UIConfigManager
 from arbitrator.config.settings import Settings
 from arbitrator.presentation.fastapi_app import FastApiApp
 
@@ -29,6 +30,10 @@ logger.info(
     _settings.enabled_exchanges,
     _settings.ui_data_mode,
 )
+
+# Initialize persistent UI configuration
+ui_config_path = _settings.monitor_configs_path.parent / "ui_config.json"
+UIConfigManager.initialize(ui_config_path)
 
 _runtime = AppRuntime(settings=_settings)
 app = FastApiApp(settings=_settings, runtime=_runtime).create()

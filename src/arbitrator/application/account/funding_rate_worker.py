@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import asyncio
 import threading
@@ -37,7 +38,7 @@ class FundingRateWorker:
         self._fee_service = fee_service
         self._symbols_by_exchange_provider = symbols_by_exchange_provider
         self._token_identity = token_identity
-        self._refresh_seconds = settings.funding_refresh_seconds
+        self._refresh_seconds = UIConfigManager.get_config().funding_refresh_seconds
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
         self._loop: asyncio.AbstractEventLoop | None = None

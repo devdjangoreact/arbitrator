@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import asyncio
 import threading
@@ -76,9 +77,9 @@ class ScreenerAutoTrader(AutoTraderBase):
         self._thread.start()
         logger.info(
             "screener auto trader started | max_pos={} open_spread={}% close_spread={}% restored={}",
-            self._settings.screener_auto_trade_max_positions,
-            self._settings.screener_auto_trade_open_spread_pct,
-            self._settings.screener_auto_trade_close_spread_pct,
+            UIConfigManager.get_config().screener_auto_trade_max_positions,
+            UIConfigManager.get_config().screener_auto_trade_open_spread_pct,
+            UIConfigManager.get_config().screener_auto_trade_close_spread_pct,
             len(self._open_pairs),
         )
 
@@ -113,7 +114,7 @@ class ScreenerAutoTrader(AutoTraderBase):
                     self._pair_open_time[r.pair_id] = time.monotonic()
 
     def _run(self) -> None:
-        check_interval = self._settings.screener_auto_trade_check_seconds
+        check_interval = UIConfigManager.get_config().screener_auto_trade_check_seconds
         while not self._stop.is_set():
             try:
                 self._tick()
@@ -149,8 +150,8 @@ class ScreenerAutoTrader(AutoTraderBase):
         if status != "Live":
             return
 
-        open_spread = self._settings.screener_auto_trade_open_spread_pct
-        max_pos = self._settings.screener_auto_trade_max_positions
+        open_spread = UIConfigManager.get_config().screener_auto_trade_open_spread_pct
+        max_pos = UIConfigManager.get_config().screener_auto_trade_max_positions
 
         # --- build ranked candidates for open (bid/ask or book top — never last) ---
         by_symbol: dict[str, dict[str, Ticker]] = {}
@@ -188,7 +189,7 @@ class ScreenerAutoTrader(AutoTraderBase):
                 continue
             short_ask, long_bid, exit_spread = exit_quotes
             pair_strategy = self._pair_strategy.get(pair_id, "futures_futures")
-            pair_close_threshold = self._settings.strategy_close_spread_pct(pair_strategy)
+            pair_close_threshold = UIConfigManager.get_config().strategy_close_spread_pct(pair_strategy)
             if exit_spread > pair_close_threshold:
                 continue
             # Use the filled amount from the open record (long/buy leg).
@@ -221,7 +222,7 @@ class ScreenerAutoTrader(AutoTraderBase):
             self._pair_open_time.pop(pair_id, None)
 
         # --- unhedged close pass: close single-leg pairs after timeout ---
-        unhedged_timeout = self._settings.screener_auto_trade_unhedged_timeout_seconds
+        unhedged_timeout = UIConfigManager.get_config().screener_auto_trade_unhedged_timeout_seconds
         unhedged_to_close: list[str] = []
         all_records = self._paper._store.load_all()
         pair_leg_count: dict[str, int] = {}
@@ -343,12 +344,12 @@ class ScreenerAutoTrader(AutoTraderBase):
             # Anomaly guard: spread > anomaly_max_spread_pct almost certainly means
             # two different tokens sharing the same symbol on different exchanges.
             # (e.g. EDGE on mexc vs EDGE on gate — unrelated projects)
-            if fresh_spread > self._settings.anomaly_max_spread_pct:
+            if fresh_spread > UIConfigManager.get_config().anomaly_max_spread_pct:
                 logger.warning(
                     "auto open blocked: anomaly spread — likely different tokens | "
                     "sym={} short={} long={} spread={:.1f}% max={}%",
                     symbol, short_ex, long_ex, fresh_spread,
-                    self._settings.anomaly_max_spread_pct,
+                    UIConfigManager.get_config().anomaly_max_spread_pct,
                 )
                 continue
             # Use fresh prices for sizing — more accurate than the ticker snapshot.
@@ -368,10 +369,10 @@ class ScreenerAutoTrader(AutoTraderBase):
                 if table is not None and table.best_strategy_id is not None:
                     strategy_kind = table.best_strategy_id.value
             # Strategy whitelist filter
-            if not self._settings.is_strategy_allowed(strategy_kind):
+            if not UIConfigManager.get_config().is_strategy_allowed(strategy_kind):
                 continue
             # Per-strategy spread threshold
-            strategy_open_threshold = self._settings.strategy_open_spread_pct(strategy_kind)
+            strategy_open_threshold = UIConfigManager.get_config().strategy_open_spread_pct(strategy_kind)
             if fresh_spread < strategy_open_threshold:
                 continue
 

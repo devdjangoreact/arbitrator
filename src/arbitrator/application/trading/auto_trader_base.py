@@ -1,3 +1,4 @@
+from arbitrator.config.ui_config_manager import UIConfigManager
 from collections.abc import Mapping
 
 from arbitrator.application.account.token_identity_service import TokenIdentityService
@@ -59,7 +60,7 @@ class AutoTraderBase:
         min_b = self._min_notional_for_exchange(symbol, long_ex, long_price)
         if min_a is None or min_b is None:
             return None
-        floor = self._settings.screener_auto_trade_notional_usdt
+        floor = UIConfigManager.get_config().screener_auto_trade_notional_usdt
         return max(min_a, min_b, floor)
 
     @staticmethod

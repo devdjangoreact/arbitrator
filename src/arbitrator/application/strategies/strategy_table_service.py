@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 from collections.abc import Mapping
 from decimal import Decimal
@@ -47,7 +48,7 @@ class StrategyTableService:
         self._token_identity = token_identity
         self._exclusions_repo = exclusions_repo
         self._notional = Decimal(str(settings.arb_default_notional_usdt))
-        self._default_leverage = settings.opp_default_leverage
+        self._default_leverage = UIConfigManager.get_config().opp_default_leverage
         self._last_price: dict[tuple[str, str], float] = {}
         self._tables: dict[str, StrategyTable] = {}
 

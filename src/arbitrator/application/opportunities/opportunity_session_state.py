@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 from collections.abc import Mapping
 from dataclasses import dataclass
@@ -24,12 +25,12 @@ class OpportunitySessionState:
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
         self.active_strategy_id = "futures_futures"
-        self.target_volume_usdt = settings.opp_default_max_notional_usdt
+        self.target_volume_usdt = UIConfigManager.get_config().opp_default_max_notional_usdt
         self.open_spread_threshold_pct = settings.arb_open_spread_threshold_pct
         self.close_spread_threshold_pct = settings.arb_close_spread_threshold_pct
-        self.accumulate_volume_usdt = settings.opp_accumulate_step_usdt
+        self.accumulate_volume_usdt = UIConfigManager.get_config().opp_accumulate_step_usdt
         self.accumulate_volume_pct = 10.0
-        self.close_volume_usdt = settings.opp_accumulate_step_usdt
+        self.close_volume_usdt = UIConfigManager.get_config().opp_accumulate_step_usdt
         self.close_volume_pct = 10.0
         self.auto_accumulate_enabled = settings.arb_auto_open_enabled
         self.auto_close_enabled = settings.arb_auto_close_enabled
@@ -37,7 +38,7 @@ class OpportunitySessionState:
         self._market_info: dict[str, ExchangeMarketInfoPair] = {}
 
     def leverage_for(self, exchange_id: str) -> int:
-        return self.leverage.get(exchange_id, self._settings.opp_default_leverage)
+        return self.leverage.get(exchange_id, UIConfigManager.get_config().opp_default_leverage)
 
     def apply_params(self, payload: Mapping[str, object]) -> None:
         if "active_strategy_id" in payload:

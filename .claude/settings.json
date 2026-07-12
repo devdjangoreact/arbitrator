@@ -37,5 +37,27 @@
     }
   },
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark"
+  "theme": "dark",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\shere-folder\\arbitrator\\.venv\\Scripts\\graphify.EXE hook-guard search"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\shere-folder\\arbitrator\\.venv\\Scripts\\graphify.EXE hook-guard read"
+          }
+        ]
+      }
+    ]
+  }
 }

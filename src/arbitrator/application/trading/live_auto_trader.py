@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import asyncio
 import threading
@@ -99,9 +100,9 @@ class LiveAutoTrader(AutoTraderBase):
         self._thread.start()
         logger.info(
             "live auto trader started | max_pos={} open_spread={}% close_spread={}%",
-            self._settings.screener_auto_trade_max_positions,
-            self._settings.screener_auto_trade_open_spread_pct,
-            self._settings.screener_auto_trade_close_spread_pct,
+            UIConfigManager.get_config().screener_auto_trade_max_positions,
+            UIConfigManager.get_config().screener_auto_trade_open_spread_pct,
+            UIConfigManager.get_config().screener_auto_trade_close_spread_pct,
         )
 
     def stop(self) -> None:
@@ -130,7 +131,7 @@ class LiveAutoTrader(AutoTraderBase):
         self._loop = asyncio.get_running_loop()
         self._main_task = asyncio.current_task()
         await self._restore_open_pairs()
-        interval = self._settings.screener_auto_trade_check_seconds
+        interval = UIConfigManager.get_config().screener_auto_trade_check_seconds
         while not self._stop.is_set():
             try:
                 await self._tick()
@@ -171,7 +172,7 @@ class LiveAutoTrader(AutoTraderBase):
             for leg in legs:
                 positions_by_symbol.setdefault(leg.symbol, []).append((exchange_id, leg))
 
-        base_notional = self._settings.screener_auto_trade_notional_usdt
+        base_notional = UIConfigManager.get_config().screener_auto_trade_notional_usdt
 
         for symbol, entries in positions_by_symbol.items():
             short_exs = [(ex, leg) for ex, leg in entries if leg.side == "short"]
@@ -219,9 +220,9 @@ class LiveAutoTrader(AutoTraderBase):
         if status != "Live":
             return
 
-        open_spread_pct = self._settings.screener_auto_trade_open_spread_pct
-        close_spread_pct = self._settings.screener_auto_trade_close_spread_pct
-        max_pos = self._settings.screener_auto_trade_max_positions
+        open_spread_pct = UIConfigManager.get_config().screener_auto_trade_open_spread_pct
+        close_spread_pct = UIConfigManager.get_config().screener_auto_trade_close_spread_pct
+        max_pos = UIConfigManager.get_config().screener_auto_trade_max_positions
 
         # --- build ranked candidates: screener spread >= open threshold only ---
         by_symbol: dict[str, dict[str, Ticker]] = {}
@@ -290,7 +291,7 @@ class LiveAutoTrader(AutoTraderBase):
             s_recv = self._leg_recv_time_ms(s_ex, sym)
             l_recv = self._leg_recv_time_ms(l_ex, sym)
             pair_strategy = self._pair_strategy.get(key, "futures_futures")
-            pair_close_threshold = self._settings.strategy_close_spread_pct(pair_strategy)
+            pair_close_threshold = UIConfigManager.get_config().strategy_close_spread_pct(pair_strategy)
             logger.debug(
                 "live close check | sym={} short={} long={} exit_spread={:.4f}% threshold={}%"
                 " short_recv_ms={} long_recv_ms={} desync_ms={}",
@@ -378,7 +379,7 @@ class LiveAutoTrader(AutoTraderBase):
         open_count = len(self._open_pairs)
         already_open_symbols = {sym for (sym, _s, _l) in self._open_pairs}
         tick_ms = int(time.time() * 1000)
-        notional_floor = self._settings.screener_auto_trade_notional_usdt
+        notional_floor = UIConfigManager.get_config().screener_auto_trade_notional_usdt
 
         if candidates:
             self._live_logger.log_open_candidates_header(
@@ -579,7 +580,7 @@ class LiveAutoTrader(AutoTraderBase):
             else:
                 self._live_logger.log_open_candidate_result(trace, outcome.status.value, outcome.message)
                 # Prevent immediate re-entry after rollback/fail on same pair
-                self._open_cooldown[key] = time.monotonic() + self._settings.open_fail_cooldown_sec
+                self._open_cooldown[key] = time.monotonic() + UIConfigManager.get_config().open_fail_cooldown_sec
 
     # ------------------------------------------------------------------ #
     # Post-fill guard: close if real spread < threshold
@@ -591,7 +592,7 @@ class LiveAutoTrader(AutoTraderBase):
         If real spread < live_auto_trade_post_fill_min_spread_pct → close immediately.
         """
         symbol, short_ex, long_ex = key
-        min_spread = self._settings.live_auto_trade_post_fill_min_spread_pct
+        min_spread = UIConfigManager.get_config().live_auto_trade_post_fill_min_spread_pct
         short_gw = self._exec._gateways.get(short_ex)
         long_gw = self._exec._gateways.get(long_ex)
         if short_gw is None or long_gw is None:
@@ -653,10 +654,10 @@ class LiveAutoTrader(AutoTraderBase):
         tickers: dict[tuple[str, str], Ticker],
     ) -> None:
         """For each open pair, check if spread widened enough to DCA (add 2x volume)."""
-        dca_step = self._settings.live_auto_trade_dca_spread_step_pct
-        max_layers = self._settings.live_auto_trade_dca_max_layers
-        min_liq_dist = self._settings.live_auto_trade_dca_min_liq_distance_pct
-        funding_skip_sec = self._settings.live_auto_trade_dca_funding_skip_seconds
+        dca_step = UIConfigManager.get_config().live_auto_trade_dca_spread_step_pct
+        max_layers = UIConfigManager.get_config().live_auto_trade_dca_max_layers
+        min_liq_dist = UIConfigManager.get_config().live_auto_trade_dca_min_liq_distance_pct
+        funding_skip_sec = UIConfigManager.get_config().live_auto_trade_dca_funding_skip_seconds
 
         for key in list(self._open_pairs.keys()):
             symbol, short_ex, long_ex = key
@@ -700,7 +701,7 @@ class LiveAutoTrader(AutoTraderBase):
             estimated = self._estimate_spread_after_fill(symbol, short_ex, long_ex, dca_notional)
             if (
                 estimated is not None
-                and estimated < self._settings.screener_auto_trade_open_spread_pct
+                and estimated < UIConfigManager.get_config().screener_auto_trade_open_spread_pct
             ):
                 logger.debug(
                     "DCA skipped: estimated fill spread too low | sym={} est={:.3f}%",
@@ -787,7 +788,7 @@ class LiveAutoTrader(AutoTraderBase):
         min_pct: float,
     ) -> bool:
         """Return True if both legs are > min_pct away from estimated liquidation."""
-        leverage = float(self._settings.opp_default_leverage)
+        leverage = float(UIConfigManager.get_config().opp_default_leverage)
         for exchange_id in (short_ex, long_ex):
             gw = self._exec._gateways.get(exchange_id)
             if gw is None:
@@ -936,7 +937,7 @@ class LiveAutoTrader(AutoTraderBase):
                 fresh_spread=fresh_spread, desync_ms=desync_ms,
             )
             return None, reason
-        if fresh_spread > self._settings.anomaly_max_spread_pct:
+        if fresh_spread > UIConfigManager.get_config().anomaly_max_spread_pct:
             reason = f"anomaly_spread:{fresh_spread:.1f}"
             self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
@@ -969,7 +970,7 @@ class LiveAutoTrader(AutoTraderBase):
             return None, reason
 
         # Check funding risk: avoid opening if funding is imminent and potentially adverse
-        funding_skip_sec = self._settings.live_auto_trade_dca_funding_skip_seconds
+        funding_skip_sec = UIConfigManager.get_config().live_auto_trade_dca_funding_skip_seconds
         if self._funding_too_close(symbol, short_ex, long_ex, funding_skip_sec):
             reason = "funding_too_close"
             self._live_logger.log_open_check(
@@ -1042,7 +1043,7 @@ class LiveAutoTrader(AutoTraderBase):
             return None, reason
 
         strategy_kind = self._resolve_strategy_kind(symbol)
-        if not self._settings.is_strategy_allowed(strategy_kind):
+        if not UIConfigManager.get_config().is_strategy_allowed(strategy_kind):
             reason = f"strategy_not_allowed:{strategy_kind}"
             self._live_logger.log_open_check(
                 check_no, symbol, short_ex, long_ex, reason=reason,
@@ -1056,7 +1057,7 @@ class LiveAutoTrader(AutoTraderBase):
             )
             return None, reason
 
-        strategy_open_threshold = self._settings.strategy_open_spread_pct(strategy_kind)
+        strategy_open_threshold = UIConfigManager.get_config().strategy_open_spread_pct(strategy_kind)
         if fresh_spread < strategy_open_threshold:
             reason = f"below_strategy_threshold:{fresh_spread:.4f}<{strategy_open_threshold}"
             self._live_logger.log_open_check(
@@ -1147,7 +1148,7 @@ class LiveAutoTrader(AutoTraderBase):
             return False
         if ticker.bid and ticker.ask and ticker.ask > 0.0:
             inner_spread = (ticker.ask - ticker.bid) / ticker.ask * 100.0
-            return inner_spread > self._settings.ticker_max_inner_spread_pct
+            return inner_spread > UIConfigManager.get_config().ticker_max_inner_spread_pct
         return False
 
     def _estimate_fill_price(

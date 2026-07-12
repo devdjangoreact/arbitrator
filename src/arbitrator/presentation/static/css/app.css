@@ -423,7 +423,7 @@
 }
 #page-monitors .hs-table-scroll {
   flex: none;
-  max-height: min(900px, 70vh);
+  max-height: 690px; /* ~20 rows + header visible */
   min-height: 200px;
 }
 #page-monitors .hs-table {
@@ -613,3 +613,11 @@
   position: relative;
 }
 .hidden { display: none !important; }
+
+/* Settings page: must scroll */
+#page-settings.page.active {
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+}

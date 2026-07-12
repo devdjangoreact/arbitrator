@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 from collections.abc import Mapping
 from datetime import UTC, datetime
@@ -36,7 +37,7 @@ class ScreenerSerializer:
         market_cache: MarketDataCacheMemory | None = None,
     ) -> None:
         self._exchanges = list(settings.enabled_exchanges)
-        self._ticker_max_inner_spread_pct = settings.ticker_max_inner_spread_pct
+        self._ticker_max_inner_spread_pct = UIConfigManager.get_config().ticker_max_inner_spread_pct
         self._spread_resolver = (
             ExecutableSpreadResolver(settings, market_cache)
             if market_cache is not None

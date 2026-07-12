@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import math
 import uuid
@@ -57,7 +58,7 @@ class HedgedExecutionService:
         self._settings = settings
         self._market_cache = market_cache
         self._dry_run = dry_run
-        self._tolerance = Decimal(str(settings.leg_imbalance_tolerance_pct))
+        self._tolerance = Decimal(str(UIConfigManager.get_config().leg_imbalance_tolerance_pct))
         self._notifier = notifier
         self._universe = universe
         self._spot_gateways: Mapping[str, SpotGateway] = spot_gateways or {}
@@ -404,7 +405,7 @@ class HedgedExecutionService:
         except Exception:
             logger.exception("spot hedge long failed | sym={} ex={}", spot_symbol, long_exchange_id)
             # Rollback futures short
-            if self._settings.execution_rollback_enabled and filled_short > _ZERO:
+            if UIConfigManager.get_config().execution_rollback_enabled and filled_short > _ZERO:
                 await self._close_full_leg(short_gw, symbol)
             return self._failed(action, symbol, "spot_long_leg_failed")
 
@@ -603,7 +604,7 @@ class HedgedExecutionService:
         filled_short: Decimal,
     ) -> ExecutionOutcome:
         rolled = False
-        if self._settings.execution_rollback_enabled and filled_short > _ZERO:
+        if UIConfigManager.get_config().execution_rollback_enabled and filled_short > _ZERO:
             rolled = await self._close_full_leg(short_gw, symbol)
         short_leg = LegExecution(
             exchange_id=short_exchange_id, side="sell", symbol=symbol,
@@ -845,7 +846,7 @@ class HedgedExecutionService:
         # Typically margin required = notional / leverage. Assuming cross margin and buffer.
         # This acts as a conservative check (leverage=1) if leverage isn't tracked here,
         # or we can use default leverage from settings.
-        leverage = float(self._settings.opp_default_leverage)
+        leverage = float(UIConfigManager.get_config().opp_default_leverage)
         if leverage <= 0:
             leverage = 1.0
 

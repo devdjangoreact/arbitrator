@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import collections
 import threading
@@ -56,14 +57,14 @@ class HistoricalScreenerWorker:
         self._stop = threading.Event()
         self._lock = threading.Lock()
 
-        self._lookback_seconds = int(self._settings.historical_screener_lookback_minutes * 60)
-        self._spread_threshold_pct = self._settings.historical_screener_spread_threshold_pct
+        self._lookback_seconds = int(UIConfigManager.get_config().historical_screener_lookback_minutes * 60)
+        self._spread_threshold_pct = UIConfigManager.get_config().historical_screener_spread_threshold_pct
         self._min_volume_usdt = getattr(self._settings, "historical_screener_min_volume_usdt", 0.0)
 
         self._opportunities: dict[str, HistoricalOpportunity] = {}
         self._status: str = "Idle"
         self._thread: threading.Thread | None = None
-        self._enabled = bool(self._settings.historical_screener_enabled)
+        self._enabled = bool(UIConfigManager.get_config().historical_screener_enabled)
 
         # History: symbol -> pair(short_ex, long_ex) -> deque of (timestamp, spread)
         self._history: dict[str, dict[tuple[str, str], collections.deque[tuple[float, float]]]] = (
@@ -123,7 +124,7 @@ class HistoricalScreenerWorker:
                 self._min_volume_usdt = min_volume_usdt
 
     def _run(self) -> None:
-        interval = self._settings.historical_screener_scan_interval_seconds
+        interval = UIConfigManager.get_config().historical_screener_scan_interval_seconds
         while not self._stop.is_set():
             try:
                 self._scan()

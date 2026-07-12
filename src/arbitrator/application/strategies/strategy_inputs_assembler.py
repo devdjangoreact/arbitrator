@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 from decimal import Decimal
 
@@ -34,8 +35,8 @@ class StrategyInputsAssembler:
         now_ms: int,
     ) -> StrategyInputs:
         exchange_ids = {short_exchange_id, long_exchange_id}
-        max_age_ms = int(self._settings.quote_max_age_seconds * 1000)
-        funding_max_age_ms = int(self._settings.funding_refresh_seconds * 3 * 1000)
+        max_age_ms = int(UIConfigManager.get_config().quote_max_age_seconds * 1000)
+        funding_max_age_ms = int(UIConfigManager.get_config().funding_refresh_seconds * 3 * 1000)
 
         futures_quotes: dict[str, Quote] = {}
         spot_quotes: dict[str, Quote] = {}

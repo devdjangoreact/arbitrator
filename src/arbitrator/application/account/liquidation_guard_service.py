@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import threading
 from typing import TYPE_CHECKING
@@ -107,7 +108,7 @@ class LiquidationGuardService:
 
             # Determine leverage: estimate from notional/collateral ratio.
             # Without real exchange data we use the default leverage from settings.
-            leverage = float(self._settings.opp_default_leverage)
+            leverage = float(UIConfigManager.get_config().opp_default_leverage)
 
             liq_price = self._liquidation_price(entry, leverage, leg.side)
             if liq_price is None:

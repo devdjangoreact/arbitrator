@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 
 from arbitrator.application.app_runtime import AppRuntime
 from arbitrator.config.logger import logger
+from arbitrator.presentation.api.routers.config import router as config_router
 from arbitrator.config.settings import Settings
 from arbitrator.presentation.ws.historical_screener_ws_handler import HistoricalScreenerWsHandler
 from arbitrator.presentation.ws.opportunity_ws_handler import OpportunityWsHandler
@@ -62,6 +63,7 @@ class FastApiApp:
         async def index() -> FileResponse:
             return FileResponse(self._static_dir / "index.html")
 
+        app.include_router(config_router)
         app.mount("/static", StaticFiles(directory=self._static_dir), name="static")
 
         screener_handler = ScreenerWsHandler(

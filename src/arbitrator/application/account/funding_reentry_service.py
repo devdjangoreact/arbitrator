@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import threading
 from typing import TYPE_CHECKING, Any
@@ -253,7 +254,7 @@ class FundingReentryService:
         min_b = self._min_notional_for_exchange(symbol, long_ex, long_price)
         if min_a is None or min_b is None:
             return None
-        floor = self._settings.screener_auto_trade_notional_usdt
+        floor = UIConfigManager.get_config().screener_auto_trade_notional_usdt
         return max(min_a, min_b, floor)
 
     def _get_mid(self, exchange_id: str, symbol: str) -> float | None:

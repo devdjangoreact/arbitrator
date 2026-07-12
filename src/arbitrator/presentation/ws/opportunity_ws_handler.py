@@ -1,4 +1,5 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
 import asyncio
 import json
@@ -277,7 +278,7 @@ class OpportunityWsHandler:
         elif msg_type == "opportunity.set_leverage":
             session.set_leverage(
                 str(payload.get("exchange_id", "")),
-                int(payload.get("leverage", self._settings.opp_default_leverage)),
+                int(payload.get("leverage", UIConfigManager.get_config().opp_default_leverage)),
             )
             action_result = ActionResultDto(
                 success=True, message="leverage updated", action="set_leverage"
@@ -372,7 +373,7 @@ class OpportunityWsHandler:
 
         volume_usdt = float(
             self._decimal_from(payload, "volume_usdt", None)
-            or Decimal(str(self._settings.opp_accumulate_step_usdt))
+            or Decimal(str(UIConfigManager.get_config().opp_accumulate_step_usdt))
         )
         amount = volume_usdt / long_price
 
@@ -439,7 +440,7 @@ class OpportunityWsHandler:
                 close_percent=close_percent,
             )
         volume = self._decimal_from(payload, "volume_usdt", session_default=None)
-        notional = volume if volume is not None else Decimal(str(self._settings.opp_accumulate_step_usdt))
+        notional = volume if volume is not None else Decimal(str(UIConfigManager.get_config().opp_accumulate_step_usdt))
         price = self._long_entry_price(stream_worker, long_ex)
         if price is None or price <= Decimal("0"):
             return ExecutionOutcome(
