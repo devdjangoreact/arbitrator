@@ -1,0 +1,11 @@
+---
+description: Rules regarding file and code preservation
+globs: *
+---
+
+# Preserve Unused Code and Files
+
+- **Do NOT delete extra files**: Leave scratchpads, test scripts, and experimental files intact.
+- **Do NOT delete unused code**: Leave dead code, commented-out logic, and unused functions alone during refactoring unless explicitly instructed to remove them.
+
+The user keeps these around for reference and future development.

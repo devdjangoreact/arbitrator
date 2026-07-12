@@ -5,15 +5,15 @@ from collections.abc import AsyncIterator, Sequence
 from typing import Literal
 
 from arbitrator.domain.account.closed_position_leg import ClosedPositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
 from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
-from arbitrator.domain.account.position_leg import PositionLeg
+from arbitrator.domain.market.ticker import Ticker
+from arbitrator.domain.market.trade_tick import TradeTick
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.market.ticker import Ticker
 from arbitrator.domain.universe.token_identity import CurrencyNetworkInfo
-from arbitrator.domain.market.trade_tick import TradeTick
 
 
 class ExchangeGateway(ABC):
@@ -161,8 +161,19 @@ class ExchangeGateway(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    @abstractmethod
+    async def fetch_ticker_once(self, symbol: str) -> Ticker | None:
+        raise NotImplementedError
+
     async def fetch_order_book_once(self, symbol: str, limit: int) -> OrderBookSnapshot:
         """One-shot REST fetch of the order book for a single symbol."""
+        raise NotImplementedError
+
+    @abstractmethod
+    async def fetch_ohlcv(self, symbol: str, timeframe: str, since_ms: int | None = None, limit: int | None = None) -> list[list[float | int]]:
+        """Fetch historical OHLCV data.
+        Returns: [[timestamp, open, high, low, close, volume], ...]
+        """
         raise NotImplementedError
 
     @abstractmethod

@@ -9,12 +9,11 @@ configured log directory.
 from __future__ import annotations
 
 import logging
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
 from types import FrameType
-from typing import TYPE_CHECKING, Protocol, cast
+from typing import TYPE_CHECKING, Protocol, TextIO, cast
 
 from loguru import logger as loguru_logger
 
@@ -173,6 +172,24 @@ def _install_stdlib_intercept() -> None:
         lg.propagate = True
 
 
+class _LineAndHourRotator:
+    def __init__(self, max_lines: int = 50000):
+        self.max_lines = max_lines
+        self.current_hour = datetime.now().hour
+        self.line_count = 0
+
+    def __call__(self, message: Message, file: TextIO) -> bool:
+        now_hour = datetime.now().hour
+        if now_hour != self.current_hour:
+            self.current_hour = now_hour
+            self.line_count = 1
+            return True
+        self.line_count += 1
+        if self.line_count >= self.max_lines:
+            self.line_count = 1
+            return True
+        return False
+
 def init_logger(log_dir: str = "logs", console_level: str = "INFO") -> None:
     """Configure global loguru sinks: colored stderr, base file, errors file, channel router."""
     log_path = Path(log_dir)
@@ -180,8 +197,6 @@ def init_logger(log_dir: str = "logs", console_level: str = "INFO") -> None:
 
     loguru_logger.remove()
 
-    day_stamp = datetime.now().strftime("%Y-%m-%d")
-    pid = os.getpid()
     global _ch_file_root
     _ch_file_root = log_path
 
@@ -193,10 +208,10 @@ def init_logger(log_dir: str = "logs", console_level: str = "INFO") -> None:
     )
 
     loguru_logger.add(
-        log_path / f"base_{day_stamp}_pid{pid}.log",
+        log_path / "base_{time:YYYY-MM-DD_HH}.log",
         format=FILE_FORMAT,
         level="DEBUG",
-        rotation="00:00",
+        rotation=_LineAndHourRotator(50000),
         retention="7 days",
         enqueue=True,
         catch=True,
@@ -212,10 +227,10 @@ def init_logger(log_dir: str = "logs", console_level: str = "INFO") -> None:
     )
 
     loguru_logger.add(
-        log_path / f"errors_{day_stamp}_pid{pid}.log",
+        log_path / "errors_{time:YYYY-MM-DD_HH}.log",
         format=FILE_FORMAT,
         level="ERROR",
-        rotation="00:00",
+        rotation=_LineAndHourRotator(50000),
         retention="30 days",
         enqueue=True,
         catch=True,

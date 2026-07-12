@@ -15,6 +15,7 @@ from arbitrator.presentation.dto.opportunity_dto import (
     ChartSeriesDto,
     ChartSnapshotDto,
     ExchangeInfoCardDto,
+    OpportunityFocusDto,
     OpportunityParamsDto,
     OpportunitySnapshotDto,
     OrderBookLevelDto,
@@ -22,7 +23,6 @@ from arbitrator.presentation.dto.opportunity_dto import (
     OrderGroupDto,
     StrategyCalculationRowDto,
 )
-from arbitrator.presentation.dto.opportunity_dto import OpportunityFocusDto
 from arbitrator.presentation.dto.orders_dto import OrdersSnapshotDto, OrdersSummaryDto
 from arbitrator.presentation.dto.screener_dto import (
     ExchangePricesDto,

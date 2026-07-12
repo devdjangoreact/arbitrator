@@ -178,6 +178,17 @@ class FakeSpotGateway(SpotGateway):
 # Service factory
 # ---------------------------------------------------------------------------
 
+class FakeMarketCache:
+    def get_market_info(self, exchange_id: str, symbol: str) -> object:
+        from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+        return SymbolMarketInfo(
+            exchange_id=exchange_id, symbol=symbol, base_asset="DOGE",
+            min_order_volume_usdt=5.0, min_amount_contracts=1.0, contract_size=1.0,
+            unified_symbol=symbol, native_market_id=symbol, max_order_volume_usdt=100000.0,
+        )
+    def get_usdt_balance(self, exchange_id: str) -> float | None:
+        return 10000.0
+
 def _service(
     short: FakeFuturesGateway,
     spot: FakeSpotGateway | None = None,
@@ -187,11 +198,14 @@ def _service(
 ) -> HedgedExecutionService:
     settings = Settings(**overrides)
     spot_gws = {LONG_EX: spot} if spot is not None else {}
+    # If the fallback futures path is tested, we also need a futures gateway for LONG_EX.
+    # We supply a fake for SHORT_EX and LONG_EX here so standard _enter doesn't fail.
     return HedgedExecutionService(
-        {SHORT_EX: short},
+        {SHORT_EX: short, LONG_EX: FakeFuturesGateway(LONG_EX)},
         settings,
         dry_run=dry_run,
         spot_gateways=spot_gws,
+        market_cache=FakeMarketCache(),
     )
 
 
@@ -507,6 +521,7 @@ def test_futures_futures_strategy_does_not_use_spot_gateway() -> None:
         {SHORT_EX: short, LONG_EX: long_fut},
         Settings(),
         spot_gateways={LONG_EX: spot},
+        market_cache=FakeMarketCache(),
     )
     _run(svc.open(
         symbol=SYMBOL,

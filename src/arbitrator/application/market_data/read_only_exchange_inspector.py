@@ -5,10 +5,10 @@ import asyncio
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.account.exchange_account_snapshot import ExchangeAccountSnapshot
-from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
 from arbitrator.domain.account.open_order_leg import OpenOrderLeg
-from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
 from arbitrator.domain.account.position_leg import PositionLeg
+from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
+from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
 from arbitrator.domain.market.ticker import Ticker
 from arbitrator.exchanges.ccxt_base import CcxtBase
 from arbitrator.exchanges.factory import Factory
@@ -32,7 +32,7 @@ class ReadOnlyExchangeInspector:
         return tuple(self._settings.enabled_exchanges)
 
     async def verify_exchange(self, exchange_id: str) -> ExchangeConnectionStatus:
-        gateway = self._open_gateway(exchange_id)
+        gateway = self._open_gateway(exchange_id, mode="private")
         try:
             return await gateway.verify_connection()
         finally:
@@ -48,7 +48,7 @@ class ReadOnlyExchangeInspector:
         *,
         include_symbol_count: bool = False,
     ) -> ExchangeAccountSnapshot:
-        gateway = self._open_gateway(exchange_id)
+        gateway = self._open_gateway(exchange_id, mode="private")
         try:
             connection = await gateway.probe_connection()
             positions: tuple[PositionLeg, ...] = ()
@@ -82,7 +82,7 @@ class ReadOnlyExchangeInspector:
         return list(await asyncio.gather(*tasks))
 
     async def fetch_ticker(self, exchange_id: str, symbol: str) -> Ticker | None:
-        gateway = self._open_gateway(exchange_id)
+        gateway = self._open_gateway(exchange_id, mode="public")
         try:
             return await gateway.fetch_ticker_once(symbol)
         finally:
@@ -94,21 +94,21 @@ class ReadOnlyExchangeInspector:
         symbol: str,
         limit: int,
     ) -> OrderBookSnapshot:
-        gateway = self._open_gateway(exchange_id)
+        gateway = self._open_gateway(exchange_id, mode="public")
         try:
             return await gateway.fetch_order_book_once(symbol, limit)
         finally:
             await gateway.close()
 
     async def list_swap_symbols(self, exchange_id: str) -> list[str]:
-        gateway = self._open_gateway(exchange_id)
+        gateway = self._open_gateway(exchange_id, mode="public")
         try:
             return await gateway.list_symbols()
         finally:
             await gateway.close()
 
-    def _open_gateway(self, exchange_id: str) -> CcxtBase:
-        named = self._factory.create(exchange_id)
+    def _open_gateway(self, exchange_id: str, mode: str = "public") -> CcxtBase:
+        named = self._factory.create(exchange_id, mode=mode)
         gateway = named.gateway
         if not isinstance(gateway, CcxtBase):
             logger.error("Gateway is not CcxtBase | exchange={}", exchange_id)

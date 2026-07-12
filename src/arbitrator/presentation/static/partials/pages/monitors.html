@@ -1,0 +1,280 @@
+    <div class="page" id="page-monitors">
+      <div class="card hs-card">
+        <div class="mc-header hs-toggle" id="hs-toggle" role="button" tabindex="0">
+          <h2 class="hs-title">
+            Historical Screener
+            <span class="hs-hint">(Click to collapse/expand)</span>
+            <span id="hs-status" class="hs-status">Idle</span>
+          </h2>
+          <span class="hs-chevron" id="hs-chevron">▼</span>
+        </div>
+
+        <div id="hist-screener-body" class="hs-body">
+          <div class="screener-params hs-filters">
+             <div class="hs-filter-field">
+               <label>Time Window (seconds)</label>
+               <input type="text" id="hs-filter-lookback" value="3600">
+             </div>
+             <div class="hs-filter-field">
+               <label>Min Spread %</label>
+               <input type="text" id="hs-filter-spread" value="1.0">
+             </div>
+             <div class="hs-filter-field">
+               <label>Min 24h Vol (USDT)</label>
+               <input type="text" id="hs-filter-vol" value="0">
+             </div>
+             <button class="btn btn-primary hs-btn-start" id="hs-btn-start" type="button">Start Monitoring</button>
+             <button class="btn btn-danger" id="hs-btn-stop" type="button">Stop Monitoring</button>
+          </div>
+
+          <div class="table-scroll hs-table-scroll">
+            <table class="data-table hs-table">
+              <thead>
+                <tr>
+                  <th>Symbol</th>
+                  <th>Exchanges</th>
+                  <th>Funding Rate</th>
+                  <th>Next Funding</th>
+                  <th>Funding Spread</th>
+                  <th>Price</th>
+                  <th id="hs-sort-vol">Volume USDT ↕</th>
+                  <th class="hs-th-action">Action</th>
+                </tr>
+              </thead>
+              <tbody id="hist-tbody">
+                <tr class="empty-row"><td colspan="8">No opportunities found. Click Start Monitoring.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="monitors-grid" id="monitors-grid" style="display: flex; flex-wrap: wrap; gap: 24px; padding: 24px; align-items: flex-start;"></div>
+    </div>
+
+    <!-- Live Card Template -->
+    <template id="live-card-template">
+      <div class="live-card" style="border: 1px solid #1e293b; border-radius: 8px; overflow: hidden; background: #1f2937; color: #d1d5db; width: 450px; display: flex; flex-direction: column; font-family: sans-serif;">
+
+        <!-- Header -->
+        <div class="lc-header" style="padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #374151;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="color: #9ca3af; font-size: 1.2em;">★</span>
+            <h3 class="lc-symbol" style="margin: 0; font-size: 1.2em; color: white; font-weight: bold;">SYMBOL</h3>
+            <span style="color: #10b981; font-size: 1.2em; transform: rotate(45deg);">📌</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9em;">
+            <span class="lc-ex1-name-header" style="color: #fca5a5; text-decoration: underline;">EXCHANGE1</span>
+            <span style="color: #ef4444;">↓</span>
+            <span style="color: #6b7280;">-</span>
+            <span class="lc-ex2-name-header" style="color: #34d399; text-decoration: underline;">EXCHANGE2</span>
+            <span style="color: #10b981;">↑</span>
+          </div>
+        </div>
+
+        <!-- Strategy Params -->
+        <div class="lc-params" style="padding: 16px; display: flex; flex-direction: column; gap: 12px; font-size: 0.9em;">
+
+          <div style="display: flex; align-items: center;">
+             <label style="width: 100px; color: #9ca3af;">Side:</label>
+             <div style="display: flex; background: #374151; border-radius: 4px; overflow: hidden;">
+                <button class="lc-param-side-auto active" style="padding: 4px 12px; border: none; background: #10b981; color: white; cursor: pointer; display: flex; align-items: center; gap: 4px;">Auto <span style="font-size: 0.8em;">✓</span></button>
+                <button class="lc-param-side-long" style="padding: 4px 12px; border: none; background: transparent; color: #9ca3af; cursor: pointer;">LONG</button>
+                <button class="lc-param-side-short" style="padding: 4px 12px; border: none; background: transparent; color: #9ca3af; cursor: pointer;">SHORT</button>
+             </div>
+          </div>
+
+          <div style="display: flex; align-items: center;">
+             <label style="width: 100px; color: #9ca3af;">Open Spread:</label>
+             <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                <div style="position: relative; flex: 1;">
+                  <input type="number" class="lc-param-open-spread" value="23.89" style="width: 100%; padding: 4px 8px; background: #374151; border: 1px solid #4b5563; border-radius: 4px; color: white; box-sizing: border-box;">
+                  <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 0.8em;">✓</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span style="color: #9ca3af;">T:</span>
+                  <div style="position: relative; width: 50px;">
+                    <input type="number" class="lc-param-open-t" value="2" style="width: 100%; padding: 4px 8px; background: #374151; border: 1px solid #4b5563; border-radius: 4px; color: white; box-sizing: border-box;">
+                  </div>
+                  <span style="color: #6b7280; font-size: 0.8em;">✓</span>
+                </div>
+             </div>
+          </div>
+
+          <div style="display: flex; align-items: center;">
+             <label style="width: 100px; color: #9ca3af;">Close Spread:</label>
+             <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                <div style="position: relative; flex: 1;">
+                  <input type="number" class="lc-param-close-spread" value="23.19" style="width: 100%; padding: 4px 8px; background: #374151; border: 1px solid #4b5563; border-radius: 4px; color: white; box-sizing: border-box;">
+                  <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 0.8em;">✓</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span style="color: #9ca3af;">T:</span>
+                  <div style="position: relative; width: 50px;">
+                    <input type="number" class="lc-param-close-t" value="2" style="width: 100%; padding: 4px 8px; background: #374151; border: 1px solid #4b5563; border-radius: 4px; color: white; box-sizing: border-box;">
+                  </div>
+                  <span style="color: #6b7280; font-size: 0.8em;">✓</span>
+                </div>
+             </div>
+          </div>
+
+          <div style="display: flex; align-items: center;">
+             <label style="width: 100px; color: #9ca3af;">Order Size:</label>
+             <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                <input type="number" class="lc-param-order-size" value="500" style="flex: 1; padding: 4px 8px; background: #374151; border: 1px solid #4b5563; border-radius: 4px; color: white; box-sizing: border-box;">
+                <span style="color: #9ca3af; white-space: nowrap;">≈312.48 $ ✓</span>
+             </div>
+          </div>
+
+          <div style="display: flex; align-items: center;">
+             <label style="width: 100px; color: #9ca3af;">Max orders:</label>
+             <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                <input type="number" class="lc-param-max-orders" value="0" style="flex: 1; padding: 4px 8px; background: #374151; border: 1px solid #4b5563; border-radius: 4px; color: white; box-sizing: border-box;">
+                <span style="color: #6b7280; font-size: 0.8em;">✓</span>
+             </div>
+          </div>
+
+          <div style="display: flex; align-items: center;">
+             <label style="width: 100px; color: #9ca3af;">Allowed size:</label>
+             <div style="flex: 1; color: #34d399; font-weight: bold;">
+                <span class="lc-val-allowed-size">0/ Max:4000</span>
+             </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+             <label style="width: 100px; color: #9ca3af; margin: 0;">Force Stop:</label>
+             <input type="checkbox" class="lc-param-force-stop" style="background: transparent; border: 1px solid #4b5563; border-radius: 2px;">
+             <span style="color: #6b7280; font-size: 0.8em;">✓</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+             <label style="width: 100px; color: #9ca3af; margin: 0;">Total Stop:</label>
+             <input type="checkbox" class="lc-param-total-stop" style="background: transparent; border: 1px solid #4b5563; border-radius: 2px;">
+             <span style="color: #6b7280; font-size: 0.8em;">✓</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+             <label style="width: 100px; color: #9ca3af; margin: 0;">Is Active?:</label>
+             <div style="display: flex; gap: 8px; flex: 1;">
+                <button class="lc-btn-start" style="padding: 4px 16px; background: #374151; color: #9ca3af; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 4px;">▶ Start</button>
+                <button class="lc-btn-stop" style="padding: 4px 16px; background: #991b1b; color: white; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 4px;">■ Stop</button>
+                <button class="lc-btn-restart" style="padding: 4px 16px; background: #374151; color: #60a5fa; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 4px;">⟳ Restart</button>
+             </div>
+          </div>
+        </div>
+
+        <!-- Exchange Data Columns -->
+        <div class="lc-exchanges" style="display: flex; padding: 0 16px 16px 16px; font-size: 0.85em; color: #9ca3af;">
+          <div style="flex: 1; padding-right: 16px;">
+             <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+                <div style="font-weight: bold; color: white; text-transform: uppercase;" class="lc-ex1-name-col">GATEIO</div>
+                <div style="display: flex; justify-content: space-between;"><span>Funding rate:</span> <span class="lc-ex1-funding" style="color: #10b981; font-weight: bold;">0.005%</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Next Funding</span> <span class="lc-ex1-next-fund">15:00:00 (01:56:02) | 4h</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Ask</span> <span class="lc-ex1-ask">0.69929</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Bid</span> <span class="lc-ex1-bid">0.69087</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Size</span> <span class="lc-ex1-size">-</span></div>
+
+                <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                  <span>Leverage</span>
+                  <span class="lc-ex1-leverage-display">10x (cross)</span>
+                  <button style="background: #4b5563; border: none; border-radius: 4px; padding: 2px 6px; cursor: pointer;">✏️</button>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 4px;">
+                  <span>Adjustment</span>
+                  <span>notification:</span>
+                  <div style="display: flex; gap: 4px;">
+                     <button style="background: #4b5563; color: white; border: none; border-radius: 4px; padding: 4px 8px; flex: 1;">Notify only</button>
+                     <button style="background: transparent; color: #9ca3af; border: 1px solid #4b5563; border-radius: 4px; padding: 4px 8px; flex: 1;">Adjust</button>
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 4px;"><span>Max size</span> <span class="lc-ex1-max-size">300000</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Price</span> <span class="lc-ex1-exec-price">-</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>P/L</span> <span class="lc-ex1-pnl">-</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Realized PNL</span> <span class="lc-ex1-realized">-</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Enter spread</span> <span class="lc-ex1-enter-spread">-%</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Orders</span> <span class="lc-ex1-orders">0</span></div>
+             </div>
+          </div>
+
+          <div style="flex: 1; padding-left: 16px;">
+             <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+                <div style="font-weight: bold; color: white; text-transform: uppercase;" class="lc-ex2-name-col">MEXC</div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Funding rate:</span> <span class="lc-ex2-funding" style="color: #ef4444; font-weight: bold;">0.005%</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Next Funding</span> <span class="lc-ex2-next-fund">15:00:00 (01:56:02) | 4h</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Ask</span> <span class="lc-ex2-ask">0.56054</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Bid</span> <span class="lc-ex2-bid">0.54913</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Size</span> <span class="lc-ex2-size">-</span></div>
+
+                <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                  <span style="visibility: hidden;">Leverage</span>
+                  <span class="lc-ex2-leverage-display">10x (cross)</span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 4px;">
+                  <span style="visibility: hidden;">Adjustment</span>
+                  <span style="visibility: hidden;">notification:</span>
+                  <div style="display: flex; gap: 4px; visibility: hidden;">
+                     <button style="background: #4b5563; color: white; border: none; border-radius: 4px; padding: 4px 8px; flex: 1;">Notify only</button>
+                     <button style="background: transparent; color: #9ca3af; border: 1px solid #4b5563; border-radius: 4px; padding: 4px 8px; flex: 1;">Adjust</button>
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 4px;"><span style="visibility: hidden;">Max size</span> <span class="lc-ex2-max-size">4000</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Price</span> <span class="lc-ex2-exec-price">-</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">P/L</span> <span class="lc-ex2-pnl">-</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Realized PNL</span> <span class="lc-ex2-realized">-</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Enter spread</span> <span class="lc-ex2-enter-spread">-%</span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="visibility: hidden;">Orders</span> <span class="lc-ex2-orders">0</span></div>
+             </div>
+          </div>
+        </div>
+
+        <!-- Spread Tracking & Chart -->
+        <div class="lc-spread-tracking" style="padding: 16px; border-top: 1px solid #374151; font-size: 0.9em;">
+           <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: #9ca3af; width: 90px;">Open spread:</span>
+                <span class="lc-track-open-curr" style="color: #34d399; font-weight: bold; font-size: 1.1em;">23.249</span>
+                <span style="color: #9ca3af; margin-left: auto;">Min: <span class="lc-track-open-min" style="color: #34d399;">-21.824</span></span>
+                <span style="color: #9ca3af;">Max: <span class="lc-track-open-max" style="color: #34d399;">23.531</span></span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: #9ca3af; width: 90px;">Close spread:</span>
+                <span class="lc-track-close-curr" style="color: #fca5a5; font-weight: bold; font-size: 1.1em; background: rgba(239, 68, 68, 0.1); padding: 2px 4px; border-radius: 4px;">27.344</span>
+                <span style="color: #9ca3af; margin-left: auto;">Min: <span class="lc-track-close-min" style="color: #fca5a5;">-19.013</span></span>
+                <span style="color: #9ca3af;">Max: <span class="lc-track-close-max" style="color: #fca5a5;">28.003</span></span>
+              </div>
+           </div>
+
+           <button style="background: #4b5563; color: white; border: none; border-radius: 4px; padding: 4px 12px; font-size: 0.8em; margin-bottom: 12px; cursor: pointer;">Spread history</button>
+
+           <div style="height: 100px; width: 100%; position: relative;">
+              <!-- Placeholder for Chart.js canvas -->
+              <canvas class="lc-chart-canvas" style="width: 100%; height: 100%;"></canvas>
+
+              <!-- CSS simulated chart for mockup accuracy -->
+              <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+                <!-- Right axis labels -->
+                <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 20px; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.7em; color: #6b7280; text-align: right;">
+                  <span>30</span><span>25</span><span>20</span><span>15</span><span>10</span>
+                </div>
+                <!-- Grid lines -->
+                <div style="position: absolute; left: 0; right: 25px; top: 10%; border-top: 1px dashed #374151;"></div>
+                <div style="position: absolute; left: 0; right: 25px; top: 30%; border-top: 1px dashed #374151;"></div>
+                <div style="position: absolute; left: 0; right: 25px; top: 50%; border-top: 1px dashed #374151;"></div>
+                <div style="position: absolute; left: 0; right: 25px; top: 70%; border-top: 1px dashed #374151;"></div>
+                <div style="position: absolute; left: 0; right: 25px; top: 90%; border-top: 1px dashed #374151;"></div>
+                <!-- Close spread line (red) -->
+                <div style="position: absolute; left: 0; right: 25px; top: 25%; height: 2px; background: repeating-linear-gradient(to right, #ef4444, #ef4444 2px, transparent 2px, transparent 4px);"></div>
+                <!-- Open spread line (green) -->
+                <div style="position: absolute; left: 0; right: 25px; top: 45%; height: 2px; background: repeating-linear-gradient(to right, #10b981, #10b981 2px, transparent 2px, transparent 4px);"></div>
+              </div>
+           </div>
+        </div>
+
+        <!-- Bottom Red Bar (Active Status Indicator?) -->
+        <div style="height: 4px; background: #ef4444; width: 100%;"></div>
+      </div>
+    </template>

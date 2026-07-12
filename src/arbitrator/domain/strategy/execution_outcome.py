@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from enum import Enum
+from enum import StrEnum
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
 
-class ExecutionStatus(str, Enum):
+class ExecutionStatus(StrEnum):
     """Terminal status of a hedged execution attempt."""
 
     success = "success"

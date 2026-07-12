@@ -12,16 +12,16 @@ from typing import Any, Literal
 
 import pytest
 
-from arbitrator.application.trading.live_auto_trader import LiveAutoTrader
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.trading.live_auto_trader import LiveAutoTrader
 from arbitrator.config.settings import Settings
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.market.order_book_level import OrderBookLevel
 from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
-from arbitrator.domain.account.position_leg import PositionLeg
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
 from arbitrator.domain.strategy.quote import Quote
 from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.market.ticker import Ticker
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -45,15 +45,15 @@ GATE = "gate"
 # ---------------------------------------------------------------------------
 
 def _settings(**overrides: Any) -> Settings:
-    defaults: dict[str, Any] = dict(
-        screener_auto_trade_max_positions=5,
-        screener_auto_trade_open_spread_pct=3.0,
-        screener_auto_trade_close_spread_pct=0.5,
-        screener_auto_trade_notional_usdt=10.0,
-        screener_auto_trade_check_seconds=2.0,
-        screener_auto_trade_unhedged_timeout_seconds=10.0,
-        anomaly_max_spread_pct=20.0,
-    )
+    defaults: dict[str, Any] = {
+        "screener_auto_trade_max_positions": 5,
+        "screener_auto_trade_open_spread_pct": 3.0,
+        "screener_auto_trade_close_spread_pct": 0.5,
+        "screener_auto_trade_notional_usdt": 10.0,
+        "screener_auto_trade_check_seconds": 2.0,
+        "screener_auto_trade_unhedged_timeout_seconds": 10.0,
+        "anomaly_max_spread_pct": 20.0,
+    }
     defaults.update(overrides)
     return Settings(**defaults)
 

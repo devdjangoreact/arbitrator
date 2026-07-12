@@ -9,13 +9,15 @@ from decimal import Decimal
 from fastapi import WebSocket, WebSocketDisconnect
 
 from arbitrator.application.app_runtime import AppRuntime
-from arbitrator.application.trading.auto_trading_engine import AutoTradingEngine
 from arbitrator.application.market_data.fee_snapshot_service import FeeSnapshotService
-from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
-from arbitrator.application.trading.paper_execution_gateway import PaperExecutionGateway
-from arbitrator.application.opportunities.opportunity_bootstrap_service import OpportunityBootstrapService
+from arbitrator.application.opportunities.opportunity_bootstrap_service import (
+    OpportunityBootstrapService,
+)
 from arbitrator.application.opportunities.opportunity_session_state import OpportunitySessionState
 from arbitrator.application.opportunities.opportunity_stream_worker import OpportunityStreamWorker
+from arbitrator.application.trading.auto_trading_engine import AutoTradingEngine
+from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
+from arbitrator.application.trading.paper_execution_gateway import PaperExecutionGateway
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
@@ -342,7 +344,7 @@ class OpportunityWsHandler:
 
     async def _execute_paper_trade(
         self,
-        paper: "PaperExecutionGateway",
+        paper: PaperExecutionGateway,
         stream_worker: OpportunityStreamWorker,
         swap_symbol: str,
         short_ex: str,
@@ -512,7 +514,9 @@ class OpportunityWsHandler:
         long_ex: str,
         accumulated_usdt: float,
     ) -> ActionResultDto | None:
-        from arbitrator.application.opportunities.opportunity_stream_worker import OpportunityStreamState
+        from arbitrator.application.opportunities.opportunity_stream_worker import (
+            OpportunityStreamState,
+        )
         if not isinstance(stream_state, OpportunityStreamState):
             return None
         signal = AutoTradingEngine.check_accumulate(

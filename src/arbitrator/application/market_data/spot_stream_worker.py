@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import threading
 from collections.abc import Mapping
 
@@ -67,10 +68,8 @@ class SpotStreamWorker:
             for t in tasks:
                 t.cancel()
             for gw in self._gateways.values():
-                try:
+                with contextlib.suppress(Exception):
                     await gw.close()
-                except Exception:
-                    pass
 
     async def _watch_exchange(self, exchange_id: str, gw: SpotGateway) -> None:
         delay = self._settings.ws_reconnect_delay_seconds

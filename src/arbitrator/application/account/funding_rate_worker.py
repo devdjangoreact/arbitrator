@@ -4,9 +4,9 @@ import asyncio
 import threading
 from collections.abc import Callable, Mapping, Sequence
 
+from arbitrator.application.account.token_identity_service import TokenIdentityService
 from arbitrator.application.market_data.fee_snapshot_service import FeeSnapshotService
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.account.token_identity_service import TokenIdentityService
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.exchange.named_exchange import NamedExchange

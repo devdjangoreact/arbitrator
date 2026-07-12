@@ -168,9 +168,7 @@ class CcxtPositionMapper:
             # while being closed. Only reject if there's no realizedPnl indicating closure.
             rpnl = CcxtPositionMapper._as_float(payload.get("realizedPnl"))
             last_update = payload.get("lastUpdateTimestamp")
-            if rpnl is not None and rpnl != 0.0 and last_update is not None:
-                return True
-            return False
+            return bool(rpnl is not None and rpnl != 0.0 and last_update is not None)
         if isinstance(info, dict):
             hold_vol = CcxtPositionMapper._as_float(info.get("holdVol"))
             if hold_vol is not None and hold_vol > 0.0:
@@ -184,9 +182,7 @@ class CcxtPositionMapper:
                 return True
         if CcxtPositionMapper._dict_has_close_volume(payload):
             return True
-        if CcxtPositionMapper._dict_has_closed_status(payload):
-            return True
-        return False
+        return bool(CcxtPositionMapper._dict_has_closed_status(payload))
 
     @staticmethod
     def _extract_realized_pnl(payload: dict[str, object]) -> float | None:
@@ -339,9 +335,7 @@ class CcxtPositionMapper:
         if cls._dict_has_cancelled_status(payload):
             return True
         info = payload.get("info")
-        if isinstance(info, dict) and cls._dict_has_cancelled_status(info):
-            return True
-        return False
+        return bool(isinstance(info, dict) and cls._dict_has_cancelled_status(info))
 
     @classmethod
     def _dict_has_cancelled_status(cls, data: dict[str, object]) -> bool:

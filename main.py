@@ -1,5 +1,20 @@
 from __future__ import annotations
 
+import sys
+import asyncio
+
+if sys.platform == "win32":
+    try:
+        asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
+        # Monkey-patch uvicorn to prevent it from forcing SelectorEventLoop in workers
+        import uvicorn.loops.asyncio
+        def _patched_factory(use_subprocess: bool = False):
+            return asyncio.ProactorEventLoop
+        uvicorn.loops.asyncio.asyncio_loop_factory = _patched_factory
+    except Exception:
+        pass
+
 import uvicorn
 
 from arbitrator.application.app_runtime import AppRuntime
@@ -25,6 +40,7 @@ def _run() -> None:
         host=_settings.fastapi_host,
         port=_settings.fastapi_port,
         reload=_settings.fastapi_reload,
+        loop="asyncio",
     )
 
 

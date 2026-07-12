@@ -5,16 +5,18 @@ from decimal import Decimal
 from typing import TYPE_CHECKING
 
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.opportunities.opportunity_strategy_service import OpportunityStrategyService
+from arbitrator.application.opportunities.opportunity_strategy_service import (
+    OpportunityStrategyService,
+)
 from arbitrator.application.strategies.strategy_inputs_assembler import StrategyInputsAssembler
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.strategy.quote import Quote
 from arbitrator.domain.strategy.strategy_engine import StrategyEngine
 from arbitrator.domain.strategy.strategy_math import StrategyMath
 from arbitrator.domain.strategy.strategy_table import StrategyTable
-from arbitrator.domain.market.ticker import Ticker
 
 if TYPE_CHECKING:
     from arbitrator.application.account.token_identity_service import TokenIdentityService
@@ -35,8 +37,8 @@ class StrategyTableService:
         assembler: StrategyInputsAssembler,
         engine: StrategyEngine,
         settings: Settings,
-        token_identity: "TokenIdentityService | None" = None,
-        exclusions_repo: "SymbolExclusionsRepository | None" = None,
+        token_identity: TokenIdentityService | None = None,
+        exclusions_repo: SymbolExclusionsRepository | None = None,
     ) -> None:
         self._cache = cache
         self._assembler = assembler

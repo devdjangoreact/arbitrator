@@ -86,9 +86,20 @@ class FakeGateway:
         return self._contracts.get(symbol, 0.0) * self._contract_size
 
 
+class FakeMarketCache:
+    def get_market_info(self, exchange_id: str, symbol: str) -> object:
+        from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+        return SymbolMarketInfo(
+            exchange_id=exchange_id, symbol=symbol, base_asset="DOGE",
+            min_order_volume_usdt=5.0, min_amount_contracts=1.0, contract_size=1.0,
+            unified_symbol=symbol, native_market_id=symbol, max_order_volume_usdt=100000.0,
+        )
+    def get_usdt_balance(self, exchange_id: str) -> float | None:
+        return 10000.0
+
 def _service(short: FakeGateway, long: FakeGateway, **overrides: object) -> HedgedExecutionService:
     settings = Settings(**overrides)
-    return HedgedExecutionService({"a": short, "b": long}, settings)
+    return HedgedExecutionService({"a": short, "b": long}, settings, market_cache=FakeMarketCache())
 
 
 def test_open_hedged_success() -> None:

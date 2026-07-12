@@ -30,7 +30,9 @@ from typing import Any, Literal
 
 import pytest
 
-from arbitrator.application.account.live_liquidation_guard_service import LiveLiquidationGuardService
+from arbitrator.application.account.live_liquidation_guard_service import (
+    LiveLiquidationGuardService,
+)
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.settings import Settings
 from arbitrator.domain.account.position_leg import PositionLeg
@@ -53,13 +55,13 @@ LONG_EX = "gate"
 # ---------------------------------------------------------------------------
 
 def _settings(**overrides: Any) -> Settings:
-    defaults: dict[str, Any] = dict(
-        live_liq_guard_enabled=True,
-        live_liq_guard_check_interval_seconds=5.0,
-        live_liq_guard_warning_pct_to_liq=80.0,
-        opp_default_leverage=10,
-        screener_auto_trade_notional_usdt=10.0,
-    )
+    defaults: dict[str, Any] = {
+        "live_liq_guard_enabled": True,
+        "live_liq_guard_check_interval_seconds": 5.0,
+        "live_liq_guard_warning_pct_to_liq": 80.0,
+        "opp_default_leverage": 10,
+        "screener_auto_trade_notional_usdt": 10.0,
+    }
     defaults.update(overrides)
     return Settings(**defaults)
 

@@ -13,25 +13,31 @@ from typing import ClassVar, Literal
 import aiohttp
 import ccxt.pro as ccxtpro
 import certifi
-from ccxt.base.errors import BadSymbol, ExchangeError, NetworkError, RateLimitExceeded, UnsubscribeError
+from ccxt.base.errors import (
+    BadSymbol,
+    ExchangeError,
+    NetworkError,
+    RateLimitExceeded,
+    UnsubscribeError,
+)
 
 from arbitrator.config.ccxt_position_mapper import CcxtPositionMapper
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.account.closed_position_leg import ClosedPositionLeg
+from arbitrator.domain.account.open_order_leg import OpenOrderLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
 from arbitrator.domain.exchange.exchange_gateway import ExchangeGateway
-from arbitrator.domain.account.open_order_leg import OpenOrderLeg
 from arbitrator.domain.market.order_book_level import OrderBookLevel
 from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
-from arbitrator.domain.account.position_leg import PositionLeg
+from arbitrator.domain.market.ticker import Ticker
+from arbitrator.domain.market.trade_tick import TradeTick
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo, SymbolMarketInfoParser
 from arbitrator.domain.universe.symbol_normalizer import SymbolNormalizer
-from arbitrator.domain.market.ticker import Ticker
 from arbitrator.domain.universe.token_identity import CurrencyNetworkInfo
-from arbitrator.domain.market.trade_tick import TradeTick
 
 
 @dataclass
@@ -96,7 +102,10 @@ class CcxtBase(ExchangeGateway):
         config: dict[str, object] = {
             "session": session,
             "enableRateLimit": self._settings.enable_rate_limit,
-            "options": {"defaultType": self._settings.default_type},
+            "options": {
+                "defaultType": self._settings.default_type,
+                "adjustForTimeDifference": True,
+            },
         }
         if self._mode == "private":
             creds = self._settings.credentials_for(self.exchange_id)
@@ -528,6 +537,27 @@ class CcxtBase(ExchangeGateway):
             )
         return self._to_order_book_snapshot(symbol, payload)
 
+    async def fetch_ohlcv(
+        self,
+        symbol: str,
+        timeframe: str,
+        since_ms: int | None = None,
+        limit: int | None = None,
+    ) -> list[list[float | int]]:
+        client = await self._ensure_open()
+        await self._ensure_markets_loaded(client)
+        if not client.has.get("fetchOHLCV"):
+            logger.info("fetchOHLCV unsupported | exchange={}", self.exchange_id)
+            return []
+        try:
+            payload = await client.fetch_ohlcv(symbol, timeframe, since=since_ms, limit=limit)
+        except Exception:
+            logger.exception("fetch_ohlcv failed | exchange={} symbol={}", self.exchange_id, symbol)
+            return []
+        if not isinstance(payload, list):
+            return []
+        return payload
+
     async def fetch_open_orders(self, symbol: str | None = None) -> list[OpenOrderLeg]:
         creds = self._settings.credentials_for(self.exchange_id)
         if creds is None:
@@ -568,11 +598,6 @@ class CcxtBase(ExchangeGateway):
             logger.exception("fetch_open_positions failed | exchange={}", self.exchange_id)
             return []
         legs = await self._map_raw_positions(client, raw_positions)
-        logger.info(
-            "Open positions fetched | exchange={} count={}",
-            self.exchange_id,
-            len(legs),
-        )
         return legs
 
     async def watch_open_positions(self) -> AsyncIterator[list[PositionLeg]]:
@@ -1466,6 +1491,11 @@ class CcxtBase(ExchangeGateway):
             if isinstance(markets, dict) and markets:
                 return
             try:
+                if client.options.get("adjustForTimeDifference"):
+                    try:
+                        await client.load_time_difference()
+                    except Exception:
+                        logger.debug("load_time_difference failed before load_markets | exchange={}", self.exchange_id)
                 await client.load_markets()
             except Exception:
                 self._reset_markets_state(client)

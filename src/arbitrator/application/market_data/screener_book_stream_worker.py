@@ -12,8 +12,8 @@ from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.domain.exchange.exchange_gateway import ExchangeGateway
 from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
-from arbitrator.domain.strategy.quote import Quote
 from arbitrator.domain.market.ticker import Ticker
+from arbitrator.domain.strategy.quote import Quote
 from arbitrator.exchanges.factory import Factory
 
 

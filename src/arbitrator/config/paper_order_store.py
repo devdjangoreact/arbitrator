@@ -99,10 +99,7 @@ class PaperOrderStore:
                 return None
 
             entry = open_order.entry_price or open_order.price
-            if side == "sell":
-                price_pnl = (entry - price) * amount
-            else:
-                price_pnl = (price - entry) * amount
+            price_pnl = (entry - price) * amount if side == "sell" else (price - entry) * amount
 
             close_fee = round(amount * price * taker_fee_rate, 6)
             net_pnl = round(

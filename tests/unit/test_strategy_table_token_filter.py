@@ -6,15 +6,13 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
-
+from arbitrator.application.account.token_identity_service import TokenIdentityService
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.strategies.strategy_table_service import StrategyTableService
-from arbitrator.application.account.token_identity_service import TokenIdentityService
 from arbitrator.config.settings import Settings
-from arbitrator.domain.universe.symbol_exclusions_repository import SymbolExclusionsRepository
 from arbitrator.domain.market.ticker import Ticker
+from arbitrator.domain.universe.symbol_exclusions_repository import SymbolExclusionsRepository
 from arbitrator.domain.universe.token_identity import CurrencyNetworkInfo, MatchResult
-
 
 # ---------------------------------------------------------------------------
 # Helpers

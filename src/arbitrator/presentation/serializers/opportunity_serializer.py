@@ -9,17 +9,19 @@ from arbitrator.application.account.account_stream_worker import AccountStreamWo
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.opportunities.opportunity_cache_seeder import OpportunityCacheSeeder
 from arbitrator.application.opportunities.opportunity_session_state import OpportunitySessionState
+from arbitrator.application.opportunities.opportunity_strategy_service import (
+    OpportunityStrategyService,
+)
 from arbitrator.application.opportunities.opportunity_stream_worker import OpportunityStreamState
-from arbitrator.application.opportunities.opportunity_strategy_service import OpportunityStrategyService
 from arbitrator.config.settings import Settings
 from arbitrator.domain.market.order_book_level import OrderBookLevel
 from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.strategy.strategy_kind import StrategyKind
 from arbitrator.domain.strategy.strategy_result import StrategyResult
 from arbitrator.domain.universe.symbol_normalizer import SymbolNormalizer
-from arbitrator.domain.market.ticker import Ticker
 from arbitrator.presentation.dto.opportunity_dto import (
     ChartPointDto,
     ChartSeriesDto,

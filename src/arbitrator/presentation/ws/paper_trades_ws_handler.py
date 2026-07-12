@@ -29,15 +29,15 @@ class PaperTradesWsHandler:
     def __init__(
         self,
         settings: Settings,
-        paper_store: "PaperOrderStore | None" = None,
-        runtime: "AppRuntime | None" = None,
+        paper_store: PaperOrderStore | None = None,
+        runtime: AppRuntime | None = None,
     ) -> None:
         self._settings = settings
         self._paper_store = paper_store
         self._runtime = runtime
 
     @property
-    def _market_cache(self) -> "MarketDataCacheMemory | None":
+    def _market_cache(self) -> MarketDataCacheMemory | None:
         if self._runtime is not None:
             return self._runtime.market_cache
         return None
@@ -139,17 +139,17 @@ class PaperTradesWsHandler:
 
     @staticmethod
     def _build_groups(
-        display_orders: list["PaperOrder"],
-        all_orders: list["PaperOrder"],
-        market_cache: "MarketDataCacheMemory | None" = None,
+        display_orders: list[PaperOrder],
+        all_orders: list[PaperOrder],
+        market_cache: MarketDataCacheMemory | None = None,
     ) -> list[dict[str, object]]:
         """Group orders by pair_id and enrich with entry/exit spread and PnL."""
         # Build a lookup: pair_id -> all legs (for entry spread)
-        all_by_pair: dict[str, list["PaperOrder"]] = {}
+        all_by_pair: dict[str, list[PaperOrder]] = {}
         for o in all_orders:
             all_by_pair.setdefault(o.pair_id, []).append(o)
 
-        by_pair: dict[str, list["PaperOrder"]] = {}
+        by_pair: dict[str, list[PaperOrder]] = {}
         for o in display_orders:
             by_pair.setdefault(o.pair_id, []).append(o)
 
@@ -295,7 +295,7 @@ class PaperTradesWsHandler:
     def _get_funding_rate_pct(
         exchange_id: str,
         symbol: str,
-        market_cache: "MarketDataCacheMemory | None",
+        market_cache: MarketDataCacheMemory | None,
     ) -> float | None:
         if market_cache is None:
             return None
@@ -308,7 +308,7 @@ class PaperTradesWsHandler:
     def _get_mid_price(
         exchange_id: str,
         symbol: str,
-        market_cache: "MarketDataCacheMemory | None",
+        market_cache: MarketDataCacheMemory | None,
     ) -> float | None:
         if market_cache is None:
             return None

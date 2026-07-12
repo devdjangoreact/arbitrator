@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from arbitrator.application.app_runtime import AppRuntime
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
+from arbitrator.presentation.ws.historical_screener_ws_handler import HistoricalScreenerWsHandler
 from arbitrator.presentation.ws.opportunity_ws_handler import OpportunityWsHandler
 from arbitrator.presentation.ws.orders_ws_handler import OrdersWsHandler
 from arbitrator.presentation.ws.paper_trades_ws_handler import PaperTradesWsHandler
@@ -19,6 +20,7 @@ from arbitrator.presentation.ws.settings_ws_handler import SettingsWsHandler
 
 _WS_ENDPOINTS: list[str] = [
     "/ws/screener",
+    "/ws/historical_screener",
     "/ws/opportunity?symbol=&short=&long=",
     "/ws/orders",
     "/ws/paper_trades",
@@ -67,6 +69,10 @@ class FastApiApp:
             mock_provider=self._runtime.mock_provider,
             runtime=self._runtime,
         )
+        historical_screener_handler = HistoricalScreenerWsHandler(
+            settings=self._settings,
+            runtime=self._runtime,
+        )
         opportunity_handler = OpportunityWsHandler(
             settings=self._settings,
             mock_provider=self._runtime.mock_provider,
@@ -91,6 +97,10 @@ class FastApiApp:
         @app.websocket("/ws/screener")
         async def screener_ws(websocket: WebSocket) -> None:
             await screener_handler.handle(websocket)
+
+        @app.websocket("/ws/historical_screener")
+        async def historical_screener_ws(websocket: WebSocket) -> None:
+            await historical_screener_handler.handle(websocket)
 
         @app.websocket("/ws/opportunity")
         async def opportunity_ws(

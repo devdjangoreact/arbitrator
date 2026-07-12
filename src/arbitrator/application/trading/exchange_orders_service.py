@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
+import datetime as _dt
 import json
 import threading
 import time
-import datetime as _dt
 from datetime import datetime
 from pathlib import Path
 from typing import Literal
@@ -200,10 +201,8 @@ class ExchangeOrdersService:
                     exchange_id,
                 )
             finally:
-                try:
+                with contextlib.suppress(Exception):
                     await named.gateway.close()
-                except Exception:
-                    pass
         return all_legs
 
     def _group_legs(
@@ -230,7 +229,7 @@ class ExchangeOrdersService:
             open_by_symbol.setdefault(leg.symbol, []).append(leg)
 
         used_open: set[str] = set()
-        for symbol, legs in open_by_symbol.items():
+        for _symbol, legs in open_by_symbol.items():
             shorts = [l for l in legs if l.side == "short"]
             longs = [l for l in legs if l.side == "long"]
             for short in shorts:
@@ -452,8 +451,8 @@ class ExchangeOrdersService:
 
     @staticmethod
     def _infer_strategy_code(
-        short: "PositionLeg | ClosedPositionLeg",
-        long: "PositionLeg | ClosedPositionLeg",
+        short: PositionLeg | ClosedPositionLeg,
+        long: PositionLeg | ClosedPositionLeg,
     ) -> str:
         # ponytail: both legs futures = FF; spot detection will come with spot infra
         return "FF"
@@ -494,7 +493,7 @@ class ExchangeOrdersService:
         }
 
 
-_EPOCH_ZERO = datetime(1970, 1, 1, tzinfo=_dt.timezone.utc)
+_EPOCH_ZERO = datetime(1970, 1, 1, tzinfo=_dt.UTC)
 
 
 def _fmt_dt(dt: datetime | None) -> str:

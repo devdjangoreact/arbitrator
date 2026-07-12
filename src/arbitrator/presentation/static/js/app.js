@@ -15,6 +15,12 @@ function showPage(name, navEl) {
   } else if (typeof stopOpportunityWs === "function") {
     stopOpportunityWs();
   }
+
+  if (name === "monitors") {
+    if (typeof startMonitorsWs === "function") startMonitorsWs();
+  } else if (typeof stopMonitorsWs === "function") {
+    stopMonitorsWs();
+  }
 }
 
 function bindNavigation() {
@@ -43,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof initSettings === "function") initSettings();
   if (typeof initOpportunity === "function") initOpportunity();
   if (typeof initPaperTrades === "function") initPaperTrades();
+  if (typeof initMonitors === "function") initMonitors();
 });
 
 window.showPage = showPage;

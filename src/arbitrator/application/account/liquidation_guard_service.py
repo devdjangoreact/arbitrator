@@ -38,10 +38,10 @@ class LiquidationGuardService:
 
     def __init__(
         self,
-        store: "PaperOrderStore",
-        paper_gateway: "PaperExecutionGateway",
-        market_cache: "MarketDataCacheMemory",
-        settings: "Settings",
+        store: PaperOrderStore,
+        paper_gateway: PaperExecutionGateway,
+        market_cache: MarketDataCacheMemory,
+        settings: Settings,
         *,
         check_interval_seconds: float = 5.0,
         warning_pct_to_liq: float = 80.0,

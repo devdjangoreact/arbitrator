@@ -5,9 +5,9 @@ from typing import Literal
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.application.opportunities.opportunity_stream_worker import OpportunityStreamState
 from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.domain.strategy.quote import Quote
 from arbitrator.domain.strategy.strategy_math import StrategyMath
-from arbitrator.domain.market.ticker import Ticker
 
 
 class OpportunityCacheSeeder:

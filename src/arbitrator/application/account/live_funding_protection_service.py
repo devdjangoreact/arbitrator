@@ -9,8 +9,8 @@ from arbitrator.config.logger import logger
 from arbitrator.domain.account.position_leg import PositionLeg
 
 if TYPE_CHECKING:
-    from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
     from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+    from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
     from arbitrator.config.settings import Settings
     from arbitrator.domain.exchange.exchange_gateway import ExchangeGateway
 
@@ -23,10 +23,10 @@ class LiveFundingProtectionService:
 
     def __init__(
         self,
-        gateways: dict[str, "ExchangeGateway"],
-        execution_service: "HedgedExecutionService",
-        market_cache: "MarketDataCacheMemory",
-        settings: "Settings",
+        gateways: dict[str, ExchangeGateway],
+        execution_service: HedgedExecutionService,
+        market_cache: MarketDataCacheMemory,
+        settings: Settings,
         *,
         check_interval_seconds: float = 30.0,
         act_window_seconds: float = 300.0,
@@ -87,7 +87,7 @@ class LiveFundingProtectionService:
                     asyncio.shield(self._loop.create_future()),
                     timeout=self._interval,
                 )
-            except (asyncio.TimeoutError, asyncio.CancelledError):
+            except (TimeoutError, asyncio.CancelledError):
                 if self._stop.is_set():
                     raise asyncio.CancelledError
 

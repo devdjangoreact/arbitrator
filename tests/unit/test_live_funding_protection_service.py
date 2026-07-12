@@ -26,7 +26,9 @@ from typing import Any, Literal
 
 import pytest
 
-from arbitrator.application.account.live_funding_protection_service import LiveFundingProtectionService
+from arbitrator.application.account.live_funding_protection_service import (
+    LiveFundingProtectionService,
+)
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.settings import Settings
 from arbitrator.domain.account.position_leg import PositionLeg
@@ -55,15 +57,15 @@ FAR_MS = NOW_MS + 400_000    # 400s from now — outside act_window (300s)
 # ---------------------------------------------------------------------------
 
 def _settings(**overrides: Any) -> Settings:
-    defaults: dict[str, Any] = dict(
-        live_funding_protect_enabled=True,
-        live_funding_protect_check_interval_seconds=30.0,
-        live_funding_protect_act_window_seconds=300.0,
-        live_funding_protect_skip_within_seconds=60.0,
-        live_funding_protect_min_reopen_spread_pct=0.1,
-        screener_auto_trade_notional_usdt=10.0,
-        opp_default_leverage=10,
-    )
+    defaults: dict[str, Any] = {
+        "live_funding_protect_enabled": True,
+        "live_funding_protect_check_interval_seconds": 30.0,
+        "live_funding_protect_act_window_seconds": 300.0,
+        "live_funding_protect_skip_within_seconds": 60.0,
+        "live_funding_protect_min_reopen_spread_pct": 0.1,
+        "screener_auto_trade_notional_usdt": 10.0,
+        "opp_default_leverage": 10,
+    }
     defaults.update(overrides)
     return Settings(**defaults)
 

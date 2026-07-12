@@ -7,8 +7,8 @@ import aiohttp
 import ccxt.pro as ccxtpro
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
 from arbitrator.domain.market.ticker import Ticker
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
 from arbitrator.exchanges.ccxt_base import CcxtBase
 
 # MEXC does not return cost.min in its markets API — the actual minimum order
@@ -33,8 +33,19 @@ class Mexc(CcxtBase):
             info = info.model_copy(update={"min_order_volume_usdt": _MEXC_MIN_ORDER_USDT})
         return info
 
+    def _base_client_config(self, session: aiohttp.ClientSession) -> dict[str, object]:
+        config = super()._base_client_config(session)
+        options = config.get("options", {})
+        if isinstance(options, dict):
+            options["recvWindow"] = 10000
+            options["adjustForTimeDifference"] = True
+        config["options"] = options
+        return config
+
     def _create_client(self, session: aiohttp.ClientSession) -> ccxtpro.Exchange:
-        return ccxtpro.mexc(self._base_client_config(session))
+        client = ccxtpro.mexc(self._base_client_config(session))
+        client.has["fetchCurrencies"] = False
+        return client
 
     async def list_symbols(self) -> list[str]:
         symbols = await super().list_symbols()

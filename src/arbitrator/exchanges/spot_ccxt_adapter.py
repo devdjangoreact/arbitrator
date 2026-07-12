@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import ssl
 import time
 from collections.abc import AsyncIterator, Sequence
@@ -204,10 +205,8 @@ class SpotCcxtAdapter(SpotGateway):
 
     async def close(self) -> None:
         if self._client is not None:
-            try:
+            with contextlib.suppress(Exception):
                 await self._client.close()
-            except Exception:
-                pass
             self._client = None
         if self._session is not None:
             await self._session.close()

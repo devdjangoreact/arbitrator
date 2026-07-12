@@ -36,6 +36,18 @@ class MarketDataCacheMemory:
         with self._lock:
             return self._usdt_balances.get(exchange_id)
 
+    def get_all_quotes(self) -> list[Quote]:
+        with self._lock:
+            return list(self._quotes.values())
+
+    def get_all_funding(self) -> list[FundingInfo]:
+        with self._lock:
+            return list(self._funding.values())
+
+    def get_all_market_info(self) -> list[SymbolMarketInfo]:
+        with self._lock:
+            return list(self._market_info.values())
+
     def put_quote(self, quote: Quote) -> None:
         key = (quote.exchange_id, quote.symbol, quote.market_type)
         with self._lock:

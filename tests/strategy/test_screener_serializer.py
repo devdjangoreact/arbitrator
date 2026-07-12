@@ -7,6 +7,7 @@ from arbitrator.application.market_data.market_data_cache_memory import MarketDa
 from arbitrator.application.strategies.strategy_inputs_assembler import StrategyInputsAssembler
 from arbitrator.application.strategies.strategy_table_service import StrategyTableService
 from arbitrator.config.settings import Settings
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.domain.strategy.fee_schedule import FeeSchedule
 from arbitrator.domain.strategy.strategies.funding_diff_dates_calculator import (
     FundingDiffDatesCalculator,
@@ -24,7 +25,6 @@ from arbitrator.domain.strategy.strategies.futures_spot_2ex_calculator import (
 )
 from arbitrator.domain.strategy.strategy_engine import StrategyEngine
 from arbitrator.domain.strategy.strategy_kind import StrategyKind
-from arbitrator.domain.market.ticker import Ticker
 
 NOW_MS = int(time.time() * 1000)
 
@@ -103,9 +103,9 @@ def test_strategy_table_service_computes_futures_futures_live() -> None:
 
 
 def test_screener_serializer_uses_order_book_bid_ask_for_spread() -> None:
-    from arbitrator.presentation.serializers.screener_serializer import ScreenerSerializer
     from arbitrator.domain.market.order_book_level import OrderBookLevel
     from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
+    from arbitrator.presentation.serializers.screener_serializer import ScreenerSerializer
 
     symbol = "TLM/USDT:USDT"
     cache = MarketDataCacheMemory()

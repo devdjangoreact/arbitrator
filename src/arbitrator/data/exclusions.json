@@ -1,7 +1,8 @@
 {
   "symbols": [
-    "CAT/USDT:USDT",
     "ANTHROPIC/USDT:USDT",
-    "EDGE/USDT:USDT"
+    "CAT/USDT:USDT",
+    "EDGE/USDT:USDT",
+    "TRUMP/USDT:USDT"
   ]
 }

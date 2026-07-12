@@ -15,25 +15,6 @@ Always `.venv\Scripts\*.exe` — never global Python, never `poetry run`.
 | Run app | `.venv\Scripts\uvicorn.exe main:app` |
 | Rebuild UI | `.venv\Scripts\python.exe scripts/build_ui.py` |
 
-## Rules index (`.cursor/rules/`)
-
-| Topic | File |
-| ---- | ---- |
-| Layers, typing, Settings, markets | `architecture.mdc` |
-| Exchange I/O, bid/ask spreads | `exchange-data.mdc` |
-| Loguru logger | `logging.mdc` |
-| Compact code | `compact-code.mdc` |
-| graphify for code exploration (when useful) | `graphify.mdc` |
-| Tooling / venv | `tooling.mdc` |
-| Third-party APIs | `context7-lookup.mdc` |
-| UI partials | `ui-templates.mdc` |
-| Docs sync after structural edits | `documentation-sync.mdc` |
-
-## Specs
-
-- `specs/002-strategy-engine/` — strategy engine; per-strategy logic in `strategies/`
-- `specs/001-mockup-ui/` — UI mockup
-
 ## Agent workflow (save tokens)
 
 - **Scope prompts**: file + method/lines + expected vs actual; forbid whole-project reads.

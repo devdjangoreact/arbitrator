@@ -4,7 +4,6 @@ Tests use mocked CurrencyNetworkInfo — no real exchange calls.
 """
 from __future__ import annotations
 
-
 from arbitrator.domain.universe.token_identity import (
     CurrencyNetworkInfo,
     TokenIdentityComparer,

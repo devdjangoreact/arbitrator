@@ -39,8 +39,8 @@ class OrdersWsHandler:
         self,
         settings: Settings,
         mock_provider: MockDataProvider | None,
-        paper_store: "PaperOrderStore | None" = None,
-        runtime: "AppRuntime | None" = None,
+        paper_store: PaperOrderStore | None = None,
+        runtime: AppRuntime | None = None,
     ) -> None:
         self._settings = settings
         self._mock_provider = mock_provider
@@ -49,7 +49,7 @@ class OrdersWsHandler:
         self._last_summary: tuple[int, int] | None = None
 
     @property
-    def _exchange_orders_service(self) -> "ExchangeOrdersService | None":
+    def _exchange_orders_service(self) -> ExchangeOrdersService | None:
         if self._runtime is not None:
             return self._runtime.exchange_orders_service
         return None
@@ -187,7 +187,7 @@ class OrdersWsHandler:
             by_pair.setdefault(o.pair_id, []).append(o)
 
         groups: list[dict[str, object]] = []
-        for pair_id, legs in by_pair.items():
+        for _pair_id, legs in by_pair.items():
             sell_leg = next((l for l in legs if l.side == "sell"), None)
             buy_leg = next((l for l in legs if l.side == "buy"), None)
             is_open = any(l.status == "filled" for l in legs)
@@ -266,7 +266,7 @@ class OrdersWsHandler:
         return None
 
     @staticmethod
-    def _build_groups(orders: list["PaperOrder"]) -> list[dict[str, object]]:  # type: ignore[name-defined]
+    def _build_groups(orders: list[PaperOrder]) -> list[dict[str, object]]:  # type: ignore[name-defined]
         from arbitrator.domain.opportunity.paper_order import PaperOrder
 
         by_pair: dict[str, list[PaperOrder]] = {}

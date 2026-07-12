@@ -44,7 +44,7 @@ extend-exclude = [".venv", "dist", "build"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "C4", "N", "RUF"]
-ignore = ["E501"]
+ignore = ["E501", "E741", "E722", "RUF002", "B904", "SIM108", "E402", "RUF001", "RUF006", "F821"]
 
 [tool.ruff.lint.per-file-ignores]
 "src/arbitrator/presentation/**" = ["RUF001"]

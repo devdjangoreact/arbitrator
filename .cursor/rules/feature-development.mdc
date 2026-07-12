@@ -1,0 +1,17 @@
+---
+description: Rule for developing new features and large updates using the spec-kit approach
+globs: 
+  - specs/**/*
+alwaysApply: true
+---
+
+# Feature Development Process
+
+When adding large updates or new features to the project, you **MUST** use the "spec kit" process.
+
+This means you should:
+1. Create a new directory in `specs/` (e.g., `specs/005-history-screener-monitors/`).
+2. Create a `spec.md` document detailing the feature requirements, UI/UX, behavior, and data flow.
+3. Discuss and clarify any ambiguities with the user before writing code.
+4. After approval of the specification, create a `plan.md` dividing the implementation into logical steps.
+5. Follow the plan and implement the feature, testing thoroughly.

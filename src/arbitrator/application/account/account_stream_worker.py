@@ -9,10 +9,10 @@ import ccxt.pro as ccxtpro
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
 from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
+from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
 from arbitrator.domain.exchange.exchange_gateway import ExchangeGateway
 from arbitrator.domain.exchange.named_exchange import NamedExchange
-from arbitrator.domain.account.position_leg import PositionLeg
 from arbitrator.exchanges.factory import Factory
 
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+
 _API = "https://api.telegram.org/bot{token}/sendMessage"
 
 

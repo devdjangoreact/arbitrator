@@ -14,6 +14,7 @@ from arbitrator.domain.strategy.execution_outcome import (
     LegExecution,
 )
 
+
 class PaperExecutionGateway:
     """Simulates order placement against live prices without sending to exchange.
 

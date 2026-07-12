@@ -100,7 +100,7 @@ class Settings(BaseSettings):
     historical_screener_enabled: bool = False
     historical_screener_lookback_minutes: int = 60
     historical_screener_spread_threshold_pct: float = 1.0
-    historical_screener_scan_interval_seconds: float = 300.0
+    historical_screener_scan_interval_seconds: float = 5.0
 
     historical_monitor_open_spread_pct: float = 1.0
     historical_monitor_close_spread_pct: float = 0.1

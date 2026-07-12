@@ -10,12 +10,12 @@ from arbitrator.config.logger import logger
 from arbitrator.config.settings import Settings
 from arbitrator.config.telegram_notifier import TelegramNotifier
 from arbitrator.domain.account.position_leg import PositionLeg
+from arbitrator.domain.exchange.spot_gateway import SpotGateway
 from arbitrator.domain.strategy.execution_outcome import (
     ExecutionOutcome,
     ExecutionStatus,
     LegExecution,
 )
-from arbitrator.domain.exchange.spot_gateway import SpotGateway
 from arbitrator.domain.strategy.futures_execution_gateway import FuturesExecutionGateway
 
 if TYPE_CHECKING:

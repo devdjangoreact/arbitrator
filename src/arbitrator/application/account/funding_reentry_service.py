@@ -32,10 +32,10 @@ class FundingReentryService:
 
     def __init__(
         self,
-        store: "PaperOrderStore",
-        paper_gateway: "PaperExecutionGateway",
-        market_cache: "MarketDataCacheMemory",
-        settings: "Settings",
+        store: PaperOrderStore,
+        paper_gateway: PaperExecutionGateway,
+        market_cache: MarketDataCacheMemory,
+        settings: Settings,
         *,
         check_interval_seconds: float = 30.0,
         act_window_seconds: float = 300.0,
