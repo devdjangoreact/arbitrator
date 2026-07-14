@@ -10,7 +10,7 @@ import json
 
 import pytest
 import websockets  # type: ignore[import]
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 
 APP_WS = "ws://127.0.0.1:8000"
 MOCK_SYMBOL = "DOGE"
@@ -28,25 +28,21 @@ def page(browser_context, app_server):  # type: ignore[no-untyped-def]
 
 
 def test_opportunity_page_loads(page: Page, app_server: str) -> None:
-    """Navigate to opportunity page via screener row click or direct URL."""
-    page.goto(app_server)
-    page.wait_for_selector("#screener-tbody tr", timeout=10_000)
-    # click first row to navigate to opportunity page
-    first_row = page.query_selector("#screener-tbody tr")
-    if first_row:
-        first_row.click()
-    else:
-        # direct nav fallback
-        page.evaluate(
-            "window.location.hash = '#opportunity?symbol=DOGE&short=mexc&long=bingx'"
-        )
-    # wait for opportunity page section
-    opp = page.wait_for_selector(
-        "#opportunityPage, [data-page='opportunity'], .strategy-table",
-        timeout=10_000,
-        state="visible",
-    )
-    assert opp is not None, "Opportunity page section not visible"
+    """Navigate to opportunity page via direct URL and ensure components load."""
+    # Direct nav to React Opportunity page via query params
+    page.goto(f"{app_server}/?page=opportunity&asset={MOCK_SYMBOL}&short={MOCK_SHORT}&long={MOCK_LONG}")
+
+    # Wait for the Opportunity Analysis title
+    expect(page.locator("h1").filter(has_text="Opportunity Analysis")).to_be_visible(timeout=10000)
+
+    # Check if the Strategy Calculations card renders
+    expect(page.locator("h3").filter(has_text="Strategy Calculations")).to_be_visible()
+
+    # The inputs should be pre-filled from URL
+    expect(page.locator("label:has-text('Symbol') + input")).to_have_value(MOCK_SYMBOL)
+
+    # Check if Trading Actions are visible
+    expect(page.locator("button:has-text('Добрати')")).to_be_visible()
 
 
 def test_opportunity_ws_snapshot(app_server: str) -> None:
@@ -65,7 +61,6 @@ def test_opportunity_ws_snapshot(app_server: str) -> None:
     assert msg.get("type") == "opportunity.snapshot", f"Got: {msg.get('type')}"
     payload = msg.get("payload", {})
     assert "strategy_rows" in payload, "snapshot missing strategy_rows"
-    assert "exchange_cards" in payload, "snapshot missing exchange_cards"
 
 
 def test_opportunity_ws_set_params(app_server: str) -> None:

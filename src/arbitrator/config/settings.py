@@ -40,13 +40,12 @@ class Settings(BaseSettings):
 
     historical_trader_tick_seconds: float = 2.0  # Interval for auto-trader check
 
-
     fastapi_host: str = "127.0.0.1"
     fastapi_port: int = 8000
     fastapi_reload: bool = False
     app_title: str = "Arbitrator"
 
-    use_react_frontend: bool = False
+    use_react_frontend: bool = True
 
     ui_data_mode: Literal["mock_data", "live", "paper"] = "mock_data"
     mock_tick_seconds: float = 1.0
@@ -89,7 +88,6 @@ class Settings(BaseSettings):
     # DCA: skip if next funding is within this many seconds
 
     # Historical Screener & Monitor
-
 
     # Liquidation guard (paper mode)
 

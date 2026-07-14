@@ -1,122 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import { SettingsPage } from "./pages/SettingsPage";
+import { ScreenerPage } from "./pages/ScreenerPage";
+import { OpportunityPage } from "./pages/OpportunityPage";
+import { OrdersPage } from "./pages/OrdersPage";
+import { MonitorsPage } from "./pages/MonitorsPage";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState<string>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("page") || "screener";
+  });
+
+  const navigate = (page: string) => {
+    setCurrentPage(page);
+    window.history.pushState(null, "", `/?page=${page}`);
+  };
+
+  const navItems = [
+    { id: "settings", label: "Налаштування" },
+    { id: "screener", label: "Скрінер" },
+    { id: "monitors", label: "Історія Скрінера" },
+    { id: "orders", label: "Ордери" },
+    { id: "opportunity", label: "Opportunity" },
+  ];
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="flex h-screen w-full bg-gray-50 font-sans text-gray-900 overflow-hidden m-0 p-0">
+      {/* Sidebar Navigation */}
+      <nav className="w-64 shrink-0 bg-white border-r border-gray-200 flex flex-col h-full m-0 p-0">
+        <div className="p-4 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-indigo-600 m-0">Arbitrator</h2>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
+        <div className="flex-1 overflow-y-auto py-2">
+          <ul className="space-y-1 px-2 m-0">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => navigate(item.id)}
+                  className={`w-full text-left px-3 py-2 rounded-md transition-colors ${
+                    currentPage === item.id
+                      ? "bg-indigo-50 text-indigo-700 font-medium"
+                      : "text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </nav>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-full w-full m-0 p-0 overflow-hidden">
+        <main className="flex-1 overflow-y-auto w-full m-0 p-0">
+          {currentPage === "settings" && <SettingsPage />}
+          {currentPage === "screener" && <ScreenerPage />}
+          {currentPage === "monitors" && <MonitorsPage />}
+          {currentPage === "opportunity" && <OpportunityPage />}
+          {currentPage === "orders" && <OrdersPage />}
+        </main>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
