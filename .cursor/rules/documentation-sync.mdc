@@ -1,6 +1,13 @@
 ---
 description: Always update Cursor docs and rules at the end of every change. Keep .cursor/rules/*.mdc consistent with the codebase.
-alwaysApply: true
+globs:
+  - src/**/*
+  - main.py
+  - .cursor/rules/**/*
+  - README.md
+  - CLAUDE.md
+  - specs/**/*
+alwaysApply: false
 ---
 
 # Documentation sync rule

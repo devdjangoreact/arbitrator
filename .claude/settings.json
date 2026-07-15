@@ -1,41 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
-    "CLAUDE_CODE_USE_BEDROCK": "1",
-    "AWS_REGION": "us-east-1",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "us.anthropic.claude-sonnet-4-6",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "us.anthropic.claude-opus-4-6-v1",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "us.anthropic.claude-haiku-4-5-20251001-v1:0"
-  },
-  "availableModels": [
-    "sonnet",
-    "opus",
-    "haiku"
-  ],
-  "modelOverrides": {
-    "claude-sonnet-4-6": "us.anthropic.claude-sonnet-4-6",
-    "claude-opus-4-6": "us.anthropic.claude-opus-4-6-v1",
-    "claude-haiku-4-5": "us.anthropic.claude-haiku-4-5-20251001-v1:0"
-  },
-  "mcpServers": {
-    "context7": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@upstash/context7-mcp@latest"
-      ]
-    },
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@playwright/mcp@latest",
-        "--headless"
-      ]
-    }
+    "ANTHROPIC_BASE_URL": "http://localhost:4001",
+    "ANTHROPIC_AUTH_TOKEN": "sk-litellm-local",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "sonnet",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "opus",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "haiku",
+    "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1"
   },
   "permissions": {
-    "defaultMode": "bypassPermissions",
     "allow": [
       "Bash(*)",
       "Write(*)",
@@ -43,17 +16,45 @@
       "Read(*)",
       "Glob(*)",
       "Grep(*)"
-    ]
+    ],
+    "defaultMode": "bypassPermissions"
+  },
+  "model": "sonnet",
+  "availableModels": [
+    "sonnet",
+    "opus",
+    "haiku"
+  ],
+  "enabledPlugins": {
+    "ponytail@ponytail": true
+  },
+  "extraKnownMarketplaces": {
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    }
   },
   "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
   "hooks": {
-    "PostToolUse": [
+    "PreToolUse": [
       {
-        "matcher": "Edit|Write|MultiEdit",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "pwsh -File .claude/hooks/post-tool-use.ps1"
+            "command": "C:\\shere-folder\\arbitrator\\.venv\\Scripts\\graphify.EXE hook-guard search"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\shere-folder\\arbitrator\\.venv\\Scripts\\graphify.EXE hook-guard read"
           }
         ]
       }

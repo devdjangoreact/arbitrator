@@ -6,7 +6,7 @@ from pathlib import Path
 from threading import Lock
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.symbol_exclusions_repository import SymbolExclusionsRepository
+from arbitrator.domain.universe.symbol_exclusions_repository import SymbolExclusionsRepository
 
 
 class JsonSymbolExclusionsRepository(SymbolExclusionsRepository):

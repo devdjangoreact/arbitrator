@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class StrategyKind(str, Enum):
+class StrategyKind(StrEnum):
     """Canonical set of the 6 arbitrage strategies (see strategies-mechanics)."""
 
     futures_futures = "futures_futures"

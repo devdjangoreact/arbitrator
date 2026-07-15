@@ -4,11 +4,8 @@ Tests use mocked CurrencyNetworkInfo — no real exchange calls.
 """
 from __future__ import annotations
 
-import pytest
-
-from arbitrator.domain.token_identity import (
+from arbitrator.domain.universe.token_identity import (
     CurrencyNetworkInfo,
-    MatchResult,
     TokenIdentityComparer,
 )
 
@@ -121,7 +118,7 @@ def test_empty_network_ids_both_sides() -> None:
 # ── TokenIdentityService.compare fallback when cache is empty ────────────────
 
 def test_service_returns_symbol_only_when_cache_empty() -> None:
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     result = svc.compare("EDGE", "binance", "mexc")
@@ -134,7 +131,7 @@ def test_service_returns_symbol_only_when_cache_empty() -> None:
 
 def test_common_currencies_conflict_blocks_trade() -> None:
     """EDGE on mexc remaps to 'EdgeCoin', on gate to 'Edge Network' — different tokens."""
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     svc._common_currencies["mexc"] = {"EDGE": "EdgeCoin"}
@@ -149,7 +146,7 @@ def test_common_currencies_conflict_blocks_trade() -> None:
 
 def test_common_currencies_same_name_does_not_block() -> None:
     """Same canonical name on both exchanges → no conflict from commonCurrencies."""
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     svc._common_currencies["mexc"] = {"BTC": "Bitcoin"}
@@ -163,7 +160,7 @@ def test_common_currencies_same_name_does_not_block() -> None:
 
 def test_common_currencies_case_insensitive_match() -> None:
     """Same name with different capitalisation must not trigger a conflict."""
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     svc._common_currencies["mexc"] = {"TOKEN": "My Token"}
@@ -177,7 +174,7 @@ def test_common_currencies_one_side_no_remap_passes() -> None:
     """If only one exchange has a remapping and the other doesn't
     (token not in its commonCurrencies), base_code is used as canonical name.
     Same string → no conflict."""
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     # mexc has table loaded but EDGE not in it → canonical stays "EDGE"
@@ -190,7 +187,7 @@ def test_common_currencies_one_side_no_remap_passes() -> None:
 
 def test_common_currencies_skipped_when_neither_table_loaded() -> None:
     """If neither exchange has loaded commonCurrencies yet, skip the check entirely."""
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     # _common_currencies empty → cc_a={}, cc_b={} → neither truthy → step skipped
@@ -202,7 +199,7 @@ def test_common_currencies_skipped_when_neither_table_loaded() -> None:
 def test_network_verified_wins_over_common_currencies_when_both_loaded() -> None:
     """Even if commonCurrencies names match, network contract-id comparison runs
     and produces network_verified when contracts match."""
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     svc._common_currencies["binance"] = {"BTC": "Bitcoin"}
@@ -218,7 +215,7 @@ def test_network_verified_wins_over_common_currencies_when_both_loaded() -> None
 # ── TokenIdentityService.build_report_rows ───────────────────────────────────
 
 def test_build_report_rows_includes_both_exchanges() -> None:
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     svc._cache[("binance", "BTC")] = _info("binance", "BTC", {"ETH": "0xAAA"})
@@ -231,7 +228,7 @@ def test_build_report_rows_includes_both_exchanges() -> None:
 
 
 def test_build_report_rows_omits_single_exchange_codes() -> None:
-    from arbitrator.application.token_identity_service import TokenIdentityService
+    from arbitrator.application.account.token_identity_service import TokenIdentityService
 
     svc = TokenIdentityService()
     svc._cache[("binance", "SOLO")] = _info("binance", "SOLO", {"ETH": "0xAAA"})

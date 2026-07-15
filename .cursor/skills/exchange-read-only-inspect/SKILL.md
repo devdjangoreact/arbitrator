@@ -52,30 +52,52 @@ description: >-
 
 ## Команди (з кореня репозиторію)
 
-Завжди додавай `--json` для парсингу агентом.
+Завжди додавай `--json` для парсингу агентом. Інтерпретатор — лише з `.venv`
+(див. `.cursor/rules/tooling.mdc`).
 
 ```bash
 # Підтримувані та увімкнені біржі
-poetry run python scripts/inspect_exchanges.py --json list-exchanges
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json list-exchanges
 
 # Перевірка ключів і USDT-балансу (усі enabled)
-poetry run python scripts/inspect_exchanges.py --json verify
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json verify
 
 # Одна біржа
-poetry run python scripts/inspect_exchanges.py --json verify --exchange mexc
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json verify --exchange mexc
 
 # Повний зріз акаунта: connection + позиції + відкриті ордери
-poetry run python scripts/inspect_exchanges.py --json account
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json account
 
-poetry run python scripts/inspect_exchanges.py --json account --exchange bitget
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json account --exchange bitget
 
 # Публічні дані (ключі не обов'язкові)
-poetry run python scripts/inspect_exchanges.py --json ticker --exchange mexc --symbol BTC/USDT:USDT
-poetry run python scripts/inspect_exchanges.py --json orderbook --exchange mexc --symbol BTC/USDT:USDT --limit 5
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json ticker --exchange mexc --symbol BTC/USDT:USDT
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json orderbook --exchange mexc --symbol BTC/USDT:USDT --limit 5
 
 # Список USDT-M swap символів
-poetry run python scripts/inspect_exchanges.py --json list-symbols --exchange gate
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json list-symbols --exchange gate
 ```
+
+## Інші read-only скрипти для аналізу ситуацій
+
+Див. також `.cursor/rules/exchange-data.mdc` (секція **Agent diagnostics**).
+
+| Ситуація | Скрипт |
+| -------- | ------ |
+| Відкриті + закриті позиції (як Orders UI) | `scripts/trade_report.py` |
+| **Аналіз трейдів (агент)** | `scripts/trade_report.py --refresh [--last N]` → читай **`src/arbitrator/data/trade_report.json`** (не xlsx) |
+| Аудит paper orders vs OHLCV | `scripts/audit_paper_orders.py` |
+| Бектест FF на історичних OHLCV | `scripts/backtest_ff.py` |
+| Перевірка contract address токена між біржами | `scripts/check_token_identity.py` |
+
+При аналізі угод / PnL / останніх трейдів:
+
+1. Завжди спочатку згенеруй звіт:  
+   `.venv\Scripts\python.exe scripts/trade_report.py --refresh --last 10`  
+   (або без `--last` для повного списку).
+2. Для аналізу читай лише `src/arbitrator/data/trade_report.json`  
+   (згруповані арби + ноги, числа). `trade_report.xlsx` — для людини в Excel.
+3. Не читай `closed_positions_cache.json` як джерело правди для висновків — це сирий кеш; звіт після `--refresh` авторитетний.
 
 ## Коди виходу
 

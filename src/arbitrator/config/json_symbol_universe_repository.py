@@ -7,8 +7,8 @@ from threading import Lock
 from pydantic import ValidationError
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.symbol_universe_repository import SymbolUniverseRepository
-from arbitrator.domain.universe_snapshot import UniverseSnapshot
+from arbitrator.domain.universe.symbol_universe_repository import SymbolUniverseRepository
+from arbitrator.domain.universe.universe_snapshot import UniverseSnapshot
 
 
 class JsonSymbolUniverseRepository(SymbolUniverseRepository):

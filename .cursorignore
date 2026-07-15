@@ -1,16 +1,38 @@
-﻿# Files Cursor must skip when building context
+﻿# Files Cursor agents must skip when building context (gitignore-style patterns)
+
+# Dependencies & build output
 node_modules/
+.venv/
 dist/
 build/
 .next/
 coverage/
+*.egg-info/
+
+# Python bytecode & tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Cursor / Claude runtime caches
+.cursor/cache/
+.cursor/logs/
+
+# Generated knowledge graph (use `graphify query`, not raw cache files)
+graphify-out/
+
+# Runtime logs & mutable data snapshots
+logs/
 *.log
 
 # Secrets
 .env
 .env.*
 
-# Large binaries
+# Large binaries & media
 *.zip
 *.tar.gz
 *.png
@@ -19,3 +41,7 @@ coverage/
 *.gif
 *.webp
 *.pdf
+
+# OS junk
+.DS_Store
+Thumbs.db

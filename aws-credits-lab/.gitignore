@@ -1,8 +1,0 @@
-.terraform/
-*.tfstate
-*.tfstate.*
-terraform.tfvars
-.env
-*.zip
-.claude/settings.local.json
-.vscode/settings.json

@@ -8,13 +8,14 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.symbol_normalizer import SymbolNormalizer
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.universe.symbol_normalizer import SymbolNormalizer
 from arbitrator.presentation.dto.opportunity_dto import (
     ChartPointDto,
     ChartSeriesDto,
     ChartSnapshotDto,
     ExchangeInfoCardDto,
+    OpportunityFocusDto,
     OpportunityParamsDto,
     OpportunitySnapshotDto,
     OrderBookLevelDto,
@@ -22,7 +23,6 @@ from arbitrator.presentation.dto.opportunity_dto import (
     OrderGroupDto,
     StrategyCalculationRowDto,
 )
-from arbitrator.presentation.dto.opportunity_dto import OpportunityFocusDto
 from arbitrator.presentation.dto.orders_dto import OrdersSnapshotDto, OrdersSummaryDto
 from arbitrator.presentation.dto.screener_dto import (
     ExchangePricesDto,

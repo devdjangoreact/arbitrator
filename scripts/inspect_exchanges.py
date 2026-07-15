@@ -14,13 +14,13 @@ _ROOT = Path(__file__).resolve().parent.parent
 if str(_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(_ROOT / "src"))
 
-from arbitrator.application.read_only_exchange_inspector import ReadOnlyExchangeInspector
+from arbitrator.application.market_data.read_only_exchange_inspector import ReadOnlyExchangeInspector
 from arbitrator.config.logger import init_logger, logger
 from arbitrator.config.settings import Settings
-from arbitrator.domain.exchange_account_snapshot import ExchangeAccountSnapshot
-from arbitrator.domain.exchange_connection_status import ExchangeConnectionStatus
-from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.account.exchange_account_snapshot import ExchangeAccountSnapshot
+from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
+from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
+from arbitrator.domain.market.ticker import Ticker
 from arbitrator.exchanges.factory import Factory
 
 

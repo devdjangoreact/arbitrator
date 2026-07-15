@@ -5,20 +5,20 @@ All collaborators are minimal fakes: no IO, no file system, no ccxt.
 """
 from __future__ import annotations
 
-import threading
 from decimal import Decimal
 from typing import Any
 from unittest.mock import MagicMock
+import time
 
 import pytest
 
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.screener_auto_trader import ScreenerAutoTrader
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.trading.screener_auto_trader import ScreenerAutoTrader
 from arbitrator.config.settings import Settings
 from arbitrator.domain.strategy.execution_outcome import ExecutionOutcome, ExecutionStatus
 from arbitrator.domain.strategy.quote import Quote
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.ticker import Ticker
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.market.ticker import Ticker
 
 # ---------------------------------------------------------------------------
 # Constants / helpers
@@ -58,7 +58,7 @@ def _ticker(symbol: str, last: float, bid: float | None = None, ask: float | Non
         low_24h=last,
         base_volume_24h=1.0,
         quote_volume_24h=1_000_000.0,
-        timestamp_ms=1_000,
+        timestamp_ms=int(time.time() * 1000),
     )
 
 
@@ -78,7 +78,9 @@ def _market_info(
     )
 
 
-def _quote(exchange_id: str, bid: float, ask: float, ts_ms: int = 1_000) -> Quote:
+def _quote(exchange_id: str, bid: float, ask: float, ts_ms: int | None = None) -> Quote:
+    if ts_ms is None:
+        ts_ms = int(time.time() * 1000)
     return Quote(
         exchange_id=exchange_id,
         symbol=SYM,
@@ -195,8 +197,7 @@ class TestFreshSpread:
         assert fresh_ask == 100.0
         assert abs(spread - 5.0) < 0.01
 
-    def test_falls_back_to_last_when_bid_ask_absent(self) -> None:
-        # Quote with bid=None/ask=None — falls back to last
+    def test_returns_none_when_bid_ask_absent(self) -> None:
         cache = MarketDataCacheMemory()
         cache.put_quote(Quote(
             exchange_id=SHORT_EX, symbol=SYM, market_type="futures",
@@ -208,9 +209,7 @@ class TestFreshSpread:
         ))
         trader = _make_trader(_settings(), _FakeScreener({}), _FakePaper(), cache=cache)
         result = trader._fresh_spread(SYM, SHORT_EX, LONG_EX)
-        assert result is not None
-        _, _, spread = result
-        assert abs(spread - 5.0) < 0.01
+        assert result is None
 
     def test_negative_spread_returned_as_is(self) -> None:
         # Inverted market — short cheaper than long
@@ -491,7 +490,7 @@ class TestMaxPositions:
                 bid=Decimal(str(bid)),
                 ask=Decimal(str(ask)),
                 last=Decimal(str((bid + ask) / 2)),
-                recv_time_ms=1_000,
+                recv_time_ms=int(time.time() * 1000),
             )
             cache.put_quote(q)
         for sym in (SYM, sym2):
@@ -551,7 +550,7 @@ class TestClosePass:
 
         # Pre-populate open pair
         pair_id = "abc123"
-        from arbitrator.domain.paper_order import PaperOrder
+        from arbitrator.domain.opportunity.paper_order import PaperOrder
         stored_amount = 0.5
         open_record = MagicMock(spec=PaperOrder)
         open_record.pair_id = pair_id
@@ -582,7 +581,7 @@ class TestClosePass:
         tickers = _tickers_with_spread(SHORT_PRICE, LONG_PRICE)
         pair_id = "xyz987"
 
-        from arbitrator.domain.paper_order import PaperOrder
+        from arbitrator.domain.opportunity.paper_order import PaperOrder
         open_record = MagicMock(spec=PaperOrder)
         open_record.pair_id = pair_id
         open_record.side = "buy"

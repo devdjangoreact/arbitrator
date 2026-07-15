@@ -1,5 +1,10 @@
 ---
-alwaysApply: true
+description: Spec Kit pointers for strategy-engine and UI features.
+globs:
+  - specs/**/*
+  - src/arbitrator/domain/strategy/**/*
+  - src/arbitrator/application/**/*
+alwaysApply: false
 ---
 
 <!-- SPECKIT START -->

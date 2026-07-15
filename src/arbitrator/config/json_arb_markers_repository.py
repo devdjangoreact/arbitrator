@@ -8,8 +8,8 @@ from threading import Lock
 from pydantic import TypeAdapter
 
 from arbitrator.config.logger import logger
-from arbitrator.domain.arb_marker_record import ArbMarkerRecord
-from arbitrator.domain.arb_markers_repository import ArbMarkersRepository
+from arbitrator.domain.arbitrage.arb_marker_record import ArbMarkerRecord
+from arbitrator.domain.arbitrage.arb_markers_repository import ArbMarkersRepository
 
 _MARKER_ADAPTER: TypeAdapter[list[ArbMarkerRecord]] = TypeAdapter(list[ArbMarkerRecord])
 

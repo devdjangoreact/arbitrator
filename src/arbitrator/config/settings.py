@@ -5,7 +5,7 @@ from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from arbitrator.domain.exchange_credentials import ExchangeCredentials
+from arbitrator.domain.exchange.exchange_credentials import ExchangeCredentials
 
 _DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -38,16 +38,21 @@ class Settings(BaseSettings):
     ws_reconnect_delay_seconds: float = 5.0
     ccxt_request_timeout_ms: int = 60_000
 
+    historical_trader_tick_seconds: float = 2.0  # Interval for auto-trader check
+
     fastapi_host: str = "127.0.0.1"
     fastapi_port: int = 8000
     fastapi_reload: bool = False
     app_title: str = "Arbitrator"
+
+    use_react_frontend: bool = True
 
     ui_data_mode: Literal["mock_data", "live", "paper"] = "mock_data"
     mock_tick_seconds: float = 1.0
     screener_ws_push_seconds: float = 1.0
 
     paper_orders_path: Path = _DATA_DIR / "paper_orders.json"
+    monitor_configs_path: Path = _DATA_DIR / "monitor_configs.json"
 
     log_level: str = "INFO"
 
@@ -57,8 +62,8 @@ class Settings(BaseSettings):
     min_exchanges_per_symbol: int = 2
 
     default_min_quote_volume_kusdt: float = 500.0
-    default_min_spread_pct: float = 0.0
-    stream_min_quote_volume_usdt: float = 500_000.0
+    default_min_spread_pct: float = 1.0
+    stream_min_quote_volume_usdt: float = 1_000_000.0
     screener_volume_discovery_seconds: float = 60.0
 
     screener_table_height_px: int = 800
@@ -75,76 +80,47 @@ class Settings(BaseSettings):
     arb_markers_path: Path = _DATA_DIR / "arb_markers.json"
 
     # Screener auto-trader (paper mode only)
-    screener_auto_trade_enabled: bool = False
     # Live auto-trader (live mode only — places real orders)
-    live_auto_trade_enabled: bool = False
-    screener_auto_trade_max_positions: int = 3
-    screener_auto_trade_notional_usdt: float = 100.0
-    screener_auto_trade_open_spread_pct: float = 3.0
-    screener_auto_trade_close_spread_pct: float = 0.05
-    screener_auto_trade_check_seconds: float = 2.0
-    screener_auto_trade_unhedged_timeout_seconds: float = 10.0
     # Post-fill guard: close pair immediately if actual spread < this after fill
-    live_auto_trade_post_fill_min_spread_pct: float = 0.5
     # DCA: accumulate when current spread >= entry_spread + this value
-    live_auto_trade_dca_spread_step_pct: float = 1.0
     # DCA: max times to accumulate one pair
-    live_auto_trade_dca_max_layers: int = 1
     # DCA: min distance to liquidation (%) required to add
-    live_auto_trade_dca_min_liq_distance_pct: float = 10.0
     # DCA: skip if next funding is within this many seconds
-    live_auto_trade_dca_funding_skip_seconds: float = 1800.0
+
+    # Historical Screener & Monitor
 
     # Liquidation guard (paper mode)
-    liq_guard_enabled: bool = True
-    liq_guard_check_interval_seconds: float = 5.0
-    liq_guard_warning_pct_to_liq: float = 80.0  # close when 80% of margin consumed
+
+    # --- PUBLIC GATEWAY PROXIES (Spec 003) ---
+    exchange_public_http_proxy: str | None = None
+    exchange_public_ws_proxy: str | None = None
+    exchange_public_socks_proxy: str | None = None
 
     # Funding reentry (paper mode)
-    funding_reentry_enabled: bool = False
-    funding_reentry_check_interval_seconds: float = 30.0
-    funding_reentry_act_window_seconds: float = 300.0  # check when funding is within 5 min
-    funding_reentry_skip_within_seconds: float = 60.0  # do not act in last 60s before funding
-    funding_reentry_min_spread_pct: float = 0.1        # minimum spread to reopen
 
     # Live liquidation guard (live mode)
-    live_liq_guard_enabled: bool = True
-    live_liq_guard_check_interval_seconds: float = 5.0
-    live_liq_guard_warning_pct_to_liq: float = 80.0
 
     # Live funding protection (live mode)
-    live_funding_protect_enabled: bool = False
-    live_funding_protect_check_interval_seconds: float = 30.0
-    live_funding_protect_act_window_seconds: float = 300.0
-    live_funding_protect_skip_within_seconds: float = 60.0
-    live_funding_protect_min_reopen_spread_pct: float = 0.1
 
     opportunity_order_book_depth: int = 20
+    screener_book_stream_exchanges: list[str] = ["mexc"]
+    screener_book_stream_max_concurrent: int = 20
+    screener_book_stream_symbol_refresh_seconds: float = 3600.0
     opportunity_chart_window_seconds: int = 120
     opportunity_poll_seconds: int = 1
-    opp_default_accumulate_spread_pct: float = 4.0
-    opp_default_max_notional_usdt: float = 500.0
-    opp_default_leverage: int = 10
-    opp_position_imbalance_tolerance_pct: float = 1.0
-    opp_accumulate_step_usdt: float = 100.0
+
+    # --- Strategy selection & per-strategy overrides ---
+    # Which strategies the auto-trader is allowed to open.
+    # Empty list = all strategies allowed. Non-empty = whitelist.
+    # Per-strategy parameter overrides (JSON dict in .env).
+    # Keys = strategy_id, values = dict of overridable params.
+    # Overridable: open_spread_pct, close_spread_pct, notional_usdt, max_positions
+    # Example: {"futures_futures": {"open_spread_pct": 1.5, "close_spread_pct": 0.02}}
 
     # --- Strategy engine (002-strategy-engine) ---
-    spot_enabled: bool = False
     spot_default_type: str = "spot"
-    quote_max_age_seconds: float = 5.0
-    book_max_age_seconds: float = 2.0
-    funding_refresh_seconds: float = 60.0
-    funding_entry_window_seconds: float = 300.0
     strategy_decimal_places: int = 2
-    anomaly_max_spread_pct: float = 20.0
-    slippage_max_pct: float = 0.5
-    ticker_max_inner_spread_pct: float = 1.0
-    prediction_enabled: bool = False
-    prediction_window_seconds: float = 120.0
     deposit_basis: Literal["position_margin", "account_balance"] = "position_margin"
-    execution_rollback_enabled: bool = True
-    leg_imbalance_tolerance_pct: float = 1.0
-    open_fail_cooldown_sec: float = 120.0
 
     telegram_bot_token: str = ""
     telegram_chat_id: str = ""
@@ -160,6 +136,14 @@ class Settings(BaseSettings):
     gate_api_secret: str = ""
     bingx_api_key: str = ""
     bingx_api_secret: str = ""
+
+    def public_http_proxy_for(self, exchange_id: str) -> str | None:
+        """Return public HTTP proxy for the given exchange."""
+        return self.exchange_public_http_proxy
+
+    def public_ws_proxy_for(self, exchange_id: str) -> str | None:
+        """Return public WS proxy for the given exchange."""
+        return self.exchange_public_ws_proxy
 
     def credentials_for(self, exchange_id: str) -> ExchangeCredentials | None:
         mapping: dict[str, ExchangeCredentials] = {

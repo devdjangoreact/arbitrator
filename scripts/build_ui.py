@@ -33,6 +33,7 @@ def build_index_html() -> str:
         _expand_includes(_read_partial("sidebar.html")),
         "  <div class=\"main\">\n",
         _expand_includes(_read_partial("pages/screener.html")),
+        _expand_includes(_read_partial("pages/monitors.html")),
         _expand_includes(_read_partial("pages/opportunity.html")),
         _expand_includes(_read_partial("pages/orders.html")),
         _expand_includes(_read_partial("pages/paper_trades.html")),

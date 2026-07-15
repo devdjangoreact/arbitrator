@@ -1,31 +1,42 @@
 from __future__ import annotations
+from arbitrator.config.ui_config_manager import UIConfigManager
 
-from arbitrator.application.account_stream_worker import AccountStreamWorker
-from arbitrator.application.exchange_orders_service import ExchangeOrdersService
-from arbitrator.application.fee_snapshot_service import FeeSnapshotService
-from arbitrator.application.funding_accrual_service import FundingAccrualService
-from arbitrator.application.funding_rate_worker import FundingRateWorker
-from arbitrator.application.funding_reentry_service import FundingReentryService
-from arbitrator.application.hedged_execution_service import HedgedExecutionService
-from arbitrator.application.liquidation_guard_service import LiquidationGuardService
-from arbitrator.application.live_auto_trader import LiveAutoTrader
-from arbitrator.application.live_liquidation_guard_service import LiveLiquidationGuardService
-from arbitrator.application.live_funding_protection_service import LiveFundingProtectionService
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.paper_execution_gateway import PaperExecutionGateway
-from arbitrator.application.screener_auto_trader import ScreenerAutoTrader
-from arbitrator.application.screener_stream_worker import ScreenerStreamWorker
-from arbitrator.application.strategy_refresh_worker import StrategyRefreshWorker
-from arbitrator.application.strategy_inputs_assembler import StrategyInputsAssembler
-from arbitrator.application.strategy_table_service import StrategyTableService
-from arbitrator.application.symbol_universe_service import SymbolUniverseService
-from arbitrator.application.token_identity_service import TokenIdentityService
+from arbitrator.application.account.account_stream_worker import AccountStreamWorker
+from arbitrator.application.account.funding_accrual_service import FundingAccrualService
+from arbitrator.application.account.funding_rate_worker import FundingRateWorker
+from arbitrator.application.account.funding_reentry_service import FundingReentryService
+from arbitrator.application.account.liquidation_guard_service import LiquidationGuardService
+from arbitrator.application.account.live_funding_protection_service import (
+    LiveFundingProtectionService,
+)
+from arbitrator.application.account.live_liquidation_guard_service import (
+    LiveLiquidationGuardService,
+)
+from arbitrator.application.account.orphaned_position_monitor import OrphanedPositionMonitor
+from arbitrator.application.account.token_identity_service import TokenIdentityService
+from arbitrator.application.market_data.fee_snapshot_service import FeeSnapshotService
+from arbitrator.application.market_data.historical_screener_worker import HistoricalScreenerWorker
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.market_data.screener_book_stream_worker import ScreenerBookStreamWorker
+from arbitrator.application.market_data.screener_stream_worker import ScreenerStreamWorker
+from arbitrator.application.market_data.spot_stream_worker import SpotStreamWorker
+from arbitrator.application.market_data.symbol_universe_service import SymbolUniverseService
+from arbitrator.application.strategies.strategy_inputs_assembler import StrategyInputsAssembler
+from arbitrator.application.strategies.strategy_refresh_worker import StrategyRefreshWorker
+from arbitrator.application.strategies.strategy_table_service import StrategyTableService
+from arbitrator.application.trading.exchange_orders_service import ExchangeOrdersService
+from arbitrator.application.trading.hedged_execution_service import HedgedExecutionService
+from arbitrator.application.trading.historical_auto_trader import HistoricalAutoTrader
+from arbitrator.application.trading.live_auto_trader import LiveAutoTrader
+from arbitrator.application.trading.paper_execution_gateway import PaperExecutionGateway
+from arbitrator.application.trading.screener_auto_trader import ScreenerAutoTrader
 from arbitrator.config.json_symbol_exclusions_repository import JsonSymbolExclusionsRepository
-from arbitrator.config.telegram_notifier import TelegramNotifier
 from arbitrator.config.json_symbol_universe_repository import JsonSymbolUniverseRepository
 from arbitrator.config.logger import logger
+from arbitrator.config.monitor_config_store import MonitorConfigStore
 from arbitrator.config.paper_order_store import PaperOrderStore
 from arbitrator.config.settings import Settings
+from arbitrator.config.telegram_notifier import TelegramNotifier
 from arbitrator.domain.strategy.strategies.funding_diff_dates_calculator import (
     FundingDiffDatesCalculator,
 )
@@ -52,19 +63,25 @@ class AppRuntime:
         self._settings = settings
         self.mock_provider = MockDataProvider(enabled_exchanges=settings.enabled_exchanges)
         self.screener_worker: ScreenerStreamWorker | None = None
+        self.screener_book_worker: ScreenerBookStreamWorker | None = None
         self.account_worker: AccountStreamWorker | None = None
         self.funding_worker: FundingRateWorker | None = None
+        self.spot_worker: SpotStreamWorker | None = None
         self.market_cache: MarketDataCacheMemory | None = None
         self.strategy_table_service: StrategyTableService | None = None
         self.paper_store = PaperOrderStore(path=settings.paper_orders_path)
+        self.monitor_store = MonitorConfigStore(path=settings.monitor_configs_path)
         self.paper_gateway: PaperExecutionGateway | None = None
         self.funding_accrual_service: FundingAccrualService | None = None
         self.exchange_orders_service: ExchangeOrdersService | None = None
         self.screener_auto_trader: ScreenerAutoTrader | None = None
+        self.historical_screener_worker: HistoricalScreenerWorker | None = None
+        self.historical_auto_trader: HistoricalAutoTrader | None = None
         self.live_auto_trader: LiveAutoTrader | None = None
         self.live_liq_guard: LiveLiquidationGuardService | None = None
         self.live_funding_protect: LiveFundingProtectionService | None = None
         self.liquidation_guard: LiquidationGuardService | None = None
+        self.orphan_monitor: OrphanedPositionMonitor | None = None
         self.funding_reentry: FundingReentryService | None = None
         self.strategy_refresh_worker: StrategyRefreshWorker | None = None
         self.token_identity: TokenIdentityService = TokenIdentityService()
@@ -82,6 +99,9 @@ class AppRuntime:
             logger.info("ui_data_mode=mock_data | stream workers skipped")
 
     def stop(self) -> None:
+        if self.spot_worker is not None:
+            self.spot_worker.stop()
+            logger.info("spot stream worker stopped")
         if self.exchange_orders_service is not None:
             self.exchange_orders_service.stop()
             logger.info("exchange orders service stopped")
@@ -103,12 +123,18 @@ class AppRuntime:
         if self.live_liq_guard is not None:
             self.live_liq_guard.stop()
             logger.info("live liquidation guard stopped")
+        if self.orphan_monitor is not None:
+            self.orphan_monitor.stop()
+            logger.info("orphan monitor stopped")
         if self.live_auto_trader is not None:
             self.live_auto_trader.stop()
             logger.info("live auto trader stopped")
         if self.screener_auto_trader is not None:
             self.screener_auto_trader.stop()
             logger.info("screener auto trader stopped")
+        if self.screener_book_worker is not None:
+            self.screener_book_worker.stop()
+            logger.info("screener book stream worker stopped")
         if self.screener_worker is not None:
             self.screener_worker.stop()
             logger.info("screener worker stopped")
@@ -158,26 +184,24 @@ class AppRuntime:
             volume_threshold_usdt=stream_min_volume_usdt,
         )
         self.screener_worker.start()
+        if self.screener_book_worker is not None:
+            self.screener_book_worker.set_screener_worker(self.screener_worker)
+        if self.historical_screener_worker is not None:
+            self.historical_screener_worker.set_screener_worker(self.screener_worker)
 
     def _start_live_workers(self) -> None:
         factory = Factory(settings=self._settings)
         self._start_stream_workers(factory)
-        if self._settings.live_auto_trade_enabled:
+        if UIConfigManager.get_config().live_auto_trade_enabled:
             self._start_live_auto_trader(factory)
         logger.info("live workers started | mode=live")
 
-    def _start_live_auto_trader(self, factory: Factory) -> None:
-        if self.screener_worker is None or self.market_cache is None:
-            logger.warning("live auto trader skipped — stream workers not ready")
-            return
+    def _create_live_execution_service(self, factory: Factory) -> HedgedExecutionService:
         gateways = {
-            ex_id: factory.create(ex_id).gateway
+            ex_id: factory.create_private(ex_id).gateway
             for ex_id in self._settings.enabled_exchanges
             if self._settings.credentials_for(ex_id) is not None
         }
-        if not gateways:
-            logger.warning("live auto trader skipped — no exchanges with credentials")
-            return
         notifier = TelegramNotifier(
             bot_token=self._settings.telegram_bot_token,
             chat_id=self._settings.telegram_chat_id,
@@ -190,50 +214,86 @@ class AppRuntime:
             if universe_snapshot is not None
             else None
         )
-        exec_service = HedgedExecutionService(
+        from arbitrator.exchanges.spot_ccxt_adapter import SpotCcxtAdapter
+        spot_gateways = (
+            {
+                ex_id: SpotCcxtAdapter(ex_id, self._settings)
+                for ex_id in self._settings.enabled_exchanges
+                if self._settings.credentials_for(ex_id) is not None
+            }
+            if UIConfigManager.get_config().spot_enabled
+            else {}
+        )
+        return HedgedExecutionService(
             gateways=gateways,
             settings=self._settings,
             market_cache=self.market_cache,
             notifier=notifier,
             universe=universe,
+            spot_gateways=spot_gateways,
         )
+
+    def _start_live_auto_trader(self, factory: Factory) -> None:
+        if self.screener_worker is None or self.market_cache is None:
+            logger.warning("live auto trader skipped — stream workers not ready")
+            return
+
+        exec_service = self._create_live_execution_service(factory)
+        if not exec_service._gateways:
+            logger.warning("live auto trader skipped — no exchanges with credentials")
+            return
+
         self.live_auto_trader = LiveAutoTrader(
             settings=self._settings,
             screener_worker=self.screener_worker,
             execution_service=exec_service,
             market_cache=self.market_cache,
             token_identity=self.token_identity,
-            gateways=gateways,
+            gateways=exec_service._gateways,
+            strategy_table_service=self.strategy_table_service,
         )
         self.live_auto_trader.start()
         logger.info(
             "live auto trader started | exchanges={}",
-            list(gateways.keys()),
+            list(exec_service._gateways.keys()),
         )
-        if self._settings.live_liq_guard_enabled:
+
+        if UIConfigManager.get_config().live_liq_guard_enabled:
+            liq_exec = self._create_live_execution_service(factory)
             self.live_liq_guard = LiveLiquidationGuardService(
-                gateways=gateways,
-                execution_service=exec_service,
+                gateways=liq_exec._gateways,
+                execution_service=liq_exec,
                 market_cache=self.market_cache,
                 settings=self._settings,
-                check_interval_seconds=self._settings.live_liq_guard_check_interval_seconds,
-                warning_pct_to_liq=self._settings.live_liq_guard_warning_pct_to_liq,
+                check_interval_seconds=UIConfigManager.get_config().live_liq_guard_check_interval_seconds,
+                warning_pct_to_liq=UIConfigManager.get_config().live_liq_guard_warning_pct_to_liq,
             )
             self.live_liq_guard.start()
             logger.info("live liquidation guard started")
-        if self._settings.live_funding_protect_enabled:
+
+        if UIConfigManager.get_config().live_funding_protect_enabled:
+            fund_exec = self._create_live_execution_service(factory)
             self.live_funding_protect = LiveFundingProtectionService(
-                gateways=gateways,
-                execution_service=exec_service,
+                gateways=fund_exec._gateways,
+                execution_service=fund_exec,
                 market_cache=self.market_cache,
                 settings=self._settings,
-                check_interval_seconds=self._settings.live_funding_protect_check_interval_seconds,
-                act_window_seconds=self._settings.live_funding_protect_act_window_seconds,
-                skip_within_seconds=self._settings.live_funding_protect_skip_within_seconds,
-                min_reopen_spread_pct=self._settings.live_funding_protect_min_reopen_spread_pct,
+                check_interval_seconds=UIConfigManager.get_config().live_funding_protect_check_interval_seconds,
+                act_window_seconds=UIConfigManager.get_config().live_funding_protect_act_window_seconds,
+                skip_within_seconds=UIConfigManager.get_config().live_funding_protect_skip_within_seconds,
+                min_reopen_spread_pct=UIConfigManager.get_config().live_funding_protect_min_reopen_spread_pct,
             )
             self.live_funding_protect.start()
             logger.info("live funding protection started")
+
+        orphan_exec = self._create_live_execution_service(factory)
+        self.orphan_monitor = OrphanedPositionMonitor(
+            gateways=orphan_exec._gateways,
+            notifier=orphan_exec._notifier,
+            check_interval_seconds=300.0,
+        )
+        self.orphan_monitor.start()
+        logger.info("orphan position monitor started")
 
     def _start_paper_workers(self) -> None:
         factory = Factory(settings=self._settings)
@@ -245,14 +305,16 @@ class AppRuntime:
         self.funding_accrual_service = FundingAccrualService(
             store=self.paper_store,
             cache=self.market_cache,
-            interval_seconds=self._settings.funding_refresh_seconds,
+            interval_seconds=UIConfigManager.get_config().funding_refresh_seconds,
         )
         self.funding_accrual_service.start()
-        if self._settings.screener_auto_trade_enabled:
+        if UIConfigManager.get_config().screener_auto_trade_enabled:
             self._start_screener_auto_trader()
-        if self._settings.liq_guard_enabled:
+        if UIConfigManager.get_config().historical_screener_enabled:
+            self._start_historical_auto_trader()
+        if UIConfigManager.get_config().liq_guard_enabled:
             self._start_liquidation_guard()
-        if self._settings.funding_reentry_enabled:
+        if UIConfigManager.get_config().funding_reentry_enabled:
             self._start_funding_reentry()
         logger.info("paper workers started | mode=paper orders_path={}", self._settings.paper_orders_path)
 
@@ -264,14 +326,39 @@ class AppRuntime:
         ):
             logger.warning("screener auto trader skipped — workers not ready")
             return
+        factory = Factory(settings=self._settings)
+        gateways = {
+            ex_id: factory.create_public(ex_id).gateway
+            for ex_id in self._settings.enabled_exchanges
+        }
         self.screener_auto_trader = ScreenerAutoTrader(
             settings=self._settings,
             screener_worker=self.screener_worker,
             paper_gateway=self.paper_gateway,
             market_cache=self.market_cache,
             token_identity=self.token_identity,
+            strategy_table_service=self.strategy_table_service,
+            gateways=gateways,
         )
         self.screener_auto_trader.start()
+
+    def _start_historical_auto_trader(self) -> None:
+        if self.historical_screener_worker is None or self.paper_gateway is None or self.market_cache is None:
+            logger.warning("historical auto trader skipped — workers not ready")
+            return
+        factory = Factory(settings=self._settings)
+        gateways = {
+            ex_id: factory.create_public(ex_id).gateway
+            for ex_id in self._settings.enabled_exchanges
+        }
+        self.historical_auto_trader = HistoricalAutoTrader(
+            settings=self._settings,
+            store=self.monitor_store,
+            paper_gateway=self.paper_gateway,
+            market_cache=self.market_cache,
+            gateways=gateways,
+        )
+        self.historical_auto_trader.start()
 
     def _start_funding_reentry(self) -> None:
         if self.paper_gateway is None or self.market_cache is None:
@@ -282,10 +369,10 @@ class AppRuntime:
             paper_gateway=self.paper_gateway,
             market_cache=self.market_cache,
             settings=self._settings,
-            check_interval_seconds=self._settings.funding_reentry_check_interval_seconds,
-            act_window_seconds=self._settings.funding_reentry_act_window_seconds,
-            skip_within_seconds=self._settings.funding_reentry_skip_within_seconds,
-            min_reopen_spread_pct=self._settings.funding_reentry_min_spread_pct,
+            check_interval_seconds=UIConfigManager.get_config().funding_reentry_check_interval_seconds,
+            act_window_seconds=UIConfigManager.get_config().funding_reentry_act_window_seconds,
+            skip_within_seconds=UIConfigManager.get_config().funding_reentry_skip_within_seconds,
+            min_reopen_spread_pct=UIConfigManager.get_config().funding_reentry_min_spread_pct,
         )
         self.funding_reentry.start()
 
@@ -298,8 +385,8 @@ class AppRuntime:
             paper_gateway=self.paper_gateway,
             market_cache=self.market_cache,
             settings=self._settings,
-            check_interval_seconds=self._settings.liq_guard_check_interval_seconds,
-            warning_pct_to_liq=self._settings.liq_guard_warning_pct_to_liq,
+            check_interval_seconds=UIConfigManager.get_config().liq_guard_check_interval_seconds,
+            warning_pct_to_liq=UIConfigManager.get_config().liq_guard_warning_pct_to_liq,
         )
         self.liquidation_guard.start()
 
@@ -312,6 +399,30 @@ class AppRuntime:
         logger.info("screener worker started")
 
         self.market_cache = MarketDataCacheMemory()
+
+        self.historical_screener_worker = HistoricalScreenerWorker(
+            settings=self._settings,
+            cache=self.market_cache,
+            screener_worker=self.screener_worker,
+            store=self.monitor_store,
+            screener_provider=lambda: self.screener_worker,
+        )
+        if UIConfigManager.get_config().historical_screener_enabled:
+            self.historical_screener_worker.start()
+            logger.info("historical screener worker started")
+        else:
+            logger.info("historical screener worker ready (idle until Start Monitoring)")
+
+        screener_worker = self.screener_worker
+        self.screener_book_worker = ScreenerBookStreamWorker(
+            settings=self._settings,
+            factory=factory,
+            cache=self.market_cache,
+            screener_worker=screener_worker,
+            snapshot_provider=lambda: screener_worker.read_state()[0],
+        )
+        self.screener_book_worker.start()
+
         engine = StrategyEngine(
             [
                 FuturesFuturesCalculator(),
@@ -344,15 +455,17 @@ class AppRuntime:
             factory=factory,
             cache=self.market_cache,
             fee_service=FeeSnapshotService(self.market_cache),
-            symbols_provider=lambda: (
-                self.screener_worker.read_state()[1] if self.screener_worker is not None else []
+            symbols_by_exchange_provider=lambda: (
+                self.screener_worker.read_symbols_by_exchange()
+                if self.screener_worker is not None
+                else {}
             ),
             token_identity=self.token_identity,
         )
         self.funding_worker.start()
         logger.info("funding worker started")
 
-        self.account_worker = AccountStreamWorker(settings=self._settings, factory=factory)
+        self.account_worker = AccountStreamWorker(settings=self._settings, factory=factory, market_cache=self.market_cache)
         self.account_worker.ensure_running(self._settings.enabled_exchanges)
         logger.info("account worker started")
 
@@ -363,3 +476,22 @@ class AppRuntime:
         )
         self.exchange_orders_service.start()
         logger.info("exchange orders service started")
+
+        if UIConfigManager.get_config().spot_enabled:
+            self._start_spot_worker()
+
+    def _start_spot_worker(self) -> None:
+        from arbitrator.exchanges.spot_ccxt_adapter import SpotCcxtAdapter
+
+        if self.market_cache is None:
+            return
+        spot_gateways = {
+            ex_id: SpotCcxtAdapter(ex_id, self._settings)
+            for ex_id in self._settings.enabled_exchanges
+        }
+        self.spot_worker = SpotStreamWorker(
+            settings=self._settings,
+            spot_gateways=spot_gateways,
+            cache=self.market_cache,
+        )
+        self.spot_worker.start()

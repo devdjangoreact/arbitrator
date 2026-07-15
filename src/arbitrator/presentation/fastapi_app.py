@@ -10,7 +10,9 @@ from fastapi.staticfiles import StaticFiles
 
 from arbitrator.application.app_runtime import AppRuntime
 from arbitrator.config.logger import logger
+from arbitrator.presentation.api.routers.config import router as config_router
 from arbitrator.config.settings import Settings
+from arbitrator.presentation.ws.historical_screener_ws_handler import HistoricalScreenerWsHandler
 from arbitrator.presentation.ws.opportunity_ws_handler import OpportunityWsHandler
 from arbitrator.presentation.ws.orders_ws_handler import OrdersWsHandler
 from arbitrator.presentation.ws.paper_trades_ws_handler import PaperTradesWsHandler
@@ -19,6 +21,7 @@ from arbitrator.presentation.ws.settings_ws_handler import SettingsWsHandler
 
 _WS_ENDPOINTS: list[str] = [
     "/ws/screener",
+    "/ws/historical_screener",
     "/ws/opportunity?symbol=&short=&long=",
     "/ws/orders",
     "/ws/paper_trades",
@@ -32,7 +35,10 @@ class FastApiApp:
     def __init__(self, settings: Settings, runtime: AppRuntime) -> None:
         self._settings = settings
         self._runtime = runtime
-        self._static_dir = Path(__file__).resolve().parent / "static"
+        if self._settings.use_react_frontend:
+            self._static_dir = Path(__file__).resolve().parent / "react-ui" / "dist"
+        else:
+            self._static_dir = Path(__file__).resolve().parent / "static"
 
     def create(self) -> FastAPI:
         @asynccontextmanager
@@ -60,11 +66,16 @@ class FastApiApp:
         async def index() -> FileResponse:
             return FileResponse(self._static_dir / "index.html")
 
+        app.include_router(config_router)
         app.mount("/static", StaticFiles(directory=self._static_dir), name="static")
 
         screener_handler = ScreenerWsHandler(
             settings=self._settings,
             mock_provider=self._runtime.mock_provider,
+            runtime=self._runtime,
+        )
+        historical_screener_handler = HistoricalScreenerWsHandler(
+            settings=self._settings,
             runtime=self._runtime,
         )
         opportunity_handler = OpportunityWsHandler(
@@ -91,6 +102,10 @@ class FastApiApp:
         @app.websocket("/ws/screener")
         async def screener_ws(websocket: WebSocket) -> None:
             await screener_handler.handle(websocket)
+
+        @app.websocket("/ws/historical_screener")
+        async def historical_screener_ws(websocket: WebSocket) -> None:
+            await historical_screener_handler.handle(websocket)
 
         @app.websocket("/ws/opportunity")
         async def opportunity_ws(

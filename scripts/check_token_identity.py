@@ -23,7 +23,7 @@ _ROOT = Path(__file__).resolve().parent.parent
 if str(_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(_ROOT / "src"))
 
-from arbitrator.application.token_identity_service import TokenIdentityService
+from arbitrator.application.account.token_identity_service import TokenIdentityService
 from arbitrator.config.logger import init_logger, logger
 from arbitrator.config.settings import Settings
 from arbitrator.exchanges.factory import Factory

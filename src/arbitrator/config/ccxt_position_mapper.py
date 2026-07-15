@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from arbitrator.domain.closed_position_leg import ClosedPositionLeg
-from arbitrator.domain.position_leg import PositionLeg
+from arbitrator.domain.account.closed_position_leg import ClosedPositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
 
 
 class CcxtPositionMapper:
@@ -72,6 +72,7 @@ class CcxtPositionMapper:
         display_name: str,
         commission: float | None = None,
         funding: float | None = None,
+        contract_size: float | None = None,
     ) -> ClosedPositionLeg | None:
         if not isinstance(payload, dict):
             return None
@@ -93,6 +94,9 @@ class CcxtPositionMapper:
         contracts = CcxtPositionMapper._extract_closed_contracts(payload)
         entry_price = CcxtPositionMapper._extract_entry_price(payload)
         exit_price = CcxtPositionMapper._extract_exit_price(payload)
+        size = contract_size
+        if size is None or size <= 0.0:
+            size = CcxtPositionMapper._as_float(payload.get("contractSize")) or 1.0
         position_id = CcxtPositionMapper._as_str(payload.get("id"))
         if position_id is None:
             info = payload.get("info")
@@ -107,6 +111,7 @@ class CcxtPositionMapper:
             commission=effective_commission,
             funding=effective_funding,
             contracts=contracts,
+            contract_size=size,
             entry_price=entry_price,
             exit_price=exit_price,
             opened_at=opened_at,
@@ -163,9 +168,7 @@ class CcxtPositionMapper:
             # while being closed. Only reject if there's no realizedPnl indicating closure.
             rpnl = CcxtPositionMapper._as_float(payload.get("realizedPnl"))
             last_update = payload.get("lastUpdateTimestamp")
-            if rpnl is not None and rpnl != 0.0 and last_update is not None:
-                return True
-            return False
+            return bool(rpnl is not None and rpnl != 0.0 and last_update is not None)
         if isinstance(info, dict):
             hold_vol = CcxtPositionMapper._as_float(info.get("holdVol"))
             if hold_vol is not None and hold_vol > 0.0:
@@ -179,9 +182,7 @@ class CcxtPositionMapper:
                 return True
         if CcxtPositionMapper._dict_has_close_volume(payload):
             return True
-        if CcxtPositionMapper._dict_has_closed_status(payload):
-            return True
-        return False
+        return bool(CcxtPositionMapper._dict_has_closed_status(payload))
 
     @staticmethod
     def _extract_realized_pnl(payload: dict[str, object]) -> float | None:
@@ -217,8 +218,16 @@ class CcxtPositionMapper:
                 return abs(amount)
         info = payload.get("info")
         if isinstance(info, dict):
-            open_fee = CcxtPositionMapper._as_float(info.get("openFeeTotal"))
-            close_fee = CcxtPositionMapper._as_float(info.get("closeFeeTotal"))
+            open_fee = None
+            close_fee = None
+            for key in ("openFeeTotal", "openFee", "open_fee"):
+                open_fee = CcxtPositionMapper._as_float(info.get(key))
+                if open_fee is not None:
+                    break
+            for key in ("closeFeeTotal", "closeFee", "close_fee"):
+                close_fee = CcxtPositionMapper._as_float(info.get(key))
+                if close_fee is not None:
+                    break
             if open_fee is not None or close_fee is not None:
                 return abs(open_fee or 0.0) + abs(close_fee or 0.0)
             for key in ("fee", "commission", "pnl_fee"):
@@ -326,9 +335,7 @@ class CcxtPositionMapper:
         if cls._dict_has_cancelled_status(payload):
             return True
         info = payload.get("info")
-        if isinstance(info, dict) and cls._dict_has_cancelled_status(info):
-            return True
-        return False
+        return bool(isinstance(info, dict) and cls._dict_has_cancelled_status(info))
 
     @classmethod
     def _dict_has_cancelled_status(cls, data: dict[str, object]) -> bool:

@@ -4,7 +4,7 @@ globs:
   - src/arbitrator/application/**/*
   - src/arbitrator/exchanges/**/*
   - src/arbitrator/presentation/**/*
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Exchange data access
@@ -68,6 +68,36 @@ Reconnect/backoff for streams: `Settings.ws_reconnect_delay_seconds`.
 UI element → JSON field mappings live in **feature** contracts (e.g. `specs/001-mockup-ui/contracts/ui-backend-catalog.md`).  
 This file is **project-wide** policy only — not per-feature implementation.
 
+## Executable prices — bid/ask mandatory for open/close
+
+Per [CCXT ticker manual](https://github.com/ccxt/ccxt/wiki/Manual#ticker-structure):
+tickers are **24h OHLCV stats**; `bid`/`ask` may be undefined. For **executable**
+spread decisions use **order-book top** (`fetch_order_book` / `watch_order_book`
+→ `bids[0]` / `asks[0]`), then ticker `bid`+`ask` when both are present.
+**Never use `last` (or mid derived from `last`) for open/close triggers.**
+
+| Context | Allowed price source |
+| ------- | -------------------- |
+| Screener row display, volume filter, chart | `last` |
+| Screener `short_exchange_id` / `long_exchange_id` labels | bid/ask via `SpreadCalculator.best_executable_pair`; `last` only when bid/ask unavailable |
+| Auto-trader open / accumulate | short **bid**, long **ask** → `SpreadCalculator.entry_spread_pct` |
+| Auto-trader close | short **ask**, long **bid** → `SpreadCalculator.exit_spread_pct` |
+| Strategy calculators | same as open (already bid/ask on `Quote`) |
+| Opportunity `AutoTradingEngine` | order-book best bid/ask |
+
+Implementation: `ExecutableSpreadResolver` in `application/` — cache book →
+cache quote bid/ask → ticker bid+ask. REST `fetch_order_book_once` only when
+`fetch_fresh=True` (open, close, DCA, funding protect, open-position monitor).
+Candidate screener scan uses cached quotes only (no REST per symbol).
+
+Venues listed in `Settings.screener_book_stream_exchanges` (default `mexc`) get
+a dedicated `ScreenerBookStreamWorker` (`watch_order_book` WS) so screener spread
+uses executable bid/ask even when `watch_tickers` omits them. REST
+`fetch_order_book_once` runs only when cached entry spread ≥
+`Settings.screener_rest_prefilter_spread_pct` (default 2%) **and** a leg on one of
+those venues still lacks a cached book/quote — via
+`ExecutableSpreadResolver.entry_spread_for_open` (does not block WS streams).
+
 ## Strategy term conventions
 
 Use these terms consistently in strategy docs and payloads:
@@ -82,11 +112,54 @@ For all two-exchange strategy calculations:
 - Entry quotes: short leg `bid`, long leg `ask`.
 - Exit quotes: short leg `ask`, long leg `bid`.
 
-## Agent read-only inspection (no trading)
+## Agent diagnostics — use scripts first (no trading)
 
-For Cursor agents checking exchange connectivity or account state, use
-`scripts/inspect_exchanges.py` via skill `.cursor/skills/exchange-read-only-inspect/`.
-It delegates to `ReadOnlyExchangeInspector` — **read-only** (`verify`, `account`,
-`ticker`, `orderbook`, `list-symbols`). Agents must **never** call
-`open_market_position`, `close_market_position`, `create_order`, or external
-trading MCP tools without explicit user approval.
+**Hard rule**: When investigating exchange connectivity, account state, market
+data, trade history, token identity, or paper-order anomalies — **run the
+existing `scripts/` CLIs** before writing ad-hoc ccxt calls, raw REST/curl, or
+one-off Python that duplicates project adapters. Always invoke via
+`.venv\Scripts\python.exe` (see `.cursor/rules/tooling.mdc`).
+
+**Never use cached files for analysis.** `closed_positions_cache.json` and any
+other data files under `src/arbitrator/data/` are stale snapshots — **do not
+read them to answer questions about trades, positions, PnL, or prices.**
+Always fetch live data from exchanges:
+- Closed positions / trade history → `scripts/trade_report.py --refresh`
+  then read **`src/arbitrator/data/trade_report.json`** for analysis (xlsx is human-only).
+  Never analyze from `closed_positions_cache.json` alone.
+- Open positions / balances → `scripts/inspect_exchanges.py --json account`
+- Tickers / order books → `scripts/inspect_exchanges.py --json ticker|orderbook`
+
+| Situation | Script | Key flags |
+| --------- | ------ | --------- |
+| Credentials, USDT balance, positions, open orders | `scripts/inspect_exchanges.py` | `--json verify`, `--json account` |
+| Public ticker, order book, symbol list | `scripts/inspect_exchanges.py` | `--json ticker`, `orderbook`, `list-symbols` |
+| Open + closed positions (same pipeline as Orders UI) | `scripts/trade_report.py` | **always `--refresh`**; agent reads `data/trade_report.json` |
+| Paper orders vs OHLCV, spread/PnL audit | `scripts/audit_paper_orders.py` | read-only by default |
+| FF strategy backtest on historical OHLCV | `scripts/backtest_ff.py` | public data; no keys |
+| Cross-exchange token contract identity | `scripts/check_token_identity.py` | `--output report.md` |
+
+Primary exchange inspector: skill
+`.cursor/skills/exchange-read-only-inspect/` → `ReadOnlyExchangeInspector`
+(`verify`, `account`, `ticker`, `orderbook`, `list-symbols`). Add `--json` on
+`inspect_exchanges.py` for machine-readable agent output.
+
+Example commands (repo root, Windows):
+
+```text
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json verify
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json account --exchange bitget
+.venv\Scripts\python.exe scripts/inspect_exchanges.py --json ticker --exchange mexc --symbol BTC/USDT:USDT
+.venv\Scripts\python.exe scripts/trade_report.py --refresh --last 10
+# agent: parse src/arbitrator/data/trade_report.json
+# human: open src/arbitrator/data/trade_report.xlsx
+.venv\Scripts\python.exe scripts/audit_paper_orders.py
+.venv\Scripts\python.exe scripts/check_token_identity.py
+```
+
+**Forbidden for agents** without explicit user approval:
+
+- `open_market_position`, `close_market_position`, `create_order`,
+  `cancel_order`, `set_leverage`, or external trading MCP tools.
+- `scripts/audit_paper_orders.py --fix` (mutates `paper_orders.json`).
+- External exchange MCP servers that expose trading tools (see skill).

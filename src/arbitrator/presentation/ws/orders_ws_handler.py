@@ -14,8 +14,22 @@ from arbitrator.presentation.ws.ws_envelope import WsEnvelope
 
 if TYPE_CHECKING:
     from arbitrator.application.app_runtime import AppRuntime
-    from arbitrator.application.exchange_orders_service import ExchangeOrdersService
+    from arbitrator.application.trading.exchange_orders_service import ExchangeOrdersService
     from arbitrator.config.paper_order_store import PaperOrderStore
+
+_STRATEGY_LABELS: dict[str | None, str] = {
+    "futures_futures": "FF",
+    "futures_spot_2ex": "FS-2",
+    "futures_spot_1ex": "FS-1",
+    "funding_ff": "Fund-FF",
+    "funding_fs": "Fund-FS",
+    "funding_diff_dates": "Fund-DD",
+}
+
+
+def _strategy_label(kind: str | None, *, paper: bool = False) -> str:
+    base = _STRATEGY_LABELS.get(kind, kind or "—")
+    return f"{base} paper" if paper else base
 
 
 class OrdersWsHandler:
@@ -25,8 +39,8 @@ class OrdersWsHandler:
         self,
         settings: Settings,
         mock_provider: MockDataProvider | None,
-        paper_store: "PaperOrderStore | None" = None,
-        runtime: "AppRuntime | None" = None,
+        paper_store: PaperOrderStore | None = None,
+        runtime: AppRuntime | None = None,
     ) -> None:
         self._settings = settings
         self._mock_provider = mock_provider
@@ -35,7 +49,7 @@ class OrdersWsHandler:
         self._last_summary: tuple[int, int] | None = None
 
     @property
-    def _exchange_orders_service(self) -> "ExchangeOrdersService | None":
+    def _exchange_orders_service(self) -> ExchangeOrdersService | None:
         if self._runtime is not None:
             return self._runtime.exchange_orders_service
         return None
@@ -165,7 +179,7 @@ class OrdersWsHandler:
     def _build_paper_order_groups(self) -> list[dict[str, object]]:
         """Convert paper orders into the same group format as exchange orders."""
         assert self._paper_store is not None
-        from arbitrator.domain.paper_order import PaperOrder
+        from arbitrator.domain.opportunity.paper_order import PaperOrder
 
         orders = self._paper_store.load_all()
         by_pair: dict[str, list[PaperOrder]] = {}
@@ -173,7 +187,7 @@ class OrdersWsHandler:
             by_pair.setdefault(o.pair_id, []).append(o)
 
         groups: list[dict[str, object]] = []
-        for pair_id, legs in by_pair.items():
+        for _pair_id, legs in by_pair.items():
             sell_leg = next((l for l in legs if l.side == "sell"), None)
             buy_leg = next((l for l in legs if l.side == "buy"), None)
             is_open = any(l.status == "filled" for l in legs)
@@ -188,10 +202,16 @@ class OrdersWsHandler:
             closed_at_dt = sell_leg.closed_at if sell_leg and sell_leg.closed_at else None
             closed_str = closed_at_dt.strftime("%m/%d %H:%M") if closed_at_dt else None
 
+            # Use strategy_kind from the order record (first leg that has it)
+            raw_strategy = next(
+                (l.strategy_kind for l in legs if l.strategy_kind), None
+            )
+            strategy_label = _strategy_label(raw_strategy, paper=True)
+
             groups.append({
                 "asset": legs[0].symbol.replace("/USDT:USDT", ""),
                 "symbol": legs[0].symbol,
-                "strategy_code": "FF paper",
+                "strategy_code": strategy_label,
                 "short_exchange_id": short_ex,
                 "long_exchange_id": long_ex,
                 "status": "open" if is_open else "closed",
@@ -246,8 +266,8 @@ class OrdersWsHandler:
         return None
 
     @staticmethod
-    def _build_groups(orders: list["PaperOrder"]) -> list[dict[str, object]]:  # type: ignore[name-defined]
-        from arbitrator.domain.paper_order import PaperOrder
+    def _build_groups(orders: list[PaperOrder]) -> list[dict[str, object]]:  # type: ignore[name-defined]
+        from arbitrator.domain.opportunity.paper_order import PaperOrder
 
         by_pair: dict[str, list[PaperOrder]] = {}
         for o in orders:

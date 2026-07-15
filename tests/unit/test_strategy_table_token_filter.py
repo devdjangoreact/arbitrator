@@ -4,19 +4,15 @@ All I/O is mocked — no file system, no exchange calls.
 """
 from __future__ import annotations
 
-from typing import Any
 from unittest.mock import MagicMock
 
-import pytest
-
-from arbitrator.application.market_data_cache_memory import MarketDataCacheMemory
-from arbitrator.application.strategy_table_service import StrategyTableService
-from arbitrator.application.token_identity_service import TokenIdentityService
+from arbitrator.application.account.token_identity_service import TokenIdentityService
+from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.strategies.strategy_table_service import StrategyTableService
 from arbitrator.config.settings import Settings
-from arbitrator.domain.symbol_exclusions_repository import SymbolExclusionsRepository
-from arbitrator.domain.ticker import Ticker
-from arbitrator.domain.token_identity import CurrencyNetworkInfo, MatchResult
-
+from arbitrator.domain.market.ticker import Ticker
+from arbitrator.domain.universe.symbol_exclusions_repository import SymbolExclusionsRepository
+from arbitrator.domain.universe.token_identity import CurrencyNetworkInfo, MatchResult
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -171,7 +167,7 @@ def test_no_exclusions_repo_injected_conflict_still_filters() -> None:
 
 def test_chain_label_mismatch_does_not_exclude() -> None:
     """Regression: 'ETH' vs 'ERC20' as chain-name ids must not block."""
-    from arbitrator.domain.token_identity import TokenIdentityComparer
+    from arbitrator.domain.universe.token_identity import TokenIdentityComparer
 
     a = CurrencyNetworkInfo(exchange_id=SHORT_EX, base_code="TLM", network_ids={"ERC20": "ETH"})
     b = CurrencyNetworkInfo(exchange_id=LONG_EX,  base_code="TLM", network_ids={"ERC20": "ERC20"})

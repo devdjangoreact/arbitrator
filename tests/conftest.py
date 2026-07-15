@@ -6,14 +6,14 @@ from typing import Literal
 import pytest
 
 from arbitrator.config.settings import Settings
-from arbitrator.domain.closed_position_leg import ClosedPositionLeg
-from arbitrator.domain.exchange_connection_status import ExchangeConnectionStatus
-from arbitrator.domain.exchange_gateway import ExchangeGateway
-from arbitrator.domain.order_book_snapshot import OrderBookSnapshot
-from arbitrator.domain.position_leg import PositionLeg
-from arbitrator.domain.symbol_market_info import SymbolMarketInfo
-from arbitrator.domain.token_identity import CurrencyNetworkInfo
-from arbitrator.domain.trade_tick import TradeTick
+from arbitrator.domain.account.closed_position_leg import ClosedPositionLeg
+from arbitrator.domain.account.position_leg import PositionLeg
+from arbitrator.domain.exchange.exchange_connection_status import ExchangeConnectionStatus
+from arbitrator.domain.exchange.exchange_gateway import ExchangeGateway
+from arbitrator.domain.market.order_book_snapshot import OrderBookSnapshot
+from arbitrator.domain.market.trade_tick import TradeTick
+from arbitrator.domain.universe.symbol_market_info import SymbolMarketInfo
+from arbitrator.domain.universe.token_identity import CurrencyNetworkInfo
 
 
 class MockGateway(ExchangeGateway):
@@ -137,6 +137,10 @@ class MockGateway(ExchangeGateway):
     async def close(self) -> None:
         return None
 
+
+import nest_asyncio
+
+nest_asyncio.apply()
 
 @pytest.fixture
 def settings() -> Settings:
