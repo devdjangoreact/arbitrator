@@ -71,7 +71,7 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 
 **History Screener Table**
 
-- **FR-001**: Table rows are sorted by `max_historical_spread_pct` descending on every update received from the backend.
+- **FR-001**: Table rows are sorted by `max_historical_spread_pct` descending on every update received from the backend. Rows are updated in-place using stable React `key={symbol:short_exchange:long_exchange}` — the table must NOT recreate the DOM on each push (no full unmount/remount of row components).
 - **FR-002**: Table data refresh interval is configurable via a "Refresh Interval (s)" input in the filter panel (default 5 s, min 1 s). The value is sent as `push_interval_seconds` in the `update_filters` command and stored in `StrategyUIConfig` (per §17 — user-tunable strategy knob). The frontend does not poll; the backend adjusts its push cadence based on this setting.
 - **FR-003**: "Analysis Period (s)" input (default 1800) is sent as `lookback_seconds` in the `update_filters` command when the user blurs the field or presses Enter.
 - **FR-004**: "Min Spread %" filter is sent as `min_spread_pct`; applied server-side; table shows only matching rows.
@@ -175,6 +175,10 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 - Q: What does the 📌 icon on the card do? → A: Закріплює картку першою в списку (пін/фаворит).
 - Q: What does the Side selector control? → A: Визначає напрям позиції з урахуванням маржі: Auto — бекенд обирає сам щоб уникнути від'ємної маржі; LONG/SHORT — задається вручну.
 - Q: What do the two chart lines represent? → A: Червона лінія — шорт біржа; зелена лінія — лонг біржа.
+
+### Session 2026-07-16 (gap analysis)
+
+- Q: Is there a "filter by time" parameter on the screener table? → A: No — це помилка. Фільтр "за часом" не існує. Таблиця фільтрується тільки за `min_spread_pct`, `min_volume_usdt`, `min_analysis_volume_usdt`, `price_deviation_filter_pct`. Колонка `signal_time_seconds` є лише для відображення (скільки секунд тому був максимальний спред), але не є параметром фільтрації.
 
 ## Assumptions
 
