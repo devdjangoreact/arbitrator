@@ -114,10 +114,16 @@
   "lookback_seconds": 1800,
   "min_spread_pct": 2.0,
   "min_volume_usdt": 1000000.0,
-  "min_analysis_volume_usdt": 500000.0
+  "min_analysis_volume_usdt": 500000.0,
+  "push_interval_seconds": 5,
+  "candle_interval_seconds": 5,
+  "price_deviation_filter_pct": 0.0
 }
 ```
-*`min_analysis_volume_usdt` ignored if `supports_analysis_volume_filter: false`*
+*`min_analysis_volume_usdt` — ignored if `supports_analysis_volume_filter: false`*
+*`push_interval_seconds` — інтервал пушу в секундах (default 5, min 1); зберігається в `StrategyUIConfig.historical_screener_push_interval_seconds`*
+*`candle_interval_seconds` — таймфрейм свічок для аналізу спреду: 5 / 15 / 30 / 60 (default 5); зберігається в `StrategyUIConfig.historical_screener_candle_interval_seconds`*
+*`price_deviation_filter_pct` — фільтр відхилення ціни (max-min) %; 0.0 = вимкнено (default); якщо > 0 — виключає символи з меншим відхиленням*
 
 ### `add_monitor` — додати монітор з таблиці
 ```json
@@ -135,10 +141,11 @@
 { "type": "error", "data": { "code": "duplicate_monitor", "monitor_id": "BP:GATEIO:MEXC" } }
 ```
 
-### `remove` — видалити монітор
+### `remove` — видалити монітор (× кнопка на картці, FR-025)
 ```json
 { "cmd": "remove", "monitor_id": "BP:GATEIO:MEXC" }
 ```
+Backend: зупиняє тік → **закриває всі відкриті позиції** для цього монітора → видаляє з реєстру моніторів. Картка зникає коли наступний пуш не містить цей `monitor_id` в масиві `monitors`.
 
 ### `update_config` — оновити параметр картки
 ```json

@@ -213,3 +213,28 @@ interface HistoricalScreenerUpdate {
   supports_analysis_volume_filter: boolean;  // NEW
 }
 ```
+
+---
+
+## StrategyUIConfig — нові поля (per §17)
+
+File: `src/arbitrator/config/ui_config.py`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `historical_screener_push_interval_seconds` | `int` | `5` | Інтервал пушу WS в секундах |
+| `historical_screener_candle_interval_seconds` | `int` | `5` | Таймфрейм свічок: 5 / 15 / 30 / 60 |
+
+---
+
+## Screener worker filter params (розширення `update_filters`)
+
+| Param | Type | Default | Description |
+|-------|------|---------|-------------|
+| `lookback_seconds` | `int` | `1800` | Вікно аналізу в секундах |
+| `min_spread_pct` | `float` | `0.0` | Мінімальний спред % |
+| `min_volume_usdt` | `float` | `0.0` | Мінімальний 24h обсяг |
+| `min_analysis_volume_usdt` | `float` | `0.0` | Мінімальний обсяг за вікно (деферовано) |
+| `push_interval_seconds` | `int` | `5` | Інтервал пушу |
+| `candle_interval_seconds` | `int` | `5` | Таймфрейм свічок (FR-022) |
+| `price_deviation_filter_pct` | `float` | `0.0` | Фільтр відхилення ціни, 0=вимкнено (FR-023) |

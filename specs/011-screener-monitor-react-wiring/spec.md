@@ -13,7 +13,7 @@ A trader opens the Monitors page and sees a table of symbols sorted by the large
 
 **Why this priority**: The table is the entry point for all trading decisions on this page. Without accurate, live, filtered data it has no operational value.
 
-**Independent Test**: Start the backend screener worker, open the Monitors page. Verify the table populates with live symbols within 10 seconds, sorts by max-period-spread descending, and updates every 5 seconds without user action.
+**Independent Test**: Start the backend screener worker, open the Monitors page. Verify the table populates with live symbols within 10 seconds, sorts by max-period-spread descending, and updates every N seconds (configurable) without user action. Close the browser tab and reopen — the screener continues and data is still fresh on reconnect.
 
 **Acceptance Scenarios**:
 
@@ -57,11 +57,13 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 
 ### Edge Cases
 
-- WebSocket disconnects mid-session: the connection reconnects automatically; cards do not freeze on stale values.
+- WebSocket disconnects mid-session: the connection reconnects automatically; cards do not freeze on stale values. The screener worker and all monitors continue running server-side during the disconnect (FR-024).
 - Duplicate monitor attempt for the same symbol+exchange pair: backend rejects `add_monitor`; UI shows a warning and does not create a second card. The same symbol on a different exchange pair (e.g. BP on GATE–MEXC and BP on BITGET–MEXC) is allowed — each is a separate monitor instance.
+- Browser tab closed while cards are active: backend continues running. On next open the client reconnects and resumes seeing live data (FR-024). Tab close is NOT the same as clicking Stop.
 - Analysis-period volume data is unavailable from the backend: the filter field is visible but disabled with a tooltip explaining it requires a backend update; the rest of the table works normally.
 - Screener returns zero results matching the active filters: the table shows an empty-state message rather than a blank area.
 - A monitor card is removed while a data push is in flight: the update is silently dropped; no error appears.
+- User clicks × on a card that has open positions: backend closes all positions before removing the monitor. UI shows the card until the next push confirms removal (card absent in `monitors` array).
 
 ## Requirements *(mandatory)*
 
@@ -70,7 +72,7 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 **History Screener Table**
 
 - **FR-001**: Table rows are sorted by `max_historical_spread_pct` descending on every update received from the backend.
-- **FR-002**: Table data refreshes every 5 seconds automatically via the backend's existing push cadence — no polling by the frontend.
+- **FR-002**: Table data refresh interval is configurable via a "Refresh Interval (s)" input in the filter panel (default 5 s, min 1 s). The value is sent as `push_interval_seconds` in the `update_filters` command and stored in `StrategyUIConfig` (per §17 — user-tunable strategy knob). The frontend does not poll; the backend adjusts its push cadence based on this setting.
 - **FR-003**: "Analysis Period (s)" input (default 1800) is sent as `lookback_seconds` in the `update_filters` command when the user blurs the field or presses Enter.
 - **FR-004**: "Min Spread %" filter is sent as `min_spread_pct`; applied server-side; table shows only matching rows.
 - **FR-005**: "Min 24h Volume (USDT)" filter is sent as `min_volume_usdt`; applied server-side using the larger of the two exchanges' 24 h volumes per row.
@@ -92,8 +94,8 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 **Live Monitor Card**
 
 - **FR-010**: Cards run in parallel — each monitors its own symbol+exchange pair independently. The uniqueness constraint is symbol+short_exchange+long_exchange: one active monitor per unique triplet. The same symbol on a different exchange pair is a distinct monitor and allowed. Backend rejects `add_monitor` for a duplicate triplet; frontend shows a warning toast.
-  Each card receives its configuration from the `monitors` array and its live state from the `live_state` dict (keyed by `symbol+short_ex+long_ex` composite key), both passed as props from the parent page — the card opens no independent WebSocket connection.
-- **FR-011**: The following fields are wired from `live_state[symbol]` and display "—" when absent or null: `short_funding_rate`, `long_funding_rate`, `short_next_funding`, `long_next_funding`, `short_ask`, `long_ask`, `short_bid`, `long_bid`, `short_size`, `long_size`, `leverage`, `max_size_short`, `max_size_long`, `short_price`, `long_price`, `short_pnl`, `long_pnl`, `short_realized_pnl`, `long_realized_pnl`, `enter_spread_short`, `enter_spread_long`, `short_orders`, `long_orders`, `open_spread_current`, `open_spread_min`, `open_spread_max`, `close_spread_current`, `close_spread_min`, `close_spread_max`.
+  Each card receives its configuration from the `monitors` array and its live state from the `live_state` dict (keyed by `symbol:short_exchange:long_exchange` composite key), both passed as props from the parent page — the card opens no independent WebSocket connection.
+- **FR-011**: The following fields are wired from `live_state["symbol:short_exchange:long_exchange"]` and display "—" when absent or null: `short_funding_rate`, `long_funding_rate`, `short_next_funding`, `long_next_funding`, `short_ask`, `long_ask`, `short_bid`, `long_bid`, `short_size`, `long_size`, `leverage`, `max_size_short`, `max_size_long`, `short_price`, `long_price`, `short_pnl`, `long_pnl`, `short_realized_pnl`, `long_realized_pnl`, `enter_spread_short`, `enter_spread_long`, `short_orders`, `long_orders`, `open_spread_current`, `open_spread_min`, `open_spread_max`, `close_spread_current`, `close_spread_min`, `close_spread_max`.
 - **FR-012**: Allowed Size display uses `allowed_size_current_usdt` and `max_allowed_size_usdt` from the monitor's config entry.
 - **FR-013**: The spread chart plots two lines over time:
   - **Red line** — short exchange spread (short side price dynamics)
@@ -126,7 +128,7 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
   - **Adjustment notification** — `Notify only` (тільки сповіщення якщо плече відрізняється від заданого) / `Adjust` (автоматично виставити потрібне плече)
 - **FR-015**: Start / Stop / Restart buttons:
   - **Start** — activates the monitor: backend begins watching orderbook and evaluating spread conditions.
-  - **Stop** — pauses the monitor: backend halts new order decisions; existing open orders remain untouched.
+  - **Stop** — pauses the monitor: backend halts new order decisions; **existing open orders remain untouched**. Does NOT close positions.
   - **Restart** — sends a `restart` command; backend re-connects to exchanges, fetches all currently open orders for the symbol, recalculates all live metrics (P/L, realized PNL, enter spread, orders count) from real positions, then resumes monitoring. Does NOT clear position state — open orders carry over.
   Card header reflects active/stopped/restarting state visually.
 
@@ -135,6 +137,14 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 - **FR-016**: `HistoricalAutoTrader.get_live_state()` must emit all fields listed in FR-011 for each active monitor. Missing fields are added; existing field names are not changed (backward-compatible).
 - **FR-017**: The `update_filters` command handler accepts `min_analysis_volume_usdt`; if per-period volume tracking is not yet implemented in the screener worker, the parameter is silently ignored and a log line is emitted.
 - **FR-018**: All WebSocket payload changes are additive — no existing field names are renamed or removed, preserving compatibility with the legacy vanilla-JS frontend.
+
+**Screener algorithm (backend process flow)**
+
+- **FR-021**: The screener worker iterates over ALL available trading symbols on the configured exchanges. For each symbol it evaluates **every possible exchange pair** (combinatorially) to find the pair with the maximum spread. The top N pairs (by max-period-spread) are returned in the `opportunities` payload.
+- **FR-022**: A `candle_interval_seconds` parameter controls the timeframe of candles used for spread analysis: valid values `5` / `15` / `30` / `60` (default `5`). This is **separate** from `push_interval_seconds`. Sent by client via `update_filters` as `candle_interval_seconds`; stored in `StrategyUIConfig.historical_screener_candle_interval_seconds` (per §17). Frontend exposes a "Candle Interval (s)" dropdown in the filter panel.
+- **FR-023**: A `price_deviation_filter_pct` parameter (`float`, default `0.0` = disabled): if set to a non-zero value, the worker includes only symbols where `(price_max − price_min) / price_min × 100` over the analysis window exceeds this threshold. Value `0.0` means the filter is off — no symbols are excluded on this basis. Sent via `update_filters` as `price_deviation_filter_pct`.
+- **FR-024**: Backend state is **session-independent**: closing the browser tab or losing the WebSocket connection does NOT stop the screener worker or any active monitors. The worker and monitors continue running on the server. Only an explicit `{"cmd": "stop"}` command (screener) or `{"cmd": "remove", "monitor_id": "..."}` (monitor) issued over a WebSocket connection stops them. On reconnect the client receives the current state (status, opportunities, monitors, live_state) in the next push.
+- **FR-025**: Each Live Monitor Card has a visible close (×) button in its header. Clicking × sends `{"cmd": "remove", "monitor_id": "..."}` over the WebSocket, which: (1) stops the monitoring tick for that monitor, (2) **closes all open positions** for that symbol+exchange pair, (3) removes the monitor from the backend state. The card disappears from the UI upon receiving confirmation (next push with that monitor absent from `monitors` array).
 
 ### Key Entities
 
