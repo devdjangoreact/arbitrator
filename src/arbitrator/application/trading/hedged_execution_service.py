@@ -215,6 +215,26 @@ class HedgedExecutionService:
             "open", symbol, short_exchange_id, long_exchange_id, notional_usdt, price
         )
 
+    async def open_parallel(
+        self,
+        *,
+        symbol: str,
+        short_exchange_id: str,
+        long_exchange_id: str,
+        notional_usdt: Decimal,
+        price: Decimal,
+    ) -> ExecutionOutcome:
+        """Fire both legs simultaneously — minimises leg-to-leg slippage.
+
+        Both exchanges receive the order at the same instant via asyncio.gather.
+        Contract amounts are pre-computed from _harmonize_amounts so token count
+        matches on both sides without waiting for short fill confirmation.
+        No rollback on partial fill: caller is responsible for monitoring.
+        """
+        return await self._enter_parallel(
+            "open", symbol, short_exchange_id, long_exchange_id, notional_usdt, price
+        )
+
     async def accumulate(
         self,
         *,
@@ -582,6 +602,145 @@ class HedgedExecutionService:
             emoji = "✅" if status == ExecutionStatus.success else "⚠️"
             self._notifier.notify(
                 f"{emoji} <b>OPEN</b> {action.upper()}\n"
+                f"Symbol: <code>{symbol}</code>\n"
+                f"Short: {short_exchange_id} filled={float(filled_short):.4f}\n"
+                f"Long:  {long_exchange_id} filled={float(filled_long):.4f}\n"
+                f"Status: {status.value}"
+            )
+        return ExecutionOutcome(
+            action=action, status=status, symbol=symbol,
+            short_leg=short_leg, long_leg=long_leg, imbalance_pct=imbalance,
+        )
+
+    async def _enter_parallel(
+        self,
+        action: str,
+        symbol: str,
+        short_exchange_id: str,
+        long_exchange_id: str,
+        notional_usdt: Decimal,
+        price: Decimal,
+    ) -> ExecutionOutcome:
+        """Open short + long simultaneously via asyncio.gather.
+
+        Pre-computes harmonized contract amounts so token count is equal on
+        both exchanges. Both market orders fire at the same instant — no wait
+        for short fill before placing long. This minimises inter-leg latency.
+        """
+        effective_notional = self.resolve_min_notional(
+            symbol, short_exchange_id, long_exchange_id, notional_usdt, live_price=price
+        )
+        if effective_notional is None:
+            return self._failed(action, symbol, "market_info_missing")
+        if price <= _ZERO or effective_notional <= _ZERO:
+            return self._failed(action, symbol, "invalid_sizing")
+
+        if not self._dry_run:
+            margin_rejection = self._check_sufficient_margin(
+                symbol, short_exchange_id, long_exchange_id, effective_notional
+            )
+            if margin_rejection is not None:
+                return self._failed(action, symbol, margin_rejection)
+
+        harmonized = self._harmonize_amounts(
+            symbol, short_exchange_id, long_exchange_id, effective_notional, price
+        )
+        if harmonized is None:
+            return self._failed(action, symbol, "amount_rounds_to_zero")
+        short_contracts, long_contracts = harmonized
+
+        if self._dry_run:
+            return self._simulated_enter(
+                action, symbol, short_exchange_id, long_exchange_id,
+                Decimal(str(short_contracts))
+            )
+
+        short_gw = self._gateways.get(short_exchange_id)
+        long_gw = self._gateways.get(long_exchange_id)
+        if short_gw is None or long_gw is None:
+            return self._failed(action, symbol, "gateway_missing")
+
+        if self._universe is not None:
+            if symbol not in self._universe.get(short_exchange_id, set()):
+                return self._failed(action, symbol, "not_in_universe_short")
+            if symbol not in self._universe.get(long_exchange_id, set()):
+                return self._failed(action, symbol, "not_in_universe_long")
+
+        coid = uuid.uuid4().hex[:12]
+        logger["trades/live_trades.log"].debug(
+            "ORDER_SEND_PARALLEL | sym={} short_ex={} long_ex={} "
+            "short_contracts={} long_contracts={} notional={} coid=HX-{}",
+            symbol, short_exchange_id, long_exchange_id,
+            short_contracts, long_contracts, effective_notional, coid,
+        )
+
+        import asyncio as _asyncio
+
+        async def _place_short() -> str:
+            return await short_gw.open_market_position(
+                symbol, "sell", short_contracts, f"HX-{coid}-S"
+            )
+
+        async def _place_long() -> str:
+            return await long_gw.open_market_position(
+                symbol, "buy", long_contracts, f"HX-{coid}-L"
+            )
+
+        results = await _asyncio.gather(_place_short(), _place_long(), return_exceptions=True)
+        short_result: str | BaseException = results[0]
+        long_result: str | BaseException = results[1]
+
+        short_ok = not isinstance(short_result, BaseException)
+        long_ok = not isinstance(long_result, BaseException)
+
+        if not short_ok:
+            logger.error(
+                "parallel open short failed | symbol={} ex={} err={}",
+                symbol, short_exchange_id, short_result,
+            )
+        if not long_ok:
+            logger.error(
+                "parallel open long failed | symbol={} ex={} err={}",
+                symbol, long_exchange_id, long_result,
+            )
+
+        short_oid = str(short_result) if short_ok else None
+        long_oid = str(long_result) if long_ok else None
+        filled_short = Decimal(str(short_contracts)) if short_ok else _ZERO
+        filled_long = Decimal(str(long_contracts)) if long_ok else _ZERO
+
+        logger["trades/live_trades.log"].debug(
+            "ORDER_FILL_PARALLEL | sym={} short_ok={} long_ok={} "
+            "short_oid={} long_oid={} coid=HX-{}",
+            symbol, short_ok, long_ok, short_oid, long_oid, coid,
+        )
+
+        short_leg = LegExecution(
+            exchange_id=short_exchange_id, side="sell", symbol=symbol,
+            requested_amount=Decimal(str(short_contracts)),
+            filled_amount=filled_short,
+            order_id=short_oid,
+            ok=short_ok,
+            message=None if short_ok else "short_leg_failed",
+        )
+        long_leg = LegExecution(
+            exchange_id=long_exchange_id, side="buy", symbol=symbol,
+            requested_amount=Decimal(str(long_contracts)),
+            filled_amount=filled_long,
+            order_id=long_oid,
+            ok=long_ok,
+            message=None if long_ok else "long_leg_failed",
+        )
+        imbalance = self._imbalance(filled_short, filled_long)
+        status = self._enter_status(filled_short, filled_long, imbalance)
+        logger.info(
+            "parallel hedge {} | symbol={} filled_short={} filled_long={} imbalance_pct={} status={}",
+            action, symbol, filled_short, filled_long, imbalance, status.value,
+        )
+        if self._notifier is not None:
+            emoji = "✅" if status == ExecutionStatus.success else "⚠️"
+            self._notifier.notify(
+                f"{emoji} <b>OPEN PARALLEL</b> {action.upper()}\n"
                 f"Symbol: <code>{symbol}</code>\n"
                 f"Short: {short_exchange_id} filled={float(filled_short):.4f}\n"
                 f"Long:  {long_exchange_id} filled={float(filled_long):.4f}\n"

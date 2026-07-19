@@ -154,9 +154,13 @@ class CcxtBase(ExchangeGateway):
             return None
         usdt_entry = balance.get("USDT")
         if isinstance(usdt_entry, dict):
-            total = usdt_entry.get("total")
-            if isinstance(total, (int, float)):
-                return float(total)
+            # Prefer total → free → equity (covers bingx/mexc swap differences).
+            # bingx linear swap: total=None, free=availableMargin (already mapped by ccxt)
+            # mexc swap: total=None, free=availableBalance (mapped by ccxt custom_parse_balance)
+            for key in ("total", "free", "equity"):
+                val = usdt_entry.get(key)
+                if isinstance(val, (int, float)) and val is not None:
+                    return float(val)
         total_map = balance.get("total")
         if isinstance(total_map, dict):
             usdt_total = total_map.get("USDT")
@@ -416,6 +420,13 @@ class CcxtBase(ExchangeGateway):
         mark_price: float | None = None
         if isinstance(ticker_data, dict):
             mark_price = CcxtBase._as_float(ticker_data.get("last"))
+        # Fallback: fetch a fresh ticker if tickers cache is empty (needed for amount→usdt conversion)
+        if mark_price is None:
+            try:
+                fresh = await client.fetch_ticker(resolved)
+                mark_price = CcxtBase._as_float(fresh.get("last"))
+            except Exception:
+                logger.debug("fetch_ticker fallback failed | exchange={} symbol={}", self.exchange_id, symbol)
         return SymbolMarketInfoParser.from_ccxt_market(market, mark_price=mark_price)
 
     async def verify_connection(self) -> ExchangeConnectionStatus:
@@ -1000,39 +1011,74 @@ class CcxtBase(ExchangeGateway):
             return []
         client = await self._ensure_open()
         await self._ensure_markets_loaded(client)
-        if not client.has.get("fetchFundingRates"):
-            logger.info("fetchFundingRates unsupported | exchange={}", self.exchange_id)
-            return []
-        known = {s for s in symbols if s in client.markets}
+        known = [s for s in symbols if s in client.markets]
         if not known:
             return []
-        try:
-            payload = await client.fetch_funding_rates(list(known))
-        except Exception:
-            logger.exception(
-                "fetch_funding_rates failed | exchange={} symbols={}",
-                self.exchange_id,
-                len(symbols),
-            )
-            return []
-        if not isinstance(payload, dict):
-            return []
-        recv_time_ms = int(time.time() * 1000)
-        infos: list[FundingInfo] = []
-        for symbol, structure in payload.items():
-            if not isinstance(symbol, str) or not isinstance(structure, dict):
-                continue
-            infos.append(
-                FundingInfo(
-                    exchange_id=self.exchange_id,
-                    symbol=symbol,
-                    rate=CcxtBase._as_decimal(structure.get("fundingRate")),
-                    next_rate=CcxtBase._as_decimal(structure.get("nextFundingRate")),
-                    next_settlement_ms=CcxtBase._as_int(structure.get("fundingTimestamp")),
-                    recv_time_ms=recv_time_ms,
+
+        # Batch path: exchange supports fetchFundingRates
+        if client.has.get("fetchFundingRates"):
+            try:
+                payload = await client.fetch_funding_rates(known)
+            except Exception:
+                logger.exception(
+                    "fetch_funding_rates failed | exchange={} symbols={}",
+                    self.exchange_id,
+                    len(symbols),
                 )
-            )
-        return infos
+                return []
+            if not isinstance(payload, dict):
+                return []
+            recv_time_ms = int(time.time() * 1000)
+            infos: list[FundingInfo] = []
+            for symbol, structure in payload.items():
+                if not isinstance(symbol, str) or not isinstance(structure, dict):
+                    continue
+                next_ts = CcxtBase._as_int(structure.get("fundingTimestamp")) \
+                    or CcxtBase._as_int(structure.get("nextFundingTimestamp"))
+                infos.append(
+                    FundingInfo(
+                        exchange_id=self.exchange_id,
+                        symbol=symbol,
+                        rate=CcxtBase._as_decimal(structure.get("fundingRate")),
+                        next_rate=CcxtBase._as_decimal(structure.get("nextFundingRate")),
+                        next_settlement_ms=next_ts,
+                        recv_time_ms=recv_time_ms,
+                    )
+                )
+            return infos
+
+        # Single-symbol fallback: exchange supports only fetchFundingRate (e.g. MEXC)
+        if client.has.get("fetchFundingRate"):
+            infos_single: list[FundingInfo] = []
+            recv_time_ms = int(time.time() * 1000)
+            for symbol in known:
+                try:
+                    structure = await client.fetch_funding_rate(symbol)
+                except Exception:
+                    logger.debug(
+                        "fetch_funding_rate failed | exchange={} symbol={}",
+                        self.exchange_id,
+                        symbol,
+                    )
+                    continue
+                if not isinstance(structure, dict):
+                    continue
+                next_ts_s = CcxtBase._as_int(structure.get("fundingTimestamp")) \
+                    or CcxtBase._as_int(structure.get("nextFundingTimestamp"))
+                infos_single.append(
+                    FundingInfo(
+                        exchange_id=self.exchange_id,
+                        symbol=symbol,
+                        rate=CcxtBase._as_decimal(structure.get("fundingRate")),
+                        next_rate=CcxtBase._as_decimal(structure.get("nextFundingRate")),
+                        next_settlement_ms=next_ts_s,
+                        recv_time_ms=recv_time_ms,
+                    )
+                )
+            return infos_single
+
+        logger.info("no funding rate API available | exchange={}", self.exchange_id)
+        return []
 
     async def fetch_fee_schedule(self, symbol: str) -> FeeSchedule | None:
         client = await self._ensure_open()
