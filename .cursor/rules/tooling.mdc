@@ -5,6 +5,9 @@ alwaysApply: true
 
 # Tooling & environment rule
 
+> Tactical expansion of Constitution §19 (Static Typing Gate). venv discipline
+> is part of keeping `mypy --strict` / `ruff` reproducible across machines.
+
 This project is **Poetry-managed** and its virtualenv is **in-project** at
 `.venv/` (already created, with `arbitrator` installed editable + all dev tools).
 

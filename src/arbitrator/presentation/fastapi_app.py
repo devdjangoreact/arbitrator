@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, WebSocket
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from arbitrator.application.app_runtime import AppRuntime
@@ -13,6 +13,7 @@ from arbitrator.config.logger import logger
 from arbitrator.presentation.api.routers.config import router as config_router
 from arbitrator.config.settings import Settings
 from arbitrator.presentation.ws.historical_screener_ws_handler import HistoricalScreenerWsHandler
+from arbitrator.presentation.ws.monitor_live_ws_handler import MonitorLiveWsHandler
 from arbitrator.presentation.ws.opportunity_ws_handler import OpportunityWsHandler
 from arbitrator.presentation.ws.orders_ws_handler import OrdersWsHandler
 from arbitrator.presentation.ws.paper_trades_ws_handler import PaperTradesWsHandler
@@ -93,6 +94,8 @@ class FastApiApp:
             settings=self._settings,
             mock_provider=self._runtime.mock_provider,
         )
+        monitor_live_handler = MonitorLiveWsHandler(runtime=self._runtime)
+
         paper_trades_handler = PaperTradesWsHandler(
             settings=self._settings,
             paper_store=self._runtime.paper_store,
@@ -127,6 +130,50 @@ class FastApiApp:
         @app.websocket("/ws/settings")
         async def settings_ws(websocket: WebSocket) -> None:
             await settings_handler.handle(websocket)
+
+        @app.websocket("/ws/monitor/{monitor_id:path}")
+        async def monitor_live_ws(websocket: WebSocket, monitor_id: str) -> None:
+            await monitor_live_handler.handle(websocket, monitor_id)
+
+        @app.get("/api/candles/{monitor_id:path}")
+        async def candles_api(monitor_id: str, timeframe: str = "1m", limit: int = 1440) -> JSONResponse:
+            from arbitrator.exchanges.factory import Factory as _Factory
+            import asyncio as _asyncio
+            import time as _time
+
+            store = self._runtime.monitor_store
+            config = store.get(monitor_id)
+            if config is None:
+                return JSONResponse({"error": "monitor not found"}, status_code=404)
+
+            since_ms = int((_time.time() - 86400) * 1000)
+
+            async def _fetch(exchange_id: str) -> list[list[float | int]]:
+                named = _Factory(settings=self._settings).create_public(exchange_id)
+                gw = named.gateway
+                try:
+                    return await gw.fetch_ohlcv(config.symbol, timeframe, since_ms=since_ms, limit=limit)
+                except Exception:
+                    logger.exception("candles fetch failed | exchange={} symbol={}", exchange_id, config.symbol)
+                    return []
+                finally:
+                    try:
+                        await gw.close()
+                    except Exception:
+                        pass
+
+            short_candles, long_candles = await _asyncio.gather(
+                _fetch(config.short_exchange),
+                _fetch(config.long_exchange),
+            )
+            return JSONResponse({
+                "short_exchange": config.short_exchange,
+                "long_exchange": config.long_exchange,
+                "symbol": config.symbol,
+                "timeframe": timeframe,
+                "short_candles": short_candles,
+                "long_candles": long_candles,
+            })
 
         logger.info(
             "FastAPI app created | title={} host={} port={} ui_data_mode={}",

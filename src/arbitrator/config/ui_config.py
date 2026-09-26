@@ -61,7 +61,10 @@ class StrategyUIConfig(BaseModel):
     historical_screener_enabled: bool = False
     historical_screener_lookback_minutes: int = 60
     historical_screener_spread_threshold_pct: float = 1.0
+    historical_screener_min_volume_usdt: float = 100000.0
     historical_screener_scan_interval_seconds: float = 5.0
+    historical_screener_push_interval_seconds: int = 5
+    historical_screener_candle_interval_seconds: int = 5
     historical_monitor_open_spread_pct: float = 1.0
     historical_monitor_close_spread_pct: float = 0.1
     historical_monitor_max_positions: int = 3

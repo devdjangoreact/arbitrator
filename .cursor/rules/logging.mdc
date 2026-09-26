@@ -7,6 +7,8 @@ alwaysApply: false
 
 # Logging rule
 
+> Tactical expansion of Constitution §20 (Structured Logging).
+
 This project ships a single, project-wide logger built on top of Loguru,
 defined in `src/arbitrator/config/logger.py`.
 

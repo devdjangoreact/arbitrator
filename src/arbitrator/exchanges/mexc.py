@@ -39,6 +39,11 @@ class Mexc(CcxtBase):
         if isinstance(options, dict):
             options["recvWindow"] = 10000
             options["adjustForTimeDifference"] = True
+            # MEXC swap order book waits for snapshotDelay delta updates before
+            # fetching the REST snapshot and resolving the first watch. Default
+            # is 25 — too slow for low-liquidity symbols like TAKE. Set to 1 so
+            # the snapshot fires after the very first delta arrives.
+            options["watchOrderBook"] = {"snapshotDelay": 1, "snapshotMaxRetries": 3}
         config["options"] = options
         return config
 

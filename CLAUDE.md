@@ -1,25 +1,30 @@
 # CLAUDE.md — Arbitrator
 
-## Spec Kit — HARD RULE (cannot be overridden by conversation context)
+> **Single source of truth for project principles:** `.specify/memory/constitution.md` (v1.5.0).
+> Tactical details live in `.cursor/rules/*.mdc`. This file is a thin pointer +
+> command reference. It does **not** re-state principles — read the constitution
+> and the relevant `.mdc` when you need them.
 
-**BEFORE invoking any `/speckit-*` skill**: do NOT read project files, do NOT create directories, do NOT write any files. Invoke the skill immediately.
-
-**WHILE a spec kit skill runs**: follow ONLY its instructions. Never manually create `spec.md`, `plan.md`, `tasks.md`, feature directories, or any other spec kit artifact. The skill creates them — not you.
-
-Violation = broken workflow. User has corrected this twice.
+USDT-M perp + USDT spot arb screener + strategy engine. FastAPI + React UI, ccxt.pro.
 
 ## Language — HARD RULE
 
 All final reports, completion messages, clarification questions, summaries, and explanations MUST be written in **Ukrainian**.
 Code, file names, identifiers, and technical strings stay in English.
 
-> **Single source of truth for project principles:** `.specify/memory/constitution.md` (v1.4.0).
-> Tactical details live in `.cursor/rules/*.mdc`. This file is a thin pointer +
-> command reference. It does **not** re-state principles — read the constitution
-> and the relevant `.mdc` when you need them.
+## UI Verification — HARD RULE
 
-USDT-M perp + USDT spot arb screener + strategy engine. FastAPI + conditional
-React/legacy UI, ccxt.pro.
+All React UI changes MUST be verified in the browser (via Playwright headless or manual) before marking the task done.
+- Run `pnpm build` in `react-ui/`, restart the backend, then open the page.
+- For any button action (Start, Stop, Fast Trade, ×) — assert the observable state change in the UI.
+- E2E tests MUST use real backend data — no mocked WS responses.
+- Any JS error in `pageerror` or `console.error` during the test = FAIL.
+
+## Trading Safety — §15
+
+No trading actions (`create_order`, `cancel_order`, `set_leverage`, `open_market_position`, `close_market_position`) without **explicit user approval per session**.
+- `mock_data` / `paper` modes: allowed without per-call approval if `Settings.arb_auto_open_enabled = true`.
+- **Live mode**: requires explicit user confirmation. User has confirmed live mode for the current task.
 
 ## Commands
 
@@ -30,133 +35,45 @@ Always `.venv\Scripts\*.exe` — never global Python, never `poetry run`.
 | Tests | `.venv\Scripts\python.exe -m pytest tests/ -q` |
 | Strategy tests | `.venv\Scripts\python.exe -m pytest tests/ -k strategy -q` |
 | Mypy | `.venv\Scripts\mypy.exe --strict src/arbitrator` |
-| Lint / format | `.venv\Scripts\ruff.exe check src tests` / `.venv\Scripts\black.exe` |
+| Lint | `.venv\Scripts\ruff.exe check src tests` |
+| Format | `.venv\Scripts\black.exe src tests` |
 | Run app | `.venv\Scripts\uvicorn.exe main:app` |
-| Rebuild legacy UI | `.venv\Scripts\python.exe scripts/build_ui.py` |
-| Build React UI | `pnpm build` in `src/arbitrator/presentation/react-ui/` |
 | Run app (lifecycle) | `.venv\Scripts\python.exe scripts/run_app.py` |
+| Rebuild legacy UI | `.venv\Scripts\python.exe scripts/build_ui.py` |
+| Build React UI | `pnpm build` (in `src/arbitrator/presentation/react-ui/`) |
 
-## Agent workflow (save tokens)
+## Agent Workflow
 
-- **Read the constitution first** when the task touches principles —
-  `.specify/memory/constitution.md`. Then the relevant `.cursor/rules/*.mdc`.
-- **Scope prompts**: file + method/lines + expected vs actual; forbid
-  whole-project reads.
-- **Explore code**: `graphify query|path|explain` when the implementation path is
-  unknown; skip for known files/lines and for exchange diagnostics.
-  See `.cursor/rules/graphify.mdc`.
-- **Diagnostics**: `scripts/inspect_exchanges.py --json`, `trade_report.py` —
-  skill `.cursor/skills/exchange-read-only-inspect/`.
-  For trade analysis: run `trade_report.py --refresh [--last N]`, then read
-  `src/arbitrator/data/trade_report.json` (not xlsx / not cache alone).
-- **No trading** (`create_order`, `set_leverage`, etc.) without explicit user
-  approval — Constitution §15.
-- **After code edits**: `graphify update .`; also audit docs per
-  `.cursor/rules/documentation-sync.mdc`.
-- **Adding strategy parameters**: see Constitution §17 — environment-bound →
-  `Settings`; user-tunable strategy knob → `StrategyUIConfig`
-  (`src/arbitrator/config/ui_config.py`) + `STRATEGY_META` in `settings.js`.
+- **Read the constitution first** when the task touches principles — `.specify/memory/constitution.md`. Then the relevant `.cursor/rules/*.mdc`.
+- **Scope prompts**: file + method/lines + expected vs actual; forbid whole-project reads.
+- **Explore code**: `graphify query|path|explain` when the implementation path is unknown; skip for known files/lines and for exchange diagnostics. Full rules: `.cursor/rules/graphify.mdc`.
+- **After code edits**: run `graphify update .`; audit docs per `.cursor/rules/documentation-sync.mdc`.
+- **Diagnostics**: `scripts/inspect_exchanges.py --json`, `trade_report.py --refresh`. Never use cached files for trade analysis.
+- **No trading** without explicit user approval — Constitution §15.
+- **Adding strategy parameters**: environment-bound → `Settings`; user-tunable knob → `StrategyUIConfig` (`src/arbitrator/config/ui_config.py`).
+- **Context7**: before writing/reviewing code that uses any third-party library, look up via `mcp__context7__resolve-library-id` → `mcp__context7__query-docs`. Never invent third-party APIs.
 
-## graphify
+## Superpowers Skills
 
-Knowledge graph at `graphify-out/`. Full rules: `.cursor/rules/graphify.mdc`.
-After code edits run `graphify update .`.
+**New feature work uses Superpowers only** — not Spec Kit (`/speckit-*`, new `specs/NNN-*`).
+Designs: `docs/superpowers/specs/`. Plans: `docs/superpowers/plans/`.
 
-## Spec-Kit Pipeline Rules
+Skills auto-trigger based on context. Manual invocation when needed:
 
-**Standing project policy.** Applies every session, every agent, until explicitly
-amended in this file. A blanket "do it all" instruction in conversation does NOT
-override — each stage needs its own go-ahead.
+| Skill | When |
+| ----- | ---- |
+| `/brainstorming` | Before any new feature or plan |
+| `/systematic-debugging` | Bug investigation |
+| `/writing-plans` | Creating implementation plans |
+| `/executing-plans` | Following an existing plan |
+| `/test-driven-development` | Writing new features with tests |
+| `/verification-before-completion` | Before marking a task done |
+| `/finishing-a-development-branch` | Before merging / creating PR |
+| `/requesting-code-review` | Requesting review |
+| `/subagent-driven-development` | Large parallel implementation |
+| `/using-git-worktrees` | Parallel isolated workstreams |
 
-### What Each Command Does
-
-| Command | Purpose | Produces |
-|---------|---------|----------|
-| `/speckit.constitution` | Define project principles (simplicity, anti-abstraction, testing philosophy). Run once per project. | `.specify/memory/constitution.md` — articles that govern all downstream decisions |
-| `/speckit.specify <desc>` | Turn a natural-language feature description into a structured requirements doc. Creates a git branch. | `specs/NNN-name/spec.md` — requirements, constraints, acceptance criteria |
-| `/speckit.clarify` | Ask targeted questions about the spec to close ambiguities before planning. Interactive — user answers. | Updated `spec.md` with clarifications section filled |
-| `/speckit.checklist` | Generate a quality/compliance checklist for complex features. | Checklist appended to spec artifacts, each item pass/fail |
-| `/speckit.plan <stack>` | Design the implementation: architecture, data model, API contracts, research. | `plan.md`, `research.md`, `data-model.md`, `contracts/` in the spec folder |
-| `/speckit.tasks` | Break the plan into ordered, dependency-aware implementation tasks. | `tasks.md` — grouped by user story, `[P]` marks parallelizable tasks |
-| `/speckit.analyze` | Cross-check spec vs plan vs tasks for consistency gaps before coding. | Console report: critical/warning gaps that must be resolved |
-| `/speckit.taskstoissues` | Convert tasks.md into GitHub issues for distributed execution. | GitHub issues with links back to tasks.md |
-| `/speckit.implement` | Execute tasks in order: write tests first (red), then code (green). | Code + tests in the codebase, tasks marked done |
-| `/speckit.converge` | Compare actual code against spec/plan/tasks, find drift. | Drift report; unbuilt work appended as new tasks |
-
-### Branch Rule: Feature Branches Are Mandatory
-
-Every Spec Kit feature **must** run on its own branch:
-
-```
-git checkout -b feature/NNN-short-name   # before /speckit.specify
-```
-
-- Branch created **before** the first spec-kit command, not after.
-- Never commit Spec Kit work directly to `main`.
-- Merge via PR only after `/speckit.converge` passes.
-- Branch name format: `feature/NNN-short-name` matching the spec folder number.
-
-### Core Rule: One Stage Per Turn
-
-1. Run exactly one `/speckit.*` command.
-2. Stop. Report result (format below).
-3. If criterion fails → state what's wrong, propose fix, wait.
-4. If criterion passes → propose next stage, wait for confirmation.
-
-### Pipeline
-
-| # | Stage | Command | Skip when | Pass criterion |
-|---|-------|---------|-----------|----------------|
-| 0 | Constitution | `/speckit.constitution` | Already exists with Art VII+VIII | constitution.md has Art VII, VIII |
-| 1 | Spec | `/speckit.specify <desc>` | Never | `spec.md` created, no unresolved `[NEEDS CLARIFICATION]` |
-| 2 | Clarify | `/speckit.clarify` | Spike/throwaway | Ambiguities closed |
-| 3 | Plan | `/speckit.plan <stack>` | Never | `plan.md` + artifacts created |
-| 3b | Self-audit | Check plan for sequencing gaps + over-engineering | Trivial single-step feature | Confirmed clean, or problems listed |
-| 4 | Tasks | `/speckit.tasks` | Never | `tasks.md` created, deps explicit, `[P]` only for independent files |
-| 5 | Analyze | `/speckit.analyze` | ≤2 tasks | No critical gaps |
-| 6 | Implement | `/speckit.implement` | Never | Tests first (Art III), dependency order respected |
-| 7 | Converge | `/speckit.converge` | No drift suspected | Drift report; drift → new tasks, not silent drops |
-
-Optional stages (add only when needed):
-- **2b Checklist** (`/speckit.checklist`) — complex/compliance features only.
-- **5b Issues** (`/speckit.taskstoissues`) — distributed execution only.
-
-### Report Format (every stop)
-
-```
-STAGE: <# and name>
-DONE: <what ran, what changed>
-CHECK: <pass/fail + why>
-NEXT: <proposed stage>
-WHY: <1-2 sentences>
-```
-
-Then: "Waiting for confirmation." — full stop.
-
-### Recovery Paths
-
-- **Stage fails partway** → State what completed. Propose: retry, partial
-  rollback, or re-plan from stage N. Wait.
-- **Spec wrong during implement** → Stop implement. Amend spec (stage 1).
-  Re-run affected downstream stages. Wait for confirmation at each.
-- **Converge finds drift** → Fold new tasks into next tasks/implement pass.
-  Do NOT restart from stage 0.
-
-### Explicit Override
-
-To bypass one gate: say `pipeline override: <reason>`. Logged in the report.
-Does not cascade — next gate still requires confirmation.
-
-### Forbidden
-
-- Two+ spec-kit commands without stop + confirmation between them.
-- Implement when analyze found unresolved critical gaps.
-- Silent modification of `constitution.md`.
-- `[P]` on tasks touching the same file.
-
----
-
-## Where to look
+## Where to Look
 
 | Concern | Location |
 | ------- | -------- |
@@ -168,8 +85,9 @@ Does not cascade — next gate still requires confirmation.
 | FastAPI / WebSocket presentation | `.cursor/rules/fastapi-presentation.mdc` |
 | UI templates (legacy vanilla) | `.cursor/rules/ui-templates.mdc` |
 | Opportunity screen layout | `.cursor/rules/opportunity-ui.mdc` |
-| Feature development (Spec Kit gate) | `.cursor/rules/feature-development.mdc` |
+| Feature development (Superpowers) | `.cursor/rules/feature-development.mdc` |
 | Compact code + dead-code removal | `.cursor/rules/compact-code.mdc` |
 | Context7 docs lookups | `.cursor/rules/context7-lookup.mdc` |
 | Graphify usage | `.cursor/rules/graphify.mdc` |
 | Doc sync after edits | `.cursor/rules/documentation-sync.mdc` |
+| Design docs / plans | `docs/superpowers/specs/`, `docs/superpowers/plans/` |

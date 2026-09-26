@@ -1,13 +1,24 @@
 ---
-description: FastAPI + WebSocket presentation layer — load Context7 docs before editing routes or WS handlers
-globs: src/arbitrator/presentation/**/*
+description: FastAPI + WebSocket presentation layer — load Context7 docs before editing routes or WS handlers. Covers both React UI (presentation/react-ui/) and legacy static UI (presentation/static/).
+globs:
+  - src/arbitrator/presentation/**/*
 alwaysApply: false
 ---
 
 # FastAPI presentation layer
 
-The UI is a **static web frontend** (HTML/CSS/JS) served by **FastAPI**, with
-**live data over WebSocket**. Do not use Streamlit.
+> Tactical expansion of Constitution §11 (Data Flow). UI frontend choice is
+> conditional via `Settings.use_react_frontend` (Constitution §12).
+
+The UI is a **static web frontend** served by **FastAPI**, with live data over
+**WebSocket**. Two implementations served conditionally:
+
+| Frontend | Path | Build |
+| -------- | ---- | ----- |
+| **React + Vite (active)** | `presentation/react-ui/` | `pnpm build` (run via `scripts/run_app.py`) |
+| **Legacy vanilla JS** | `presentation/static/` | `python scripts/build_ui.py` |
+
+Do not use Streamlit.
 
 ## Stack
 

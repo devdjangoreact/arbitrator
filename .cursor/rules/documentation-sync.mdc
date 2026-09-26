@@ -12,6 +12,9 @@ alwaysApply: false
 
 # Documentation sync rule
 
+> Tactical expansion of Constitution Governance. Keeping `.cursor/rules/*.mdc`
+> + `CLAUDE.md` + the constitution mutually consistent.
+
 Whenever you finish a code change, **before reporting to the user**, audit and
 update the project's Cursor documentation so it stays in sync with the code.
 
@@ -24,15 +27,22 @@ Run this audit at the very end of any task that:
 - Changes import paths, public APIs, or layer boundaries.
 - Adds, renames, or removes a `Settings` field, exchange adapter, or repository.
 - Changes lint/format/test/run commands.
+- Amends the constitution — must propagate the referenced `*.mdc` files.
 
 ## Files to keep in sync
 
-1. `.cursor/rules/architecture.mdc` — layer diagram, allowed/forbidden imports,
-   `Settings` rule, exchange-adapter checklist.
-2. `.cursor/rules/logging.mdc` — logger import path and patterns.
-3. `.cursor/rules/context7-lookup.mdc` — external library guidance.
-4. Any other `.cursor/rules/*.mdc` whose scope overlaps the change.
-5. `README.md` if user-facing instructions changed.
+1. `.specify/memory/constitution.md` — single source of truth for principles.
+   On a principle change, bump constitution version, write Sync Impact Report,
+   and propagate affected `.cursor/rules/*.mdc`.
+2. `.cursor/rules/architecture.mdc` — layer diagram, allowed/forbidden imports,
+   `Settings` rule, exchange-adapter checklist, market universes (perp + spot).
+3. `.cursor/rules/logging.mdc` — logger import path and patterns.
+4. `.cursor/rules/context7-lookup.mdc` — external library guidance.
+5. Any other `.cursor/rules/*.mdc` whose scope overlaps the change.
+6. `CLAUDE.md` — keep it a thin pointer; do NOT duplicate principle text.
+7. `README.md` if user-facing instructions changed.
+8. If a rule is deprecated (e.g. `preserve-code.mdc`), keep it as a redirect —
+   do not delete silently; update cross-references to point to the replacement.
 
 ## How to update
 

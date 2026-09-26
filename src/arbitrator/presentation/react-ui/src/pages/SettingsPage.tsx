@@ -227,6 +227,11 @@ const STRATEGY_META: Record<
     desc: "",
     category: "Історичний моніторинг",
   },
+  historical_screener_min_volume_usdt: {
+    label: "Мін. обсяг 24h (USDT)",
+    desc: "",
+    category: "Історичний моніторинг",
+  },
   historical_monitor_open_spread_pct: {
     label: "Відкрити Paper ордер (%)",
     desc: "",

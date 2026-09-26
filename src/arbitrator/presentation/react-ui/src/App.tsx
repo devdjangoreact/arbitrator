@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { SettingsPage } from "./pages/SettingsPage";
 import { ScreenerPage } from "./pages/ScreenerPage";
-import { OpportunityPage } from "./pages/OpportunityPage";
 import { OrdersPage } from "./pages/OrdersPage";
 import { MonitorsPage } from "./pages/MonitorsPage";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 function App() {
   const [currentPage, setCurrentPage] = useState<string>(() => {
@@ -17,11 +17,10 @@ function App() {
   };
 
   const navItems = [
-    { id: "settings", label: "Налаштування" },
     { id: "screener", label: "Скрінер" },
-    { id: "monitors", label: "Історія Скрінера" },
+    { id: "monitors", label: "Моніторинг" },
     { id: "orders", label: "Ордери" },
-    { id: "opportunity", label: "Opportunity" },
+    { id: "settings", label: "Налаштування" },
   ];
 
   return (
@@ -54,11 +53,10 @@ function App() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full w-full m-0 p-0 overflow-hidden">
         <main className="flex-1 overflow-y-auto w-full m-0 p-0">
-          {currentPage === "settings" && <SettingsPage />}
-          {currentPage === "screener" && <ScreenerPage />}
-          {currentPage === "monitors" && <MonitorsPage />}
-          {currentPage === "opportunity" && <OpportunityPage />}
-          {currentPage === "orders" && <OrdersPage />}
+          {currentPage === "settings" && <ErrorBoundary label="Налаштування"><SettingsPage /></ErrorBoundary>}
+          {currentPage === "screener" && <ErrorBoundary label="Скрінер"><ScreenerPage /></ErrorBoundary>}
+          {currentPage === "monitors" && <ErrorBoundary label="Моніторинг"><MonitorsPage /></ErrorBoundary>}
+          {currentPage === "orders" && <ErrorBoundary label="Ордери"><OrdersPage /></ErrorBoundary>}
         </main>
       </div>
     </div>

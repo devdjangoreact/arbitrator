@@ -1,5 +1,4 @@
 from __future__ import annotations
-from arbitrator.config.ui_config_manager import UIConfigManager
 
 from arbitrator.application.account.account_stream_worker import AccountStreamWorker
 from arbitrator.application.account.funding_accrual_service import FundingAccrualService
@@ -17,6 +16,7 @@ from arbitrator.application.account.token_identity_service import TokenIdentityS
 from arbitrator.application.market_data.fee_snapshot_service import FeeSnapshotService
 from arbitrator.application.market_data.historical_screener_worker import HistoricalScreenerWorker
 from arbitrator.application.market_data.market_data_cache_memory import MarketDataCacheMemory
+from arbitrator.application.market_data.monitor_book_stream_worker import MonitorBookStreamWorker
 from arbitrator.application.market_data.screener_book_stream_worker import ScreenerBookStreamWorker
 from arbitrator.application.market_data.screener_stream_worker import ScreenerStreamWorker
 from arbitrator.application.market_data.spot_stream_worker import SpotStreamWorker
@@ -37,6 +37,7 @@ from arbitrator.config.monitor_config_store import MonitorConfigStore
 from arbitrator.config.paper_order_store import PaperOrderStore
 from arbitrator.config.settings import Settings
 from arbitrator.config.telegram_notifier import TelegramNotifier
+from arbitrator.config.ui_config_manager import UIConfigManager
 from arbitrator.domain.strategy.strategies.funding_diff_dates_calculator import (
     FundingDiffDatesCalculator,
 )
@@ -64,6 +65,7 @@ class AppRuntime:
         self.mock_provider = MockDataProvider(enabled_exchanges=settings.enabled_exchanges)
         self.screener_worker: ScreenerStreamWorker | None = None
         self.screener_book_worker: ScreenerBookStreamWorker | None = None
+        self.monitor_book_worker: MonitorBookStreamWorker | None = None
         self.account_worker: AccountStreamWorker | None = None
         self.funding_worker: FundingRateWorker | None = None
         self.spot_worker: SpotStreamWorker | None = None
@@ -132,6 +134,9 @@ class AppRuntime:
         if self.screener_auto_trader is not None:
             self.screener_auto_trader.stop()
             logger.info("screener auto trader stopped")
+        if self.monitor_book_worker is not None:
+            self.monitor_book_worker.stop()
+            logger.info("monitor book stream worker stopped")
         if self.screener_book_worker is not None:
             self.screener_book_worker.stop()
             logger.info("screener book stream worker stopped")
@@ -191,10 +196,34 @@ class AppRuntime:
 
     def _start_live_workers(self) -> None:
         factory = Factory(settings=self._settings)
+        factory.preload_markets(self._settings.enabled_exchanges)
         self._start_stream_workers(factory)
         if UIConfigManager.get_config().live_auto_trade_enabled:
             self._start_live_auto_trader(factory)
+        # Historical auto trader needed in live mode too — read-only market data, no trading
+        self._start_historical_auto_trader_live(factory)
         logger.info("live workers started | mode=live")
+
+    def _start_historical_auto_trader_live(self, factory: Factory) -> None:
+        if self.historical_screener_worker is None or self.market_cache is None:
+            logger.warning("historical auto trader (live) skipped — workers not ready")
+            return
+        gateways = {
+            ex_id: factory.create_private(ex_id).gateway
+            for ex_id in self._settings.enabled_exchanges
+            if self._settings.credentials_for(ex_id) is not None
+        }
+        live_exec = self._create_live_execution_service(factory)
+        self.historical_auto_trader = HistoricalAutoTrader(
+            settings=self._settings,
+            store=self.monitor_store,
+            market_cache=self.market_cache,
+            gateways=gateways,
+            live_execution=live_exec,
+            account_worker=self.account_worker,
+        )
+        self.historical_auto_trader.start()
+        logger.info("historical auto trader started | mode=live exchanges={}", list(gateways.keys()))
 
     def _create_live_execution_service(self, factory: Factory) -> HedgedExecutionService:
         gateways = {
@@ -297,6 +326,7 @@ class AppRuntime:
 
     def _start_paper_workers(self) -> None:
         factory = Factory(settings=self._settings)
+        factory.preload_markets(self._settings.enabled_exchanges)
         self._start_stream_workers(factory)
         assert self.market_cache is not None
         self.paper_gateway = PaperExecutionGateway(
@@ -310,8 +340,7 @@ class AppRuntime:
         self.funding_accrual_service.start()
         if UIConfigManager.get_config().screener_auto_trade_enabled:
             self._start_screener_auto_trader()
-        if UIConfigManager.get_config().historical_screener_enabled:
-            self._start_historical_auto_trader()
+        self._start_historical_auto_trader()
         if UIConfigManager.get_config().liq_guard_enabled:
             self._start_liquidation_guard()
         if UIConfigManager.get_config().funding_reentry_enabled:
@@ -354,9 +383,9 @@ class AppRuntime:
         self.historical_auto_trader = HistoricalAutoTrader(
             settings=self._settings,
             store=self.monitor_store,
-            paper_gateway=self.paper_gateway,
             market_cache=self.market_cache,
             gateways=gateways,
+            paper_gateway=self.paper_gateway,
         )
         self.historical_auto_trader.start()
 
@@ -422,6 +451,29 @@ class AppRuntime:
             snapshot_provider=lambda: screener_worker.read_state()[0],
         )
         self.screener_book_worker.start()
+
+        universe_snap = JsonSymbolUniverseRepository(
+            path=self._settings.symbols_universe_path
+        ).load()
+        monitor_universe = (
+            {ex: set(syms) for ex, syms in universe_snap.exchanges.items()}
+            if universe_snap is not None
+            else None
+        )
+        screener_book_worker_ref = self.screener_book_worker
+        self.monitor_book_worker = MonitorBookStreamWorker(
+            settings=self._settings,
+            factory=factory,
+            cache=self.market_cache,
+            store=self.monitor_store,
+            universe=monitor_universe,
+            screener_symbols_provider=(
+                screener_book_worker_ref.read_symbols_by_exchange
+                if screener_book_worker_ref is not None else None
+            ),
+        )
+        self.monitor_book_worker.start()
+        logger.info("monitor book stream worker started")
 
         engine = StrategyEngine(
             [

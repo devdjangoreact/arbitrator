@@ -1,2 +1,0 @@
-- [Preserve Code](feedback_preserve_code.md) — Do not delete unused code or extra files
-- [Avoid hardcoded values](avoid-hardcoded-values.md) — Extract intervals and thresholds to settings

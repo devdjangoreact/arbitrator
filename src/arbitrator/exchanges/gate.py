@@ -18,7 +18,21 @@ class Gate(CcxtBase):
     display_name: ClassVar[str] = "Gate"
 
     def _create_client(self, session: aiohttp.ClientSession) -> ccxtpro.Exchange:
-        return ccxtpro.gate(self._base_client_config(session))
+        config = self._base_client_config(session)
+        options = config.get("options", {})
+        if isinstance(options, dict):
+            # Gate futures order book sync often fails nonce alignment under
+            # load: load_order_book retries 3 times then rejects with
+            # ExchangeError. Raise retries and disable checksum so the book
+            # resolves even when the REST snapshot slightly lags the delta stream.
+            options["watchOrderBook"] = {
+                "checksum": False,
+                "snapshotDelay": 0,
+                "snapshotMaxRetries": 10,
+                "maxRetries": 10,
+            }
+        config["options"] = options
+        return ccxtpro.gate(config)
 
     async def list_symbols(self) -> list[str]:
         symbols = await super().list_symbols()

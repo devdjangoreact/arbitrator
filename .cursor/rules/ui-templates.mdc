@@ -1,10 +1,14 @@
 ---
-description: UI templates — HTML partials under presentation/static/partials/
-globs: src/arbitrator/presentation/**/*
+description: UI templates — legacy HTML partials under presentation/static/partials/ (vanilla JS frontend). For React UI see presentation/react-ui/.
+globs:
+  - src/arbitrator/presentation/static/**/*
 alwaysApply: false
 ---
 
-# UI templates
+# UI templates (legacy vanilla JS)
+
+> Tactical expansion of Constitution §12 (100% UI Parity) — legacy side. The
+> React UI lives under `presentation/react-ui/` and is built with Vite.
 
 HTML source lives in **partials**, assembled into `static/index.html`:
 

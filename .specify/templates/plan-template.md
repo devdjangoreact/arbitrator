@@ -40,10 +40,16 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
-- [ ] 100% UI Parity mandate verified
-- [ ] Playwright E2E testing methodology verified
-- [ ] Data Flow mandate verified (WebSocket for all data, REST only for auth/file upload)
+- [ ] §12 — 100% UI Parity: new React surface matches legacy one-to-one
+- [ ] §9/§10 — E2E verified via Playwright with live backend (not static/mock)
+- [ ] §11 — Data Flow: WebSocket for all UI data; REST only for auth/file upload
+- [ ] §15 — Trading Safety: no order/leverage code without explicit user approval
+- [ ] §16 — Market Universe: correct symbol format + ccxt defaultType per strategy kind
+- [ ] §17 — Config SSoT: new params in `Settings` or `StrategyUIConfig`; `.env.example` updated
+- [ ] §18/§11 — Async + WebSocket First: `watch_*` used; REST only where `watch_*` unavailable
+- [ ] §19 — Typing Gate: `mypy --strict` + `ruff check` pass; no `Any`
+- [ ] §20 — Logging: Loguru singleton; no `print`; `logger.exception` in except blocks
+- [ ] §21 — Dead Code: removed in same change as last caller
 
 ## Project Structure
 

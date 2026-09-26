@@ -80,21 +80,16 @@ class SymbolMarketInfoParser:
         min_usdt = SymbolMarketInfoParser._limit_side(limits, "cost", "min")
         max_usdt = SymbolMarketInfoParser._limit_side(limits, "cost", "max")
 
-        if min_usdt is not None and max_usdt is not None:
-            return min_usdt, max_usdt
-
+        # Try to fill missing limits from amount * contractSize * price
         amount_limits = limits.get("amount")
-        if not isinstance(amount_limits, dict):
-            return min_usdt, max_usdt
-        if mark_price is None or mark_price <= 0.0:
-            return min_usdt, max_usdt
+        if isinstance(amount_limits, dict) and mark_price is not None and mark_price > 0.0:
+            min_amount = SymbolMarketInfoParser._as_float(amount_limits.get("min"))
+            max_amount = SymbolMarketInfoParser._as_float(amount_limits.get("max"))
+            if min_usdt is None and min_amount is not None:
+                min_usdt = min_amount * contract_size * mark_price
+            if max_usdt is None and max_amount is not None:
+                max_usdt = max_amount * contract_size * mark_price
 
-        min_amount = SymbolMarketInfoParser._as_float(amount_limits.get("min"))
-        max_amount = SymbolMarketInfoParser._as_float(amount_limits.get("max"))
-        if min_usdt is None and min_amount is not None:
-            min_usdt = min_amount * contract_size * mark_price
-        if max_usdt is None and max_amount is not None:
-            max_usdt = max_amount * contract_size * mark_price
         return min_usdt, max_usdt
 
     @staticmethod

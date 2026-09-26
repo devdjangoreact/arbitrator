@@ -70,6 +70,6 @@ Ensure the quickstart validation passes and update relevant docs.
 
 **Goal**: Validate the implementation against the quickstart guide.
 
-- [ ] T015 Verify Scenario 1 from `quickstart.md` (Legacy UI loads without build steps).
-- [ ] T016 Verify Scenario 2 from `quickstart.md` (Modern UI builds and loads).
-- [ ] T017 Update `CLAUDE.md` to reflect the new `scripts/run_app.py` command for launching the application.
+- [x] T015 Verify Scenario 1 from `quickstart.md` (Legacy UI loads without build steps).
+- [x] T016 Verify Scenario 2 from `quickstart.md` (Modern UI builds and loads).
+- [x] T017 Update `CLAUDE.md` to reflect the new `scripts/run_app.py` command for launching the application.

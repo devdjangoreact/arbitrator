@@ -15,6 +15,7 @@ import ccxt.pro as ccxtpro
 import certifi
 from ccxt.base.errors import (
     BadSymbol,
+    ChecksumError,
     ExchangeError,
     NetworkError,
     RateLimitExceeded,
@@ -93,6 +94,32 @@ class CcxtBase(ExchangeGateway):
         self._session: aiohttp.ClientSession | None = None
         self._markets_lock = asyncio.Lock()
         self._open_lock = asyncio.Lock()
+        self._market_donor: ccxtpro.Exchange | None = None
+
+    def set_market_donor(self, donor: ccxtpro.Exchange) -> None:
+        """Provide a pre-loaded ccxt client whose markets will be shared to this
+        gateway's client via set_markets_from_exchange, skipping REST load_markets."""
+        self._market_donor = donor
+
+    @classmethod
+    def build_public_client(cls, settings: Settings) -> ccxtpro.Exchange:
+        """Create a bare public ccxt client suitable for preloading markets.
+
+        Uses ThreadedResolver so this works correctly when called from a
+        background thread with its own event loop (preload_markets path).
+        AsyncResolver (c-ares/aiodns) fails with DNS errors in that context.
+        """
+        connector = aiohttp.TCPConnector(
+            ssl=ssl.create_default_context(cafile=certifi.where()),
+            resolver=aiohttp.ThreadedResolver(),
+        )
+        session = aiohttp.ClientSession(connector=connector)
+        instance = cls(settings, mode="public")
+        client = instance._create_client(session)
+        client.timeout = settings.ccxt_request_timeout_ms
+        if proxy := settings.public_http_proxy_for(cls.exchange_id):
+            client.http_proxy = proxy
+        return client
 
     @abstractmethod
     def _create_client(self, session: aiohttp.ClientSession) -> ccxtpro.Exchange:
@@ -249,6 +276,21 @@ class CcxtBase(ExchangeGateway):
                     str(error),
                 )
                 await asyncio.sleep(10.0)
+                continue
+            except ChecksumError:
+                # ChecksumError means local delta state diverged from exchange.
+                # un_watch_order_book was already called by ccxt internally.
+                # Close both the ccxt client and the aiohttp session cleanly,
+                # then reopen so the next subscribe gets a fresh WS + snapshot.
+                logger.warning(
+                    "watch_order_book checksum mismatch, resetting client | exchange={} symbol={}",
+                    self.exchange_id,
+                    symbol,
+                )
+                await self.close()
+                client = await self._ensure_open()
+                await self._ensure_markets_loaded(client)
+                await asyncio.sleep(2.0)
                 continue
             except NetworkError as error:
                 logger.debug(
@@ -671,6 +713,14 @@ class CcxtBase(ExchangeGateway):
                 return
             yield self._extract_usdt_balance(payload)
             return
+        # Seed initial balance via REST before relying on delta-only WS updates.
+        try:
+            seed_payload = await client.fetch_balance()
+            yield self._extract_usdt_balance(seed_payload)
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            logger.warning("balance seed REST failed | exchange={} — waiting for WS update", self.exchange_id)
         while True:
             try:
                 payload = await client.watch_balance()
@@ -1535,6 +1585,16 @@ class CcxtBase(ExchangeGateway):
         async with self._markets_lock:
             markets = client.markets
             if isinstance(markets, dict) and markets:
+                return
+            # Use pre-loaded donor markets if available — skips REST call.
+            donor = self._market_donor
+            if donor is not None and isinstance(donor.markets, dict) and donor.markets:
+                client.set_markets_from_exchange(donor)
+                logger.debug(
+                    "Markets shared from donor | exchange={} count={}",
+                    self.exchange_id,
+                    len(client.markets),
+                )
                 return
             try:
                 if client.options.get("adjustForTimeDifference"):

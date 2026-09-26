@@ -145,6 +145,9 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 - **FR-023**: A `price_deviation_filter_pct` parameter (`float`, default `0.0` = disabled): if set to a non-zero value, the worker includes only symbols where `(price_max − price_min) / price_min × 100` over the analysis window exceeds this threshold. Value `0.0` means the filter is off — no symbols are excluded on this basis. Sent via `update_filters` as `price_deviation_filter_pct`.
 - **FR-024**: Backend state is **session-independent**: closing the browser tab or losing the WebSocket connection does NOT stop the screener worker or any active monitors. The worker and monitors continue running on the server. Only an explicit `{"cmd": "stop"}` command (screener) or `{"cmd": "remove", "monitor_id": "..."}` (monitor) issued over a WebSocket connection stops them. On reconnect the client receives the current state (status, opportunities, monitors, live_state) in the next push.
 - **FR-025**: Each Live Monitor Card has a visible close (×) button in its header. Clicking × sends `{"cmd": "remove", "monitor_id": "..."}` over the WebSocket, which: (1) stops the monitoring tick for that monitor, (2) **closes all open positions** for that symbol+exchange pair, (3) removes the monitor from the backend state. The card disappears from the UI upon receiving confirmation (next push with that monitor absent from `monitors` array).
+- **FR-026**: Card layout — no internal scroll. The card occupies ~70% of the screen width. All content must be visible without `overflow-y: auto` at viewport heights ≥ 600 px. The spread chart at the bottom occupies ~30% of the card height. Proportions are preserved on window resize.
+- **FR-027**: Active monitoring indicator — a pulsing green dot is shown in the card header next to the symbol name when `config.is_active === true`. When the monitor is stopped the dot is grey or absent. This gives immediate visual feedback that the backend is ticking.
+- **FR-028**: `adjustment_mode` toggle (`Notify only` / `Adjust`) sends `update_config {adjustment_mode: "notify_only" | "adjust"}` on click. The value persists via the backend and is reflected in the next push. Backend uses `adjustment_mode` to decide whether to only notify or to automatically place an order when the spread threshold is met.
 
 ### Key Entities
 
@@ -163,6 +166,11 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 - **SC-005**: The spread chart accumulates at least one visible new data point per 5-second push cycle for an active card over a 60-second observation window.
 - **SC-006**: A strategy parameter change (e.g. Open Spread %) made in the card persists — it is reflected in the next backend push and survives a page reload.
 - **SC-007**: Zero unhandled JavaScript exceptions appear in the browser console during a complete session: start screener → fast trade a card → observe for 60 seconds → stop.
+- **SC-008**: All Live Monitor Card fields (Funding, Ask, Bid, Size, Leverage, Max size, Price, P/L, Realized, Enter spr., Orders, Open spr, Close spr) show real numeric values (not "—") within one 5-second push cycle after the card becomes active.
+- **SC-009**: Pulsing green dot is visible in the card header when `is_active === true`; dot is absent or grey when stopped.
+- **SC-010**: SpreadChart accumulates visible data points within 10 seconds of card activation; clicking "History" opens a modal with canvas charts (not a table of numbers).
+- **SC-011**: Card fits entirely within viewport height ≥ 600 px without internal scrollbar; card width is ~70% of screen.
+- **SC-012**: Clicking `Notify only` or `Adjust` persists the `adjustment_mode` value — reflected in the next backend push.
 
 ## Clarifications
 
@@ -179,6 +187,16 @@ A trader watches an active Live Monitor Card. Every field — funding rates, ask
 ### Session 2026-07-16 (gap analysis)
 
 - Q: Is there a "filter by time" parameter on the screener table? → A: No — це помилка. Фільтр "за часом" не існує. Таблиця фільтрується тільки за `min_spread_pct`, `min_volume_usdt`, `min_analysis_volume_usdt`, `price_deviation_filter_pct`. Колонка `signal_time_seconds` є лише для відображення (скільки секунд тому був максимальний спред), але не є параметром фільтрації.
+
+### Session 2026-07-16 (bug gap clarifications)
+
+- Q: Всі поля картки (Funding, Ask, Bid, Size, Leverage, тощо) пусті при старті — чому? → A: Баг wiring: `live_state` приходить з бекенду але або не передається як prop до `LiveMonitorCard`, або ключ `monitor_id` в `live_state` не збігається з `config.id`. Всі поля мають відображати реальні дані одразу після першого WS-пушу. `liveData` prop має бути `liveState[config.id]` де `config.id` = `symbol:short_exchange:long_exchange`.
+- Q: Bid/Ask не відображаються — що є причиною? → A: Баг: поля `short_ask`, `long_ask`, `short_bid`, `long_bid` присутні в `MonitorLiveState` і в бекенді, але не відображаються у картці. Перевірити що `ls?.short_ask` та `ls?.short_bid` рендеряться коректно і що бекенд дійсно передає ці значення (не `None`).
+- Q: Чи потрібен індикатор що моніторинг активний на картці? → A: Так — обов'язково. Пульсуюча зелена крапка у хедері картки поряд з назвою символу коли `config.is_active === true`. Немає активності — крапка сіра/відсутня.
+- Q: Графік SpreadChart не відображає тіки — в чому проблема? → A: Баг: `SpreadChart` отримує порожні масиви або не перерендерується при зміні `liveData`. `useEffect` у `LiveMonitorCard` що накопичує `openSpreadHistory` та `closeSpreadHistory` не тригериться. Перевірити що `liveState` дійсно змінюється (новий об'єкт на кожен пуш), і що `open_spread_current` / `close_spread_current` — не `undefined`.
+- Q: Клік на "History" показує цифри — що має відображатися? → A: Графік. `SpreadHistoryModal` має рендерити три canvas-графіки: (1) ціна short exchange, (2) ціна long exchange, (3) спред diff. Ніяких цифр/таблиць — тільки графіки. Якщо даних немає — placeholder "No history data".
+- Q: Картка має внутрішній скрол — що потрібно? → A: Без скролу. Картка займає ~70% ширини екрана (modal або фіксована ширина). Весь контент вміщується у viewport висотою ≥ 600px без `overflow-y: auto`. Пропорції зберігаються при зміні розміру вікна. Графік внизу займає ~30% висоти картки.
+- Q: `Notify only` / `Adjust` не підключені до бекенду — як має працювати? → A: `adjustment_mode` є полем `MonitorConfig`. Клік на `Notify only` або `Adjust` викликає `update_config` з `{adjustment_mode: "notify_only"}` або `{adjustment_mode: "adjust"}`. Стан зберігається через бекенд і повертається в наступному пуші в `monitors` array. Бекенд використовує `adjustment_mode` для вирішення чи надсилати тільки нотифікацію чи автоматично виставляти ордер.
 
 ## Assumptions
 

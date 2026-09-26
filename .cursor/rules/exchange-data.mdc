@@ -9,6 +9,10 @@ alwaysApply: false
 
 # Exchange data access
 
+> Tactical expansion of Constitution §15 (Trading Safety), §16 (Market
+> Universes), §18 (Async-First, REST As Fallback). Anything here diverging from
+> the constitution → constitution wins.
+
 Two separate channels — do not confuse them.
 
 | Channel | Who | Protocol | Purpose |

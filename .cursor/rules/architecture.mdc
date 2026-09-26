@@ -7,6 +7,9 @@ alwaysApply: true
 
 # Architecture rules
 
+> Tactical expansion of Constitution principles §1–§21 (selected). If anything here
+> conflicts with `.specify/memory/constitution.md`, **the constitution wins**.
+
 This is a **Python 3.11+** project. All code MUST follow the rules below.
 
 ## 1. OOP — everything is a class
@@ -56,7 +59,7 @@ know **only** about `domain/` types and abstractions.
 
 Wiring of concrete implementations happens in `main.py` (composition root).
 
-## 4. Typing
+## 4. Typing (Constitution §19)
 
 - `mypy --strict` must pass.
 - **Never use `typing.Any`.** Use `object` + `isinstance`, generics, or
@@ -65,7 +68,7 @@ Wiring of concrete implementations happens in `main.py` (composition root).
 - Public methods MUST have complete type hints on parameters and return.
 - Pydantic models are the source of truth for runtime types.
 
-## 5. Async
+## 5. Async (Constitution §18)
 
 - I/O-bound work uses `asyncio`.
 - Exchange data uses **`ccxt.pro`** `watch_*` WebSocket methods, NOT REST
@@ -93,13 +96,14 @@ Wiring of concrete implementations happens in `main.py` (composition root).
   `.cursor/rules/exchange-data.mdc`. Never exposed as HTTP API to the frontend.
   Run the app with **uvicorn** (not Streamlit).
 
-## 6. Configuration — single source of truth
+## 6. Configuration — single source of truth (Constitution §17)
 
 - **All runtime parameters live in `src/arbitrator/config/settings.py`**, in a
   single `Settings` class inheriting from `pydantic_settings.BaseSettings`.
 - `Settings` is **frozen** (`model_config = SettingsConfigDict(frozen=True, ...)`).
 - Values are read from a project-root `.env` file (committed `.env.example` shows
-  defaults; `.env` itself is gitignored).
+  defaults; `.env` itself is gitignored). **Agents never read `.env` raw** — only
+  via `Settings` fields.
 - Filesystem paths to mutable JSON data live as `Path` fields on `Settings`
   (defaults point under `src/arbitrator/data/`).
 - **No hardcoded magic values** for runtime configuration in domain, application,
@@ -124,24 +128,38 @@ Wiring of concrete implementations happens in `main.py` (composition root).
   `AppRuntime` — stream workers start only when `ui_data_mode=live`, otherwise
   `presentation/mock/MockDataProvider` serves WebSocket snapshots from
   `src/arbitrator/data/mock_data.json`.
+- **Exception — trading/strategy logic parameters** (per-strategy thresholds
+  tuned from the UI, not environment-bound): these live in `StrategyUIConfig`
+  (`src/arbitrator/config/ui_config.py`) and are surfaced to the React UI via
+  `STRATEGY_META` in `settings.js`. Rule of thumb: environment / deployment-bound
+  → `Settings`; user-tunable strategy knob → `StrategyUIConfig`.
 
-## 7. Markets — USDT-margined perpetual futures ONLY
+## 7. Markets — USDT-M Perp + USDT Spot (Constitution §16)
 
-This project trades and monitors **only USDT-margined perpetual futures**:
+The project operates in **two market universes**, switchable per strategy kind:
 
-- Symbols use the ccxt unified format `BASE/USDT:USDT`
-  (e.g. `BTC/USDT:USDT`, `ETH/USDT:USDT`).
-- Every exchange adapter MUST configure ccxt with
-  `options.defaultType = "swap"` (read from `Settings.default_type`).
-- Do not load or query spot, coin-M (inverse) futures, or options markets.
-- A new exchange MUST:
+| Universe | Symbol format | ccxt `defaultType` | `Settings` field |
+| -------- | ------------- | ------------------- | --------------- |
+| USDT-M perpetual futures | `BASE/USDT:USDT` (e.g. `BTC/USDT:USDT`) | `"swap"` | `Settings.default_type` |
+| USDT spot | `BASE/USDT` (e.g. `BTC/USDT`) | `"spot"` | `Settings.spot_default_type` |
+
+- Each strategy kind in `domain/strategy/strategy_kind.py` declares which
+  universe(s) it operates in (`futures_futures`, `futures_spot_2ex`,
+  `futures_spot_1ex`, `funding_fs`, …). Spot is opt-in via the strategy
+  selection in `StrategyUIConfig` (`src/arbitrator/config/ui_config.py`) and the
+  React UI toggle — it MAY be disabled without affecting perp behavior.
+  (If a dedicated `Settings.enabled_strategies` field is later added, route it
+  through `Settings` per §17.)
+- Do not load or query **coin-M (inverse) futures or options** markets.
+- A new exchange adapter MUST:
   1. Live in its own file under `exchanges/` and inherit `CcxtBase`
      (e.g. `class Kucoin` in `kucoin.py`).
   2. Set `exchange_id` and `display_name` as `ClassVar[str]`.
-  3. Override `_create_client` with the USDT-M swap defaults above.
+  3. Override `_create_client` with the universe's `defaultType` (read from
+     `Settings`, not a literal).
   4. Be registered in `Factory._registry` (`exchanges/factory.py`).
 
-## 8. Error handling
+## 8. Error handling (Constitution §20)
 
 - Prefer returning a result/`Optional` over raising for **expected** business
   outcomes.
@@ -149,3 +167,10 @@ This project trades and monitors **only USDT-margined perpetual futures**:
   separately (e.g. via `logging.exception("static", extra={"symbol": s})`).
 - Always log the **full** exception (`logger.exception(...)` or
   `logger.error(..., exc_info=True)`). Never log only `str(error)`.
+
+## 9. Trading safety (Constitution §15)
+
+No code that places, amends, or cancels orders, or modifies leverage, may be
+introduced or executed without explicit user approval. Auto-trading is allowed
+in `mock_data` / `paper` modes when `Settings.arb_auto_open_enabled = true`;
+`live` mode must be opt-in. Tactical detail: `.cursor/rules/exchange-data.mdc`.

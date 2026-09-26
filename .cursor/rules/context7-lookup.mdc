@@ -9,6 +9,9 @@ alwaysApply: false
 
 # Context7 lookup rule
 
+> Supports Constitution §19 (Static Typing Gate) by ensuring third-party
+> library calls are real, not invented.
+
 ## Hard rule
 
 **Never invent third-party library APIs.** Do not fabricate method names,
@@ -31,9 +34,9 @@ third-party library (pydantic, ccxt, fastapi, sqlalchemy, websockets, etc.),
 ## Action
 
 1. **Do not guess.** Do not invent signatures, methods, or parameters.
-2. Call the **Context7 MCP** server (`user-context7`):
+2. Call the **Context7 MCP** server (`context7`):
    - First: `resolve-library-id` with the library name to get a Context7-compatible ID.
-   - Then: `get-library-docs` with that ID, focused on the specific topic
+   - Then: `query-docs` with that ID, focused on the specific topic
      (e.g. `topic: "BaseModel validators"` for pydantic,
      `topic: "watch_tickers"` for ccxt).
 3. Use the returned documentation as the **only** source of truth for API details.
@@ -43,10 +46,17 @@ third-party library (pydantic, ccxt, fastapi, sqlalchemy, websockets, etc.),
 
 | Bad | Good |
 | --- | ---- |
-| `client.watch_all_tickers(symbols=...)` (invented method) | Look up ccxt.pro via Context7, use documented `watch_tickers` |
-| `BaseModel.Config` (pydantic v1) when project uses v2 | Context7 → pydantic v2 `model_config` |
-| Guessing optional kwargs (`params={"uta": True}`) | Verify in Context7 or official docs first |
-| "This method probably accepts X" | Context7 lookup, then code |
+| `client.watch_all_tickers(symbols=...)` (invented method) | `mcp__context7__resolve-library-id` → `mcp__context7__query-docs`, use documented `watch_tickers` |
+| `BaseModel.Config` (pydantic v1) when project uses v2 | `mcp__context7__query-docs` → pydantic v2 `model_config` |
+| Guessing optional kwargs (`params={"uta": True}`) | Verify via `mcp__context7__query-docs` first |
+| "This method probably accepts X" | `mcp__context7__query-docs`, then code |
+
+## MCP tool names (exact)
+
+```
+mcp__context7__resolve-library-id  — get Context7 library ID from a name
+mcp__context7__query-docs          — fetch docs for a library ID + topic
+```
 
 ## When NOT to use Context7
 
@@ -57,6 +67,6 @@ third-party library (pydantic, ccxt, fastapi, sqlalchemy, websockets, etc.),
 ## Fallback chain
 
 1. Already have confident, up-to-date knowledge → answer directly.
-2. Uncertain or version-sensitive → **Context7 MCP** (this rule).
+2. Uncertain or version-sensitive → **Context7 MCP** (`mcp__context7__resolve-library-id` → `mcp__context7__query-docs`).
 3. Context7 has no entry for the library → use `WebSearch` / `WebFetch` on the official docs URL.
 4. Still nothing → tell the user you could not find authoritative information; **do not fabricate**.

@@ -68,6 +68,21 @@ class ScreenerBookStreamWorker:
     def set_screener_worker(self, screener_worker: ScreenerStreamWorker) -> None:
         self._screener_worker = screener_worker
 
+    def read_symbols_by_exchange(self) -> dict[str, list[str]]:
+        """Returns {exchange_id: [symbols]} currently in the screener snapshot (no fallback).
+
+        Used by MonitorBookStreamWorker to skip only pairs that screener book
+        is actively streaming.  At startup the snapshot is empty → returns {}
+        so the monitor subscribes everything it needs.
+        """
+        snapshot = self._snapshot_provider()
+        result: dict[str, list[str]] = {}
+        for exchange_id in self._target_exchanges():
+            result[exchange_id] = sorted(
+                {symbol for ex, symbol in snapshot if ex == exchange_id}
+            )
+        return result
+
     def _target_exchanges(self) -> list[str]:
         enabled = set(self._settings.enabled_exchanges)
         return [

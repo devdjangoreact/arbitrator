@@ -8,12 +8,20 @@
 .env.*
 .env copy
 !.env.example
+proxies.json
+**/rootkey.csv
+**/*credentials*.local.*
+*.pem
+*.p12
+id_rsa
+id_ed25519
 
 # Cursor caches
 .cursor/cache/
 .cursor/logs/
 
 # graphify (generated knowledge graph — local only)
+.graphify/
 graphify-out/
 **/graphify-out/
 
@@ -35,6 +43,16 @@ Thumbs.db
 # aws-credits-lab/
 logs/
 src/arbitrator/data/
+
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/*.tfvars
+terraform/*.tfvars.json
+terraform/lambda.zip
+terraform/out.json
+terraform/bedrock-*.json
 
 # Node.js / React UI
 node_modules/

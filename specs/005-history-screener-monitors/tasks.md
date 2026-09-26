@@ -57,5 +57,5 @@ description: "Task list for History Screener & Live Monitors implementation"
 **Goal**: Ensure data flows correctly from backend to UI cards.
 
 - [x] T019 [Phase 4] Create `pytest` cases for high-frequency screener logic (`tests/unit/test_historical_screener.py`).
-- [ ] T020 [Phase 4] Integration Verification: Run `scripts/build_ui.py` and verify table limits visibility to ~20 rows.
-- [ ] T021 [Phase 4] Integration Verification: Verify that "Fast Trade" correctly spawns a card, initiates live data flow, and populates the chart.
+- [x] T020 [Phase 4] Integration Verification: Run `scripts/build_ui.py` and verify table limits visibility to ~20 rows.
+- [x] T021 [Phase 4] Integration Verification: Verify that "Fast Trade" correctly spawns a card, initiates live data flow, and populates the chart.

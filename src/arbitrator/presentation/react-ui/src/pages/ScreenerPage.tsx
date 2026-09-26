@@ -10,6 +10,7 @@ export const ScreenerPage: React.FC = () => {
   const [rows, setRows] = useState<ScreenerRow[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [backendStatus, setBackendStatus] = useState<string>("");
+  const [exchanges, setExchanges] = useState<string[]>([]);
 
   const [minVol, setMinVol] = useState<number>(0);
   const [minSpread, setMinSpread] = useState<number>(0);
@@ -22,6 +23,7 @@ export const ScreenerPage: React.FC = () => {
       setBackendStatus(data.status || "Active");
       setTotalCount(data.symbol_count || 0);
       setRows(data.rows || []);
+      if (data.exchanges?.length) setExchanges(data.exchanges);
 
       if (!defaultsLoaded && data.filters) {
         if (data.filters.min_volume_k_usdt != null)
@@ -36,16 +38,9 @@ export const ScreenerPage: React.FC = () => {
 
       setRows((prevRows) => {
         const rowMap = new Map(prevRows.map((r) => [r.asset, r]));
-
-        for (const asset of data.rows_removed || []) {
-          rowMap.delete(asset);
-        }
-        for (const row of data.rows_changed || []) {
-          // Merge partial updates if necessary, or assume full replacement
+        for (const asset of data.rows_removed || []) rowMap.delete(asset);
+        for (const row of data.rows_changed || [])
           rowMap.set(row.asset, { ...rowMap.get(row.asset), ...row });
-        }
-
-        // Sort descending by spread_pct
         return Array.from(rowMap.values()).sort(
           (a, b) => (b.spread_pct || 0) - (a.spread_pct || 0),
         );
@@ -55,9 +50,8 @@ export const ScreenerPage: React.FC = () => {
 
   const filteredRows = useMemo(() => {
     return rows.filter((row) => {
-      if (row.vol_k_usdt !== undefined && row.vol_k_usdt < minVol) return false;
-      if (row.spread_pct !== undefined && row.spread_pct < minSpread)
-        return false;
+      if (row.volume_k_usdt !== undefined && row.volume_k_usdt < minVol) return false;
+      if (row.spread_pct !== undefined && row.spread_pct < minSpread) return false;
       return true;
     });
   }, [rows, minVol, minSpread]);
@@ -70,22 +64,13 @@ export const ScreenerPage: React.FC = () => {
         : backendStatus;
 
   const handleApplyFilter = (payload: SetScreenerFilterPayload) => {
-    // Update local state immediately for fast feedback
     setMinVol(payload.min_volume_k_usdt);
     setMinSpread(payload.min_spread_pct);
     sendMessage("screener.set_filter", payload);
   };
 
-  const handleOpenOpportunity = (
-    symbol: string,
-    shortEx: string,
-    longEx: string,
-  ) => {
-    // Open in new tab preserving the parameters
-    window.open(
-      `/?page=opportunity&asset=${symbol}&short=${shortEx}&long=${longEx}`,
-      "_blank",
-    );
+  const handleOpenOpportunity = (symbol: string, shortEx: string, longEx: string) => {
+    window.open(`/?page=opportunity&asset=${symbol}&short=${shortEx}&long=${longEx}`, "_blank");
   };
 
   return (
@@ -104,6 +89,7 @@ export const ScreenerPage: React.FC = () => {
       <div className="flex-1 bg-white rounded shadow overflow-auto">
         <ScreenerDataTable
           rows={filteredRows}
+          exchanges={exchanges}
           onOpenOpportunity={handleOpenOpportunity}
         />
       </div>

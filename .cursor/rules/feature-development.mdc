@@ -1,17 +1,49 @@
 ---
-description: Rule for developing new features and large updates using the spec-kit approach
-globs: 
-  - specs/**/*
+description: Feature development process — Superpowers brainstorming + plans (not Spec Kit)
+globs:
 alwaysApply: true
 ---
 
 # Feature Development Process
 
-When adding large updates or new features to the project, you **MUST** use the "spec kit" process.
+> Large changes use **Superpowers**: `brainstorming` → design doc → `writing-plans`
+> → implement. Do **not** use Spec Kit (`/speckit-*`, `specs/NNN-*/`) for new work.
 
-This means you should:
-1. Create a new directory in `specs/` (e.g., `specs/005-history-screener-monitors/`).
-2. Create a `spec.md` document detailing the feature requirements, UI/UX, behavior, and data flow.
-3. Discuss and clarify any ambiguities with the user before writing code.
-4. After approval of the specification, create a `plan.md` dividing the implementation into logical steps.
-5. Follow the plan and implement the feature, testing thoroughly.
+## Workflow (required for large changes)
+
+0. **Feature branch** before file changes: `git checkout -b feature/<short-name>`.
+1. **`brainstorming`** — clarify intent, approaches, design sections; get user approval.
+2. Write design to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`.
+3. User reviews the design doc.
+4. **`writing-plans`** — implementation plan at `docs/superpowers/plans/YYYY-MM-DD-<topic>.md`.
+5. Implement via `executing-plans` or `subagent-driven-development`; verify with
+   `verification-before-completion`.
+
+## When this workflow is required
+
+Use Superpowers design + plan when **any one** of the following is true:
+
+- New public WebSocket message type or new `/ws/*` route.
+- New page or top-level UI surface in the React app.
+- New strategy kind, or a new exchange adapter in `Factory._registry`.
+- New persistence entity (new JSON under `src/arbitrator/data/`) with its own repository.
+- Cross-layer change touching `domain/` + `application/` + `presentation/` simultaneously.
+- New independent package/core (e.g. market-data core) or startup mode switch.
+- Anything that risks capital (orders, leverage, liquidation guards) — also Constitution §15.
+
+## When inline edits are acceptable
+
+- Single-file bug fix, refactor, or addition that does not introduce a new public
+  surface, new persistence entity, or new strategy/exchange.
+- Tests, docs, comments, formatting.
+- Adjusting an existing `Settings` field or `StrategyUIConfig` knob.
+
+## Explicit overrides
+
+- **"just fix it inline"** → skip design/plan, **except** Constitution §15 (Trading Safety).
+- Historical `specs/**` docs are **read-only reference** for old features — do not
+  create new Spec Kit feature directories for new work.
+
+## When unsure
+
+Ask the user. A short clarifying question is cheaper than the wrong workflow.

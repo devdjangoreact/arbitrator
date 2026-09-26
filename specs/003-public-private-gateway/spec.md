@@ -2,7 +2,7 @@
 
 **Feature Branch**: `003-public-private-gateway`
 **Created**: 2026-07-08
-**Status**: Draft — not implemented
+**Status**: COMPLETED
 **Input**: Розділити підключення до бірж на public і private канали з різною
 мережею. Публічні ринкові дані (tickers, order books) — через проксі без API keys.
 Приватні операції (positions, balance, orders) — прямий IP з credentials, без проксі
@@ -216,12 +216,12 @@ elif self._mode == "private":
 
 ## Критерії готовності
 
-- [ ] Скрінер + book stream MEXC йдуть через public gateway + проксі (якщо задано в Settings)
-- [ ] Відкриття/закриття ордерів — private gateway, прямий IP, з ключами
-- [ ] Account stream (positions, balance) — private, без стаканів
-- [ ] `ExecutableSpreadResolver` бере стакани з public, не з private
-- [ ] `mypy --strict` і тести проходять
-- [ ] Логи при старті показують `mode=public|private` per gateway
+- [x] Скрінер + book stream MEXC йдуть через public gateway + проксі (якщо задано в Settings)
+- [x] Відкриття/закриття ордерів — private gateway, прямий IP, з ключами
+- [x] Account stream (positions, balance) — private, без стаканів
+- [x] `ExecutableSpreadResolver` бере стакани з public, не з private
+- [x] `mypy --strict` і тести проходять
+- [x] Логи при старті показують `mode=public|private` per gateway
 
 ---
 

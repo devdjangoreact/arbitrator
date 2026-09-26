@@ -480,6 +480,189 @@ cross_basis_exit = 3.28%   ← drift +0.06 pp
 
 ---
 
+---
+
+## Auto-Trading System — Implementation Reference
+
+> This section describes the live code that executes the strategies above.
+> Use it as the authoritative reference when wiring UI, writing tests, or debugging trading behavior.
+
+### A. Spread Formulas (Code Level)
+
+Source: `src/arbitrator/domain/market/spread_calculator.py`
+
+```
+Entry spread  = (short_bid  − long_ask)  / long_ask  × 100   [%]
+Exit spread   = (short_ask  − long_bid)  / long_bid  × 100   [%]
+```
+
+- **Always bid/ask** — `last` price is never used for open/close triggers (Constitution §11).
+- **Best pair selection**: iterate all cross-venue bid/ask combinations for a symbol, pick the highest entry spread.
+
+### B. Three Auto-Trader Paths
+
+#### B.1 ScreenerAutoTrader — paper mode
+`src/arbitrator/application/trading/screener_auto_trader.py`
+
+Reads the live screener snapshot every `screener_auto_trade_check_seconds` (default 2 s).
+Uses `PaperExecutionGateway` — no real orders.
+
+Key `StrategyUIConfig` knobs:
+- `screener_auto_trade_enabled`
+- `screener_auto_trade_open_spread_pct` (default 3.0%)
+- `screener_auto_trade_close_spread_pct` (default 0.05%)
+- `screener_auto_trade_max_positions` (default 3)
+- `screener_auto_trade_notional_usdt` (default 100 USDT)
+- `screener_auto_trade_unhedged_timeout_seconds` (default 10 s) — force-close if one leg filled and other failed
+
+#### B.2 LiveAutoTrader — real orders, screener-driven
+`src/arbitrator/application/trading/live_auto_trader.py`
+
+**Two-check verification before open**:
+1. Clear cache → fetch fresh REST order book → check spread ≥ threshold, desync, anomaly guard, VWAP walk for post-fill spread estimate.
+2. Repeat (second cache clear). Both must pass or open is aborted.
+
+**Post-fill guard**: if actual realized spread < `live_auto_trade_post_fill_min_spread_pct` → close immediately.
+
+**DCA**: if spread widens `dca_spread_step_pct` above entry and layers < `dca_max_layers` → `HedgedExecutionService.accumulate()` at 2× notional.
+
+**Close**: needs 2 consecutive ticks where exit_spread ≤ per-strategy threshold.
+
+**Startup recovery**: fetches open positions from all gateways, reconstructs `_open_pairs` — no orphaned positions.
+
+Key `StrategyUIConfig` knobs: `live_auto_trade_enabled`, `live_auto_trade_post_fill_min_spread_pct`, `live_auto_trade_dca_spread_step_pct`, `live_auto_trade_dca_max_layers`.
+
+#### B.3 HistoricalAutoTrader — monitor-card-driven, paper or live
+`src/arbitrator/application/trading/historical_auto_trader.py`
+
+Each monitor card = one `MonitorConfig` entry. Trader runs a continuous tick loop (every `historical_trader_tick_seconds`, default 2 s), evaluates every active monitor independently.
+
+**Open logic per monitor**:
+1. Read cached spread; if ≥ 80% of threshold, fetch fresh via REST.
+2. Increment `_open_tick_counters[monitor_id]` while entry_spread ≥ `config.open_spread_pct`.
+3. When counter ≥ `config.open_ticks` (default 2) → trigger open via `HedgedExecutionService.open()` (live) or `PaperExecutionGateway.open_pair()` (paper).
+
+**Close logic per monitor**:
+1. Compute exit_spread each tick.
+2. Increment `_close_tick_counters[pair_id]` while exit_spread ≤ `config.close_spread_pct`.
+3. When counter ≥ `config.close_ticks` (default 1) → close.
+
+**Side resolution** (`config.side`): `"auto"` picks higher spread direction; `"short"` / `"long"` use configured exchange.
+
+**× (remove) button**: sends `remove` cmd → `close_all_positions(monitor_id)` closes all positions → config removed → card disappears next push.
+
+**Restart button**: calls `restart(monitor_id)` → reads open orders (read-only) → recalculates live_state → resumes tick. Does NOT clear state or close positions.
+
+**Session independence**: tab close does NOT stop screener or monitors. Backend persists independently.
+
+### C. MonitorConfig — Per-Card Parameters
+
+`src/arbitrator/config/monitor_config_store.py`
+
+| Field | Default | Description |
+|---|---|---|
+| `open_spread_pct` | 1.0% | Entry spread threshold |
+| `close_spread_pct` | 0.1% | Exit spread threshold |
+| `order_size_usdt` | 100 USDT | Notional per open |
+| `max_orders` | 1 | Max simultaneous open positions |
+| `open_ticks` | 2 | Consecutive ticks required to trigger open |
+| `close_ticks` | 1 | Consecutive ticks required to trigger close |
+| `allowed_size_usdt` | 300 USDT | Max total allowed allocation |
+| `leverage` | 1 | Applied leverage on open |
+| `side` | `"auto"` | `"auto"` / `"short"` / `"long"` |
+| `adjustment_mode` | `"notify_only"` | `"notify_only"` / `"adjust"` |
+| `is_active` | False | Whether monitor is running |
+| `force_stop` | False | Hard block on opens |
+| `total_stop` | False | Emergency stop + close |
+| `id` | computed | `f"{symbol}:{short_exchange}:{long_exchange}"` |
+
+### D. Order Execution
+
+**HedgedExecutionService** `src/arbitrator/application/trading/hedged_execution_service.py`
+
+Open sequence:
+1. Resolve effective notional: `max(exchange_min_short, exchange_min_long, config_notional)`.
+2. Verify sufficient margin: `balance / leverage × 1.05 ≥ notional`.
+3. Harmonize amounts via LCM of both exchanges' step sizes.
+4. **Short leg first** → `short_gw.open_market_position(symbol, "sell", amount, coid)`.
+5. **Long leg** uses actual short fill size to maintain delta-neutrality.
+6. On long leg failure: rollback short if `execution_rollback_enabled`.
+
+Close sequence:
+1. `short_gw.close_market_position()` — `reduceOnly=True`, buy back.
+2. `long_gw.close_market_position()` — `reduceOnly=True`, sell.
+
+Exchange adapter calls (`src/arbitrator/exchanges/ccxt_base.py`):
+- `open_market_position()` → `ccxt create_order(type="market")` (line 1076)
+- `close_market_position()` → `ccxt create_order(type="market", reduceOnly=True)` (line 1120)
+- `set_margin_mode()` → `ccxt set_margin_mode()` (line 1156)
+- `fetch_order_book_once()` → `ccxt fetch_order_book()` REST (line 511)
+
+### E. Live State Fields Emitted to UI (FR-011)
+
+Every active monitor emits these fields via WebSocket on each tick (`live_state` keyed by `"symbol:short_exchange:long_exchange"`):
+
+`short_funding_rate`, `long_funding_rate`, `short_next_funding`, `long_next_funding`,
+`short_ask`, `long_ask`, `short_bid`, `long_bid`,
+`short_size`, `long_size`, `leverage`,
+`max_size_short`, `max_size_long`,
+`short_price`, `long_price`,
+`short_pnl`, `long_pnl`, `short_realized_pnl`, `long_realized_pnl`,
+`enter_spread_short`, `enter_spread_long`,
+`short_orders`, `long_orders`,
+`open_spread_current`, `open_spread_min`, `open_spread_max`,
+`close_spread_current`, `close_spread_min`, `close_spread_max`,
+`allowed_size_current_usdt`
+
+All render as `"—"` in UI when `null`/`undefined` (via `utils/format.ts`).
+
+Source: `src/arbitrator/application/trading/historical_auto_trader.py` lines 269–302
+
+### F. WebSocket Channel — `/ws/historical_screener`
+
+**Commands (client → server)**, envelope: `{"type": "<cmd>", "payload": {...}}`:
+
+| cmd | Key payload fields | Effect |
+|---|---|---|
+| `update_filters` | `lookback_seconds`, `min_spread_pct`, `push_interval_seconds`, `candle_interval_seconds`, `price_deviation_filter_pct` | Update screener filters |
+| `add_monitor` | `symbol`, `short_exchange`, `long_exchange`, `open_spread_pct`, `close_spread_pct`, `order_size_usdt` | Create card; returns `error.duplicate_monitor` if triplet exists |
+| `update_config` | `monitor_id` + any `MonitorConfig` field | Update monitor params (incl. `is_active`, `adjustment_mode`) |
+| `remove` | `monitor_id` | Close all positions → remove monitor |
+| `restart` | `monitor_id` | Reconnect, read orders, resume tick |
+| `start` / `stop` | — | Start/stop screener |
+
+**Server push** (every `push_interval_seconds`): `opportunities[]`, `monitors[]`, `live_state{}`, `status`, `supports_analysis_volume_filter`.
+
+### G. Guards and Safety
+
+- **Anomaly guard**: reject opens where spread > `anomaly_max_spread_pct` (default 20%) — protects against stale quotes.
+- **Desync check**: reject if order book timestamp delta between exchanges > `_CACHE_MAX_DESYNC_MS`.
+- **Post-fill guard** (live only): close immediately if actual fill spread < `live_auto_trade_post_fill_min_spread_pct`.
+- **Unhedged timeout** (screener paper): force-close filled leg if partner leg failed within `screener_auto_trade_unhedged_timeout_seconds`.
+- **Funding proximity skip** (DCA): skip DCA within `dca_funding_skip_seconds` of next funding.
+- **Rollback** (`execution_rollback_enabled`): if long leg fails after short fills, close short to restore flat.
+- **Trading Safety** (Constitution §15): live mode requires `live_auto_trade_enabled = true` in `StrategyUIConfig`.
+
+### H. Monitor Card Lifecycle in UI
+
+```
+"Fast Trade" click → add_monitor cmd (is_active=true)
+                   → duplicate check (triplet = symbol+short+long)
+                   → MonitorConfig created in store
+                   ↓
+Next WS push → card appears with pulsing green dot
+                   ↓
+HistoricalAutoTrader._tick() every 2s:
+  entry_spread >= open_spread_pct for open_ticks ticks → HedgedExecutionService.open()
+  exit_spread  <= close_spread_pct for close_ticks ticks → HedgedExecutionService.close_all()
+                   ↓
+live_state emitted every push → card fields update in real-time
+                   ↓
+"×" click → close_all_positions() → config removed → card disappears next push
+```
+
+---
+
 ## Unified evaluation and formatting rules
 
 ### 1) Primary selection metric

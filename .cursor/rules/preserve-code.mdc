@@ -1,11 +1,24 @@
 ---
-description: Rules regarding file and code preservation
-globs: *
+description: DEPRECATED — superseded by Constitution §21 (Dead Code Removal). Kept only as a redirect so old prompts/skills that reference this rule still resolve.
+globs:
+  - .cursor/rules/.deprecated
+alwaysApply: false
+deprecated: true
 ---
 
-# Preserve Unused Code and Files
+# DEPRECATED — do not apply
 
-- **Do NOT delete extra files**: Leave scratchpads, test scripts, and experimental files intact.
-- **Do NOT delete unused code**: Leave dead code, commented-out logic, and unused functions alone during refactoring unless explicitly instructed to remove them.
+This rule is **superseded by Constitution §21 (Dead Code Removal)** at
+`.specify/memory/constitution.md` and by `.cursor/rules/compact-code.mdc`.
 
-The user keeps these around for reference and future development.
+The previous policy (never delete dead code, scratchpads, or commented logic)
+is **reversed**:
+
+- Dead functions, unused imports, commented-out logic, and stale experimental
+  files whose last caller is gone MUST be removed in the same change.
+- "Will deleting this break anything?" — if no, delete it. Git history is the
+  reference archive.
+
+**This file is empty by intent.** Do not extend it. If you arrived here from a
+stale cross-reference, update the reference to point to Constitution §21 instead
+(see `.cursor/rules/documentation-sync.mdc`).

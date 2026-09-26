@@ -1,5 +1,4 @@
 from __future__ import annotations
-from arbitrator.config.ui_config_manager import UIConfigManager
 
 import collections
 import threading
@@ -12,6 +11,7 @@ from arbitrator.application.market_data.screener_stream_worker import ScreenerSt
 from arbitrator.config.logger import logger
 from arbitrator.config.monitor_config_store import MonitorConfigStore
 from arbitrator.config.settings import Settings
+from arbitrator.config.ui_config_manager import UIConfigManager
 from arbitrator.domain.market.ticker import Ticker
 from arbitrator.domain.strategy.funding_info import FundingInfo
 from arbitrator.domain.strategy.quote import Quote
@@ -34,6 +34,8 @@ class HistoricalOpportunity:
     long_volume_24h: float
     detected_at: float
     lookback_seconds: int
+    signal_time_seconds: int = 0
+    max_spread_detected_at: float = 0.0
 
 
 class HistoricalScreenerWorker:
@@ -59,7 +61,10 @@ class HistoricalScreenerWorker:
 
         self._lookback_seconds = int(UIConfigManager.get_config().historical_screener_lookback_minutes * 60)
         self._spread_threshold_pct = UIConfigManager.get_config().historical_screener_spread_threshold_pct
-        self._min_volume_usdt = getattr(self._settings, "historical_screener_min_volume_usdt", 0.0)
+        self._min_volume_usdt = UIConfigManager.get_config().historical_screener_min_volume_usdt
+        self._min_analysis_volume_usdt: float = 0.0
+        self._price_deviation_filter_pct: float = 0.0
+        self._candle_interval_seconds: int = UIConfigManager.get_config().historical_screener_candle_interval_seconds
 
         self._opportunities: dict[str, HistoricalOpportunity] = {}
         self._status: str = "Idle"
@@ -111,9 +116,13 @@ class HistoricalScreenerWorker:
 
     def update_filters(
         self,
-        lookback_seconds: int | None,
-        spread_threshold_pct: float | None,
-        min_volume_usdt: float | None,
+        lookback_seconds: int | None = None,
+        spread_threshold_pct: float | None = None,
+        min_volume_usdt: float | None = None,
+        min_analysis_volume_usdt: float | None = None,
+        push_interval_seconds: int | None = None,
+        candle_interval_seconds: int | None = None,
+        price_deviation_filter_pct: float | None = None,
     ) -> None:
         with self._lock:
             if lookback_seconds is not None:
@@ -122,6 +131,15 @@ class HistoricalScreenerWorker:
                 self._spread_threshold_pct = spread_threshold_pct
             if min_volume_usdt is not None:
                 self._min_volume_usdt = min_volume_usdt
+            if min_analysis_volume_usdt is not None:
+                self._min_analysis_volume_usdt = min_analysis_volume_usdt
+                logger.debug("historical screener: min_analysis_volume_usdt={} (not yet implemented)", min_analysis_volume_usdt)
+            if price_deviation_filter_pct is not None:
+                self._price_deviation_filter_pct = price_deviation_filter_pct
+            if candle_interval_seconds is not None:
+                self._candle_interval_seconds = candle_interval_seconds
+        if push_interval_seconds is not None:
+            UIConfigManager.update_config({"historical_screener_push_interval_seconds": push_interval_seconds})
 
     def _run(self) -> None:
         interval = UIConfigManager.get_config().historical_screener_scan_interval_seconds
@@ -142,6 +160,7 @@ class HistoricalScreenerWorker:
             lookback_seconds = self._lookback_seconds
             threshold_pct = self._spread_threshold_pct
             min_volume = self._min_volume_usdt
+            price_dev_filter = self._price_deviation_filter_pct
             self._status = "Scanning"
 
         now = time.time()
@@ -178,9 +197,17 @@ class HistoricalScreenerWorker:
             if len(ex_tickers) < 2:
                 continue
 
-            if min_volume > 0:
-                if any((t.quote_volume_24h or 0) < min_volume for t in ex_tickers.values()):
-                    continue
+            if min_volume > 0 and any((t.quote_volume_24h or 0) < min_volume for t in ex_tickers.values()):
+                continue
+
+            # Price deviation filter (max-min) / min * 100 >= threshold
+            if price_dev_filter > 0:
+                prices = [t.last for t in ex_tickers.values() if t.last and t.last > 0]
+                if len(prices) >= 2:
+                    p_min = min(prices)
+                    p_max = max(prices)
+                    if p_min > 0 and (p_max - p_min) / p_min * 100 < price_dev_filter:
+                        continue
 
             ex_keys = list(ex_tickers.keys())
             for i in range(len(ex_keys)):
@@ -224,10 +251,15 @@ class HistoricalScreenerWorker:
 
                     for short_ex, long_ex, spread, short_px, long_px in spreads:
                         self._update_history(symbol, short_ex, long_ex, spread, now, cutoff_time)
-                        max_spread = max(
-                            (s for _, s in self._history[symbol][(short_ex, long_ex)]),
-                            default=spread,
+                        history = self._history[symbol][(short_ex, long_ex)]
+                        max_spread = max((s for _, s in history), default=spread)
+
+                        # Find the timestamp of the most recent entry that equals the max
+                        ts_of_max = next(
+                            (ts for ts, s in reversed(list(history)) if s == max_spread),
+                            now,
                         )
+
                         if max_spread < threshold_pct:
                             continue
                         if (
@@ -237,7 +269,7 @@ class HistoricalScreenerWorker:
                             continue
                         t_short = ex_tickers[short_ex]
                         t_long = ex_tickers[long_ex]
-                        new_opportunities[symbol] = self._build_opportunity(
+                        opp = self._build_opportunity(
                             symbol,
                             short_ex,
                             long_ex,
@@ -251,6 +283,9 @@ class HistoricalScreenerWorker:
                             now,
                             lookback_seconds,
                         )
+                        opp.max_spread_detected_at = ts_of_max
+                        opp.signal_time_seconds = int(now - ts_of_max)
+                        new_opportunities[symbol] = opp
 
         with self._lock:
             self._opportunities = new_opportunities

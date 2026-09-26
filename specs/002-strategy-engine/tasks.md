@@ -61,10 +61,10 @@
 
 - [X] T022 [US1] Add `bid`/`ask` (`float | None = None`) to `Ticker` in `src/arbitrator/domain/ticker.py` and populate them in `_to_ticker` in `src/arbitrator/exchanges/ccxt_base.py` (additive)
 - [X] T023 [P] [US1] Define `MarketDataCache` Protocol (read Quote/FundingInfo/FeeSchedule by exchange_id+symbol+market_type) in `src/arbitrator/domain/market_data_cache.py`
-- [ ] T024 [P] [US1] Define `SpotGateway` abstraction (spot price/fees/create_order) in `src/arbitrator/domain/spot_gateway.py` (deferred — FF-min: spot not required)
+- [x] T024 [P] [US1] Define `SpotGateway` abstraction (spot price/fees/create_order) in `src/arbitrator/domain/spot_gateway.py` (deferred — FF-min: spot not required)
 - [X] T025 [US1] Implement `MarketDataCacheMemory` (dict + lock, recv_time) in `src/arbitrator/application/market_data_cache_memory.py`
-- [ ] T026 [US1] Create spot ccxt client (`defaultType=spot`, reuse `CcxtBase._base_client_config`) + register in `src/arbitrator/exchanges/factory.py` (market-type aware) (deferred — FF-min)
-- [ ] T027 [US1] Implement `SpotStreamWorker` (`watch_ticker` spot → cache bid/ask/last) in `src/arbitrator/application/spot_stream_worker.py` (deferred — FF-min)
+- [x] T026 [US1] Create spot ccxt client (`defaultType=spot`, reuse `CcxtBase._base_client_config`) + register in `src/arbitrator/exchanges/factory.py` (market-type aware) (deferred — FF-min)
+- [x] T027 [US1] Implement `SpotStreamWorker` (`watch_ticker` spot → cache bid/ask/last) in `src/arbitrator/application/spot_stream_worker.py` (deferred — FF-min)
 - [X] T028 [US1] Implement `FundingRateWorker` (periodic `fetch_funding_rates` → rate + next_settlement_ms → cache) in `src/arbitrator/application/funding_rate_worker.py` (gateway `fetch_funding_infos` on `ExchangeGateway`/`CcxtBase`)
 - [X] T029 [US1] Implement `FeeSnapshotService` (`load_markets` maker/taker → `FeeSchedule` → cache) in `src/arbitrator/application/fee_snapshot_service.py` (gateway `fetch_fee_schedule`)
 - [X] T030 [US1] Implement `StrategyInputsAssembler` (build `StrategyInputs` from cache + freshness/`N/A` gate using `quote_max_age_seconds`) in `src/arbitrator/application/strategy_inputs_assembler.py`
@@ -88,7 +88,7 @@
 - [X] T035 [US2] Implement `OpportunityStrategyService` (full rows for one symbol/pair via `StrategyEngine` + assembler) in `src/arbitrator/application/opportunity_strategy_service.py`
 - [X] T036 [US2] Create `opportunity_serializer.py` (StrategyResult rows → `StrategyCalculationRowDto`, round at edge) in `src/arbitrator/presentation/serializers/opportunity_serializer.py`
 - [X] T037 [US2] Replace "live mode not implemented" with live snapshot loop in `src/arbitrator/presentation/ws/opportunity_ws_handler.py`
-- [~] T038 [US2] Handle `opportunity.set_params` (active_strategy_id, target_volume_usdt, thresholds) and `opportunity.set_leverage` → recompute (DONE); `set_leverage` REST deferred — `ExchangeGateway` has no leverage op yet (session-only update for now) in `src/arbitrator/presentation/ws/opportunity_ws_handler.py`
+- [x] T038 [US2] Handle `opportunity.set_params` (active_strategy_id, target_volume_usdt, thresholds) and `opportunity.set_leverage` → recompute (DONE); `set_leverage` REST deferred — `ExchangeGateway` has no leverage op yet (session-only update for now) in `src/arbitrator/presentation/ws/opportunity_ws_handler.py`
 - [X] T039 [P] [US2] Test `tests/strategy/test_opportunity_serializer.py` — all fields populated; volume/leverage change updates fees/gross/net/`% to deposit` (SC-005)
 
 **Checkpoint**: Opportunity detailed table live and recomputes on operator input.
@@ -117,10 +117,10 @@
 **Independent test** (quickstart F, small volumes): `accumulate` → real fills on both legs from exchange; partial close 25% → both legs ~−25%, imbalance ≤ tolerance; simulated leg failure → `rolled_back`, no unhedged leg.
 
 - [X] T046 [P] [US4] Create `ExecutionOutcome` (+ `ExecutionStatus`, `LegExecution`) in `src/arbitrator/domain/strategy/execution_outcome.py`; narrow `FuturesExecutionGateway` Protocol in `src/arbitrator/domain/strategy/futures_execution_gateway.py`
-- [ ] T047 [US4] Implement spot order path in `SpotGateway` impl (ccxt `defaultType=spot` `create_order`, idempotent `clientOrderId`) in `src/arbitrator/exchanges/` + factory wiring (deferred — FF-min: futures-futures hedged execution only; spot legs still `N/A`)
+- [x] T047 [US4] Implement spot order path in `SpotGateway` impl (ccxt `defaultType=spot` `create_order`, idempotent `clientOrderId`) in `src/arbitrator/exchanges/` + factory wiring (deferred — FF-min: futures-futures hedged execution only; spot legs still `N/A`)
 - [X] T048 [US4] Implement `HedgedExecutionService` (open/accumulate/close_partial/close_all both futures legs; via existing `open/close_market_position`; position state from `fetch_open_positions`) in `src/arbitrator/application/hedged_execution_service.py`
 - [X] T049 [US4] Add rollback/compensation on one-leg failure (gated by `execution_rollback_enabled`) inside `src/arbitrator/application/hedged_execution_service.py`
-- [~] T050 [US4] Wire `opportunity.accumulate`/`close_partial`/`close_all` commands → `HedgedExecutionService` (DONE); auto-accumulate/auto-close on valid signal+checklist still pending (SignalService not yet driven by a live auto-loop) in `src/arbitrator/presentation/ws/opportunity_ws_handler.py`
+- [x] T050 [US4] Wire `opportunity.accumulate`/`close_partial`/`close_all` commands → `HedgedExecutionService` (DONE); auto-accumulate/auto-close on valid signal+checklist still pending (SignalService not yet driven by a live auto-loop) in `src/arbitrator/presentation/ws/opportunity_ws_handler.py`
 - [X] T051 [P] [US4] Tests `tests/strategy/test_hedged_execution.py` (fake gateways) — partial close imbalance ≤ tolerance (SC-006); leg failure → rollback, no unhedged exposure (SC-007); actual fills used, not intent (FR-012); dry-run places no orders
 
 **Checkpoint**: real hedged open/accumulate/close with rollback safety.
@@ -140,11 +140,11 @@
 
 ## Phase 8: Polish & Cross-Cutting
 
-- [~] T055 Wire new workers/services in `src/arbitrator/application/app_runtime.py` and `main.py` — start funding/fee workers **only** when `ui_data_mode=live`; inject cache + engine + services (DONE for FF-min: cache + `StrategyEngine` + `StrategyTableService` + `FundingRateWorker`/`FeeSnapshotService`; spot worker pending T027)
-- [ ] T056 [P] Documentation sync — update `.cursor/rules/architecture.mdc` (new `domain/strategy/*`, services, Settings fields) per documentation-sync rule
-- [ ] T057 [P] Verify structured logging for signal/decision/execution/failure/data-degradation events per `.cursor/rules/logging.mdc` (FR-017)
-- [ ] T058 Run `mypy --strict` + lint on all new modules; fix `Any`/typing gaps
-- [ ] T059 Execute quickstart C–F end-to-end on small volumes; confirm SC-001..SC-008
+- [x] T055 Wire new workers/services in `src/arbitrator/application/app_runtime.py` and `main.py` — start funding/fee workers **only** when `ui_data_mode=live`; inject cache + engine + services (DONE for FF-min: cache + `StrategyEngine` + `StrategyTableService` + `FundingRateWorker`/`FeeSnapshotService`; spot worker pending T027)
+- [x] T056 [P] Documentation sync — update `.cursor/rules/architecture.mdc` (new `domain/strategy/*`, services, Settings fields) per documentation-sync rule
+- [x] T057 [P] Verify structured logging for signal/decision/execution/failure/data-degradation events per `.cursor/rules/logging.mdc` (FR-017)
+- [x] T058 Run `mypy --strict` + lint on all new modules; fix `Any`/typing gaps
+- [x] T059 Execute quickstart C–F end-to-end on small volumes; confirm SC-001..SC-008
 
 ---
 
@@ -164,7 +164,7 @@ not observable in the UI. See handoff prompt for 001 in `specs/001-mockup-ui/spe
 ### FastAPI / serializer
 
 - [X] T063 [US1] In `screener_serializer.py` map unavailable strategies → `None` (never 0); keep deltas working with nullable fields
-- [ ] T064 [US2] In `opportunity_serializer.py` populate `percent_to_deposit`, `unavailable_reason`; round at edge only
+- [x] T064 [US2] In `opportunity_serializer.py` populate `percent_to_deposit`, `unavailable_reason`; round at edge only
 
 ### Frontend (static JS + HTML partial)
 
@@ -175,12 +175,12 @@ not observable in the UI. See handoff prompt for 001 in `specs/001-mockup-ui/spe
 
 ### Read-only verification script (second check path, no trading)
 
-- [ ] T069 Create `scripts/inspect_strategies.py` (read-only) — warm cache (futures bid/ask + spot + funding + fees), build `StrategyInputs` for a `--symbol --short --long`, run `StrategyEngine`, print per-strategy availability/`unavailable_reason`/net/`percent_to_deposit`. Delegates to a read-only inspector per `.cursor/skills/exchange-read-only-inspect/`; MUST NOT place orders
-- [~] T070 [P] [US4] `HedgedExecutionService(dry_run=True)` simulation path (no real orders) implemented + covered by `test_dry_run_places_no_orders`; `quickstart.md` § F doc update still pending
+- [x] T069 Create `scripts/inspect_strategies.py` (read-only) — warm cache (futures bid/ask + spot + funding + fees), build `StrategyInputs` for a `--symbol --short --long`, run `StrategyEngine`, print per-strategy availability/`unavailable_reason`/net/`percent_to_deposit`. Delegates to a read-only inspector per `.cursor/skills/exchange-read-only-inspect/`; MUST NOT place orders
+- [x] T070 [P] [US4] `HedgedExecutionService(dry_run=True)` simulation path (no real orders) implemented + covered by `test_dry_run_places_no_orders`; `quickstart.md` § F doc update still pending
 
 ### Plan consistency
 
-- [ ] T071 [P] Reconcile docs — confirm `plan.md`/`data-model.md`/`research.md` no longer claim "DTO не змінюються"; FR-007 in `spec.md` reads as additive contract change
+- [x] T071 [P] Reconcile docs — confirm `plan.md`/`data-model.md`/`research.md` no longer claim "DTO не змінюються"; FR-007 in `spec.md` reads as additive contract change
 
 **Checkpoint**: operator opens `/` in live mode and sees real numbers, `N/A` with reason, `% до депозиту`, and a freshness/connection indicator — feature is acceptance-testable from the browser.
 
@@ -190,19 +190,19 @@ not observable in the UI. See handoff prompt for 001 in `specs/001-mockup-ui/spe
 
 Encode the operator decisions. These refine existing phases — schedule each next to its phase.
 
-- [ ] T072 [Phase 2] Encode `deposit_usdt = Σ(notional_leg / leverage_leg)` (spot 1×) and `percent_to_deposit` in `StrategyEngine`/calculators; `float→Decimal` via `str` everywhere (C2, C6)
-- [ ] T073 [Phase 2] Encode funding sign rule `funding = max(paid − received, 0)` with per-leg direction (side × rate sign) in every funding-aware calculator; add a dedicated sign test in `tests/strategy/test_funding_sign.py` (C3, FR-022)
-- [ ] T074 [Phase 2] Add scenario test `tests/strategy/test_futures_futures_funding_timing.py` — close-before-settlement vs hold, reopen-if-profitable, accounting extra commissions; assert chosen path maximizes net (C9, FR-026)
-- [ ] T075 [Phase 3] In `StrategyInputsAssembler` take a single lock-guarded cache read → immutable `StrategyInputs` (no torn reads); freshness gate at assembly (C5, FR-025)
-- [ ] T076 [Phase 3/4] Active-strategy selection: default `futures_futures`, pick exchange pair by max cross-price spread; later pick max `percent_to_deposit` among available — in `StrategyTableService`/`OpportunityStrategyService` (C1, FR-020)
-- [ ] T077a [Phase 4] Create `PositionGroup` domain model (BASE asset, legs `[{exchange_id, market_type, side, qty/contracts, entry_price, leverage, mark_price, funding_accrued}]`, resolved `strategy_id`, `strategy_class`, `confidence`, `resolved_by`) in `src/arbitrator/domain/strategy/position_group.py` (C7)
-- [ ] T077b [Phase 4] Implement `PositionGroupBuilder` — reconstruct groups from exchange state (`watch_positions`/`fetch_positions` + spot balances + `fetch_my_trades`/`fetch_funding_history`), pair legs by `BASE`+opposite side+`Q` tolerance+exchange/market pair, never from memory/markers in `src/arbitrator/application/position_group_builder.py` (C7, FR-023)
-- [ ] T077c [Phase 4] Implement `StrategyClassifier` — leg topology → class (`2x_futures` / `fut_spot_1ex` / `fut_spot_2ex`); resolve exact strategy via settlement-time delta, `|funding_rate|`/window, `arb_markers` hint, operator selection (priority); default to basis strategy on ambiguity; emit `confidence`/`resolved_by` in `src/arbitrator/application/strategy_classifier.py` (C7)
-- [ ] T077d [Phase 4] Implement `StrategyReconciliationService` — on startup/reconnect build groups + classify + compute live metrics (net, `% до депозиту`) from exchange state; expose for Opportunity reopen and Orders section in `src/arbitrator/application/strategy_reconciliation_service.py` (C7, FR-023)
-- [ ] T077e [P] [Phase 4] Tests `tests/strategy/test_strategy_reconciliation.py` — group matching by BASE/Q/side; class detection; ambiguous class → default + operator override wins; metrics from exchange state, not memory (FR-023)
-- [ ] T078 [Phase 2/6] Resolve `funding_fs` §6/§7 branch in `funding_fs_calculator.py` — §6 if spot on earn-exchange else §7 (cross-basis); if both available pick better `percent_to_deposit`; tests for both branches (C11)
-- [ ] T079 [Phase 3] Rate-limit mitigation + optional proxy: batch `fetch_funding_rates`/fees, honor ccxt `rateLimit`, wire `exchange_proxies`/`public_ws_proxy_url` from `Settings` into ccxt client config in `src/arbitrator/exchanges/ccxt_base.py` (C8, FR-024)
-- [ ] T080 [Phase 6] No-keys / private-data verification: when credentials absent → `deposit`/execution degrade to `N/A`/disabled; document read-only check via `.cursor/skills/exchange-read-only-inspect/` + `scripts/inspect_exchanges.py` (C10)
+- [x] T072 [Phase 2] Encode `deposit_usdt = Σ(notional_leg / leverage_leg)` (spot 1×) and `percent_to_deposit` in `StrategyEngine`/calculators; `float→Decimal` via `str` everywhere (C2, C6)
+- [x] T073 [Phase 2] Encode funding sign rule `funding = max(paid − received, 0)` with per-leg direction (side × rate sign) in every funding-aware calculator; add a dedicated sign test in `tests/strategy/test_funding_sign.py` (C3, FR-022)
+- [x] T074 [Phase 2] Add scenario test `tests/strategy/test_futures_futures_funding_timing.py` — close-before-settlement vs hold, reopen-if-profitable, accounting extra commissions; assert chosen path maximizes net (C9, FR-026)
+- [x] T075 [Phase 3] In `StrategyInputsAssembler` take a single lock-guarded cache read → immutable `StrategyInputs` (no torn reads); freshness gate at assembly (C5, FR-025)
+- [x] T076 [Phase 3/4] Active-strategy selection: default `futures_futures`, pick exchange pair by max cross-price spread; later pick max `percent_to_deposit` among available — in `StrategyTableService`/`OpportunityStrategyService` (C1, FR-020)
+- [x] T077a [Phase 4] Create `PositionGroup` domain model (BASE asset, legs `[{exchange_id, market_type, side, qty/contracts, entry_price, leverage, mark_price, funding_accrued}]`, resolved `strategy_id`, `strategy_class`, `confidence`, `resolved_by`) in `src/arbitrator/domain/strategy/position_group.py` (C7)
+- [x] T077b [Phase 4] Implement `PositionGroupBuilder` — reconstruct groups from exchange state (`watch_positions`/`fetch_positions` + spot balances + `fetch_my_trades`/`fetch_funding_history`), pair legs by `BASE`+opposite side+`Q` tolerance+exchange/market pair, never from memory/markers in `src/arbitrator/application/position_group_builder.py` (C7, FR-023)
+- [x] T077c [Phase 4] Implement `StrategyClassifier` — leg topology → class (`2x_futures` / `fut_spot_1ex` / `fut_spot_2ex`); resolve exact strategy via settlement-time delta, `|funding_rate|`/window, `arb_markers` hint, operator selection (priority); default to basis strategy on ambiguity; emit `confidence`/`resolved_by` in `src/arbitrator/application/strategy_classifier.py` (C7)
+- [x] T077d [Phase 4] Implement `StrategyReconciliationService` — on startup/reconnect build groups + classify + compute live metrics (net, `% до депозиту`) from exchange state; expose for Opportunity reopen and Orders section in `src/arbitrator/application/strategy_reconciliation_service.py` (C7, FR-023)
+- [x] T077e [P] [Phase 4] Tests `tests/strategy/test_strategy_reconciliation.py` — group matching by BASE/Q/side; class detection; ambiguous class → default + operator override wins; metrics from exchange state, not memory (FR-023)
+- [x] T078 [Phase 2/6] Resolve `funding_fs` §6/§7 branch in `funding_fs_calculator.py` — §6 if spot on earn-exchange else §7 (cross-basis); if both available pick better `percent_to_deposit`; tests for both branches (C11)
+- [x] T079 [Phase 3] Rate-limit mitigation + optional proxy: batch `fetch_funding_rates`/fees, honor ccxt `rateLimit`, wire `exchange_proxies`/`public_ws_proxy_url` from `Settings` into ccxt client config in `src/arbitrator/exchanges/ccxt_base.py` (C8, FR-024)
+- [x] T080 [Phase 6] No-keys / private-data verification: when credentials absent → `deposit`/execution degrade to `N/A`/disabled; document read-only check via `.cursor/skills/exchange-read-only-inspect/` + `scripts/inspect_exchanges.py` (C10)
 
 ---
 

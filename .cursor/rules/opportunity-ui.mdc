@@ -1,10 +1,15 @@
 ---
-description: Opportunity screen layout — partials under static/partials/opportunity/
-globs: src/arbitrator/presentation/**/*
+description: Opportunity screen layout (legacy vanilla JS) — partials under static/partials/opportunity/. For React UI see presentation/react-ui/src/pages/OpportunityPage.tsx.
+globs:
+  - src/arbitrator/presentation/static/**/*
 alwaysApply: false
 ---
 
-# Opportunity UI
+# Opportunity UI (legacy vanilla JS)
+
+> Tactical expansion of Constitution §12 (100% UI Parity) — legacy side. React
+> parity implementation: `presentation/react-ui/src/pages/OpportunityPage.tsx`
+> + related components under `presentation/react-ui/src/components/`.
 
 Reference: `maket/index.html`. Implemented via partials + WS snapshot/delta.
 

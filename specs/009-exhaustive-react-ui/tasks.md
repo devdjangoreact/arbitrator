@@ -34,11 +34,11 @@ description: "Task list template for feature implementation"
 
 **⚠️ CRITICAL**: No UI page work can begin until this phase is complete.
 
-- [ ] T001 Implement core formatting utilities in `src/arbitrator/presentation/react-ui/src/utils/format.ts`
-- [ ] T002 [P] Implement unit tests for formatting utilities in `src/arbitrator/presentation/react-ui/tests/unit/format.test.ts`
-- [ ] T003 [P] Define TypeScript interfaces from `data-model.md` in `src/arbitrator/presentation/react-ui/src/types/index.ts`
-- [ ] T004 Define core CSS classes (`.pos`, `.neg`, `.na`) reflecting legacy styles in `src/arbitrator/presentation/react-ui/src/index.css`
-- [ ] T005 Create baseline Playwright configuration for visual regression in `src/arbitrator/presentation/react-ui/playwright.config.ts`
+- [x] T001 Implement core formatting utilities in `src/arbitrator/presentation/react-ui/src/utils/format.ts`
+- [x] T002 [P] Implement unit tests for formatting utilities in `src/arbitrator/presentation/react-ui/tests/unit/format.test.ts`
+- [x] T003 [P] Define TypeScript interfaces from `data-model.md` in `src/arbitrator/presentation/react-ui/src/types/index.ts`
+- [x] T004 Define core CSS classes (`.pos`, `.neg`, `.na`) reflecting legacy styles in `src/arbitrator/presentation/react-ui/src/index.css`
+- [x] T005 Create baseline Playwright configuration for visual regression in `src/arbitrator/presentation/react-ui/playwright.config.ts`
 
 **Checkpoint**: Foundation ready - Formatting logic is unit-tested and type definitions are available.
 
@@ -52,14 +52,14 @@ description: "Task list template for feature implementation"
 
 ### Tests for Settings Page
 
-- [ ] T006 [P] [US1] Create Playwright visual parity test for Settings page in `src/arbitrator/presentation/react-ui/tests/e2e/settings-parity.spec.ts`
+- [x] T006 [P] [US1] Create Playwright visual parity test for Settings page in `src/arbitrator/presentation/react-ui/tests/e2e/settings-parity.spec.ts`
 
 ### Implementation for Settings Page
 
-- [ ] T007 [US1] Create `ExchangeKeyForm` component in `src/arbitrator/presentation/react-ui/src/components/ExchangeKeyForm.tsx`
-- [ ] T008 [P] [US1] Create `StrategyConfigPanel` component (handling tabs/categories) in `src/arbitrator/presentation/react-ui/src/components/StrategyConfigPanel.tsx`
-- [ ] T009 [P] [US1] Create `JsonEditorTextarea` component in `src/arbitrator/presentation/react-ui/src/components/JsonEditorTextarea.tsx`
-- [ ] T010 [US1] Assemble `SettingsPage` integrating the above components and API logic in `src/arbitrator/presentation/react-ui/src/pages/SettingsPage.tsx`
+- [x] T007 [US1] Create `ExchangeKeyForm` component in `src/arbitrator/presentation/react-ui/src/components/ExchangeKeyForm.tsx`
+- [x] T008 [P] [US1] Create `StrategyConfigPanel` component (handling tabs/categories) in `src/arbitrator/presentation/react-ui/src/components/StrategyConfigPanel.tsx`
+- [x] T009 [P] [US1] Create `JsonEditorTextarea` component in `src/arbitrator/presentation/react-ui/src/components/JsonEditorTextarea.tsx`
+- [x] T010 [US1] Assemble `SettingsPage` integrating the above components and API logic in `src/arbitrator/presentation/react-ui/src/pages/SettingsPage.tsx`
 
 **Checkpoint**: Settings page is functional, visual parity confirmed via Playwright.
 
@@ -73,13 +73,13 @@ description: "Task list template for feature implementation"
 
 ### Tests for Live Screener
 
-- [ ] T011 [P] [US2] Create Playwright visual parity test for Screener page in `src/arbitrator/presentation/react-ui/tests/e2e/screener-parity.spec.ts`
+- [x] T011 [P] [US2] Create Playwright visual parity test for Screener page in `src/arbitrator/presentation/react-ui/tests/e2e/screener-parity.spec.ts`
 
 ### Implementation for Live Screener
 
-- [ ] T012 [US2] Create `ScreenerFilterPanel` component in `src/arbitrator/presentation/react-ui/src/components/ScreenerFilterPanel.tsx`
-- [ ] T013 [P] [US2] Create `ScreenerDataTable` component enforcing `table-layout: auto` and strict formatting in `src/arbitrator/presentation/react-ui/src/components/ScreenerDataTable.tsx`
-- [ ] T014 [US2] Assemble `ScreenerPage` handling WebSocket `screener.snapshot` and `screener.delta` in `src/arbitrator/presentation/react-ui/src/pages/ScreenerPage.tsx`
+- [x] T012 [US2] Create `ScreenerFilterPanel` component in `src/arbitrator/presentation/react-ui/src/components/ScreenerFilterPanel.tsx`
+- [x] T013 [P] [US2] Create `ScreenerDataTable` component enforcing `table-layout: auto` and strict formatting in `src/arbitrator/presentation/react-ui/src/components/ScreenerDataTable.tsx`
+- [x] T014 [US2] Assemble `ScreenerPage` handling WebSocket `screener.snapshot` and `screener.delta` in `src/arbitrator/presentation/react-ui/src/pages/ScreenerPage.tsx`
 
 **Checkpoint**: Screener page renders live data perfectly formatted.
 
@@ -93,14 +93,14 @@ description: "Task list template for feature implementation"
 
 ### Tests for Opportunity Page
 
-- [ ] T015 [P] [US3] Create Playwright visual parity test for Opportunity page in `src/arbitrator/presentation/react-ui/tests/e2e/opportunity-parity.spec.ts`
+- [x] T015 [P] [US3] Create Playwright visual parity test for Opportunity page in `src/arbitrator/presentation/react-ui/tests/e2e/opportunity-parity.spec.ts`
 
 ### Implementation for Opportunity Page
 
-- [ ] T016 [US3] Implement `OpportunityChart` using `recharts` in `src/arbitrator/presentation/react-ui/src/components/OpportunityChart.tsx`
-- [ ] T017 [P] [US3] Implement `StrategyCalculationsTable` with execution buttons in `src/arbitrator/presentation/react-ui/src/components/StrategyCalculationsTable.tsx`
-- [ ] T018 [P] [US3] Implement `OrderBookCard` component in `src/arbitrator/presentation/react-ui/src/components/OrderBookCard.tsx`
-- [ ] T019 [US3] Assemble `OpportunityPage` in `src/arbitrator/presentation/react-ui/src/pages/OpportunityPage.tsx`
+- [x] T016 [US3] Implement `OpportunityChart` using `recharts` in `src/arbitrator/presentation/react-ui/src/components/OpportunityChart.tsx`
+- [x] T017 [P] [US3] Implement `StrategyCalculationsTable` with execution buttons in `src/arbitrator/presentation/react-ui/src/components/StrategyCalculationsTable.tsx`
+- [x] T018 [P] [US3] Implement `OrderBookCard` component in `src/arbitrator/presentation/react-ui/src/components/OrderBookCard.tsx`
+- [x] T019 [US3] Assemble `OpportunityPage` in `src/arbitrator/presentation/react-ui/src/pages/OpportunityPage.tsx`
 
 **Checkpoint**: Opportunity page displays all components, including the new chart.
 
@@ -114,13 +114,13 @@ description: "Task list template for feature implementation"
 
 ### Tests for Orders Page
 
-- [ ] T020 [P] [US4] Create Playwright visual parity test for Orders page in `src/arbitrator/presentation/react-ui/tests/e2e/orders-parity.spec.ts`
+- [x] T020 [P] [US4] Create Playwright visual parity test for Orders page in `src/arbitrator/presentation/react-ui/tests/e2e/orders-parity.spec.ts`
 
 ### Implementation for Orders Page
 
-- [ ] T021 [US4] Implement `OrdersSummaryPanel` (with functional filters) in `src/arbitrator/presentation/react-ui/src/components/OrdersSummaryPanel.tsx`
-- [ ] T022 [P] [US4] Implement `OrderGroupRow` and `OrderLegRow` components in `src/arbitrator/presentation/react-ui/src/components/OrderRow.tsx`
-- [ ] T023 [US4] Assemble `OrdersPage` in `src/arbitrator/presentation/react-ui/src/pages/OrdersPage.tsx`
+- [x] T021 [US4] Implement `OrdersSummaryPanel` (with functional filters) in `src/arbitrator/presentation/react-ui/src/components/OrdersSummaryPanel.tsx`
+- [x] T022 [P] [US4] Implement `OrderGroupRow` and `OrderLegRow` components in `src/arbitrator/presentation/react-ui/src/components/OrderRow.tsx`
+- [x] T023 [US4] Assemble `OrdersPage` in `src/arbitrator/presentation/react-ui/src/pages/OrdersPage.tsx`
 
 **Checkpoint**: Orders page correctly groups and formats historical trade data.
 
@@ -134,13 +134,13 @@ description: "Task list template for feature implementation"
 
 ### Tests for Monitors Page
 
-- [ ] T024 [P] [US5] Create Playwright visual parity test for Monitors page in `src/arbitrator/presentation/react-ui/tests/e2e/monitors-parity.spec.ts`
+- [x] T024 [P] [US5] Create Playwright visual parity test for Monitors page in `src/arbitrator/presentation/react-ui/tests/e2e/monitors-parity.spec.ts`
 
 ### Implementation for Monitors Page
 
-- [ ] T025 [US5] Implement `HistoricalScreenerTable` with Action buttons in `src/arbitrator/presentation/react-ui/src/components/HistoricalScreenerTable.tsx`
-- [ ] T026 [P] [US5] Implement the complex `LiveMonitorCard` with all inputs, validation, and mini-charts in `src/arbitrator/presentation/react-ui/src/components/LiveMonitorCard.tsx`
-- [ ] T027 [US5] Assemble `MonitorsPage` managing the CSS grid of active cards and historical table in `src/arbitrator/presentation/react-ui/src/pages/MonitorsPage.tsx`
+- [x] T025 [US5] Implement `HistoricalScreenerTable` with Action buttons in `src/arbitrator/presentation/react-ui/src/components/HistoricalScreenerTable.tsx`
+- [x] T026 [P] [US5] Implement the complex `LiveMonitorCard` with all inputs, validation, and mini-charts in `src/arbitrator/presentation/react-ui/src/components/LiveMonitorCard.tsx`
+- [x] T027 [US5] Assemble `MonitorsPage` managing the CSS grid of active cards and historical table in `src/arbitrator/presentation/react-ui/src/pages/MonitorsPage.tsx`
 
 **Checkpoint**: The most complex page is functional and matches the legacy layout.
 
@@ -150,9 +150,9 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Routing, final integration, and validation.
 
-- [ ] T028 Update `App.tsx` with React Router to navigate between the newly created pages.
-- [ ] T029 Execute full visual regression suite (`npx playwright test`) and fix any remaining pixel deviations across all components.
-- [ ] T030 Perform manual QA of `quickstart.md` scenarios 1, 2, and 3.
+- [x] T028 Update `App.tsx` with React Router to navigate between the newly created pages.
+- [x] T029 Execute full visual regression suite (`npx playwright test`) and fix any remaining pixel deviations across all components.
+- [x] T030 Perform manual QA of `quickstart.md` scenarios 1, 2, and 3.
 
 ---
 

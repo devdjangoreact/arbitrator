@@ -1,17 +1,22 @@
 ---
-description: Spec Kit pointers for strategy-engine and UI features.
+description: Historical Spec Kit archive index (read-only). New work uses Superpowers.
 globs:
   - specs/**/*
-  - src/arbitrator/domain/strategy/**/*
-  - src/arbitrator/application/**/*
 alwaysApply: false
 ---
 
-<!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
-at specs/002-strategy-engine/plan.md (strategy engine: 6-strategy calc,
-signals, real hedged execution, in-process cache) and its data catalog
-specs/002-strategy-engine/contracts/strategy-data-catalog.md.
-Prior feature (UI): specs/001-mockup-ui/spec.md and specs/001-mockup-ui/plan.md.
-<!-- SPECKIT END -->
+<!-- HISTORICAL SPECS — read only; do not add new Spec Kit features -->
+Completed Spec Kit features below are **historical context only**.
+For new features use Superpowers:
+`docs/superpowers/specs/` + `docs/superpowers/plans/`.
+
+| Spec | Topic | Status |
+|------|-------|--------|
+| specs/002-strategy-engine/ | 6-strategy engine, signals, hedged execution, in-process cache | DONE (archive) |
+| specs/003-public-private-gateway/ | Public/private exchange gateway split (proxy routing) | DONE (archive) |
+| specs/004-maker-taker-execution.md | Maker-Taker execution flow for HedgedExecutionService | DONE (archive) |
+| specs/005-history-screener-monitors/ | History screener + live monitor cards | DONE (archive) |
+| specs/006-strategy-ui-config/ | Strategy UI configuration (StrategyUIConfig + REST API) | DONE (archive) |
+| specs/007-react-frontend/ | React + Vite frontend architecture, conditional serving | DONE (archive) |
+| specs/009-exhaustive-react-ui/ | Exhaustive React UI parity with legacy JS frontend | DONE (archive) |
+| specs/011-screener-monitor-react-wiring/ | Screener/monitor React wiring | DONE / in progress (archive path) |

@@ -101,3 +101,17 @@ No constitution violations requiring justification.
 ## Phase 0: Research
 
 *Resolved unknowns from Technical Context and spec assumptions.*
+
+### Bug Gap Analysis (added 2026-07-16)
+
+Seven confirmed bugs in the current `LiveMonitorCard` implementation require targeted fixes:
+
+| # | Bug | Root Cause | Fix Location |
+|---|-----|-----------|-------------|
+| 1 | All fields empty on start | `liveState[config.id]` key mismatch — `config.id` may be `""` before first push | `MonitorsPage.tsx` key lookup + ensure `config.id` set on `add_monitor` response |
+| 2 | Bid/Ask always empty | `ls?.short_ask`/`ls?.short_bid` fields present in type but backend sends `None` until first tick | `historical_auto_trader.py` `_tick()` — ensure `short_ask`/`short_bid` always emitted |
+| 3 | No active monitor indicator | FR-027 missing — no pulsing dot in card header | `LiveMonitorCard.tsx` header — add pulsing CSS dot keyed on `config.is_active` |
+| 4 | SpreadChart no ticks | `openSpreadHistory.current` not triggering re-render because `liveState` prop reference not changing | `LiveMonitorCard.tsx` `useEffect` — verify `liveState` object identity changes each push |
+| 5 | History click shows numbers | `SpreadHistoryModal` renders text/table instead of canvas charts | `SpreadHistoryModal.tsx` — replace table with three canvas/Recharts line charts |
+| 6 | Card has internal scroll | `max-h-[65vh] overflow-y-auto` is wrong — all content must fit without scroll, card width ~70% | `LiveMonitorCard.tsx` root div — remove overflow-y, enforce 70% width, chart at bottom 30% |
+| 7 | Notify only/Adjust not wired | `adjustment_mode` toggle fires `update_config` but `HistoricalScreenerWsHandler` may not persist it | Verify `update_config` handler in `historical_screener_ws_handler.py` writes `adjustment_mode` to store |
